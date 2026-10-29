@@ -1,26 +1,22 @@
+import json
+from pathlib import Path
 from fastapi import FastAPI
 
 app = FastAPI()
 
+# Chemin vers notre fichier de données
+DATA_FILE = Path(__file__).parent / "data" / "zones.json"
+
+
 @app.get("/")
 def accueil():
-    return {"message": "Bienvenue sur l'API Dataaaaathon Normandie"}
+    return {"message": "Bienvenue sur l'API Datathon Normandie"}
+
 
 @app.get("/zones")
 def obtenir_zones():
-    zones = [
-        {
-            "id": 1,
-            "nom": "Zone test A",
-            "pollution_lumineuse": 75,
-            "biodiversite": 40
-        },
-        {
-            "id": 2,
-            "nom": "Zone test B",
-            "pollution_lumineuse": 30,
-            "biodiversite": 80
-        }
-    ]
+
+    with open(DATA_FILE, "r", encoding="utf-8") as fichier:
+        zones = json.load(fichier)
 
     return zones
