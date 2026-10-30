@@ -1,0 +1,175 @@
+{
+  "contract_version": "m2-m4.proposal-1",
+  "features": [
+    {
+      "geometry": null,
+      "properties": {
+        "conflit_id": "rc_0e2a27469b60402629237a26ea7ee24bd66a711b98e10b237d4f5d2b57bf255b",
+        "diffusion": {
+          "decision": "masquage_par_defaut",
+          "geometrie": "masquee",
+          "source_ids_autorises": false
+        },
+        "evidence_level": "geometrie_2d",
+        "limites": [
+          "Détails et preuves internes non diffusés.",
+          "Identifiants sources non diffusés.",
+          "Intersection 2D ; fonctionnalité écologique non établie.",
+          "Localisation publique masquée.",
+          "Qualifications humaines déclarées ; auteurs non authentifiés par le logiciel."
+        ],
+        "maille_ids": [
+          "H2"
+        ],
+        "method_version": "METHODE-SYNTHETIQUE-TEST",
+        "precision_affichage": "localisation_masquee",
+        "source_ids": [],
+        "statut": "croisement_detecte",
+        "territory_relation": "interieur",
+        "type": "route_corridor"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          0.270726821302867,
+          49.1732960635386
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "conflit_id": "rc_1db08ea5b4e797b45a3f70990054d4ee4671ebb5edf5fb57008545ee27e6b4ca",
+        "diffusion": {
+          "decision": "decision_declaree",
+          "geometrie": "exacte",
+          "source_ids_autorises": true
+        },
+        "evidence_level": "geometrie_2d",
+        "limites": [
+          "Détails et preuves internes non diffusés.",
+          "Intersection 2D ; fonctionnalité écologique non établie.",
+          "Qualifications humaines déclarées ; auteurs non authentifiés par le logiciel."
+        ],
+        "maille_ids": [
+          "H1",
+          "H2"
+        ],
+        "method_version": "METHODE-SYNTHETIQUE-TEST",
+        "precision_affichage": "precision_non_documentee",
+        "source_ids": [
+          {
+            "id": "C-SYNTH-1",
+            "role": "corridors"
+          },
+          {
+            "id": "R-SYNTH-2",
+            "role": "routes"
+          }
+        ],
+        "statut": "croisement_detecte",
+        "territory_relation": "interieur",
+        "type": "route_corridor"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          0.2760665629852105,
+          49.17611575549594
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "conflit_id": "rc_60a697319ec76d4da6358531f7dc157719009c285bfc53ed15c6b52ce70d9c19",
+        "diffusion": {
+          "decision": "decision_declaree",
+          "geometrie": "exacte",
+          "source_ids_autorises": true
+        },
+        "evidence_level": "geometrie_2d",
+        "limites": [
+          "Détails et preuves internes non diffusés.",
+          "Intersection 2D ; fonctionnalité écologique non établie.",
+          "Qualifications humaines déclarées ; auteurs non authentifiés par le logiciel."
+        ],
+        "maille_ids": [
+          "H2"
+        ],
+        "method_version": "METHODE-SYNTHETIQUE-TEST",
+        "precision_affichage": "precision_non_documentee",
+        "source_ids": [
+          {
+            "id": "C-SYNTH-2",
+            "role": "corridors"
+          },
+          {
+            "id": "R-SYNTH-3",
+            "role": "routes"
+          }
+        ],
+        "statut": "non_concluant",
+        "territory_relation": "interieur",
+        "type": "route_corridor"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          0.261229148396329,
+          49.17128117954929
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "conflit_id": "rc_ca0b5847088184445ad83efbe646f62c06ede4386b760b0c6e4c593d5d34b5c8",
+        "diffusion": {
+          "decision": "decision_declaree",
+          "geometrie": "exacte",
+          "source_ids_autorises": true
+        },
+        "evidence_level": "geometrie_2d",
+        "limites": [
+          "Détails et preuves internes non diffusés.",
+          "Intersection 2D ; fonctionnalité écologique non établie.",
+          "Qualifications humaines déclarées ; auteurs non authentifiés par le logiciel."
+        ],
+        "maille_ids": [
+          "H1"
+        ],
+        "method_version": "METHODE-SYNTHETIQUE-TEST",
+        "precision_affichage": "precision_non_documentee",
+        "source_ids": [
+          {
+            "id": "C-SYNTH-0",
+            "role": "corridors"
+          },
+          {
+            "id": "R-SYNTH-1",
+            "role": "routes"
+          }
+        ],
+        "statut": "croisement_detecte",
+        "territory_relation": "interieur",
+        "type": "route_corridor"
+      },
+      "type": "Feature"
+    }
+  ],
+  "provenance": {
+    "dataset_version": null,
+    "grid_version": "GRILLE-SYNTHETIQUE",
+    "method_version": "METHODE-SYNTHETIQUE-TEST",
+    "run_id": "RUN-SYNTHETIQUE-M2-M4"
+  },
+  "resume": {
+    "analyse_effectuee": true,
+    "evenements_distincts_observes": 4,
+    "relations_spatiales": 5
+  },
+  "statut_diffusion": "synthetique_uniquement",
+  "test_data": true,
+  "type": "FeatureCollection"
+}

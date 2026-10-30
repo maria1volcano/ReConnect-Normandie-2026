@@ -1,0 +1,262 @@
+{
+  "contract_version": "m2-m4.proposal-1",
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              0.270963729229737,
+              49.16880348765409
+            ],
+            [
+              0.27048987225680726,
+              49.177788618744046
+            ],
+            [
+              0.25678474692826847,
+              49.17747712593286
+            ],
+            [
+              0.25726097936187553,
+              49.16849204609547
+            ],
+            [
+              0.270963729229737,
+              49.16880348765409
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "properties": {
+        "action_ids": [],
+        "conflit_ids": [
+          "rc_1db08ea5b4e797b45a3f70990054d4ee4671ebb5edf5fb57008545ee27e6b4ca",
+          "rc_ca0b5847088184445ad83efbe646f62c06ede4386b760b0c6e4c593d5d34b5c8"
+        ],
+        "dataset_version": null,
+        "diagnostics": [
+          "croisements_observes"
+        ],
+        "etat_actions": "non_calculees",
+        "grid_version": "GRILLE-SYNTHETIQUE",
+        "indicateurs": {
+          "nb_evenements": 2,
+          "nb_evenements_exclusifs_observes": 2,
+          "nb_evenements_observes": 2
+        },
+        "maille_id": "H1",
+        "method_version": "METHODE-SYNTHETIQUE-TEST",
+        "priorite_examen": {
+          "etat": "non_calculee",
+          "valeur": null
+        },
+        "qualite": {
+          "corridors_completude": "validated",
+          "corridors_couverture_validee": true,
+          "fiabilite": "completude_validee",
+          "routes_completude": "validated",
+          "routes_couverture_validee": true
+        },
+        "statut_analyse": "analyse_effectuee"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              0.28466664353155824,
+              49.169113369865144
+            ],
+            [
+              0.28419516210490614,
+              49.178098551951415
+            ],
+            [
+              0.27048987225680726,
+              49.177788618744046
+            ],
+            [
+              0.270963729229737,
+              49.16880348765409
+            ],
+            [
+              0.28466664353155824,
+              49.169113369865144
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "properties": {
+        "action_ids": [],
+        "conflit_ids": [
+          "rc_0e2a27469b60402629237a26ea7ee24bd66a711b98e10b237d4f5d2b57bf255b",
+          "rc_1db08ea5b4e797b45a3f70990054d4ee4671ebb5edf5fb57008545ee27e6b4ca",
+          "rc_60a697319ec76d4da6358531f7dc157719009c285bfc53ed15c6b52ce70d9c19"
+        ],
+        "dataset_version": null,
+        "diagnostics": [
+          "croisements_observes"
+        ],
+        "etat_actions": "non_calculees",
+        "grid_version": "GRILLE-SYNTHETIQUE",
+        "indicateurs": {
+          "nb_evenements": 3,
+          "nb_evenements_exclusifs_observes": 2,
+          "nb_evenements_observes": 3
+        },
+        "maille_id": "H2",
+        "method_version": "METHODE-SYNTHETIQUE-TEST",
+        "priorite_examen": {
+          "etat": "non_calculee",
+          "valeur": null
+        },
+        "qualite": {
+          "corridors_completude": "validated",
+          "corridors_couverture_validee": true,
+          "fiabilite": "completude_validee",
+          "routes_completude": "validated",
+          "routes_couverture_validee": true
+        },
+        "statut_analyse": "analyse_effectuee"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              0.29836972144495444,
+              49.16942169270209
+            ],
+            [
+              0.2979006156497556,
+              49.1784069255284
+            ],
+            [
+              0.28419516210490614,
+              49.178098551951415
+            ],
+            [
+              0.28466664353155824,
+              49.169113369865144
+            ],
+            [
+              0.29836972144495444,
+              49.16942169270209
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "properties": {
+        "action_ids": [],
+        "conflit_ids": [],
+        "dataset_version": null,
+        "diagnostics": [
+          "absence_croisement_confirmee"
+        ],
+        "etat_actions": "non_calculees",
+        "grid_version": "GRILLE-SYNTHETIQUE",
+        "indicateurs": {
+          "nb_evenements": 0,
+          "nb_evenements_exclusifs_observes": 0,
+          "nb_evenements_observes": 0
+        },
+        "maille_id": "H3",
+        "method_version": "METHODE-SYNTHETIQUE-TEST",
+        "priorite_examen": {
+          "etat": "non_calculee",
+          "valeur": null
+        },
+        "qualite": {
+          "corridors_completude": "validated",
+          "corridors_couverture_validee": true,
+          "fiabilite": "completude_validee",
+          "routes_completude": "validated",
+          "routes_couverture_validee": true
+        },
+        "statut_analyse": "analyse_effectuee"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              0.3120729621474826,
+              49.1697284561385
+            ],
+            [
+              0.3116062320684841,
+              49.17871373944858
+            ],
+            [
+              0.2979006156497556,
+              49.1784069255284
+            ],
+            [
+              0.29836972144495444,
+              49.16942169270209
+            ],
+            [
+              0.3120729621474826,
+              49.1697284561385
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "properties": {
+        "action_ids": [],
+        "conflit_ids": [],
+        "dataset_version": null,
+        "diagnostics": [
+          "absence_observation_couverture_non_validee"
+        ],
+        "etat_actions": "non_calculees",
+        "grid_version": "GRILLE-SYNTHETIQUE",
+        "indicateurs": {
+          "nb_evenements": null,
+          "nb_evenements_exclusifs_observes": 0,
+          "nb_evenements_observes": 0
+        },
+        "maille_id": "H4",
+        "method_version": "METHODE-SYNTHETIQUE-TEST",
+        "priorite_examen": {
+          "etat": "non_calculee",
+          "valeur": null
+        },
+        "qualite": {
+          "corridors_completude": "validated",
+          "corridors_couverture_validee": false,
+          "fiabilite": "observations_completude_non_etablie",
+          "routes_completude": "validated",
+          "routes_couverture_validee": false
+        },
+        "statut_analyse": "analyse_effectuee"
+      },
+      "type": "Feature"
+    }
+  ],
+  "provenance": {
+    "dataset_version": null,
+    "grid_version": "GRILLE-SYNTHETIQUE",
+    "method_version": "METHODE-SYNTHETIQUE-TEST",
+    "run_id": "RUN-SYNTHETIQUE-M2-M4"
+  },
+  "resume": {
+    "analyse_effectuee": true,
+    "evenements_distincts_observes": 4,
+    "relations_spatiales": 5
+  },
+  "statut_diffusion": "synthetique_uniquement",
+  "test_data": true,
+  "type": "FeatureCollection"
+}
