@@ -4,6 +4,14 @@ from fastapi import FastAPI, HTTPException
 
 app = FastAPI()
 
+@app.get("/health")
+def health():
+    return {
+        "status": "ok",
+        "dataset_version": "test-v1",
+        "test_data": True
+    }
+
 # Chemin vers notre fichier de données
 DATA_FILE = Path(__file__).parent / "data" / "zones.json"
 
