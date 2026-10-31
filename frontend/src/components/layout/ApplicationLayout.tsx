@@ -1,8 +1,21 @@
+import { useState } from 'react'
 import { PriorityLegend } from '../legend/PriorityLegend'
+import { DepartmentPanel } from '../map/DepartmentPanel'
 import { RegionMap } from '../map/RegionMap'
+import type { DepartmentCode } from '../map/normandyDepartments'
 import { ZoneDetail } from '../sector/ZoneDetail'
 
 export function ApplicationLayout() {
+  const [selectedDepartment, setSelectedDepartment] = useState<DepartmentCode | null>(null)
+  const [hoveredDepartment, setHoveredDepartment] = useState<DepartmentCode | null>(null)
+
+  const departmentState = {
+    selectedDepartment,
+    hoveredDepartment,
+    onSelectDepartment: setSelectedDepartment,
+    onHoverDepartment: setHoveredDepartment,
+  }
+
   return (
     <div className="application-shell">
       <header className="app-header">
@@ -39,7 +52,7 @@ export function ApplicationLayout() {
           </div>
 
           <div className="map-frame">
-            <RegionMap />
+            <RegionMap {...departmentState} />
             <PriorityLegend />
           </div>
 
@@ -52,7 +65,13 @@ export function ApplicationLayout() {
           </details>
         </section>
 
-        <ZoneDetail />
+        {selectedDepartment ? (
+          <aside className="zone-detail" aria-label="Fiche département">
+            <DepartmentPanel {...departmentState} />
+          </aside>
+        ) : (
+          <ZoneDetail />
+        )}
       </main>
     </div>
   )

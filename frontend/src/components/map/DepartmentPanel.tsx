@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { DEPARTMENTS_BY_CODE, NORMANDY_DEPARTMENTS, type DepartmentCode } from './normandyDepartments'
 
 interface DepartmentPanelProps {
@@ -15,12 +16,19 @@ export function DepartmentPanel({
 }: DepartmentPanelProps) {
   const selected = selectedDepartment ? DEPARTMENTS_BY_CODE.get(selectedDepartment) : undefined
 
+  useEffect(() => () => onHoverDepartment(null), [onHoverDepartment])
+
+  const select = (code: DepartmentCode | null) => {
+    onHoverDepartment(null)
+    onSelectDepartment(code)
+  }
+
   return (
     <div className="department-panel">
       <nav className="department-crumbs" aria-label="Niveau géographique">
         {selected ? (
           <>
-            <button type="button" onClick={() => onSelectDepartment(null)}>
+            <button type="button" onClick={() => select(null)}>
               Normandie
             </button>
             <span aria-hidden="true">›</span>
@@ -74,9 +82,7 @@ export function DepartmentPanel({
               className="department-item"
               aria-pressed={department.code === selectedDepartment}
               data-hovered={department.code === hoveredDepartment || undefined}
-              onClick={() =>
-                onSelectDepartment(department.code === selectedDepartment ? null : department.code)
-              }
+              onClick={() => select(department.code === selectedDepartment ? null : department.code)}
               onMouseEnter={() => onHoverDepartment(department.code)}
               onFocus={() => onHoverDepartment(department.code)}
               onBlur={() => onHoverDepartment(null)}
