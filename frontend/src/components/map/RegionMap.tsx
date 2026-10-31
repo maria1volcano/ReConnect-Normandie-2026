@@ -1,6 +1,17 @@
-import { useEffect, useRef, useState } from 'react'
-import type { Map as MapLibreMap, StyleSpecification } from 'maplibre-gl'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import type {
+  ExpressionSpecification,
+  LngLatBoundsLike,
+  Map as MapLibreMap,
+  StyleSpecification,
+} from 'maplibre-gl'
 import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
+import {
+  DEPARTMENTS_BY_CODE,
+  NORMANDY_DEPARTMENTS,
+  isDepartmentCode,
+  type DepartmentCode,
+} from './normandyDepartments'
 
 const NORMANDY_BOUNDS: [[number, number], [number, number]] = [
   [-1.9550553, 48.1793863],
@@ -13,21 +24,82 @@ function getInitialBoundsPadding(containerWidth: number) {
   return 32
 }
 
-const REGION_BOUNDARY_URL = new URL(
-  `${import.meta.env.BASE_URL}data/normandy-boundary.geojson`,
-  window.location.href,
-).href
-const REGION_BOUNDARY_COLOR = '#127475'
+function prefersReducedMotion() {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}
 
-const regionBoundarySources: StyleSpecification['sources'] = {
+function dataUrl(fileName: string) {
+  return new URL(`${import.meta.env.BASE_URL}data/${fileName}`, window.location.href).href
+}
+
+const REGION_BOUNDARY_COLOR = '#127475'
+const DEPARTMENTS_SOURCE = 'normandy-departments'
+const DEPARTMENTS_FILL_LAYER = 'normandy-departments-fill'
+const IGN_ATTRIBUTION = 'Limites administratives : IGN – ADMIN EXPRESS COG CARTO'
+
+const departmentColor = [
+  'match',
+  ['get', 'code_insee'],
+  ...NORMANDY_DEPARTMENTS.flatMap((department) => [department.code, department.color]),
+  '#8B9D83',
+] as unknown as ExpressionSpecification
+
+const administrativeSources: StyleSpecification['sources'] = {
+  [DEPARTMENTS_SOURCE]: {
+    type: 'geojson',
+    data: dataUrl('normandy-departments.geojson'),
+    attribution: IGN_ATTRIBUTION,
+  },
   'normandy-region': {
     type: 'geojson',
-    data: REGION_BOUNDARY_URL,
-    attribution: 'Limite régionale : IGN – ADMIN EXPRESS COG CARTO',
+    data: dataUrl('normandy-boundary.geojson'),
+    attribution: IGN_ATTRIBUTION,
   },
 }
 
-const regionBoundaryLayers: StyleSpecification['layers'] = [
+const administrativeLayers: StyleSpecification['layers'] = [
+  {
+    id: DEPARTMENTS_FILL_LAYER,
+    type: 'fill',
+    source: DEPARTMENTS_SOURCE,
+    paint: {
+      'fill-color': departmentColor,
+      'fill-opacity': [
+        'case',
+        ['boolean', ['feature-state', 'selected'], false],
+        0.5,
+        ['boolean', ['feature-state', 'hover'], false],
+        0.52,
+        ['boolean', ['feature-state', 'muted'], false],
+        0.06,
+        0.32,
+      ],
+      'fill-opacity-transition': { duration: 300 },
+    },
+  },
+  {
+    id: 'normandy-departments-line',
+    type: 'line',
+    source: DEPARTMENTS_SOURCE,
+    layout: { 'line-join': 'round' },
+    paint: {
+      'line-color': '#FFFFFF',
+      'line-opacity': 0.85,
+      'line-width': ['interpolate', ['linear'], ['zoom'], 5, 0.8, 9, 1.4, 13, 2],
+    },
+  },
+  {
+    id: 'normandy-departments-selected-line',
+    type: 'line',
+    source: DEPARTMENTS_SOURCE,
+    layout: { 'line-join': 'round' },
+    paint: {
+      'line-color': '#303726',
+      'line-opacity': ['case', ['boolean', ['feature-state', 'selected'], false], 0.9, 0],
+      'line-width': ['interpolate', ['linear'], ['zoom'], 5, 1.5, 9, 2.25, 13, 3],
+      'line-opacity-transition': { duration: 300 },
+    },
+  },
   {
     id: 'normandy-region-fill',
     type: 'fill',
@@ -69,7 +141,7 @@ const basemapStyle: StyleSpecification = {
       tileSize: 256,
       attribution: '© OpenStreetMap contributors',
     },
-    ...regionBoundarySources,
+    ...administrativeSources,
   },
   layers: [
     {
@@ -77,28 +149,70 @@ const basemapStyle: StyleSpecification = {
       type: 'raster',
       source: 'openstreetmap',
     },
-    ...regionBoundaryLayers,
+    ...administrativeLayers,
   ],
 }
 
 const fallbackStyle: StyleSpecification = {
   version: 8,
-  sources: { ...regionBoundarySources },
+  sources: { ...administrativeSources },
   layers: [
     {
       id: 'fallback-background',
       type: 'background',
       paint: { 'background-color': '#8B9D83' },
     },
-    ...regionBoundaryLayers,
+    ...administrativeLayers,
   ],
 }
 
 type MapState = 'loading' | 'ready' | 'basemap-error'
 
-export function RegionMap() {
+export interface RegionMapProps {
+  selectedDepartment?: DepartmentCode | null
+  hoveredDepartment?: DepartmentCode | null
+  onSelectDepartment?: (code: DepartmentCode | null) => void
+  onHoverDepartment?: (code: DepartmentCode | null) => void
+}
+
+export function RegionMap({
+  selectedDepartment: selectedProp,
+  hoveredDepartment: hoveredProp,
+  onSelectDepartment,
+  onHoverDepartment,
+}: RegionMapProps = {}) {
   const mapContainerRef = useRef<HTMLDivElement>(null)
+  const mapRef = useRef<MapLibreMap | undefined>(undefined)
+  const cameraTargetRef = useRef<LngLatBoundsLike>(NORMANDY_BOUNDS)
+  const userMovedCameraRef = useRef(false)
   const [mapState, setMapState] = useState<MapState>('loading')
+  const [innerSelected, setInnerSelected] = useState<DepartmentCode | null>(null)
+  const [innerHovered, setInnerHovered] = useState<DepartmentCode | null>(null)
+
+  const selectedDepartment = selectedProp !== undefined ? selectedProp : innerSelected
+  const hoveredDepartment = hoveredProp !== undefined ? hoveredProp : innerHovered
+
+  const selectDepartment = useCallback(
+    (code: DepartmentCode | null) => {
+      setInnerSelected(code)
+      onSelectDepartment?.(code)
+    },
+    [onSelectDepartment],
+  )
+  const hoverDepartment = useCallback(
+    (code: DepartmentCode | null) => {
+      setInnerHovered(code)
+      onHoverDepartment?.(code)
+    },
+    [onHoverDepartment],
+  )
+
+  const selectRef = useRef(selectDepartment)
+  const hoverRef = useRef(hoverDepartment)
+  useEffect(() => {
+    selectRef.current = selectDepartment
+    hoverRef.current = hoverDepartment
+  }, [selectDepartment, hoverDepartment])
 
   useEffect(() => {
     const container = mapContainerRef.current
@@ -110,7 +224,6 @@ export function RegionMap() {
     let basemapFailed = false
     let basemapTimeout: ReturnType<typeof setTimeout> | undefined
     let resizeObserver: ResizeObserver | undefined
-    let userMovedCamera = false
 
     async function initialiseMap() {
       try {
@@ -126,21 +239,22 @@ export function RegionMap() {
           minZoom: 5,
           attributionControl: false,
         })
+        mapRef.current = map
 
-        const fitNormandy = () => {
-          if (!map || cancelled || userMovedCamera) return
+        const fitCameraTarget = () => {
+          if (!map || cancelled || userMovedCameraRef.current) return
           const { clientWidth, clientHeight } = mapContainer
           const padding = getInitialBoundsPadding(clientWidth)
           if (clientWidth <= padding * 2 || clientHeight <= padding * 2) return
           map.resize()
-          map.fitBounds(NORMANDY_BOUNDS, { padding, duration: 0 })
+          map.fitBounds(cameraTargetRef.current, { padding, duration: 0 })
         }
 
         map.on('movestart', (event) => {
-          if (event.originalEvent) userMovedCamera = true
+          if (event.originalEvent) userMovedCameraRef.current = true
         })
 
-        resizeObserver = new ResizeObserver(fitNormandy)
+        resizeObserver = new ResizeObserver(fitCameraTarget)
         resizeObserver.observe(mapContainer)
 
         map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right')
@@ -148,6 +262,21 @@ export function RegionMap() {
           new maplibregl.AttributionControl({ compact: true, customAttribution: 'Fond de carte' }),
           'bottom-right',
         )
+
+        map.on('mousemove', DEPARTMENTS_FILL_LAYER, (event) => {
+          const code = event.features?.[0]?.properties?.code_insee
+          if (!isDepartmentCode(code)) return
+          map!.getCanvas().style.cursor = 'pointer'
+          hoverRef.current(code)
+        })
+        map.on('mouseleave', DEPARTMENTS_FILL_LAYER, () => {
+          map!.getCanvas().style.cursor = ''
+          hoverRef.current(null)
+        })
+        map.on('click', DEPARTMENTS_FILL_LAYER, (event) => {
+          const code = event.features?.[0]?.properties?.code_insee
+          if (isDepartmentCode(code)) selectRef.current(code)
+        })
 
         map.on('error', (event) => {
           console.error('[RegionMap] Erreur MapLibre', event.error)
@@ -163,7 +292,7 @@ export function RegionMap() {
         map.once('load', () => {
           if (cancelled || basemapFailed) return
           clearTimeout(basemapTimeout)
-          fitNormandy()
+          fitCameraTarget()
           setMapState('ready')
         })
 
@@ -179,15 +308,66 @@ export function RegionMap() {
       cancelled = true
       clearTimeout(basemapTimeout)
       resizeObserver?.disconnect()
+      mapRef.current = undefined
       map?.remove()
     }
   }, [])
 
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map || mapState === 'loading') return
+
+    const applyStates = () => {
+      if (!map.getSource(DEPARTMENTS_SOURCE)) return
+      for (const department of NORMANDY_DEPARTMENTS) {
+        map.setFeatureState(
+          { source: DEPARTMENTS_SOURCE, id: Number(department.code) },
+          {
+            hover: department.code === hoveredDepartment,
+            selected: department.code === selectedDepartment,
+            muted: selectedDepartment !== null && department.code !== selectedDepartment,
+          },
+        )
+      }
+    }
+
+    if (map.isStyleLoaded()) applyStates()
+    map.on('styledata', applyStates)
+    return () => {
+      map.off('styledata', applyStates)
+    }
+  }, [mapState, hoveredDepartment, selectedDepartment])
+
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map || mapState === 'loading') return
+
+    const target = selectedDepartment
+      ? DEPARTMENTS_BY_CODE.get(selectedDepartment)?.bounds ?? NORMANDY_BOUNDS
+      : NORMANDY_BOUNDS
+    if (target === cameraTargetRef.current && !userMovedCameraRef.current) return
+
+    cameraTargetRef.current = target
+    userMovedCameraRef.current = false
+    const container = map.getContainer()
+    map.fitBounds(target, {
+      padding: getInitialBoundsPadding(container.clientWidth) * 2,
+      duration: prefersReducedMotion() ? 0 : 900,
+    })
+  }, [mapState, selectedDepartment])
+
   const isLoading = mapState === 'loading'
   const hasBasemapError = mapState === 'basemap-error'
+  const hoveredName = hoveredDepartment ? DEPARTMENTS_BY_CODE.get(hoveredDepartment)?.name : null
 
   return (
-    <div className="region-map" aria-busy={isLoading}>
+    <div
+      className="region-map"
+      aria-busy={isLoading}
+      onKeyDown={(event) => {
+        if (event.key === 'Escape' && selectedDepartment) selectDepartment(null)
+      }}
+    >
       <div
         ref={mapContainerRef}
         className="map-canvas"
@@ -209,6 +389,12 @@ export function RegionMap() {
         </div>
       ) : null}
 
+      {!isLoading && !hasBasemapError && hoveredName ? (
+        <div className="map-readout" aria-hidden="true">
+          {hoveredName}
+        </div>
+      ) : null}
+
       <div className="layer-placeholders" aria-label="État des couches territoriales">
         <span>Limite du pilote à charger</span>
         <span>Mailles de diagnostic à charger</span>
@@ -216,4 +402,3 @@ export function RegionMap() {
     </div>
   )
 }
-
