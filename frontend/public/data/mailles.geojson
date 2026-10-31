@@ -1,0 +1,115 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "maille_id": "TEST-HEX-001",
+        "grid_version": "test-v0.1",
+        "statut_analyse": "calculee",
+        "priorite_examen": "elevee",
+        "diagnostics": [
+          {
+            "type": "croisement_routier",
+            "evidence_level": "conflit_potentiel"
+          }
+        ],
+        "test_data": true
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-0.26, 49.25],
+            [-0.22, 49.25],
+            [-0.2, 49.2673],
+            [-0.22, 49.2846],
+            [-0.26, 49.2846],
+            [-0.28, 49.2673],
+            [-0.26, 49.25]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "maille_id": "TEST-HEX-002",
+        "grid_version": "test-v0.1",
+        "statut_analyse": "calculee",
+        "priorite_examen": "moderee",
+        "diagnostics": [
+          {
+            "type": "interface_artificialisee",
+            "evidence_level": "croisement_detecte"
+          }
+        ],
+        "test_data": true
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-0.185, 49.25],
+            [-0.145, 49.25],
+            [-0.125, 49.2673],
+            [-0.145, 49.2846],
+            [-0.185, 49.2846],
+            [-0.205, 49.2673],
+            [-0.185, 49.25]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "maille_id": "TEST-HEX-003",
+        "grid_version": "test-v0.1",
+        "statut_analyse": "calculee",
+        "priorite_examen": "faible",
+        "diagnostics": [],
+        "test_data": true
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-0.26, 49.178],
+            [-0.22, 49.178],
+            [-0.2, 49.1953],
+            [-0.22, 49.2126],
+            [-0.26, 49.2126],
+            [-0.28, 49.1953],
+            [-0.26, 49.178]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "maille_id": "TEST-HEX-004",
+        "grid_version": "test-v0.1",
+        "statut_analyse": "donnees_insuffisantes",
+        "priorite_examen": "indeterminee",
+        "diagnostics": [],
+        "test_data": true
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-0.185, 49.178],
+            [-0.145, 49.178],
+            [-0.125, 49.1953],
+            [-0.145, 49.2126],
+            [-0.185, 49.2126],
+            [-0.205, 49.1953],
+            [-0.185, 49.178]
+          ]
+        ]
+      }
+    }
+  ]
+}

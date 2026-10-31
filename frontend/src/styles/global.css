@@ -360,13 +360,85 @@ summary:focus-visible,
   align-items: flex-start;
 }
 
-.layer-placeholders span {
-  padding: 7px 10px;
-  border: 1px dashed var(--moss);
+.status-badge {
+  padding: 7px 12px;
+  border-radius: 14px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.status-badge--warning {
+  background: #FFF0DE;
+  color: #A34421;
+  border: 1px solid #C76A3A;
+}
+
+.status-badge--success {
+  background: #E6F0DF;
+  color: #315D36;
+  border: 1px solid #86A77B;
+}
+
+.test-zone-button {
+  position: absolute;
+  bottom: 18px;
+  right: 18px;
+  z-index: 4;
+  padding: 10px 14px;
+  border: 1px solid var(--terracotta);
+  border-radius: 16px;
+  color: var(--terracotta);
+  background: rgba(232, 220, 199, 0.95);
+  backdrop-filter: blur(10px);
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.test-zone-button:hover {
+  background: rgba(198, 107, 61, 0.12);
+  border-color: var(--ochre);
+}
+
+.test-zone-button:focus-visible {
+  outline: 3px solid var(--terracotta);
+  outline-offset: 2px;
+}
+
+.test-mode-toggle {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 4;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
   border-radius: 14px;
   color: var(--moss);
-  background: rgba(232, 220, 199, 0.9);
-  font-size: 0.67rem;
+  background: rgba(232, 220, 199, 0.95);
+  backdrop-filter: blur(10px);
+  font-size: 0.68rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.test-mode-toggle:hover {
+  background: rgba(139, 157, 131, 0.15);
+  border-color: var(--sage);
+  color: var(--ink);
+}
+
+.test-mode-toggle[aria-pressed="true"] {
+  color: var(--terracotta);
+  border-color: var(--terracotta);
+  background: rgba(198, 107, 61, 0.08);
+}
+
+.test-mode-toggle:focus-visible {
+  outline: 3px solid var(--terracotta);
+  outline-offset: 2px;
 }
 
 .sources-note {
@@ -452,6 +524,31 @@ summary:focus-visible,
   color: var(--moss);
   font-size: 0.82rem;
   line-height: 1.6;
+}
+
+.detail-badge {
+  display: inline-block;
+  margin: 12px 0;
+  padding: 6px 12px;
+  border: 1px dashed var(--terracotta);
+  border-radius: 14px;
+  color: var(--terracotta);
+  background: rgba(198, 107, 61, 0.08);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.detail-note {
+  margin: 16px 0 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  color: var(--moss);
+  background: rgba(212, 184, 149, 0.4);
+  font-size: 0.72rem;
+  line-height: 1.5;
 }
 
 .detail-preview {

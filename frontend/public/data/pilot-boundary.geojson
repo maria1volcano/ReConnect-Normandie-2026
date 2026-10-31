@@ -1,0 +1,27 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "pilot_id": "TEST-EXTENT-001",
+        "nom": "Emprise de démonstration TEST",
+        "statut": "en_attente",
+        "superficie_km2": 12.3,
+        "test_data": true
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-0.29, 49.17],
+            [-0.11, 49.17],
+            [-0.11, 49.29],
+            [-0.29, 49.29],
+            [-0.29, 49.17]
+          ]
+        ]
+      }
+    }
+  ]
+}

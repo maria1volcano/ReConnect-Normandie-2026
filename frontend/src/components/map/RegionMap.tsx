@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import type { MutableRefObject } from 'react'
 import type {
   ExpressionSpecification,
   LngLatBoundsLike,
@@ -12,6 +13,8 @@ import {
   isDepartmentCode,
   type DepartmentCode,
 } from './normandyDepartments'
+import type { FeatureCollection } from 'geojson'
+import { loadPilotBoundary } from '../../integrations/geojsonAdapter'
 
 const NORMANDY_BOUNDS: [[number, number], [number, number]] = [
   [-1.9550553, 48.1793863],
@@ -35,6 +38,10 @@ function dataUrl(fileName: string) {
 const REGION_BOUNDARY_COLOR = '#127475'
 const DEPARTMENTS_SOURCE = 'normandy-departments'
 const DEPARTMENTS_FILL_LAYER = 'normandy-departments-fill'
+const PILOT_SOURCE = 'pilot-boundary'
+const PILOT_FILL_LAYER = 'pilot-boundary-fill'
+const PILOT_LINE_LAYER = 'pilot-boundary-line'
+const PILOT_LABEL_LAYER = 'pilot-boundary-label'
 const IGN_ATTRIBUTION = 'Limites administratives : IGN – ADMIN EXPRESS COG CARTO'
 
 const departmentColor = [
@@ -54,6 +61,10 @@ const administrativeSources: StyleSpecification['sources'] = {
     type: 'geojson',
     data: dataUrl('normandy-boundary.geojson'),
     attribution: IGN_ATTRIBUTION,
+  },
+  [PILOT_SOURCE]: {
+    type: 'geojson',
+    data: { type: 'FeatureCollection', features: [] },
   },
 }
 
@@ -130,6 +141,45 @@ const administrativeLayers: StyleSpecification['layers'] = [
       'line-width': ['interpolate', ['linear'], ['zoom'], 5, 1.25, 9, 2, 13, 2.75],
     },
   },
+  {
+    id: PILOT_FILL_LAYER,
+    type: 'fill',
+    source: PILOT_SOURCE,
+    paint: {
+      'fill-color': '#8B7355',
+      'fill-opacity': 0.12,
+    },
+  },
+  {
+    id: PILOT_LINE_LAYER,
+    type: 'line',
+    source: PILOT_SOURCE,
+    layout: { 'line-join': 'round', 'line-cap': 'round' },
+    paint: {
+      'line-color': '#8B7355',
+      'line-opacity': 0.8,
+      'line-width': ['interpolate', ['linear'], ['zoom'], 5, 2, 9, 3, 13, 4],
+      'line-dasharray': [4, 2],
+    },
+  },
+  {
+    id: PILOT_LABEL_LAYER,
+    type: 'symbol',
+    source: PILOT_SOURCE,
+    layout: {
+      'text-field': 'Zone TEST (démonstration)',
+      'text-size': 11,
+      'text-anchor': 'center',
+      'text-justify': 'center',
+      'text-offset': [0, 0],
+    },
+    paint: {
+      'text-color': '#8B7355',
+      'text-halo-color': '#E8DCC7',
+      'text-halo-width': 2,
+      'text-opacity': 0.9,
+    },
+  },
 ]
 
 const basemapStyle: StyleSpecification = {
@@ -173,6 +223,12 @@ export interface RegionMapProps {
   hoveredDepartment?: DepartmentCode | null
   onSelectDepartment?: (code: DepartmentCode | null) => void
   onHoverDepartment?: (code: DepartmentCode | null) => void
+  mapRef?: MutableRefObject<MapLibreMap | undefined>
+  hexagonCount?: number
+  isTestData?: boolean
+  testModeEnabled?: boolean
+  onZoomToTestZone?: () => void
+  onToggleTestMode?: () => void
 }
 
 export function RegionMap({
@@ -180,14 +236,22 @@ export function RegionMap({
   hoveredDepartment: hoveredProp,
   onSelectDepartment,
   onHoverDepartment,
+  mapRef: externalMapRef,
+  hexagonCount = 0,
+  isTestData = false,
+  testModeEnabled = false,
+  onZoomToTestZone,
+  onToggleTestMode,
 }: RegionMapProps = {}) {
   const mapContainerRef = useRef<HTMLDivElement>(null)
-  const mapRef = useRef<MapLibreMap | undefined>(undefined)
+  const internalMapRef = useRef<MapLibreMap | undefined>(undefined)
+  const activeMapRef = externalMapRef || internalMapRef
   const cameraTargetRef = useRef<LngLatBoundsLike>(NORMANDY_BOUNDS)
   const userMovedCameraRef = useRef(false)
   const [mapState, setMapState] = useState<MapState>('loading')
   const [innerSelected, setInnerSelected] = useState<DepartmentCode | null>(null)
   const [innerHovered, setInnerHovered] = useState<DepartmentCode | null>(null)
+  const [pilotData, setPilotData] = useState<FeatureCollection | null>(null)
 
   const selectedDepartment = selectedProp !== undefined ? selectedProp : innerSelected
   const hoveredDepartment = hoveredProp !== undefined ? hoveredProp : innerHovered
@@ -239,7 +303,10 @@ export function RegionMap({
           minZoom: 5,
           attributionControl: false,
         })
-        mapRef.current = map
+        internalMapRef.current = map
+        if (externalMapRef) {
+          externalMapRef.current = map
+        }
 
         const fitCameraTarget = () => {
           if (!map || cancelled || userMovedCameraRef.current) return
@@ -308,13 +375,16 @@ export function RegionMap({
       cancelled = true
       clearTimeout(basemapTimeout)
       resizeObserver?.disconnect()
-      mapRef.current = undefined
+      internalMapRef.current = undefined
+      if (externalMapRef) {
+        externalMapRef.current = undefined
+      }
       map?.remove()
     }
   }, [])
 
   useEffect(() => {
-    const map = mapRef.current
+    const map = activeMapRef.current
     if (!map || mapState === 'loading') return
 
     const applyStates = () => {
@@ -339,7 +409,7 @@ export function RegionMap({
   }, [mapState, hoveredDepartment, selectedDepartment])
 
   useEffect(() => {
-    const map = mapRef.current
+    const map = activeMapRef.current
     if (!map || mapState === 'loading') return
 
     const target = selectedDepartment
@@ -355,6 +425,36 @@ export function RegionMap({
       duration: prefersReducedMotion() ? 0 : 900,
     })
   }, [mapState, selectedDepartment])
+
+  useEffect(() => {
+    void (async () => {
+      const pilotResult = await loadPilotBoundary()
+      setPilotData(pilotResult.featureCollection)
+    })()
+  }, [])
+
+  useEffect(() => {
+    const map = activeMapRef.current
+    if (!map) return
+
+    if (testModeEnabled && pilotData) {
+      const source = map.getSource(PILOT_SOURCE)
+      if (source) {
+        ;(source as any).setData(pilotData)
+      }
+      if (map.getLayer(PILOT_LABEL_LAYER)) {
+        map.setLayoutProperty(PILOT_LABEL_LAYER, 'visibility', 'visible')
+      }
+    } else if (!testModeEnabled) {
+      const source = map.getSource(PILOT_SOURCE)
+      if (source) {
+        ;(source as any).setData({ type: 'FeatureCollection', features: [] })
+      }
+      if (map.getLayer(PILOT_LABEL_LAYER)) {
+        map.setLayoutProperty(PILOT_LABEL_LAYER, 'visibility', 'none')
+      }
+    }
+  }, [mapState, pilotData, testModeEnabled])
 
   const isLoading = mapState === 'loading'
   const hasBasemapError = mapState === 'basemap-error'
@@ -396,9 +496,37 @@ export function RegionMap({
       ) : null}
 
       <div className="layer-placeholders" aria-label="État des couches territoriales">
-        <span>Limite du pilote à charger</span>
-        <span>Mailles de diagnostic à charger</span>
+        <span className="status-badge status-badge--warning">
+          {testModeEnabled && isTestData
+            ? 'DONNÉES TEST — NON VALIDÉES'
+            : 'Zone pilote réelle en attente de validation'}
+        </span>
+        {testModeEnabled && hexagonCount > 0 && (
+          <span className="status-badge status-badge--success">
+            ✓ {hexagonCount} maille{hexagonCount > 1 ? 's' : ''} TEST chargée{hexagonCount > 1 ? 's' : ''}
+          </span>
+        )}
       </div>
+
+      {testModeEnabled && isTestData && hexagonCount > 0 && onZoomToTestZone && (
+        <button
+          type="button"
+          className="test-zone-button"
+          onClick={onZoomToTestZone}
+          aria-label="Zoomer vers la zone de démonstration TEST"
+        >
+          Voir la zone TEST
+        </button>
+      )}
+
+      <button
+        type="button"
+        className="test-mode-toggle"
+        onClick={onToggleTestMode}
+        aria-pressed={testModeEnabled}
+      >
+        {testModeEnabled ? 'Quitter le mode TEST' : 'Activer le mode TEST'}
+      </button>
     </div>
   )
 }
