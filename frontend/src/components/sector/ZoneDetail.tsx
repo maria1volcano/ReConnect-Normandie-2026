@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
-import type { DiagnosticDetail, PriorityExamen, StatutAnalyse } from '../../types/hexagon'
+import type { PriorityExamen, StatutAnalyse, ZoneDiagnosticBundle } from '../../types/hexagon'
 import { loadZoneDiagnostic } from '../../integrations/geojsonAdapter'
+import { ActionSuggestions } from './ActionSuggestions'
+import { ConflictsPanel } from './ConflictsPanel'
 
 interface ZoneDetailProps {
   selectedHexagonId?: string | null
@@ -8,31 +10,45 @@ interface ZoneDetailProps {
 }
 
 export function ZoneDetail({ selectedHexagonId, testModeEnabled = false }: ZoneDetailProps) {
-  const [diagnostic, setDiagnostic] = useState<DiagnosticDetail | null>(null)
+  const [bundle, setBundle] = useState<ZoneDiagnosticBundle | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
+  const diagnostic = bundle?.diagnostic ?? null
 
   useEffect(() => {
+    let cancelled = false
+
     if (!selectedHexagonId) {
-      setDiagnostic(null)
+      setBundle(null)
       setError(false)
-      return
+      return () => {
+        cancelled = true
+      }
     }
 
+    setBundle(null)
     setLoading(true)
     setError(false)
 
     void (async () => {
       try {
         const result = await loadZoneDiagnostic(selectedHexagonId, testModeEnabled)
-        setDiagnostic(result)
-        setLoading(false)
+        if (!cancelled) {
+          setBundle(result)
+          setLoading(false)
+        }
       } catch (err) {
         console.error('[ZoneDetail] Erreur chargement diagnostic:', err)
-        setError(true)
-        setLoading(false)
+        if (!cancelled) {
+          setError(true)
+          setLoading(false)
+        }
       }
     })()
+
+    return () => {
+      cancelled = true
+    }
   }, [selectedHexagonId, testModeEnabled])
 
   const getPriorityLabel = (priority?: PriorityExamen): string => {
@@ -201,30 +217,22 @@ export function ZoneDetail({ selectedHexagonId, testModeEnabled = false }: ZoneD
               </div>
             )}
 
-            {diagnostic.fragmentation_conflits.length > 0 && (
-              <div className="detail-subsection">
-                <h4 className="detail-subsection-title">Fragmentation et conflits potentiels</h4>
-                <ul className="detail-list">
-                  {diagnostic.fragmentation_conflits.map((conflit, index) => (
-                    <li key={index}>
-                      <span className="conflit-type">{conflit.type}</span>
-                      {conflit.description && <span className="conflit-desc">: {conflit.description}</span>}
-                      {conflit.evidence_level && (
-                        <span className="conflit-level"> ({conflit.evidence_level})</span>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
             {diagnostic.enjeux_ecologiques.length === 0 &&
               diagnostic.pressions_humanis.length === 0 &&
-              diagnostic.fragmentation_conflits.length === 0 &&
               !diagnostic.priorite_explication && (
                 <p className="detail-unavailable">Aucun signal détecté ou données insuffisantes</p>
               )}
           </div>
+
+          <ConflictsPanel
+            conflicts={bundle?.conflicts ?? []}
+            state={bundle?.conflictState ?? 'donnees_manquantes'}
+          />
+
+          <ActionSuggestions
+            actions={bundle?.actions ?? []}
+            state={bundle?.actionState ?? 'donnees_manquantes'}
+          />
 
           <details className="detail-expandable">
             <summary className="detail-expandable-header">

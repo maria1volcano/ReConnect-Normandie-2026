@@ -66,6 +66,8 @@
       "champs_manquants": []
     },
     "method_version": "test-v0.1",
+    "conflit_ids": ["TEST-CONFLICT-ROAD-001", "TEST-CONFLICT-HEDGE-001"],
+    "action_ids": ["TEST-ACTION-R1-001", "TEST-ACTION-R2-001"],
     "test_data": true
   },
   "TEST-HEX-002": {
@@ -125,6 +127,8 @@
       "champs_manquants": ["ouvrages_existants", "trafic_estime"]
     },
     "method_version": "test-v0.1",
+    "conflit_ids": ["TEST-CONFLICT-BROWNFIELD-002"],
+    "action_ids": ["TEST-ACTION-R3-002"],
     "test_data": true
   },
   "TEST-HEX-003": {
@@ -175,6 +179,8 @@
       "champs_manquants": []
     },
     "method_version": "test-v0.1",
+    "conflit_ids": [],
+    "action_ids": [],
     "test_data": true
   },
   "TEST-HEX-004": {
@@ -213,6 +219,8 @@
       "champs_manquants": ["enjeux_ecologiques", "pressions", "fragmentation"]
     },
     "method_version": "test-v0.1",
+    "conflit_ids": [],
+    "action_ids": ["TEST-ACTION-R4-004"],
     "test_data": true
   }
 }

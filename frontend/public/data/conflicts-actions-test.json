@@ -1,0 +1,197 @@
+{
+  "test_data": true,
+  "conflicts": {
+    "TEST-CONFLICT-ROAD-001": {
+      "conflit_id": "TEST-CONFLICT-ROAD-001",
+      "type": "croisement_routier",
+      "titre": "Intersection cartographique route–corridor",
+      "description": "Une intersection géométrique est illustrée entre une route TEST et une continuité écologique TEST.",
+      "feature_ecologique": "Corridor forestier représenté dans le scénario TEST",
+      "pression_humaine": "Infrastructure routière représentée dans le scénario TEST",
+      "evidence_level": "conflit_potentiel",
+      "methode_detection": "Intersection cartographique de géométries TEST compatibles",
+      "qualification": "Conflit potentiel — à vérifier sur le terrain",
+      "sources": [
+        {
+          "nom": "TEST-ROUTE-001 + TEST-ECO-001",
+          "producteur": "Fixture de démonstration M3",
+          "description": "Association fictive créée uniquement pour tester l'interface."
+        }
+      ],
+      "limites": [
+        "L'intersection cartographique ne prouve pas une barrière écologique fonctionnelle.",
+        "Le trafic, les espèces, les collisions et la perméabilité des ouvrages ne sont pas documentés."
+      ],
+      "test_data": true
+    },
+    "TEST-CONFLICT-HEDGE-001": {
+      "conflit_id": "TEST-CONFLICT-HEDGE-001",
+      "type": "continuite_bocagere",
+      "titre": "Continuité de haies possiblement fragmentée",
+      "description": "Le scénario TEST illustre une discontinuité cartographique entre deux segments de haies.",
+      "feature_ecologique": "Continuité bocagère représentée dans le scénario TEST",
+      "pression_humaine": "Espace intermédiaire non qualifié dans la fixture",
+      "evidence_level": "non_concluant",
+      "methode_detection": "Lecture de segments TEST non jointifs, sans règle scientifique R2 exécutée",
+      "qualification": "Qualification en attente",
+      "sources": [
+        {
+          "nom": "TEST-HAIE-SEGMENTS-001",
+          "producteur": "Fixture de démonstration M3",
+          "description": "Segments fictifs destinés à démontrer un état non concluant."
+        }
+      ],
+      "limites": [
+        "Un vide cartographique ne signifie pas automatiquement qu'une plantation est nécessaire.",
+        "La date, la nature des haies, les usages et la propriété doivent être vérifiés."
+      ],
+      "test_data": true
+    },
+    "TEST-CONFLICT-BROWNFIELD-002": {
+      "conflit_id": "TEST-CONFLICT-BROWNFIELD-002",
+      "type": "interface_artificialisee",
+      "titre": "Interface artificialisée à qualifier",
+      "description": "Une emprise artificialisée TEST est située au contact d'une bande végétale TEST.",
+      "feature_ecologique": "Bande végétale linéaire représentée dans le scénario TEST",
+      "pression_humaine": "Emprise artificialisée dont le statut de friche n'est pas validé",
+      "evidence_level": "croisement_detecte",
+      "methode_detection": "Intersection cartographique identifiée dans la fixture TEST",
+      "qualification": "Croisement cartographique détecté — statut du site à confirmer",
+      "sources": [
+        {
+          "nom": "TEST-URBAN-001",
+          "producteur": "Fixture de démonstration M3",
+          "description": "Emprise fictive sans origine institutionnelle."
+        }
+      ],
+      "limites": [
+        "Le statut de friche, la pollution, les usages et la valeur écologique actuelle ne sont pas connus.",
+        "La proximité cartographique ne démontre pas un dommage écologique."
+      ],
+      "test_data": true
+    }
+  },
+  "actions": {
+    "TEST-ACTION-R1-001": {
+      "action_id": "TEST-ACTION-R1-001",
+      "regle_id": "R1",
+      "titre": "Étudier la franchissabilité de l'infrastructure",
+      "conflit_ids": ["TEST-CONFLICT-ROAD-001"],
+      "motif": "Intersection cartographique route–corridor illustrée dans le scénario TEST.",
+      "pertinence": "Une étude pourrait vérifier la perméabilité existante avant d'envisager un passage à faune ou une adaptation de gestion.",
+      "conditions_verification": [
+        "Contrôler les ouvrages déjà présents et leur fonctionnement.",
+        "Documenter le trafic, les espèces concernées et les observations de terrain."
+      ],
+      "sources": [
+        {
+          "nom": "TEST-ROUTE-001 + TEST-ECO-001",
+          "producteur": "Fixture de démonstration M3"
+        }
+      ],
+      "limites": [
+        "Cette piste n'est ni un projet validé ni une recommandation de travaux.",
+        "Aucune mortalité animale ou efficacité d'aménagement n'est mesurée."
+      ],
+      "statut": "conditionnelle",
+      "test_data": true
+    },
+    "TEST-ACTION-R2-001": {
+      "action_id": "TEST-ACTION-R2-001",
+      "regle_id": "R2",
+      "titre": "Étudier une reconnexion ciblée des haies",
+      "conflit_ids": ["TEST-CONFLICT-HEDGE-001"],
+      "motif": "Discontinuité bocagère illustrée, mais non qualifiée scientifiquement.",
+      "pertinence": "Une restauration pourrait être examinée seulement si la lacune et le contexte bocager sont confirmés.",
+      "conditions_verification": [
+        "Actualiser la cartographie et vérifier la nature des segments sur le terrain.",
+        "Examiner les contraintes agricoles, foncières et les modalités de gestion."
+      ],
+      "sources": [
+        {
+          "nom": "TEST-HAIE-SEGMENTS-001",
+          "producteur": "Fixture de démonstration M3"
+        }
+      ],
+      "limites": [
+        "Une faible densité ou un vide de données ne suffit pas à justifier une plantation.",
+        "La localisation d'une éventuelle intervention n'est pas définie."
+      ],
+      "statut": "conditionnelle",
+      "test_data": true
+    },
+    "TEST-ACTION-R3-002": {
+      "action_id": "TEST-ACTION-R3-002",
+      "regle_id": "R3",
+      "titre": "Examiner le potentiel écologique du site artificialisé",
+      "conflit_ids": ["TEST-CONFLICT-BROWNFIELD-002"],
+      "motif": "Interface artificialisée identifiée, avec statut de friche encore incertain.",
+      "pertinence": "Une étude de renaturation ne serait pertinente qu'après confirmation de l'emprise et de ses usages.",
+      "conditions_verification": [
+        "Confirmer le statut de friche et la fiabilité de sa géométrie.",
+        "Évaluer pollution, sécurité, foncier et valeur écologique actuelle."
+      ],
+      "sources": [
+        {
+          "nom": "TEST-URBAN-001",
+          "producteur": "Fixture de démonstration M3"
+        }
+      ],
+      "limites": [
+        "Aucune faisabilité foncière ou écologique n'est établie.",
+        "La fixture ne constitue pas un inventaire officiel de friches."
+      ],
+      "statut": "conditionnelle",
+      "test_data": true
+    },
+    "TEST-ACTION-R4-004": {
+      "action_id": "TEST-ACTION-R4-004",
+      "regle_id": "R4",
+      "titre": "Réseau de mares et zones humides non évaluable",
+      "conflit_ids": [],
+      "motif": "Les données TEST nécessaires au contexte hydrologique sont absentes.",
+      "pertinence": "Aucune piste de restauration ou de création ne peut être qualifiée avec les informations disponibles.",
+      "conditions_verification": [
+        "Disposer d'un inventaire géolocalisé et daté des mares et habitats humides.",
+        "Documenter l'hydrologie, la qualité de l'eau et les habitats concernés."
+      ],
+      "sources": [],
+      "limites": [
+        "L'absence d'objet dans une base incomplète ne prouve pas l'absence de milieu humide.",
+        "Aucun emplacement de création ne doit être déduit de cette fixture."
+      ],
+      "statut": "non_evaluable",
+      "test_data": true
+    }
+  },
+  "zones": {
+    "TEST-HEX-001": {
+      "conflit_ids": ["TEST-CONFLICT-ROAD-001", "TEST-CONFLICT-HEDGE-001"],
+      "action_ids": ["TEST-ACTION-R1-001", "TEST-ACTION-R2-001"],
+      "conflict_state": "disponible",
+      "action_state": "disponible",
+      "test_data": true
+    },
+    "TEST-HEX-002": {
+      "conflit_ids": ["TEST-CONFLICT-BROWNFIELD-002"],
+      "action_ids": ["TEST-ACTION-R3-002"],
+      "conflict_state": "disponible",
+      "action_state": "disponible",
+      "test_data": true
+    },
+    "TEST-HEX-003": {
+      "conflit_ids": [],
+      "action_ids": [],
+      "conflict_state": "aucun_documente",
+      "action_state": "aucun_documente",
+      "test_data": true
+    },
+    "TEST-HEX-004": {
+      "conflit_ids": [],
+      "action_ids": ["TEST-ACTION-R4-004"],
+      "conflict_state": "donnees_manquantes",
+      "action_state": "disponible",
+      "test_data": true
+    }
+  }
+}

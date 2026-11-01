@@ -90,7 +90,52 @@ export interface DiagnosticDetail {
     champs_manquants?: string[]
   }
   method_version: string
+  conflit_ids?: string[]
+  action_ids?: string[]
   test_data?: boolean
+}
+
+export type RelatedDataState =
+  | 'disponible'
+  | 'aucun_documente'
+  | 'donnees_manquantes'
+  | 'analyse_non_realisee'
+
+export interface PotentialConflict {
+  conflit_id: string
+  type: string
+  titre: string
+  description: string
+  feature_ecologique: string
+  pression_humaine: string
+  evidence_level: EvidenceLevel
+  methode_detection?: string
+  qualification: string
+  sources: SourceReference[]
+  limites: string[]
+  test_data?: boolean
+}
+
+export interface RestorationActionSuggestion {
+  action_id: string
+  regle_id: 'R1' | 'R2' | 'R3' | 'R4'
+  titre: string
+  conflit_ids: string[]
+  motif: string
+  pertinence: string
+  conditions_verification: string[]
+  sources: SourceReference[]
+  limites: string[]
+  statut: ActionStatut
+  test_data?: boolean
+}
+
+export interface ZoneDiagnosticBundle {
+  diagnostic: DiagnosticDetail
+  conflicts: PotentialConflict[]
+  actions: RestorationActionSuggestion[]
+  conflictState: RelatedDataState
+  actionState: RelatedDataState
 }
 
 export interface SourceReference {

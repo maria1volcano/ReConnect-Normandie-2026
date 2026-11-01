@@ -10,6 +10,10 @@ import type {
   StatutAnalyse,
   PriorityExamen,
   DiagnosticDetail,
+  PotentialConflict,
+  RelatedDataState,
+  RestorationActionSuggestion,
+  ZoneDiagnosticBundle,
 } from '../types/hexagon'
 
 export interface HexagonData {
@@ -147,16 +151,61 @@ export async function loadPilotBoundary(): Promise<PilotData> {
  * Load detailed zone diagnostic information
  * First tries TEST fixture, then real data when available
  */
-export async function loadZoneDiagnostic(maille_id: string, isTestMode: boolean): Promise<DiagnosticDetail | null> {
+interface TestRelatedDataFixture {
+  test_data: true
+  conflicts: Record<string, PotentialConflict>
+  actions: Record<string, RestorationActionSuggestion>
+  zones: Record<
+    string,
+    {
+      conflit_ids: string[]
+      action_ids: string[]
+      conflict_state: RelatedDataState
+      action_state: RelatedDataState
+      test_data: true
+    }
+  >
+}
+
+function resolveFixtureRecords<T extends { test_data?: boolean }>(
+  ids: string[],
+  records: Record<string, T>,
+  recordType: string,
+): T[] {
+  return ids.flatMap((id) => {
+    const record = records[id]
+    if (!record) {
+      console.warn(`[geojsonAdapter] ${recordType} TEST introuvable : ${id}`)
+      return []
+    }
+    if (record.test_data !== true) {
+      console.warn(`[geojsonAdapter] ${recordType} TEST sans marqueur test_data : ${id}`)
+      return []
+    }
+    return [record]
+  })
+}
+
+export async function loadZoneDiagnostic(
+  maille_id: string,
+  isTestMode: boolean,
+): Promise<ZoneDiagnosticBundle | null> {
   try {
     // In TEST mode, load from TEST fixture
     if (isTestMode) {
-      const response = await fetch(dataUrl('diagnostics-test.json'))
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+      const [diagnosticResponse, relatedResponse] = await Promise.all([
+        fetch(dataUrl('diagnostics-test.json')),
+        fetch(dataUrl('conflicts-actions-test.json')),
+      ])
+      if (!diagnosticResponse.ok) {
+        throw new Error(`Diagnostics TEST indisponibles (HTTP ${diagnosticResponse.status})`)
+      }
+      if (!relatedResponse.ok) {
+        throw new Error(`Conflits/actions TEST indisponibles (HTTP ${relatedResponse.status})`)
       }
 
-      const testData: Record<string, DiagnosticDetail> = await response.json()
+      const testData: Record<string, DiagnosticDetail> = await diagnosticResponse.json()
+      const relatedData: TestRelatedDataFixture = await relatedResponse.json()
       const diagnostic = testData[maille_id]
 
       if (!diagnostic) {
@@ -164,7 +213,25 @@ export async function loadZoneDiagnostic(maille_id: string, isTestMode: boolean)
         return null
       }
 
-      return diagnostic
+      if (diagnostic.test_data !== true || relatedData.test_data !== true) {
+        throw new Error('Fixture TEST sans marqueur test_data')
+      }
+
+      const zoneRelations = relatedData.zones[maille_id]
+      if (!zoneRelations || zoneRelations.test_data !== true) {
+        throw new Error(`Relations TEST non disponibles pour ${maille_id}`)
+      }
+
+      const conflitIds = diagnostic.conflit_ids ?? zoneRelations.conflit_ids
+      const actionIds = diagnostic.action_ids ?? zoneRelations.action_ids
+
+      return {
+        diagnostic,
+        conflicts: resolveFixtureRecords(conflitIds, relatedData.conflicts, 'Conflit'),
+        actions: resolveFixtureRecords(actionIds, relatedData.actions, 'Action'),
+        conflictState: zoneRelations.conflict_state,
+        actionState: zoneRelations.action_state,
+      }
     }
 
     // In normal mode, try to load from real data (M4 API or static export)
@@ -173,7 +240,7 @@ export async function loadZoneDiagnostic(maille_id: string, isTestMode: boolean)
     return null
   } catch (error) {
     console.error('[geojsonAdapter] Erreur chargement diagnostic zone:', error)
-    return null
+    throw error
   }
 }
 
