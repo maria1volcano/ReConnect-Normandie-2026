@@ -72,13 +72,24 @@ export function ApplicationLayout() {
     <div className="application-shell">
       <header className="app-header">
         <a className="brand" href="#main-content" aria-label="ReConnect Normandie, aller à la carte">
-          <span className="brand-mark" aria-hidden="true">
-            <span />
-            <span />
-            <span />
-          </span>
-          <span>
-            <strong>ReConnect Normandie</strong>
+          <img
+            src="/images/ecological-emblem.png"
+            alt="Emblème écologique ReConnect"
+            className="brand-emblem"
+            width="52"
+            height="52"
+          />
+          <span className="brand-text">
+            <strong>
+              ReConnect <span className="brand-normandie">Normandie</span>
+              <img
+                src="/images/normandy-flag.png"
+                alt="Drapeau de la Normandie"
+                className="brand-flag-inline"
+                width="28"
+                height="19"
+              />
+            </strong>
             <small>Prédiagnostic des continuités écologiques</small>
           </span>
         </a>
@@ -120,7 +131,7 @@ export function ApplicationLayout() {
 
         {selectedHexagonId ? (
           <aside className="zone-detail" aria-label="Fiche maille">
-            <ZoneDetail selectedHexagonId={selectedHexagonId} />
+            <ZoneDetail selectedHexagonId={selectedHexagonId} testModeEnabled={testModeEnabled} />
           </aside>
         ) : selectedDepartment ? (
           <aside className="zone-detail" aria-label="Fiche département">

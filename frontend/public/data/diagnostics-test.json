@@ -1,0 +1,218 @@
+{
+  "TEST-HEX-001": {
+    "maille_id": "TEST-HEX-001",
+    "statut_analyse": "calculee",
+    "priorite_examen": "elevee",
+    "priorite_explication": "Conflit potentiel routier détecté sur corridor écologique documenté. Fiabilité des données suffisante pour examiner la franchissabilité.",
+    "enjeux_ecologiques": [
+      "Corridor forestier identifié",
+      "Habitat favorable à la faune",
+      "Continuité bocagère présente"
+    ],
+    "pressions_humanis": [
+      "Route départementale majeure",
+      "Trafic routier moyen",
+      "Fragmentation linéaire"
+    ],
+    "fragmentation_conflits": [
+      {
+        "type": "croisement_routier",
+        "description": "Intersection route/corridor détectée",
+        "evidence_level": "conflit_potentiel"
+      }
+    ],
+    "urgence_temporelle": "Non évaluée",
+    "indicateurs": {
+      "enjeu_ecologique": {
+        "valeur": "Présence confirmée",
+        "unite": "-"
+      },
+      "fragmentation": {
+        "valeur": "3",
+        "unite": "événements"
+      },
+      "pressions": {
+        "valeur": "Moyenne",
+        "unite": "-"
+      },
+      "fiabilite": {
+        "valeur": "Suffisante",
+        "unite": "-"
+      }
+    },
+    "qualite": {
+      "niveau": "suffisante",
+      "couverture": "Couverture complète sur la maille",
+      "sources": [
+        {
+          "nom": "TEST-ROUTE-001",
+          "producteur": "Source TEST fictive",
+          "annee": "2024",
+          "echelle": "1:25000",
+          "licence": "Non applicable",
+          "description": "Données de démonstration uniquement"
+        },
+        {
+          "nom": "TEST-ECO-001",
+          "producteur": "Source TEST fictive",
+          "annee": "2024",
+          "echelle": "1:25000",
+          "licence": "Non applicable",
+          "description": "Données de démonstration uniquement"
+        }
+      ],
+      "annees": ["2024"],
+      "echelle": "1:25000",
+      "champs_manquants": []
+    },
+    "method_version": "test-v0.1",
+    "test_data": true
+  },
+  "TEST-HEX-002": {
+    "maille_id": "TEST-HEX-002",
+    "statut_analyse": "calculee",
+    "priorite_examen": "moderee",
+    "priorite_explication": "Interface artificialisée détectée avec corridor écologique. Recommandé d'examiner les mesures de réduction possibles.",
+    "enjeux_ecologiques": [
+      "Bande végétale linéaire",
+      "Connectivité modérée"
+    ],
+    "pressions_humanis": [
+      "Zone artificialisée en bordure",
+      "Urbanisation diffuse"
+    ],
+    "fragmentation_conflits": [
+      {
+        "type": "interface_artificialisee",
+        "description": "Zone de transition artificialisée",
+        "evidence_level": "croisement_detecte"
+      }
+    ],
+    "urgence_temporelle": "Non évaluée",
+    "indicateurs": {
+      "enjeu_ecologique": {
+        "valeur": "Présence probable",
+        "unite": "-"
+      },
+      "fragmentation": {
+        "valeur": "1",
+        "unite": "événement"
+      },
+      "pressions": {
+        "valeur": "Faible",
+        "unite": "-"
+      },
+      "fiabilite": {
+        "valeur": "Partielle",
+        "unite": "-"
+      }
+    },
+    "qualite": {
+      "niveau": "partielle",
+      "couverture": "Couverture partielle sur la maille",
+      "sources": [
+        {
+          "nom": "TEST-URBAN-001",
+          "producteur": "Source TEST fictive",
+          "annee": "2024",
+          "echelle": "1:50000",
+          "licence": "Non applicable",
+          "description": "Données de démonstration uniquement"
+        }
+      ],
+      "annees": ["2024"],
+      "echelle": "1:50000",
+      "champs_manquants": ["ouvrages_existants", "trafic_estime"]
+    },
+    "method_version": "test-v0.1",
+    "test_data": true
+  },
+  "TEST-HEX-003": {
+    "maille_id": "TEST-HEX-003",
+    "statut_analyse": "calculee",
+    "priorite_examen": "faible",
+    "priorite_explication": "Corridor écologique détecté avec peu de pressions directes documentées. Fiabilité des données suffisante.",
+    "enjeux_ecologiques": [
+      "Haies bocagères",
+      "Continuité herbacée"
+    ],
+    "pressions_humanis": [],
+    "fragmentation_conflits": [],
+    "urgence_temporelle": "Non évaluée",
+    "indicateurs": {
+      "enjeu_ecologique": {
+        "valeur": "Présence confirmée",
+        "unite": "-"
+      },
+      "fragmentation": {
+        "valeur": "0",
+        "unite": "événements"
+      },
+      "pressions": {
+        "valeur": "Très faible",
+        "unite": "-"
+      },
+      "fiabilite": {
+        "valeur": "Suffisante",
+        "unite": "-"
+      }
+    },
+    "qualite": {
+      "niveau": "suffisante",
+      "couverture": "Couverture complète sur la maille",
+      "sources": [
+        {
+          "nom": "TEST-HAIE-001",
+          "producteur": "Source TEST fictive",
+          "annee": "2024",
+          "echelle": "1:25000",
+          "licence": "Non applicable",
+          "description": "Données de démonstration uniquement"
+        }
+      ],
+      "annees": ["2024"],
+      "echelle": "1:25000",
+      "champs_manquants": []
+    },
+    "method_version": "test-v0.1",
+    "test_data": true
+  },
+  "TEST-HEX-004": {
+    "maille_id": "TEST-HEX-004",
+    "statut_analyse": "donnees_insuffisantes",
+    "priorite_examen": "indeterminee",
+    "priorite_explication": "Données insuffisantes pour conclure sur la priorité d'examen. Sources essentielles manquantes ou de qualité insuffisante.",
+    "enjeux_ecologiques": [],
+    "pressions_humanis": [],
+    "fragmentation_conflits": [],
+    "urgence_temporelle": "Non évaluée",
+    "indicateurs": {
+      "enjeu_ecologique": {
+        "valeur": "Non disponible",
+        "unite": "-"
+      },
+      "fragmentation": {
+        "valeur": "Non disponible",
+        "unite": "-"
+      },
+      "pressions": {
+        "valeur": "Non disponible",
+        "unite": "-"
+      },
+      "fiabilite": {
+        "valeur": "Insuffisante",
+        "unite": "-"
+      }
+    },
+    "qualite": {
+      "niveau": "insuffisante",
+      "couverture": "Couverture très partielle",
+      "sources": [],
+      "annees": [],
+      "echelle": "Non déterminée",
+      "champs_manquants": ["enjeux_ecologiques", "pressions", "fragmentation"]
+    },
+    "method_version": "test-v0.1",
+    "test_data": true
+  }
+}

@@ -9,6 +9,7 @@ import type {
   PilotBoundaryProperties,
   StatutAnalyse,
   PriorityExamen,
+  DiagnosticDetail,
 } from '../types/hexagon'
 
 export interface HexagonData {
@@ -143,7 +144,41 @@ export async function loadPilotBoundary(): Promise<PilotData> {
 }
 
 /**
- * Load detailed zone information
+ * Load detailed zone diagnostic information
+ * First tries TEST fixture, then real data when available
+ */
+export async function loadZoneDiagnostic(maille_id: string, isTestMode: boolean): Promise<DiagnosticDetail | null> {
+  try {
+    // In TEST mode, load from TEST fixture
+    if (isTestMode) {
+      const response = await fetch(dataUrl('diagnostics-test.json'))
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+      }
+
+      const testData: Record<string, DiagnosticDetail> = await response.json()
+      const diagnostic = testData[maille_id]
+
+      if (!diagnostic) {
+        console.warn(`[geojsonAdapter] Diagnostic non trouvé pour ${maille_id} dans les données TEST`)
+        return null
+      }
+
+      return diagnostic
+    }
+
+    // In normal mode, try to load from real data (M4 API or static export)
+    // For now, return null - this will be implemented when M4 delivers data
+    console.log(`[geojsonAdapter] Chargement diagnostic réel pour ${maille_id} - en attente M4`)
+    return null
+  } catch (error) {
+    console.error('[geojsonAdapter] Erreur chargement diagnostic zone:', error)
+    return null
+  }
+}
+
+/**
+ * Load detailed zone information (legacy interface, preserved for compatibility)
  * This will connect to M4 API in the future
  */
 export async function loadZoneDetail(maille_id: string): Promise<ZoneDetailData | null> {

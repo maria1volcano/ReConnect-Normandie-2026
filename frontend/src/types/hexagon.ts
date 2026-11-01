@@ -66,6 +66,43 @@ export interface HexagonZoneDetail {
   test_data?: boolean
 }
 
+export interface DiagnosticDetail {
+  maille_id: string
+  statut_analyse: StatutAnalyse
+  priorite_examen?: PriorityExamen
+  priorite_explication?: string
+  enjeux_ecologiques: string[]
+  pressions_humanis: string[]
+  fragmentation_conflits: DiagnosticResult[]
+  urgence_temporelle?: string
+  indicateurs: {
+    enjeu_ecologique?: { valeur: string; unite?: string }
+    fragmentation?: { valeur: string; unite?: string }
+    pressions?: { valeur: string; unite?: string }
+    fiabilite?: { valeur: string; unite?: string }
+  }
+  qualite: {
+    niveau: 'suffisante' | 'partielle' | 'insuffisante'
+    couverture: string
+    sources: SourceReference[]
+    annees?: string[]
+    echelle?: string
+    champs_manquants?: string[]
+  }
+  method_version: string
+  test_data?: boolean
+}
+
+export interface SourceReference {
+  nom: string
+  producteur?: string
+  annee?: string
+  echelle?: string
+  licence?: string
+  url?: string
+  description?: string
+}
+
 export interface PilotBoundaryProperties {
   pilot_id: string
   nom: string
