@@ -1,0 +1,182 @@
+{
+  "pipeline_version": "m1-step3-v1",
+  "pilot_bbox_wgs84": [
+    -0.28,
+    49.2,
+    -0.22,
+    49.26
+  ],
+  "pilot_bbox_epsg2154": [
+    460989.257242,
+    6904815.661232,
+    465631.04514,
+    6911663.950544
+  ],
+  "target_crs": "EPSG:2154",
+  "missing_value_convention": "SQL/GeoPackage NULL; no missing value converted to zero",
+  "repair_rule": "Only invalid source or clipped geometries are passed through shapely.make_valid",
+  "libraries": {
+    "python": "3.12.0",
+    "geopandas": "1.2.0",
+    "pyogrio": "0.13.0",
+    "pyproj": "3.8.0",
+    "shapely": "2.2.0"
+  },
+  "raw_sha256_before_and_after": {
+    "reservoir_archive": "12BBABAB26A594363B8F8DCB111AC43745E5829D4DCAEC33F5B475F5127A6E7C",
+    "corridor_archive": "9F8AB6B025C09163F77EE567E83DF946B68153C463AD26A0D39DDAD84D994AFB",
+    "roads_geojson": "133992B47A34FF4C840FB114B6A21F0EED2D331C55F089B6A45532B8E4A3ADA2",
+    "ocsge_archive": "F1DA3C0C5978988C536C5ACB5C9173E519D1271BD88EE45CBCEA1F54991D7CAC"
+  },
+  "layers": {
+    "reservoirs": {
+      "input_bbox_candidates": 40,
+      "invalid_before": 0,
+      "repaired_before_clip": 0,
+      "empty_after_clip": 0,
+      "invalid_after_clip": 0,
+      "repaired_after_clip": 0,
+      "non_target_dimension_dropped": 0,
+      "output_features": 40,
+      "path": "data/processed/reservoirs.gpkg",
+      "layer": "reservoirs",
+      "crs": "EPSG:2154",
+      "geometry_types": [
+        "Polygon"
+      ],
+      "invalid_output": 0,
+      "null_geometry_output": 0,
+      "duplicate_ids": 0,
+      "fields": [
+        "source_id",
+        "objet_id",
+        "objet_source_id",
+        "nom",
+        "sous_trame",
+        "millesime",
+        "precision_source",
+        "geometry"
+      ],
+      "semantic_sha256": "EE856C9B87A547EDE0B680C88D9FBDEE489690CB7A8EBD7D4C58F929B79B9DB3"
+    },
+    "corridors": {
+      "input_bbox_candidates": 17,
+      "invalid_before": 0,
+      "repaired_before_clip": 0,
+      "empty_after_clip": 0,
+      "invalid_after_clip": 0,
+      "repaired_after_clip": 0,
+      "non_target_dimension_dropped": 0,
+      "output_features": 16,
+      "path": "data/processed/corridors.gpkg",
+      "layer": "corridors",
+      "crs": "EPSG:2154",
+      "geometry_types": [
+        "MultiPolygon"
+      ],
+      "invalid_output": 0,
+      "null_geometry_output": 0,
+      "duplicate_ids": 0,
+      "fields": [
+        "source_id",
+        "objet_id",
+        "objet_source_id",
+        "libelle_source",
+        "classe_corridor",
+        "sous_trame",
+        "millesime",
+        "precision_source",
+        "geometry"
+      ],
+      "semantic_sha256": "CCF61E6DE012D0E7C1E4E8776D6CD8B5354E95EFBEA74A0247230753CFE9F23A"
+    },
+    "routes": {
+      "input_bbox_candidates": 1924,
+      "invalid_before": 0,
+      "repaired_before_clip": 0,
+      "empty_after_clip": 0,
+      "invalid_after_clip": 0,
+      "repaired_after_clip": 0,
+      "non_target_dimension_dropped": 0,
+      "output_features": 1924,
+      "path": "data/processed/routes.gpkg",
+      "layer": "routes",
+      "crs": "EPSG:2154",
+      "geometry_types": [
+        "MultiLineString"
+      ],
+      "invalid_output": 0,
+      "null_geometry_output": 0,
+      "duplicate_ids": 0,
+      "fields": [
+        "source_id",
+        "route_id",
+        "categorie",
+        "importance",
+        "ouvrage_connu",
+        "millesime",
+        "date_modification",
+        "nombre_voies",
+        "largeur_chaussee",
+        "geometry"
+      ],
+      "semantic_sha256": "0F8A929DF6A6669AFA55133630947B0AE719845825173883C915EAEA732D772D"
+    },
+    "sols": {
+      "input_bbox_candidates": 3683,
+      "invalid_before": 0,
+      "repaired_before_clip": 0,
+      "empty_after_clip": 0,
+      "invalid_after_clip": 0,
+      "repaired_after_clip": 0,
+      "non_target_dimension_dropped": 0,
+      "output_features": 3358,
+      "path": "data/processed/sols.gpkg",
+      "layer": "sols",
+      "crs": "EPSG:2154",
+      "geometry_types": [
+        "MultiPolygon"
+      ],
+      "invalid_output": 0,
+      "null_geometry_output": 0,
+      "duplicate_ids": 0,
+      "fields": [
+        "source_id",
+        "sol_id",
+        "couverture",
+        "usage",
+        "millesime",
+        "source_objet",
+        "id_origine",
+        "geometry"
+      ],
+      "semantic_sha256": "E6F600E378A5BC4B2B440CE911C47770920A195C1FACA40165F44FBFE78A8FFB"
+    },
+    "zones_construites": {
+      "input_bbox_candidates": 99,
+      "invalid_before": 0,
+      "repaired_before_clip": 0,
+      "empty_after_clip": 0,
+      "invalid_after_clip": 0,
+      "repaired_after_clip": 0,
+      "non_target_dimension_dropped": 0,
+      "output_features": 83,
+      "path": "data/processed/zones_construites.gpkg",
+      "layer": "zones_construites",
+      "crs": "EPSG:2154",
+      "geometry_types": [
+        "MultiPolygon"
+      ],
+      "invalid_output": 0,
+      "null_geometry_output": 0,
+      "duplicate_ids": 0,
+      "fields": [
+        "source_id",
+        "zone_id",
+        "millesime",
+        "geometry"
+      ],
+      "semantic_sha256": "632968ED946FB4D2C27D7C36B83C5DCDA0DCD5D2CE542380742973D208C0DF98"
+    }
+  }
+}
