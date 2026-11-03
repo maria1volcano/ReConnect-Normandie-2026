@@ -1,0 +1,41 @@
+{
+  "status": "candidate_awaiting_m2_validation",
+  "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+  "target_crs": "EPSG:2154",
+  "pilot_bbox_wgs84": [
+    -0.28,
+    49.2,
+    -0.22,
+    49.26
+  ],
+  "pilot_area_m2": 29171588.467230618,
+  "target_hexagon_area_m2": 1000000.0,
+  "calculated_side_m": 620.4032394013997,
+  "orientation": "flat_top",
+  "origin_m": [
+    0.0,
+    0.0
+  ],
+  "spacing_m": [
+    930.6048591020995,
+    1074.5699318235418
+  ],
+  "cell_count": 43,
+  "interior_cell_count": 15,
+  "boundary_cell_count": 28,
+  "clipped_area_sum_m2": 29171588.46723408,
+  "minimum_clipped_area_m2": 11.72821973771708,
+  "maximum_clipped_area_m2": 1000000.0000002142,
+  "missing_coverage_area_m2": 0.0,
+  "excess_coverage_area_m2": 0.0,
+  "all_clipped_valid": true,
+  "all_full_valid": true,
+  "duplicate_ids": 0,
+  "clipped_semantic_sha256": "9D7C0AE4CD08F3AD6CE233AE59B8F7C777FEBB50BBC1B563933040B726752201",
+  "full_semantic_sha256": "7CD6CA2479CB0046DFA4090875BB37F79305FAD711C79487751C260DD8E041B0",
+  "libraries": {
+    "python": "3.12.0",
+    "geopandas": "1.2.0",
+    "shapely": "2.2.0"
+  }
+}
