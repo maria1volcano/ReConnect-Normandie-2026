@@ -2,3 +2,9 @@
 tvb_srce_normandie/
 bdtopo_routes/
 ocsge_d014_2023/
+
+# Step 5 complementary sources are intentionally local.
+bdhaie_pilot/
+cartofriches/
+sipaf/
+zones_humides/

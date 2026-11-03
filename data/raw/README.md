@@ -10,3 +10,16 @@ Ces fichiers sont des acquisitions officielles conservées sans modification. Le
 | `ocsge_d014_2023/OCS-GE_2-0__GPKG_LAMB93_D014_2023-01-01.7z` | `https://data.geopf.fr/telechargement/download/OCSGE/OCS-GE_2-0__GPKG_LAMB93_D014_2023-01-01/OCS-GE_2-0__GPKG_LAMB93_D014_2023-01-01.7z` | 138 290 682 | `F1DA3C0C5978988C536C5ACB5C9173E519D1271BD88EE45CBCEA1F54991D7CAC` | IGN/DGALN, Licence Ouverte 2.0, téléchargé et inspecté |
 
 Les sous-dossiers `extracted/` sont des décompressions byte-for-byte des archives, pas des sorties harmonisées. Ne pas les modifier. Toute transformation future doit écrire sous `data/processed/`.
+
+## Acquisitions complémentaires — Step 5
+
+Date d'acquisition : 3 novembre 2026. Ces fichiers restent ignorés par Git et ne sont jamais modifiés par les scripts.
+
+| Dossier/fichier | Source exacte | Taille | SHA-256 | Licence / état |
+|---|---|---:|---|---|
+| `bdhaie_pilot/haies_pilot.geojson` | WFS IGN `BDTOPO_V3:haie`, bbox pilote WGS84 | 755 367 | `B6838E1A8D1F118AA75227A28167071BB863177D9A3634949FE97A94F433FE27` | Licence Ouverte 2.0 ; extrait borné, 1 181 lignes |
+| `sipaf/Tous_les_PAF.gpkg` | `https://passagesfaune.fr/geonature/api/media/exports/schedules/Tous_les_PAF.gpkg` | 1 015 808 | `53A2E899985854888AEFF0E818CACE78FB4A1F471466B28C93E5B34A7A1345F3` | Licence Ouverte 2.0 ; export national courant, 2 457 objets, aucun dans le pilote ; inventaire non exhaustif |
+| `cartofriches/friches-surfaces.gpkg` | `https://static.data.gouv.fr/resources/sites-references-dans-cartofriches/20261007-122403/friches-surfaces.gpkg` | 70 332 416 | `5325E49E0096613903697FD4077D646B311AD51F5CAFBC75D3EB2A17453DA386` | Cerema, Licence Ouverte 2.0 ; 36 238 objets nationaux, 3 dans le pilote ; inventaire non exhaustif |
+| `zones_humides/zones_humides_pilot.gml` | WFS DREAL `ms:drealnorm_zh_s_r28`, bbox pilote EPSG:2154 | 623 194 | `1B88C80EBD45098BE435E3CD53E31EB30985566E29B51585D3C699AE730C3CA2` | Licence Ouverte 2.0 ; extrait borné, 165 polygones ; inventaires hétérogènes |
+
+Le service DREAL n'accepte que les formats GML annoncés par ses capacités : une première demande GeoJSON a échoué, puis l'extrait borné GML a été acquis en EPSG:2154. PRAM reste soumis à extraction autorisée et EPFN à clarification de licence/ressource.

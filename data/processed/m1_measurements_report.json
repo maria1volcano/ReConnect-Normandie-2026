@@ -1,0 +1,34 @@
+{
+  "status": "elementary_measurements_only_awaiting_m2_interpretation",
+  "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+  "measurement_crs": "EPSG:2154",
+  "grid_row_count": 43,
+  "ocs_category_row_count": 227,
+  "source_feature_counts_in_pilot": {
+    "reservoirs": 40,
+    "corridors": 16,
+    "roads": 1924,
+    "soils": 3358,
+    "constructed_zones": 83,
+    "hedges": 1181,
+    "sipaf": 0,
+    "cartofriches": 3,
+    "wetlands": 156
+  },
+  "raw_sha256_before_and_after": {
+    "TVB_RES_NORM": "12BBABAB26A594363B8F8DCB111AC43745E5829D4DCAEC33F5B475F5127A6E7C",
+    "TVB_COR_BN": "9F8AB6B025C09163F77EE567E83DF946B68153C463AD26A0D39DDAD84D994AFB",
+    "BDTOPO_ROUTES": "133992B47A34FF4C840FB114B6A21F0EED2D331C55F089B6A45532B8E4A3ADA2",
+    "OCSGE": "F1DA3C0C5978988C536C5ACB5C9173E519D1271BD88EE45CBCEA1F54991D7CAC",
+    "BDHAIE": "B6838E1A8D1F118AA75227A28167071BB863177D9A3634949FE97A94F433FE27",
+    "SIPAF": "53A2E899985854888AEFF0E818CACE78FB4A1F471466B28C93E5B34A7A1345F3",
+    "CARTOFRICHES": "5325E49E0096613903697FD4077D646B311AD51F5CAFBC75D3EB2A17453DA386",
+    "ZH_DREAL_NORM": "1B88C80EBD45098BE435E3CD53E31EB30985566E29B51585D3C699AE730C3CA2"
+  },
+  "output_sha256": {
+    "sub_indicateurs.csv": "C77CA0335D9A5D448CE456216B0EA721530C489FF42CE68551401D30ACF89526",
+    "sub_indicateurs_ocs.csv": "505DCFD3DF7077638225C62ECDA0688BAF6A2B09D5AB2E682C5F6CE67A15D4C7"
+  },
+  "missing_value_rule": "Unavailable source measurements are NULL; zero is used only for no intersecting records in a source covering the pilot.",
+  "overlap_rule": "Lengths and areas use unary union of within-cell intersections; overlapping geometries are counted once per measurement/source."
+}
