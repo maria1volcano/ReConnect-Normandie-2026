@@ -225,10 +225,14 @@ export interface RegionMapProps {
   onHoverDepartment?: (code: DepartmentCode | null) => void
   mapRef?: MutableRefObject<MapLibreMap | undefined>
   hexagonCount?: number
+  realGridCount?: number
   isTestData?: boolean
   testModeEnabled?: boolean
+  showRealGrid?: boolean
   onZoomToTestZone?: () => void
+  onZoomToPilot?: () => void
   onToggleTestMode?: () => void
+  onToggleRealGrid?: () => void
 }
 
 export function RegionMap({
@@ -238,10 +242,14 @@ export function RegionMap({
   onHoverDepartment,
   mapRef: externalMapRef,
   hexagonCount = 0,
+  realGridCount = 0,
   isTestData = false,
   testModeEnabled = false,
+  showRealGrid = true,
   onZoomToTestZone,
+  onZoomToPilot,
   onToggleTestMode,
+  onToggleRealGrid,
 }: RegionMapProps = {}) {
   const mapContainerRef = useRef<HTMLDivElement>(null)
   const internalMapRef = useRef<MapLibreMap | undefined>(undefined)
@@ -496,17 +504,33 @@ export function RegionMap({
       ) : null}
 
       <div className="layer-placeholders" aria-label="État des couches territoriales">
-        <span className="status-badge status-badge--warning">
-          {testModeEnabled && isTestData
-            ? 'DONNÉES TEST — NON VALIDÉES'
-            : 'Zone pilote réelle en attente de validation'}
-        </span>
+        {showRealGrid && realGridCount > 0 && (
+          <span className="status-badge status-badge--info">
+            {realGridCount} maille{realGridCount > 1 ? 's' : ''} réelle{realGridCount > 1 ? 's' : ''} M1 chargée{realGridCount > 1 ? 's' : ''}
+          </span>
+        )}
+        {testModeEnabled && isTestData && (
+          <span className="status-badge status-badge--warning">
+            DONNÉES TEST — NON VALIDÉES
+          </span>
+        )}
         {testModeEnabled && hexagonCount > 0 && (
           <span className="status-badge status-badge--success">
-            ✓ {hexagonCount} maille{hexagonCount > 1 ? 's' : ''} TEST chargée{hexagonCount > 1 ? 's' : ''}
+            {hexagonCount} maille{hexagonCount > 1 ? 's' : ''} TEST chargée{hexagonCount > 1 ? 's' : ''}
           </span>
         )}
       </div>
+
+      {showRealGrid && realGridCount > 0 && onZoomToPilot && (
+        <button
+          type="button"
+          className="test-zone-button"
+          onClick={onZoomToPilot}
+          aria-label="Zoomer vers la zone pilote M1"
+        >
+          Voir le pilote M1
+        </button>
+      )}
 
       {testModeEnabled && isTestData && hexagonCount > 0 && onZoomToTestZone && (
         <button
@@ -518,6 +542,15 @@ export function RegionMap({
           Voir la zone TEST
         </button>
       )}
+
+      <button
+        type="button"
+        className="test-mode-toggle"
+        onClick={onToggleRealGrid}
+        aria-pressed={showRealGrid}
+      >
+        {showRealGrid ? 'Masquer la grille M1' : 'Afficher la grille M1'}
+      </button>
 
       <button
         type="button"

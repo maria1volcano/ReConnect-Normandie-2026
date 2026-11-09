@@ -409,6 +409,21 @@ summary:focus-visible,
   background: transparent;
 }
 
+.legend-swatch--neutral {
+  background: #127475;
+  border: 1px solid #0E5E5F;
+}
+
+.legend-note {
+  margin: 12px 0 0;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(247, 245, 239, 0.08);
+  color: var(--muted-text);
+  font-size: 0.68rem;
+  line-height: 1.4;
+}
+
 .layer-placeholders {
   position: absolute;
   top: 12px;
@@ -438,6 +453,13 @@ summary:focus-visible,
   background: #E6F0DF;
   color: #315D36;
   border: 1px solid #86A77B;
+}
+
+.status-badge--info {
+  border: 1px solid rgba(160, 221, 210, 0.78);
+  color: #effffb;
+  background: rgba(14, 94, 95, 0.88);
+  box-shadow: 0 4px 14px rgba(4, 35, 35, 0.24);
 }
 
 .test-zone-button {
@@ -605,6 +627,13 @@ summary:focus-visible,
   background: #FFF0DE;
 }
 
+.detail-badge--info {
+  border-style: solid;
+  border-color: #0E5E5F;
+  color: #127475;
+  background: rgba(18, 94, 95, 0.08);
+}
+
 .detail-note {
   margin: 12px 0 0;
   padding: 10px;
@@ -617,6 +646,8 @@ summary:focus-visible,
 }
 
 .detail-content {
+  flex: 1;
+  min-height: 0;
   margin-top: 4vh;
   padding: 0 4px;
   overflow-y: auto;
@@ -663,15 +694,15 @@ summary:focus-visible,
 }
 
 .detail-section {
-  margin: 16px 0;
-  padding-top: 12px;
+  margin: 12px 0;
+  padding-top: 10px;
   border-top: 1px solid var(--line);
 }
 
 .detail-section-title {
-  margin: 0 0 8px;
+  margin: 0 0 6px;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   font-weight: 500;
   letter-spacing: -0.02em;
   color: var(--ink);
@@ -817,21 +848,23 @@ details[open] > .detail-expandable-header::after {
   display: flex;
   flex-direction: column;
   gap: 3px;
-  padding: 8px;
+  padding: 10px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: rgba(232, 220, 199, 0.4);
 }
 
 .indicator-label {
-  font-size: 0.64rem;
+  font-family: inherit;
+  font-size: 0.68rem;
+  font-weight: 700;
   color: var(--moss);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
 .indicator-value {
-  font-size: 0.78rem;
+  font-size: 0.84rem;
   font-weight: 600;
   color: var(--ink);
 }

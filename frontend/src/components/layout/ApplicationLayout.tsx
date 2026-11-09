@@ -4,9 +4,10 @@ import { PriorityLegend } from '../legend/PriorityLegend'
 import { DepartmentPanel } from '../map/DepartmentPanel'
 import { RegionMap } from '../map/RegionMap'
 import { HexGridLayer } from '../map/HexGridLayer'
+import { RealGridLayer } from '../map/RealGridLayer'
 import type { DepartmentCode } from '../map/normandyDepartments'
 import { ZoneDetail } from '../sector/ZoneDetail'
-import { loadHexagonGrid } from '../../integrations/geojsonAdapter'
+import { loadHexagonGrid, loadRealGrid } from '../../integrations/geojsonAdapter'
 import type { FeatureCollection } from 'geojson'
 
 export function ApplicationLayout() {
@@ -14,16 +15,30 @@ export function ApplicationLayout() {
   const [hoveredDepartment, setHoveredDepartment] = useState<DepartmentCode | null>(null)
   const [selectedHexagonId, setSelectedHexagonId] = useState<string | null>(null)
   const [hoveredHexagonId, setHoveredHexagonId] = useState<string | null>(null)
+  const [selectedRealHexagonId, setSelectedRealHexagonId] = useState<string | null>(null)
+  const [hoveredRealHexagonId, setHoveredRealHexagonId] = useState<string | null>(null)
   const [hexagonData, setHexagonData] = useState<FeatureCollection>({ type: 'FeatureCollection', features: [] })
+  const [realGridData, setRealGridData] = useState<FeatureCollection>({ type: 'FeatureCollection', features: [] })
   const [hexagonCount, setHexagonCount] = useState(0)
+  const [realGridCount, setRealGridCount] = useState(0)
   const [isTestData, setIsTestData] = useState(false)
   const [testModeEnabled, setTestModeEnabled] = useState(false)
+  const [showRealGrid, setShowRealGrid] = useState(true)
   const mapRef = useRef<MapLibreMap | undefined>(undefined)
 
   const handleSelectHexagon = (id: string | null) => {
     setSelectedHexagonId(id)
     if (id) {
       setSelectedDepartment(null)
+      setSelectedRealHexagonId(null)
+    }
+  }
+
+  const handleSelectRealHexagon = (id: string | null) => {
+    setSelectedRealHexagonId(id)
+    if (id) {
+      setSelectedDepartment(null)
+      setSelectedHexagonId(null)
     }
   }
 
@@ -38,10 +53,32 @@ export function ApplicationLayout() {
     map.fitBounds(bounds, { padding: 50, duration: 800 })
   }
 
+  const handleZoomToPilot = () => {
+    const map = mapRef.current
+    if (!map || realGridData.features.length === 0) return
+
+    // Pilot bbox from M1: [-0.28, 49.20, -0.22, 49.26]
+    const bounds: LngLatBoundsLike = [
+      [-0.28, 49.20],
+      [-0.22, 49.26],
+    ]
+    map.fitBounds(bounds, { padding: 50, duration: 800 })
+  }
+
   const handleToggleTestMode = () => {
     setTestModeEnabled((prev) => !prev)
     if (selectedHexagonId) {
       setSelectedHexagonId(null)
+    }
+    if (selectedRealHexagonId) {
+      setSelectedRealHexagonId(null)
+    }
+  }
+
+  const handleToggleRealGrid = () => {
+    setShowRealGrid((prev) => !prev)
+    if (selectedRealHexagonId) {
+      setSelectedRealHexagonId(null)
     }
   }
 
@@ -65,6 +102,14 @@ export function ApplicationLayout() {
       setHexagonData(result.featureCollection)
       setHexagonCount(result.featureCollection.features.length)
       setIsTestData(result.isTestData)
+    })()
+  }, [])
+
+  useEffect(() => {
+    void (async () => {
+      const result = await loadRealGrid()
+      setRealGridData(result.featureCollection)
+      setRealGridCount(result.featureCollection.features.length)
     })()
   }, [])
 
@@ -115,9 +160,10 @@ export function ApplicationLayout() {
           </div>
 
           <div className="map-frame">
-            <RegionMap {...departmentState} mapRef={mapRef} hexagonCount={hexagonCount} isTestData={isTestData} testModeEnabled={testModeEnabled} onZoomToTestZone={handleZoomToTestZone} onToggleTestMode={handleToggleTestMode} />
+            <RegionMap {...departmentState} mapRef={mapRef} hexagonCount={hexagonCount} realGridCount={realGridCount} isTestData={isTestData} testModeEnabled={testModeEnabled} showRealGrid={showRealGrid} onZoomToTestZone={handleZoomToTestZone} onZoomToPilot={handleZoomToPilot} onToggleTestMode={handleToggleTestMode} onToggleRealGrid={handleToggleRealGrid} />
             <HexGridLayer map={mapRef.current} hexagonData={hexagonData} testModeEnabled={testModeEnabled} {...hexagonState} />
-            <PriorityLegend />
+            <RealGridLayer map={mapRef.current} realGridData={realGridData} selectedRealHexagonId={selectedRealHexagonId} hoveredRealHexagonId={hoveredRealHexagonId} onSelectRealHexagon={handleSelectRealHexagon} onHoverRealHexagon={setHoveredRealHexagonId} showRealGrid={showRealGrid && !testModeEnabled} />
+            <PriorityLegend showRealGrid={showRealGrid && !testModeEnabled} />
           </div>
 
           <details className="sources-note">
@@ -132,6 +178,10 @@ export function ApplicationLayout() {
         {selectedHexagonId ? (
           <aside className="zone-detail" aria-label="Fiche maille">
             <ZoneDetail selectedHexagonId={selectedHexagonId} testModeEnabled={testModeEnabled} />
+          </aside>
+        ) : selectedRealHexagonId ? (
+          <aside className="zone-detail" aria-label="Fiche maille réelle">
+            <ZoneDetail selectedHexagonId={selectedRealHexagonId} testModeEnabled={false} isRealGrid={true} />
           </aside>
         ) : selectedDepartment ? (
           <aside className="zone-detail" aria-label="Fiche département">

@@ -23,6 +23,59 @@ export interface HexagonData {
   loadingError?: string
 }
 
+export interface RealGridData {
+  featureCollection: FeatureCollection
+  gridVersion: string
+  loadingError?: string
+}
+
+export interface M1Measurements {
+  maille_id: string
+  grid_version: string
+  cell_area_m2: number
+  is_boundary: boolean
+  road_length_m: number
+  road_object_count: number
+  reservoir_area_m2: number
+  reservoir_object_count: number
+  corridor_area_m2: number
+  corridor_object_count: number
+  ocs_covered_area_m2: number
+  ocs_coverage_fraction: number
+  constructed_area_m2: number
+  hedge_length_m: number
+  hedge_object_count: number
+  sipaf_record_count: number | null
+  cartofriches_area_m2: number
+  cartofriches_site_count: number
+  wetland_area_m2: number
+  wetland_record_count: number
+  pram_pond_count: null
+  epfn_site_count: null
+  length_unit: string
+  area_unit: string
+  measurement_crs: string
+  p0_coverage_status: string
+  bdhaie_coverage_status: string
+  sipaf_coverage_status: string
+  cartofriches_coverage_status: string
+  wetland_coverage_status: string
+  pram_coverage_status: string
+  epfn_coverage_status: string
+  source_ids: string
+}
+
+export interface OCSMeasurement {
+  maille_id: string
+  grid_version: string
+  ocs_code_cs: string
+  ocs_area_m2: number
+  ocs_fraction_of_cell: number
+  area_unit: string
+  source_id: string
+  source_year: string
+}
+
 export interface PilotData {
   featureCollection: FeatureCollection<Geometry, PilotBoundaryProperties>
   statut: 'valide' | 'en_attente'
@@ -58,7 +111,86 @@ function dataUrl(fileName: string): string {
 }
 
 /**
- * Load hexagonal grid GeoJSON
+ * Load M1 geographic measurements for a specific hexagon
+ */
+export async function loadM1Measurements(maille_id: string): Promise<M1Measurements | null> {
+  try {
+    const response = await fetch(dataUrl('sub_indicateurs.json'))
+    if (!response.ok) {
+      console.error('[geojsonAdapter] Erreur chargement mesures M1:', response.status)
+      return null
+    }
+
+    const data: Record<string, M1Measurements> = await response.json()
+    return data[maille_id] || null
+  } catch (error) {
+    console.error('[geojsonAdapter] Erreur chargement mesures M1:', error)
+    return null
+  }
+}
+
+/**
+ * Load OCS land cover measurements for a specific hexagon
+ */
+export async function loadOCSMeasurements(maille_id: string): Promise<OCSMeasurement[]> {
+  try {
+    const response = await fetch(dataUrl('sub_indicateurs_ocs.json'))
+    if (!response.ok) {
+      console.error('[geojsonAdapter] Erreur chargement OCS:', response.status)
+      return []
+    }
+
+    const data: Record<string, OCSMeasurement[]> = await response.json()
+    return data[maille_id] || []
+  } catch (error) {
+    console.error('[geojsonAdapter] Erreur chargement OCS:', error)
+    return []
+  }
+}
+
+/**
+ * Load real M1 candidate hexagonal grid
+ * Returns the 43 real hexagons from M1 without ecological priorities
+ */
+export async function loadRealGrid(): Promise<RealGridData> {
+  try {
+    const response = await fetch(dataUrl('grille_pilote_wgs84.geojson'))
+    if (!response.ok) {
+      if (response.status === 404) {
+        return {
+          featureCollection: { type: 'FeatureCollection', features: [] },
+          gridVersion: 'none',
+          loadingError: 'Grille réelle M1 non disponible',
+        }
+      }
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+    }
+
+    const geojson: FeatureCollection = await response.json()
+
+    if (!geojson || geojson.type !== 'FeatureCollection' || !Array.isArray(geojson.features)) {
+      throw new Error('Format GeoJSON invalide')
+    }
+
+    const firstFeature = geojson.features[0]
+    const gridVersion = firstFeature?.properties?.grid_version || 'unknown'
+
+    return {
+      featureCollection: geojson,
+      gridVersion,
+    }
+  } catch (error) {
+    console.error('[geojsonAdapter] Erreur chargement grille réelle:', error)
+    return {
+      featureCollection: { type: 'FeatureCollection', features: [] },
+      gridVersion: 'error',
+      loadingError: error instanceof Error ? error.message : 'Erreur inconnue',
+    }
+  }
+}
+
+/**
+ * Load hexagonal grid GeoJSON (TEST data)
  * Gracefully handles missing or malformed data
  */
 export async function loadHexagonGrid(): Promise<HexagonData> {

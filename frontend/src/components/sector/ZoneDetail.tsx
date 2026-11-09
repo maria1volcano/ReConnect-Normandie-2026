@@ -1,16 +1,53 @@
 import { useState, useEffect } from 'react'
 import type { PriorityExamen, StatutAnalyse, ZoneDiagnosticBundle } from '../../types/hexagon'
-import { loadZoneDiagnostic } from '../../integrations/geojsonAdapter'
+import { loadZoneDiagnostic, loadM1Measurements, loadOCSMeasurements, type M1Measurements, type OCSMeasurement } from '../../integrations/geojsonAdapter'
 import { ActionSuggestions } from './ActionSuggestions'
 import { ConflictsPanel } from './ConflictsPanel'
 
 interface ZoneDetailProps {
   selectedHexagonId?: string | null
   testModeEnabled?: boolean
+  isRealGrid?: boolean
 }
 
-export function ZoneDetail({ selectedHexagonId, testModeEnabled = false }: ZoneDetailProps) {
+// Extract short readable label from full maille_id
+function getShortLabel(maille_id: string): string {
+  // Extract row and column for readable label: "R6425-C495"
+  const match = maille_id.match(/R\+(\d+)-C\+(\d+)/)
+  if (match) {
+    return `R${match[1]}-C${match[2]}`
+  }
+  return maille_id
+}
+
+// Format number for French readers
+function formatNumber(value: number | null, decimals: number = 1): string {
+  if (value === null || value === undefined) return 'Donnée indisponible'
+  return value.toLocaleString('fr-FR', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })
+}
+
+// Format area in km² if large enough
+function formatArea(value: number | null): string {
+  if (value === null || value === undefined) return 'Donnée indisponible'
+  if (value >= 1000000) {
+    return `${formatNumber(value / 1000000, 2)} km²`
+  }
+  return `${formatNumber(value, 0)} m²`
+}
+
+// Format length in km if large enough
+function formatLength(value: number | null): string {
+  if (value === null || value === undefined) return 'Donnée indisponible'
+  if (value >= 1000) {
+    return `${formatNumber(value / 1000, 2)} km`
+  }
+  return `${formatNumber(value, 0)} m`
+}
+
+export function ZoneDetail({ selectedHexagonId, testModeEnabled = false, isRealGrid = false }: ZoneDetailProps) {
   const [bundle, setBundle] = useState<ZoneDiagnosticBundle | null>(null)
+  const [m1Measurements, setM1Measurements] = useState<M1Measurements | null>(null)
+  const [ocsMeasurements, setOCSMeasurements] = useState<OCSMeasurement[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
   const diagnostic = bundle?.diagnostic ?? null
@@ -20,6 +57,8 @@ export function ZoneDetail({ selectedHexagonId, testModeEnabled = false }: ZoneD
 
     if (!selectedHexagonId) {
       setBundle(null)
+      setM1Measurements(null)
+      setOCSMeasurements([])
       setError(false)
       return () => {
         cancelled = true
@@ -27,15 +66,31 @@ export function ZoneDetail({ selectedHexagonId, testModeEnabled = false }: ZoneD
     }
 
     setBundle(null)
+    setM1Measurements(null)
+    setOCSMeasurements([])
     setLoading(true)
     setError(false)
 
     void (async () => {
       try {
-        const result = await loadZoneDiagnostic(selectedHexagonId, testModeEnabled)
-        if (!cancelled) {
-          setBundle(result)
-          setLoading(false)
+        if (isRealGrid) {
+          // Load M1 measurements for real grid
+          const [measurements, ocs] = await Promise.all([
+            loadM1Measurements(selectedHexagonId),
+            loadOCSMeasurements(selectedHexagonId),
+          ])
+          if (!cancelled) {
+            setM1Measurements(measurements)
+            setOCSMeasurements(ocs)
+            setLoading(false)
+          }
+        } else {
+          // Load TEST diagnostic data
+          const result = await loadZoneDiagnostic(selectedHexagonId, testModeEnabled)
+          if (!cancelled) {
+            setBundle(result)
+            setLoading(false)
+          }
         }
       } catch (err) {
         console.error('[ZoneDetail] Erreur chargement diagnostic:', err)
@@ -49,7 +104,7 @@ export function ZoneDetail({ selectedHexagonId, testModeEnabled = false }: ZoneD
     return () => {
       cancelled = true
     }
-  }, [selectedHexagonId, testModeEnabled])
+  }, [selectedHexagonId, testModeEnabled, isRealGrid])
 
   const getPriorityLabel = (priority?: PriorityExamen): string => {
     switch (priority) {
@@ -122,6 +177,190 @@ export function ZoneDetail({ selectedHexagonId, testModeEnabled = false }: ZoneD
             Choisissez une maille sur la carte pour consulter sa priorité d'examen, ses diagnostics,
             la qualité des données et les pistes associées.
           </p>
+        </div>
+      ) : isRealGrid ? (
+        <div className="detail-content">
+          <div className="detail-header">
+            <span className="detail-icon" aria-hidden="true">
+              <span />
+            </span>
+            <p className="context-label">Fiche maille réelle M1</p>
+            <h2 id="zone-detail-title">{getShortLabel(selectedHexagonId)}</h2>
+            <div className="detail-badge detail-badge--info" aria-label="État des données">
+              <span>Zone pilote provisoire</span>
+            </div>
+            <div className="detail-status">
+              <span className="detail-status-label">Maille :</span>
+              <span className="detail-status-value">{selectedHexagonId}</span>
+            </div>
+            {m1Measurements && (
+              <>
+                <div className="detail-status">
+                  <span className="detail-status-label">Version grille :</span>
+                  <span className="detail-status-value">{m1Measurements.grid_version}</span>
+                </div>
+                <div className="detail-status">
+                  <span className="detail-status-label">Statut :</span>
+                  <span className="detail-status-value">Analyse scientifique en attente</span>
+                </div>
+              </>
+            )}
+          </div>
+
+          {loading && (
+            <div className="detail-state" role="status">
+              <p>Chargement des mesures géographiques M1…</p>
+            </div>
+          )}
+
+          {!loading && (error || !m1Measurements) && (
+            <div className="detail-state" role="status">
+              <p>Mesures géographiques indisponibles pour cette maille.</p>
+            </div>
+          )}
+
+          {m1Measurements && (
+            <div className="detail-section">
+              <h3 className="detail-section-title">Mesures géographiques M1</h3>
+              <div className="indicators-grid">
+                <div className="indicator-item">
+                  <span className="indicator-label">Surface réelle</span>
+                  <span className="indicator-value">{formatArea(m1Measurements.cell_area_m2)}</span>
+                </div>
+                <div className="indicator-item">
+                  <span className="indicator-label">Routes</span>
+                  <span className="indicator-value">{formatLength(m1Measurements.road_length_m)}</span>
+                  <span className="indicator-unit">({m1Measurements.road_object_count} tronçons)</span>
+                </div>
+                <div className="indicator-item">
+                  <span className="indicator-label">Réservoirs écologiques</span>
+                  <span className="indicator-value">{formatArea(m1Measurements.reservoir_area_m2)}</span>
+                  <span className="indicator-unit">({m1Measurements.reservoir_object_count} objets)</span>
+                </div>
+                <div className="indicator-item">
+                  <span className="indicator-label">Corridors</span>
+                  <span className="indicator-value">{formatArea(m1Measurements.corridor_area_m2)}</span>
+                  <span className="indicator-unit">({m1Measurements.corridor_object_count} objets)</span>
+                </div>
+                <div className="indicator-item">
+                  <span className="indicator-label">Zones construites</span>
+                  <span className="indicator-value">{formatArea(m1Measurements.constructed_area_m2)}</span>
+                </div>
+                <div className="indicator-item">
+                  <span className="indicator-label">Haies</span>
+                  <span className="indicator-value">{formatLength(m1Measurements.hedge_length_m)}</span>
+                  <span className="indicator-unit">({m1Measurements.hedge_object_count} linéaires)</span>
+                </div>
+                <div className="indicator-item">
+                  <span className="indicator-label">Friches</span>
+                  <span className="indicator-value">{formatArea(m1Measurements.cartofriches_area_m2)}</span>
+                  <span className="indicator-unit">({m1Measurements.cartofriches_site_count} sites)</span>
+                </div>
+                <div className="indicator-item">
+                  <span className="indicator-label">Zones humides</span>
+                  <span className="indicator-value">{formatArea(m1Measurements.wetland_area_m2)}</span>
+                  <span className="indicator-unit">({m1Measurements.wetland_record_count} objets)</span>
+                </div>
+                <div className="indicator-item">
+                  <span className="indicator-label">Passages à faune (SIPAF)</span>
+                  <span className="indicator-value">
+                    {m1Measurements.sipaf_record_count === null ? 'Donnée indisponible' : m1Measurements.sipaf_record_count}
+                  </span>
+                  <span className="indicator-unit">(inventaire non exhaustif)</span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {ocsMeasurements.length > 0 && (
+            <div className="detail-section">
+              <h3 className="detail-section-title">Occupation du sol (OCS GE 2023)</h3>
+              <div className="ocs-list">
+                {ocsMeasurements.map((ocs, index) => (
+                  <div key={index} className="ocs-item">
+                    <div className="ocs-code">{ocs.ocs_code_cs}</div>
+                    <div className="ocs-area">{formatArea(ocs.ocs_area_m2)}</div>
+                    <div className="ocs-fraction">{(ocs.ocs_fraction_of_cell * 100).toFixed(1)}%</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {m1Measurements && (
+            <div className="detail-section">
+              <h3 className="detail-section-title">Sources et qualité</h3>
+              <div className="quality-display">
+                <div className="quality-item">
+                  <span className="quality-label">Couverture sol :</span>
+                  <span className="quality-value">{m1Measurements.p0_coverage_status}</span>
+                </div>
+                <div className="quality-item">
+                  <span className="quality-label">Haies (BD Haie) :</span>
+                  <span className="quality-value">{m1Measurements.bdhaie_coverage_status}</span>
+                </div>
+                <div className="quality-item">
+                  <span className="quality-label">Friches (Cartofriches) :</span>
+                  <span className="quality-value">{m1Measurements.cartofriches_coverage_status}</span>
+                </div>
+                <div className="quality-item">
+                  <span className="quality-label">Zones humides (DREAL) :</span>
+                  <span className="quality-value">{m1Measurements.wetland_coverage_status}</span>
+                </div>
+                <div className="quality-item">
+                  <span className="quality-label">Unités de mesure :</span>
+                  <span className="quality-value">
+                    Longueur: {m1Measurements.length_unit}, Aire: {m1Measurements.area_unit}
+                  </span>
+                </div>
+                <div className="quality-item">
+                  <span className="quality-label">CRS des calculs :</span>
+                  <span className="quality-value">{m1Measurements.measurement_crs}</span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className="detail-section">
+            <h3 className="detail-section-title">Analyse scientifique</h3>
+            <div className="detail-badge detail-badge--warning" aria-label="État des données">
+              <span>En attente de validation M2</span>
+            </div>
+            <p>
+              <strong>Les priorités d'examen, les conflits confirmés et les recommandations de
+              restauration ne sont pas encore disponibles.</strong> Ces éléments seront produits par M2
+              après validation scientifique de la grille et des nomenclatures.
+            </p>
+            <p className="detail-note">
+              <strong>NOTE :</strong> La grille M1 est provisoire. M2 doit valider la pertinence de la
+              résolution (1 km²), de l'échelle des sources TVB (2014) et des règles de détection avant
+              toute interprétation écologique.
+            </p>
+          </div>
+
+          <details className="detail-expandable">
+            <summary className="detail-expandable-header">
+              <h3 className="detail-section-title">Identifiant technique complet</h3>
+            </summary>
+            <div className="detail-expandable-content">
+              <div className="technical-info">
+                <span className="technical-label">maille_id :</span>
+                <span className="technical-value">{selectedHexagonId}</span>
+              </div>
+              {m1Measurements && (
+                <>
+                  <div className="technical-info">
+                    <span className="technical-label">Sources utilisées :</span>
+                    <span className="technical-value">{m1Measurements.source_ids}</span>
+                  </div>
+                  <div className="technical-info">
+                    <span className="technical-label">Cellule de bordure :</span>
+                    <span className="technical-value">{m1Measurements.is_boundary ? 'Oui' : 'Non'}</span>
+                  </div>
+                </>
+              )}
+            </div>
+          </details>
         </div>
       ) : loading ? (
         <div className="detail-state">
