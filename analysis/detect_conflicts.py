@@ -89,6 +89,57 @@ class PotentialConflictRule:
     context_equals: dict[str, Any]
 
 
+CONTEXT_RULE_APPROVALS_ATTR = "m2_context_rules_approved_by_caller"
+
+
+def validate_context_rule(rule: PotentialConflictRule) -> None:
+    """Contrôle une définition déclarée approuvée, sans authentifier son auteur."""
+    if not isinstance(rule, PotentialConflictRule) or any(
+        not isinstance(getattr(rule, key), str) or not getattr(rule, key).strip()
+        for key in ("rule_id", "version", "reference", "criteria", "validated_by", "validated_at")
+    ):
+        raise ValueError("Règle : identité, version, référence, critères et validation requis.")
+    datetime.fromisoformat(rule.validated_at.replace("Z", "+00:00"))
+    if (not isinstance(rule.context_equals, dict) or not rule.context_equals
+            or any(not isinstance(k, str) or not k.strip() or v is None for k, v in rule.context_equals.items())):
+        raise ValueError("Règle : critères contextuels explicites non nuls requis.")
+
+
+def context_rule_matches(observed: dict, rule: PotentialConflictRule) -> bool:
+    """Même prédicat exact pour la qualification et sa revalidation QA."""
+    for path, expected in rule.context_equals.items():
+        value = observed
+        for key in path.split("."):
+            if not isinstance(value, dict) or key not in value:
+                return False
+            value = value[key]
+        if value is None or canonical_json(value) != canonical_json(expected):
+            return False
+    return True
+
+
+def event_evidence_binding(event) -> str:
+    """Empreinte de l'état examiné, pas une signature d'expertise.
+
+    Statut et listes de mailles sont exclus : une qualification ou agrégation
+    ultérieure ne change pas les observations ayant fondé la preuve.
+    """
+    def decoded(key):
+        value = event[key]
+        return json.loads(value) if isinstance(value, str) else value
+    payload = {"geometry": geometry_key(event["geometry"]),
+               "source_ids": decoded("source_ids"), "observations": decoded("observations"),
+               **{key: event[key] for key in (
+                   "method_version", "detection_status", "territory_relation", "precision_affichage",
+                   "precision_m", "precision_reference", "precision_sensitive", "precision_sensitivity_scope", "numeric_residue")}}
+    # Le transport GPKG écrit precision_m en Float64 : 1 et 1.0 sont la même
+    # mesure, sans arrondi ni changement de précision géographique.
+    precision = json_value(payload["precision_m"])
+    if isinstance(precision, (int, float)) and not isinstance(precision, bool):
+        payload["precision_m"] = float(precision)
+    return hashlib.sha256(canonical_json(payload).encode("utf-8")).hexdigest()
+
+
 def apply_potential_conflict_rules(
     events: gpd.GeoDataFrame, rules: Iterable[PotentialConflictRule] = (),
 ) -> gpd.GeoDataFrame:
@@ -98,15 +149,11 @@ def apply_potential_conflict_rules(
     déclarations tracées, sans authentification de leurs auteurs par le logiciel.
     """
     result = events.copy()
+    rules = list(rules)
+    for rule in rules:
+        validate_context_rule(rule)
     identities = set()
     for rule in sorted(rules, key=lambda r: (r.rule_id, r.version)):
-        if any(not isinstance(getattr(rule, key), str) or not getattr(rule, key).strip()
-               for key in ("rule_id", "version", "reference", "criteria", "validated_by", "validated_at")):
-            raise ValueError("Règle : identité, version, référence, critères et validation requis.")
-        datetime.fromisoformat(rule.validated_at.replace("Z", "+00:00"))
-        if (not isinstance(rule.context_equals, dict) or not rule.context_equals
-                or any(not isinstance(k, str) or not k.strip() or v is None for k, v in rule.context_equals.items())):
-            raise ValueError("Règle : critères contextuels explicites non nuls requis.")
         identity = (rule.rule_id, rule.version)
         if identity in identities:
             raise ValueError("Règle dupliquée : identifiant/version doivent être uniques.")
@@ -115,21 +162,19 @@ def apply_potential_conflict_rules(
             if event.statut != "croisement_detecte" or event.precision_affichage != "localisation_validee":
                 continue
             observed = json.loads(event.observations)
-            def matches(path, expected):
-                value = observed
-                for key in path.split("."):
-                    if not isinstance(value, dict) or key not in value:
-                        return False
-                    value = value[key]
-                return value is not None and canonical_json(value) == canonical_json(expected)
-            if not all(matches(path, value) for path, value in rule.context_equals.items()):
+            if not context_rule_matches(observed, rule):
                 continue
             result.iloc[position, result.columns.get_loc("statut")] = "conflit_potentiel"
             result.iloc[position, result.columns.get_loc("evidence_level")] = "regle_contextuelle_documentee"
             history = json.loads(event.preuves)
             history.append({"kind": "context_rule", **asdict(rule), "conflit_id": event.conflit_id,
+                            "event_binding_sha256": event_evidence_binding(event._asdict()),
                             "authors_authenticated_by_software": False})
             result.iloc[position, result.columns.get_loc("preuves")] = canonical_json(history)
+    # Registre distinct des preuves : les règles fournies sont une approbation
+    # explicite de l'appelant. Cet attribut local n'est pas persisté dans les GPKG.
+    result.attrs[CONTEXT_RULE_APPROVALS_ATTR] = tuple(
+        PotentialConflictRule(**asdict(rule)) for rule in sorted(rules, key=lambda r: (r.rule_id, r.version)))
     return result
 
 
@@ -497,6 +542,7 @@ def qualify_events(events: gpd.GeoDataFrame, evidence: Iterable[EventEvidence]) 
             "preuve_externe_documentee" if item.target_status == "obstacle_confirme" else "criteres_examen_documentes")
         history = json.loads(event.preuves)
         record = {**item.__dict__, "previous_status": event.statut,
+                  "event_binding_sha256": event_evidence_binding(event),
                   "authors_authenticated_by_software": False}
         if not any(all(previous.get(key) == value for key, value in item.__dict__.items()) for previous in history):
             history.append(record)

@@ -13,7 +13,9 @@ Les tests utilisent exclusivement des géométries **synthétiques**. Leurs vale
 constituent aucun diagnostic sur la Normandie. Aucune donnée n'est téléchargée par
 le pipeline, aucune source n'est réparée ou écrasée, aucun export public n'est créé.
 Les métriques avancées de fragmentation, la modélisation globale des pressions,
-la priorisation, les pondérations et les règles R1–R4 restent hors périmètre.
+les pondérations et les règles R1–R4 restent hors périmètre. Depuis le 3 novembre
+2026, les conventions de triage D/S proposal-2 sont implémentées et testées sur
+entrées synthétiques ; elles ne constituent pas une priorisation écologique validée.
 
 ## Installation et exécution
 
@@ -1044,3 +1046,196 @@ masque. Ces avertissements ne constituent pas une validation des versions future
 Les tests ne valident ni les données réelles ni les conditions scientifiques d'une
 priorisation. Les indicateurs de pression, priorité d'examen et règles R1–R4
 restent hors de ce jalon. Aucun fichier public ni donnée territoriale n'a été créé.
+
+## Tables D/S et validation amont — 3 novembre 2026
+
+Cette étape implémente [la table de décision proposal-2](table_decision_m2.md) et
+[le contrat QA amont](contrat_qualite_amont_m2.md), séparément du contrat GeoJSON
+`m2-m4.proposal-1` qui reste inchangé. La priorité D/S est une convention de triage
+à approuver, pas une mesure de biodiversité, de gain écologique ou d'urgence.
+
+### Interfaces et entrées
+
+`analysis/prepare_priority_inputs.py` fournit :
+
+| Interface | Entrées / contrôle | Résultat |
+| --- | --- | --- |
+| `validate_diagnostic_inputs(cell, pilot)` | Maille, diagnostics normalisés, périmètre pilote versionné, méthodes autorisées et registres des preuves/sources | Copie `PreparedPriorityInputs` contrôlée, ou `PriorityInputError` bloquante |
+| `derive_positive_evidence(event, crs=..., review=...)` | Événement M2, géométrie métrique, liens sources, précision, qualification et examen documenté visant exactement `conflit_id` | Capacité positive, références et limites ; ne promeut aucun statut |
+| `derive_absence_evidence(detection, study_geometry, ...)` | Détection effectuée, territoire lié par empreinte, emprise H∩T, couvertures, catégories/sous-trames requises et revue temporelle/thématique | Capacité négative et, séparément, absence effectivement établie |
+| `detect_assertion_conflicts(assertions, decision_reference=...)` | Assertions présence/absence identifiables et documentées | Contradiction documentée, contrôle sans contradiction retenue, ou contrôle non évalué |
+| `derive_applicability(decision=None)` | Décision externe versionnée et référencée, facultative | `inconnue` par défaut ; aucune non-applicabilité inférée d'une couche absente |
+| `classify_ecological_stakes(decision=None)` | Classe déclarée et méthode documentée, facultatives | `inconnu` par défaut ; aucun seuil automatique |
+
+`analysis/evaluate_priorities.py` fournit la fonction pure
+`evaluate_priorities(cell, pilot)` et le regroupement
+`normalize_diagnostics_by_family(prepared)`. Ce dernier conserve plusieurs
+diagnostics distincts par famille et les familles absentes sans créer de faux
+diagnostics. Aucun module n'ouvre de fichier ni ne dépend d'un frontend.
+
+Le pilote doit déclarer explicitement `territory_id`, `grid_version`,
+`dataset_version`, `priority_method_version`, `familles_attendues`, les listes de
+`methodes_familles` autorisées, leurs `references_methodes` (`version`, `reference`),
+la `decision` de périmètre (`methode_id`, `version`, `reference`, `validated_by`,
+`validated_at` ISO), les registres `sources` / `preuves`,
+`limites_applicabilite` et `motifs_versions_inconnues`. Une version inconnue reste
+null avec motif de traçabilité. Les registres documentent les références ; leur
+présence n'authentifie ni les auteurs ni le contenu des documents.
+
+La maille reprend les références du pilote, sa surface étudiée et ses diagnostics.
+Chaque diagnostic reprend les champs de la table, y compris les null explicites
+(`periode_reference`, références non applicables, etc.). Le registre des sources
+contient `namespace`, `id`, `reference`, `periode_reference` ; les diagnostics le
+référencent par couples `namespace`/`id`. Le registre des preuves associe chaque
+`preuve_id` à une référence non vide. Les périodes, lorsqu'elles existent, sont
+des objets `{"debut":"AAAA-MM-JJ", "fin":"AAAA-MM-JJ"}` ordonnés. Une période
+diagnostique ne peut pas dépasser la portée documentaire connue d'une source.
+
+Les métadonnées absentes des anciennes fixtures sont complétées **uniquement** par
+`tests/m2_priority_helpers.py`, avec des références explicitement SYNTHÉTIQUES.
+Le code de production ne les importe jamais et ne possède aucune imputation de
+source, méthode, référence ou classe d'enjeu à partir d'un scénario.
+
+### Invariants bloquants
+
+Les codes requis sont implémentés : `E_ID_DUPLIQUE`, `E_FAMILLE_HORS_PERIMETRE`,
+`E_TYPE_INVALIDE`, `E_SURFACE_INVALIDE`, `E_PERIMETRE_INVALIDE`,
+`E_REFERENCE_NON_APPLICABILITE`, `E_ABSENCE_INCOHERENTE`,
+`E_CONTRADICTION_SANS_REFERENCE`, `E_PROUVE_POSITIVE_SANS_SOURCE` (orthographe du
+contrat conservée), `E_NON_APPLICABILITE_INCOHERENTE`.
+
+S'ajoutent `E_METHODE_NON_AUTORISEE`, `E_REFERENCE_SOURCE_INVALIDE`,
+`E_REFERENCE_PREUVE_INVALIDE`, `E_REFERENCE_INVALIDE`, `E_PERIODE_INVALIDE`,
+`E_PERIODE_INCOMPATIBLE`, `E_PREUVE_INVALIDE`. Une combinaison admissible non
+couverte lève `E_TABLE_NON_TOTALE`, jamais une priorité indéterminée de repli.
+
+Les booléens de capacité sont stricts. Les identifiants booléens, valeurs inconnues,
+NaN/Infinity, surfaces négatives, références dupliquées ou sans registre sont
+refusés. Les champs facultatifs connus sont fournis explicitement, éventuellement
+null ; ils ne sont pas déduits des données disponibles. Les diagnostics fournis
+sur une maille hors territoire restent soumis aux contrôles structurels avant S0.
+Le périmètre pilote ne peut pas être réduit automatiquement pour masquer une
+famille manquante. Les familles exploratoires restent en dehors de l'entrée D/S ;
+les passer parmi les diagnostics décisionnels déclenche `E_FAMILLE_HORS_PERIMETRE`.
+
+### Portée des preuves et limites de l'automatisation
+
+Un examen positif doit attester les liens sources, l'adéquation d'échelle et la
+localisation pour l'événement précis, avec méthode/version/référence/auteur/date
+et période. Sans cet examen, `validite_positive=false`. Une précision déclarée
+valide doit avoir distance finie et référence. Les qualifications existantes sont
+réutilisées : un conflit potentiel doit avoir une preuve externe ou une trace de
+règle contextuelle versionnée ; un obstacle doit avoir une preuve externe.
+Après l'audit correctif, une trace contextuelle doit aussi correspondre à un
+registre approuvé distinct et satisfaire encore le prédicat sur le contexte
+actuel. Les preuves portent une empreinte d'état de l'événement ; une ancienne
+trace sans empreinte ou avec des observations modifiées nécessite un nouvel examen.
+Les incertitudes initiales nécessitent une résolution référencée. Ni un ouvrage
+appelé « pont » ni un simple croisement ne produit une confirmation automatique.
+La sensibilité `source_pair` est conservée comme limite sans inférer de précision
+locale. Les attestations humaines ne sont pas authentifiées par le logiciel.
+
+Le contrôle négatif réutilise `_coverage_geometry` et `_fully_covered`, y compris
+les preuves de complétude thématique `validated` et l'empreinte du territoire. Il
+vérifie séparément l'emprise exacte, les sources requises, les codes de catégories
+et sous-trames demandés contre ceux couverts par la revue, et les périodes des
+deux sources. Les listes de codes doivent être explicitement déclarées ; une
+liste vide signifie qu'aucun filtre de ce type n'est requis par la méthode,
+jamais que les catégories ou sous-trames sont inconnues. Tous les événements
+intersectant H∩T sont retenus par prudence ; aucun filtrage écologique implicite.
+
+`validite_absence=true` exprime une capacité et peut coexister avec un événement
+positif. `absence_etablie=true` exige en plus zéro événement pertinent observé.
+Si des événements existent, l'adaptateur négatif ne choisit pas arbitrairement un
+signal représentatif : `signal_pression=null` impose l'adaptateur positif. Si la
+preuve d'absence manque, il renvoie `non_evalue` / `absence_non_demontree`.
+La couverture inconnue ne devient donc jamais une absence validée.
+
+Le contrôle de contradictions compare propriété, objet, emprise et périodes
+documentaires. Il n'infère aucune contradiction de la seule coexistence des couches.
+À ce stade, les périodes doivent être **identiques** pour conclure à une
+incompatibilité ; des périodes disjointes sont distinctes et des périodes
+recouvrantes différentes restent de comparabilité non établie. Les emprises sont
+des identifiants harmonisés en amont, pas une équivalence géométrique devinée.
+Un contrôle impossible ou incomplet retourne `contradiction_bloquante=null` avec
+`etat_controle=non_evalue` : ne pas le convertir silencieusement en `false` pour
+alimenter D/S. Une contradiction retenue exige une référence de décision et garde
+les références des assertions incompatibles. `integrate_assertion_control()` lie
+explicitement le contrôle à la pression, à l'applicabilité ou à une autre
+affirmation, avec référence de portée. Le moteur accepte alors le null structuré
+et conserve l'inconnue ; sans ce contrôle, les entrées historiques exigent des
+booléens stricts. Une preuve indépendante documentée peut conserver son signal,
+avec couverture partielle quand le contrôle inconnu affecte la décision. Il ne
+certifie aucune absence universelle de contradiction à partir de false.
+
+### Décision et restitution
+
+Les règles D sont appliquées dans l'ordre D0, D1, D2, D3, D4, D5, D6, D7, D8, D9,
+D10a. Plusieurs prédicats peuvent être vrais, seule la première décision gagne.
+La synthèse applique S0 avant toute restitution territoriale, puis S1, S2, S3, S4.
+Un signal élevé conserve la priorité élevée même avec une autre famille non
+évaluable. Plusieurs signaux modérés ne deviennent pas élevés. Une famille absente
+ou un diagnostic applicable insuffisamment évalué interdit S3. D10a peut produire
+`indeterminee + complete`, distinct de l'indétermination par données manquantes.
+`complete` reste la complétude décisionnelle, jamais une certification de couverture SIG.
+
+Les sorties comprennent les dix champs minimaux demandés, les détails par
+diagnostic, références méthodologiques, entrées conservées, sources/phénomènes et
+liens documentés. Les motifs principaux restent associés à **chaque** diagnostic,
+même si une autre famille détermine la couleur. Les limites QA sont conservées.
+Les recoupements source/phénomène sont signalés sans fusion ni bonus ; sans lien
+explicite, le résultat est `relation_non_etablie`, jamais « indépendants ».
+
+Deux clarifications de spécification sont explicites :
+
+1. Les fixtures excluent de `motifs_limites` les motifs de décision concluante
+   D5–D9 et la non-applicabilité D0, malgré la formulation large « union des motifs
+   principaux » de la table. Le moteur suit leurs attentes : tous les motifs
+   principaux sont dans `motifs_principaux_diagnostics` ; les limites contiennent
+   les motifs d'indétermination, motifs QA et limites synthétiques.
+2. Les index Python `regles_diagnostics` et `motifs_principaux_diagnostics`
+   préservent les clés entières et chaînes. Une sérialisation JSON directe pourrait
+   confondre `1` et `"1"`. Les enregistrements de `diagnostics[]` gardent les IDs
+   typés sans perte ; M3/M4 doivent privilégier ces enregistrements dans la future
+   représentation publique. `prepare_priority_result_json()` convertit désormais
+   explicitement les index en tableaux typés dans une copie interne, sans modifier
+   les interfaces Python. Aucun export public proposal-2 n'est activé.
+
+Les listes sont triées et dédoublonnées après contrôle des identités et références.
+Le tri des identifiants utilise le JSON canonique existant. L'ordre des diagnostics
+ou des sources n'affecte pas les sorties. Les fonctions ne modifient pas les entrées.
+
+### Vérifications et conditions avant M1
+
+Le [compte rendu détaillé](verification_m2_priorites.md) consigne les 38 scénarios,
+les 576 combinaisons, la monotonie conditionnelle et le bilan pytest local.
+Les oracles existants restent inchangés. Aucun seuil, coefficient, classement
+d'efficacité, règle d'action ou GeoJSON de production n'est créé.
+
+M1 doit encore fournir les couches officielles préparées, dictionnaires et codes
+de catégories/sous-trames/ouvrages, emprises, précision et aptitude de localisation,
+périodes, complétudes spatiales/thématiques, versions et droits. M2 doit approuver
+les méthodes d'enjeu, d'applicabilité, de qualification contextuelle et la traduction
+de chaque famille vers D avant de l'inclure au pilote. L'implémentation ne déclare
+aucune de ces méthodes scientifiquement validée par la réussite des tests.
+Trois secteurs réels contrastés restent à examiner manuellement après livraison.
+La migration de contrat reste à confirmer avec M3/M4 dans
+[les notes proposal-2](notes_contrat_m3_m4_proposal2.md). `fiches_zones.json` reste
+propriété scientifique M2, `catalogue_actions.json` reste maintenu par M5, et le
+moteur R1–R4 reste à M4.
+
+### Audit correctif d'intégration
+
+Le [compte rendu correctif](audit_correctif_priorite_m2.md) complète le bilan
+précédent : **1 007 tests réussis, 0 échec, 0 erreur, 0 ignoré, 38 avertissements
+pyproj**, dont les 948 antérieurs inchangés et 59 nouveaux tests. Les 38 scénarios
+et les 576 oracles D sont conservés. D0 reste avant D1 ; une justification de
+non-applicabilité explicitement contestée est bloquée en amont, et une portée de
+contradiction manquante empêche de certifier une couverture suffisante pour S3.
+
+Le résultat distingue désormais l'état SIG fourni par l'appelant
+(`statut_analyse`, null s'il n'est pas connu), l'état de calcul D/S
+(`etat_calcul_priorite`) et la couverture décisionnelle (`couverture_synthese`).
+Une maille positive sans diagnostic retourne S4/indéterminée/partielle sans inventer
+une analyse SIG effectuée. Les adaptations proposées pour M3/M4 sont décrites dans
+les notes proposal-2 ; les contrats GeoJSON proposal-1 restent inchangés.

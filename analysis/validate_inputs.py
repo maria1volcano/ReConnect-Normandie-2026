@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
+import math
 from pathlib import Path
 from typing import Any, Literal
 
@@ -10,6 +11,7 @@ import geopandas as gpd
 import numpy as np
 from pyproj import CRS
 from shapely import get_coordinates, union_all
+from shapely.errors import GEOSException
 from shapely.validation import explain_validity
 
 METRIC_CRS = "EPSG:2154"
@@ -210,28 +212,142 @@ def read_layer(
     return frame
 
 
+def _finite_coverage_number(value: float, name: str, *, signed: bool = False) -> float:
+    """Refuse aussi les débordements calculés, avant tout min/max ou comparaison."""
+    value = float(value)
+    if not math.isfinite(value) or (not signed and value < 0):
+        raise ValueError(f"{name} doit être fini" + ("." if signed else " et positif ou nul."))
+    return value
+
+
+def _coverage_geometry_metrics(geometry) -> tuple[float, float]:
+    """Contrôle les résultats d'overlay, y compris les contacts sans surface."""
+    if geometry is None or not geometry.is_valid:
+        raise ValueError("Géométrie de couverture nulle ou invalide.")
+    if not np.isfinite(get_coordinates(geometry)).all():
+        raise ValueError("Coordonnées de couverture non finies.")
+    return (_finite_coverage_number(geometry.area, "Aire de couverture"),
+            _finite_coverage_number(geometry.length, "Périmètre de couverture"))
+
+
+def _grid_overlap_diagnostic(projected: gpd.GeoDataFrame, grid_union) -> dict:
+    """Budget numérique contrôlé, sans déplacement ni réparation des mailles.
+
+    Convention d'ingénierie, pas borne certifiée de l'erreur GEOS. L'entrée
+    métrique doit être valide ; les IDs sont facultatifs pour ce contrôle spatial.
+    """
+    if projected.crs is None or CRS.from_user_input(projected.crs) != CRS.from_user_input(METRIC_CRS):
+        raise ValueError("Le diagnostic de recouvrement exige EPSG:2154.")
+    if projected.empty or projected.geometry.isna().any() or projected.geometry.is_empty.any():
+        raise ValueError("Grille absente, vide ou contenant une géométrie nulle/vide.")
+    if not projected.geometry.geom_type.isin(POLYGONS).all():
+        raise ValueError("Le diagnostic de recouvrement exige des polygones.")
+    metrics = [_coverage_geometry_metrics(g) for g in projected.geometry]
+    areas, perimeters = zip(*metrics)
+    if any(area <= 0 for area in areas):
+        raise ValueError("Chaque maille doit avoir une aire strictement positive.")
+    union_area, _ = _coverage_geometry_metrics(grid_union)
+    if grid_union.is_empty or union_area <= 0 or grid_union.geom_type not in POLYGONS:
+        raise ValueError("Union de grille sans surface polygonale positive.")
+    cap = _finite_coverage_number(AREA_TOLERANCE_M2, "Tolérance numérique")
+    if cap <= 0:
+        raise ValueError("La tolérance numérique doit être strictement positive.")
+    coordinates = get_coordinates(projected.geometry.to_numpy())
+    if not np.isfinite(coordinates).all():
+        raise ValueError("Coordonnées de grille non finies.")
+    ux = max(math.ulp(float(v)) for v in coordinates[:, 0])
+    uy = max(math.ulp(float(v)) for v in coordinates[:, 1])
+    delta = _finite_coverage_number(math.hypot(ux, uy), "Résolution machine")
+    if delta <= 0:
+        raise ValueError("La résolution machine doit être strictement positive.")
+    excess = _finite_coverage_number(math.fsum(areas) - union_area, "Excès d'aire", signed=True)
+    global_budget = _finite_coverage_number(
+        delta * math.fsum(perimeters)
+        + math.fsum(math.ulp(a) for a in areas) + math.ulp(union_area), "Budget numérique global",
+    )
+
+    def polygon_metrics(geometry):
+        area, perimeter = _coverage_geometry_metrics(geometry)
+        if geometry.geom_type == "Polygon":
+            return area, perimeter
+        if geometry.geom_type in {"MultiPolygon", "GeometryCollection"}:
+            parts = [polygon_metrics(part) for part in geometry.geoms]
+            return (math.fsum(a for a, _ in parts), math.fsum(p for _, p in parts))
+        return 0.0, 0.0
+
+    positive, rejected = [], []
+    for i, left in enumerate(projected.geometry):
+        for j in sorted(projected.sindex.query(left, predicate="intersects")):
+            if j <= i:
+                continue
+            area, perimeter = polygon_metrics(left.intersection(projected.geometry.iloc[j]))
+            area = _finite_coverage_number(area, "Aire d'intersection")
+            perimeter = _finite_coverage_number(perimeter, "Périmètre d'intersection")
+            if area <= 0:
+                continue
+            budget = _finite_coverage_number(
+                delta * perimeter + math.pi * delta**2, "Budget numérique local",
+            )
+            item = {"left_position": i, "right_position": int(j),
+                    "area_m2": area, "numeric_budget_m2": budget}
+            if "maille_id" in projected.columns:
+                item.update(left=str(projected.iloc[i].maille_id), right=str(projected.iloc[j].maille_id))
+            positive.append(item)
+            if area > min(cap, budget):
+                rejected.append(item)
+    return {"positive_pair_count": len(positive), "rejected_pairs": rejected,
+            "max_pair_area_m2": max((p["area_m2"] for p in positive), default=0.0),
+            "sum_pair_area_m2": _finite_coverage_number(
+                math.fsum(p["area_m2"] for p in positive), "Somme des intersections"),
+            "coordinate_ulp_diagonal_m": delta, "global_numeric_budget_m2": global_budget,
+            "compensated_overlap_m2": excess,
+            "error": bool(rejected or excess > max(cap, global_budget))}
+
+
 def validate_spatial_coverage(
     grid: gpd.GeoDataFrame, territory: gpd.GeoDataFrame,
     report: ValidationReport,
 ) -> None:
     """Contrôle la couverture géométrique de T ; ne déduit aucune couverture source."""
-    grid_union = union_all(grid.to_crs(METRIC_CRS).geometry.to_numpy())
-    study_union = union_all(territory.to_crs(METRIC_CRS).geometry.to_numpy())
-    uncovered = float(study_union.difference(grid_union).area)
-    overlapping = float(grid.to_crs(METRIC_CRS).geometry.area.sum() - grid_union.area)
+    try:
+        # Les appelants directs ne sont pas obligés d'avoir validé les couches.
+        # Ce contrôle spatial n'impose pas d'attribut maille_id.
+        validate_geodataframe(grid, LayerSpec("grid", POLYGONS), report)
+        validate_geodataframe(territory, LayerSpec("territory", POLYGONS), report)
+        if not report.ok:
+            return
+        projected = grid.to_crs(METRIC_CRS)
+        grid_union = union_all(projected.geometry.to_numpy())
+        study_union = union_all(territory.to_crs(METRIC_CRS).geometry.to_numpy())
+        study_area, _ = _coverage_geometry_metrics(study_union)
+        missing, _ = _coverage_geometry_metrics(study_union.difference(grid_union))
+        uncovered = _finite_coverage_number(missing, "Lacune de couverture")
+        overlap_diagnostic = _grid_overlap_diagnostic(projected, grid_union)
+        overlapping = overlap_diagnostic["compensated_overlap_m2"]
+        outside_areas = projected.geometry.intersection(study_union).area.to_numpy()
+        if not np.isfinite(outside_areas).all() or (outside_areas < 0).any():
+            raise ValueError("Aires de rattachement au territoire non finies ou négatives.")
+    except (ValueError, TypeError, RuntimeError, ArithmeticError, GEOSException) as exc:
+        report.add("error", "invalid_coverage_numeric", "spatial",
+                   "Contrôle de couverture impossible ; aucune acceptation numérique.", reason=str(exc))
+        return
     report.add("info", "territory_coverage", "grid", "Couverture géométrique de la grille.",
-               territory_area_m2=float(study_union.area), uncovered_area_m2=uncovered,
+               territory_area_m2=study_area, uncovered_area_m2=uncovered,
                overlap_area_m2=max(0.0, overlapping))
-    if study_union.area <= 0:
+    if study_area <= 0:
         report.add("error", "zero_territory_area", "territory", "Le territoire n'a pas de surface positive.")
     if uncovered > AREA_TOLERANCE_M2:
         report.add("error", "grid_coverage_gap", "grid", "La grille ne couvre pas tout le territoire étudié.",
                    uncovered_area_m2=uncovered)
-    if overlapping > AREA_TOLERANCE_M2:
+    if overlap_diagnostic["error"]:
         report.add("error", "grid_overlap", "grid",
-                   "Chevauchement surfacique de mailles : la grille officielle ne doit pas compter deux fois des surfaces.",
-                   overlap_area_m2=overlapping)
-    outside = grid.to_crs(METRIC_CRS).geometry.intersection(study_union).area <= 0
+                   "Chevauchement surfacique non expliqué par le budget numérique contrôlé.",
+                   overlap_area_m2=overlapping, **overlap_diagnostic)
+    elif overlap_diagnostic["positive_pair_count"] or overlapping > AREA_TOLERANCE_M2:
+        report.add("warning", "grid_overlap_numerical_residue", "grid",
+                   "Micro-intersections conservées : contrôle numérique local et global satisfait, sans réparation.",
+                   overlap_area_m2=overlapping, **overlap_diagnostic)
+    outside = outside_areas <= 0
     if outside.any():
         report.add("warning", "cells_outside_territory", "grid",
                    "Certaines mailles n'ont aucune surface dans T ; leurs indicateurs seront null.",

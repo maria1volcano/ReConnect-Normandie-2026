@@ -5,11 +5,14 @@ from __future__ import annotations
 from copy import deepcopy
 from dataclasses import dataclass
 import json
+import math
 from typing import Any
 
 import geopandas as gpd
 import pandas as pd
-from shapely import union_all
+from shapely import get_coordinates, union_all
+from shapely.errors import GEOSException
+from shapely.geometry.base import BaseGeometry
 
 from analysis.detect_conflicts import (
     STATUSES, ConflictDetection, canonical_json, empty_events, identifier,
@@ -37,6 +40,52 @@ def _interior_relation(event, cell) -> bool:
     if event.geom_type in ("LineString", "MultiLineString"):
         return (overlap.difference(cell.boundary).length if overlap.intersects(cell.boundary) else overlap.length) > 0
     return overlap.area > 0
+
+
+def _territory_membership(geometry, study):
+    """Appartenance XY sans mutation, avec exception numérique tracée.
+
+    Une géométrie valide entièrement couverte garde le comportement historique,
+    même sur la frontière. Sinon seule une LineString dont l'intérieur rencontre
+    l'intérieur du territoire en dimension 1 peut bénéficier de l'exception.
+    Une différence vide est distinguée des résidus linéaires non vides. Une ou
+    plusieurs composantes extérieures sont admises uniquement si leur longueur
+    cumulée ET la distance de Hausdorff à l'intersection respectent la même
+    diagonale d'ULP. Aucun déplacement ni découpage n'est appliqué à l'événement.
+    Ce budget est une convention d'ingénierie, pas une borne certifiée de GEOS.
+    """
+    def usable(value):
+        return (isinstance(value, BaseGeometry) and not value.is_empty and value.is_valid
+                and all(math.isfinite(float(v)) for v in
+                        get_coordinates(value, include_z=value.has_z).flat))
+
+    try:
+        if not usable(geometry) or not usable(study) or study.geom_type not in POLYGONS:
+            return False, None
+        if study.covers(geometry):
+            return True, None
+        if geometry.geom_type != "LineString" or not geometry.relate_pattern(study, "1********"):
+            return False, None
+        outside = geometry.difference(study)
+        if outside.is_empty:
+            return True, {"mode": "difference_vide_malgre_predicat", "outside_length_m": 0.0}
+        if outside.geom_type not in {"LineString", "MultiLineString"} or not usable(outside):
+            return False, None
+        clipped = geometry.intersection(study)
+        if not usable(clipped):
+            return False, None
+        coordinates = get_coordinates(geometry)
+        delta = math.hypot(max(math.ulp(float(v)) for v in coordinates[:, 0]),
+                           max(math.ulp(float(v)) for v in coordinates[:, 1]))
+        length, distance = float(outside.length), float(geometry.hausdorff_distance(clipped))
+        if (not all(math.isfinite(v) for v in (delta, length, distance)) or delta <= 0
+                or not (0 < length <= delta) or not (0 <= distance <= delta)):
+            return False, None
+        return True, {"mode": "residus_lineaires_resolution_machine", "outside_length_m": length,
+                      "hausdorff_to_intersection_m": distance, "coordinate_ulp_diagonal_m": delta,
+                      "outside_component_count": len(outside.geoms) if outside.geom_type == "MultiLineString" else 1}
+    except (GEOSException, ValueError, ArithmeticError):
+        return False, None
 
 
 def aggregate_conflicts(
@@ -72,10 +121,22 @@ def aggregate_conflicts(
         report.add("error", "mixed_grid_id_types", "grid", "Un seul type d'identifiant par colonne pour préserver les liens à l'export.")
         raise InputValidationError(report)
     study = union_all(territory.to_crs(METRIC_CRS).geometry.to_numpy())
-    if not events.geometry.map(study.covers).all():
+    outside_ids, numerical_memberships = [], []
+    for event in events.itertuples(index=False):
+        inside, numerical = _territory_membership(event.geometry, study)
+        if not inside:
+            outside_ids.append(event.conflit_id)
+        elif numerical is not None:
+            numerical_memberships.append({"conflit_id": event.conflit_id, **numerical})
+    if outside_ids:
         report.add("error", "event_outside_territory", "events",
-                   "Événement hors emprise : le rattachement ne doit ni déplacer ni découper une détection.")
+                   "Événement hors emprise : le rattachement ne doit ni déplacer ni découper une détection.",
+                   conflit_ids=outside_ids)
         raise InputValidationError(report)
+    if numerical_memberships:
+        report.add("warning", "event_territory_numerical_residue", "events",
+                   "Appartenance contrôlée par différence/ULP ; géométries originales conservées.",
+                   count=len(numerical_memberships), events=numerical_memberships)
     effective = grid.geometry.intersection(study).apply(_polygonal_part)
     indexed = gpd.GeoDataFrame({"position": range(len(grid))}, geometry=effective, crs=METRIC_CRS)
     link_rows = []

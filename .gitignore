@@ -3,3 +3,22 @@
 __pycache__/
 *.py[cod]
 .venv/
+
+# Données et sorties locales M1/M2
+/data/raw/
+/data/processed/
+/data/derived/
+*.gpkg
+*.gpkg-*
+*.zip
+*.zip.sha256
+
+# Caches et configuration locale
+.DS_Store
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+venv/
+.env
+.env.*
+!.env.example

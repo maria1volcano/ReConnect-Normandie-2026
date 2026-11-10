@@ -1,0 +1,82 @@
+{
+  "status": "proposition_executee_seulement_en_copie_temporaire",
+  "targeted_cases_passed": 16,
+  "comparison_calls": 18,
+  "proposed_source_sha256": "34e18c0f7862af2a47e53e7c8be90ef60bf188b86fd5fcd176d6bda557c92991",
+  "original_source_sha256": "666d9df6666d47318ed61172293ef5e53f2e24ed5dedd7dff133963601983397",
+  "gap_guard_preserved": true,
+  "runs": [
+    {
+      "cells": 43,
+      "grid_overlap_error": false
+    },
+    {
+      "cells": 43,
+      "grid_overlap_error": false
+    },
+    {
+      "cells": 43,
+      "grid_overlap_error": false
+    },
+    {
+      "cells": 43,
+      "grid_overlap_error": false
+    },
+    {
+      "cells": 43,
+      "grid_overlap_error": false
+    },
+    {
+      "cells": 2,
+      "grid_overlap_error": false
+    },
+    {
+      "cells": 2,
+      "grid_overlap_error": false
+    },
+    {
+      "cells": 2,
+      "grid_overlap_error": false
+    },
+    {
+      "cells": 2,
+      "grid_overlap_error": true
+    },
+    {
+      "cells": 2,
+      "grid_overlap_error": true
+    },
+    {
+      "cells": 2,
+      "grid_overlap_error": true
+    },
+    {
+      "cells": 3,
+      "grid_overlap_error": true
+    },
+    {
+      "cells": 2,
+      "grid_overlap_error": true
+    },
+    {
+      "cells": 2,
+      "grid_overlap_error": true
+    },
+    {
+      "cells": 16,
+      "grid_overlap_error": true
+    },
+    {
+      "cells": 43,
+      "grid_overlap_error": true
+    },
+    {
+      "cells": 43,
+      "grid_overlap_error": false
+    },
+    {
+      "cells": 43,
+      "grid_overlap_error": false
+    }
+  ]
+}

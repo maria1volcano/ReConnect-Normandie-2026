@@ -1,0 +1,1527 @@
+{
+  "ruleset_version": "m2-actions.spec-proposal-1",
+  "cases": [
+    {
+      "case_id": "R1-positif_etaye",
+      "description": "positif etaye",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R1",
+        "action_id": "A04"
+      },
+      "expected": {
+        "regle_decision": "A4",
+        "statut": "etayee_pour_examen"
+      }
+    },
+    {
+      "case_id": "R1-indice_positif",
+      "description": "indice positif",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "indicatif",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R1",
+        "action_id": "A04"
+      },
+      "expected": {
+        "regle_decision": "A6",
+        "statut": "conditionnelle"
+      }
+    },
+    {
+      "case_id": "R1-absence_verifiee",
+      "description": "absence verifiee",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "absence_documentee",
+        "preuve_ids": [],
+        "preuve_absence_ids": [
+          "ABS-SYNTHETIQUE"
+        ],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R1",
+        "action_id": "A04"
+      },
+      "expected": {
+        "regle_decision": "A7",
+        "statut": "non_retenue_par_regle"
+      }
+    },
+    {
+      "case_id": "R1-couverture_inconnue",
+      "description": "couverture inconnue",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "partielle",
+        "signal": "inconnu",
+        "preuve_ids": [],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R1",
+        "action_id": "A04"
+      },
+      "expected": {
+        "regle_decision": "A8",
+        "statut": "non_evaluable"
+      }
+    },
+    {
+      "case_id": "R1-methode_non_validee",
+      "description": "methode non validee",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": false,
+        "methode_reference": null,
+        "couverture_essentielle": "suffisante",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R1",
+        "action_id": "A04"
+      },
+      "expected": {
+        "regle_decision": "A2",
+        "statut": "non_evaluable"
+      }
+    },
+    {
+      "case_id": "R1-non_applicable_documentee",
+      "description": "non applicable documentee",
+      "inputs": {
+        "applicabilite": "non_applicable_documentee",
+        "applicabilite_reference": "EXCLUSION-SYNTHETIQUE",
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "inconnu",
+        "preuve_ids": [],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R1",
+        "action_id": "A04"
+      },
+      "expected": {
+        "regle_decision": "A1",
+        "statut": "non_retenue_par_regle"
+      }
+    },
+    {
+      "case_id": "R1-contradiction",
+      "description": "contradiction",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "confirmee",
+        "contradiction_references": [
+          "CONTRADICTION-SYNTHETIQUE"
+        ],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R1",
+        "action_id": "A04"
+      },
+      "expected": {
+        "regle_decision": "A0",
+        "statut": "non_evaluable"
+      }
+    },
+    {
+      "case_id": "R1-controle_inconnu_sans_independance",
+      "description": "controle inconnu sans independance",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "non_evaluee",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R1",
+        "action_id": "A04"
+      },
+      "expected": {
+        "regle_decision": "A3",
+        "statut": "non_evaluable"
+      }
+    },
+    {
+      "case_id": "R1-controle_inconnu_independance",
+      "description": "controle inconnu independance",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "non_evaluee",
+        "contradiction_references": [],
+        "independance_reference": "REVUE-INDEPENDANTE-SYNTHETIQUE",
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R1",
+        "action_id": "A04"
+      },
+      "expected": {
+        "regle_decision": "A5",
+        "statut": "conditionnelle"
+      }
+    },
+    {
+      "case_id": "R2-positif_etaye",
+      "description": "positif etaye",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R2",
+        "action_id": "A01"
+      },
+      "expected": {
+        "regle_decision": "A4",
+        "statut": "etayee_pour_examen"
+      }
+    },
+    {
+      "case_id": "R2-indice_positif",
+      "description": "indice positif",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "indicatif",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R2",
+        "action_id": "A01"
+      },
+      "expected": {
+        "regle_decision": "A6",
+        "statut": "conditionnelle"
+      }
+    },
+    {
+      "case_id": "R2-absence_verifiee",
+      "description": "absence verifiee",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "absence_documentee",
+        "preuve_ids": [],
+        "preuve_absence_ids": [
+          "ABS-SYNTHETIQUE"
+        ],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R2",
+        "action_id": "A01"
+      },
+      "expected": {
+        "regle_decision": "A7",
+        "statut": "non_retenue_par_regle"
+      }
+    },
+    {
+      "case_id": "R2-couverture_inconnue",
+      "description": "couverture inconnue",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "partielle",
+        "signal": "inconnu",
+        "preuve_ids": [],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R2",
+        "action_id": "A01"
+      },
+      "expected": {
+        "regle_decision": "A8",
+        "statut": "non_evaluable"
+      }
+    },
+    {
+      "case_id": "R2-methode_non_validee",
+      "description": "methode non validee",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": false,
+        "methode_reference": null,
+        "couverture_essentielle": "suffisante",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R2",
+        "action_id": "A01"
+      },
+      "expected": {
+        "regle_decision": "A2",
+        "statut": "non_evaluable"
+      }
+    },
+    {
+      "case_id": "R2-non_applicable_documentee",
+      "description": "non applicable documentee",
+      "inputs": {
+        "applicabilite": "non_applicable_documentee",
+        "applicabilite_reference": "EXCLUSION-SYNTHETIQUE",
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "inconnu",
+        "preuve_ids": [],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R2",
+        "action_id": "A01"
+      },
+      "expected": {
+        "regle_decision": "A1",
+        "statut": "non_retenue_par_regle"
+      }
+    },
+    {
+      "case_id": "R2-contradiction",
+      "description": "contradiction",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "confirmee",
+        "contradiction_references": [
+          "CONTRADICTION-SYNTHETIQUE"
+        ],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R2",
+        "action_id": "A01"
+      },
+      "expected": {
+        "regle_decision": "A0",
+        "statut": "non_evaluable"
+      }
+    },
+    {
+      "case_id": "R2-controle_inconnu_sans_independance",
+      "description": "controle inconnu sans independance",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "non_evaluee",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R2",
+        "action_id": "A01"
+      },
+      "expected": {
+        "regle_decision": "A3",
+        "statut": "non_evaluable"
+      }
+    },
+    {
+      "case_id": "R2-controle_inconnu_independance",
+      "description": "controle inconnu independance",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "non_evaluee",
+        "contradiction_references": [],
+        "independance_reference": "REVUE-INDEPENDANTE-SYNTHETIQUE",
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R2",
+        "action_id": "A01"
+      },
+      "expected": {
+        "regle_decision": "A5",
+        "statut": "conditionnelle"
+      }
+    },
+    {
+      "case_id": "R3-positif_etaye",
+      "description": "positif etaye",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R3",
+        "action_id": "A03"
+      },
+      "expected": {
+        "regle_decision": "A4",
+        "statut": "etayee_pour_examen"
+      }
+    },
+    {
+      "case_id": "R3-indice_positif",
+      "description": "indice positif",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "indicatif",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R3",
+        "action_id": "A03"
+      },
+      "expected": {
+        "regle_decision": "A6",
+        "statut": "conditionnelle"
+      }
+    },
+    {
+      "case_id": "R3-absence_verifiee",
+      "description": "absence verifiee",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "absence_documentee",
+        "preuve_ids": [],
+        "preuve_absence_ids": [
+          "ABS-SYNTHETIQUE"
+        ],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R3",
+        "action_id": "A03"
+      },
+      "expected": {
+        "regle_decision": "A7",
+        "statut": "non_retenue_par_regle"
+      }
+    },
+    {
+      "case_id": "R3-couverture_inconnue",
+      "description": "couverture inconnue",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "partielle",
+        "signal": "inconnu",
+        "preuve_ids": [],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R3",
+        "action_id": "A03"
+      },
+      "expected": {
+        "regle_decision": "A8",
+        "statut": "non_evaluable"
+      }
+    },
+    {
+      "case_id": "R3-methode_non_validee",
+      "description": "methode non validee",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": false,
+        "methode_reference": null,
+        "couverture_essentielle": "suffisante",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R3",
+        "action_id": "A03"
+      },
+      "expected": {
+        "regle_decision": "A2",
+        "statut": "non_evaluable"
+      }
+    },
+    {
+      "case_id": "R3-non_applicable_documentee",
+      "description": "non applicable documentee",
+      "inputs": {
+        "applicabilite": "non_applicable_documentee",
+        "applicabilite_reference": "EXCLUSION-SYNTHETIQUE",
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "inconnu",
+        "preuve_ids": [],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R3",
+        "action_id": "A03"
+      },
+      "expected": {
+        "regle_decision": "A1",
+        "statut": "non_retenue_par_regle"
+      }
+    },
+    {
+      "case_id": "R3-contradiction",
+      "description": "contradiction",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "confirmee",
+        "contradiction_references": [
+          "CONTRADICTION-SYNTHETIQUE"
+        ],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R3",
+        "action_id": "A03"
+      },
+      "expected": {
+        "regle_decision": "A0",
+        "statut": "non_evaluable"
+      }
+    },
+    {
+      "case_id": "R3-controle_inconnu_sans_independance",
+      "description": "controle inconnu sans independance",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "non_evaluee",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R3",
+        "action_id": "A03"
+      },
+      "expected": {
+        "regle_decision": "A3",
+        "statut": "non_evaluable"
+      }
+    },
+    {
+      "case_id": "R3-controle_inconnu_independance",
+      "description": "controle inconnu independance",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "non_evaluee",
+        "contradiction_references": [],
+        "independance_reference": "REVUE-INDEPENDANTE-SYNTHETIQUE",
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R3",
+        "action_id": "A03"
+      },
+      "expected": {
+        "regle_decision": "A5",
+        "statut": "conditionnelle"
+      }
+    },
+    {
+      "case_id": "R4-positif_etaye",
+      "description": "positif etaye",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R4",
+        "action_id": "A02"
+      },
+      "expected": {
+        "regle_decision": "A4",
+        "statut": "etayee_pour_examen"
+      }
+    },
+    {
+      "case_id": "R4-indice_positif",
+      "description": "indice positif",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "indicatif",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R4",
+        "action_id": "A02"
+      },
+      "expected": {
+        "regle_decision": "A6",
+        "statut": "conditionnelle"
+      }
+    },
+    {
+      "case_id": "R4-absence_verifiee",
+      "description": "absence verifiee",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "absence_documentee",
+        "preuve_ids": [],
+        "preuve_absence_ids": [
+          "ABS-SYNTHETIQUE"
+        ],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R4",
+        "action_id": "A02"
+      },
+      "expected": {
+        "regle_decision": "A7",
+        "statut": "non_retenue_par_regle"
+      }
+    },
+    {
+      "case_id": "R4-couverture_inconnue",
+      "description": "couverture inconnue",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "partielle",
+        "signal": "inconnu",
+        "preuve_ids": [],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R4",
+        "action_id": "A02"
+      },
+      "expected": {
+        "regle_decision": "A8",
+        "statut": "non_evaluable"
+      }
+    },
+    {
+      "case_id": "R4-methode_non_validee",
+      "description": "methode non validee",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": false,
+        "methode_reference": null,
+        "couverture_essentielle": "suffisante",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R4",
+        "action_id": "A02"
+      },
+      "expected": {
+        "regle_decision": "A2",
+        "statut": "non_evaluable"
+      }
+    },
+    {
+      "case_id": "R4-non_applicable_documentee",
+      "description": "non applicable documentee",
+      "inputs": {
+        "applicabilite": "non_applicable_documentee",
+        "applicabilite_reference": "EXCLUSION-SYNTHETIQUE",
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "inconnu",
+        "preuve_ids": [],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R4",
+        "action_id": "A02"
+      },
+      "expected": {
+        "regle_decision": "A1",
+        "statut": "non_retenue_par_regle"
+      }
+    },
+    {
+      "case_id": "R4-contradiction",
+      "description": "contradiction",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "confirmee",
+        "contradiction_references": [
+          "CONTRADICTION-SYNTHETIQUE"
+        ],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R4",
+        "action_id": "A02"
+      },
+      "expected": {
+        "regle_decision": "A0",
+        "statut": "non_evaluable"
+      }
+    },
+    {
+      "case_id": "R4-controle_inconnu_sans_independance",
+      "description": "controle inconnu sans independance",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "non_evaluee",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R4",
+        "action_id": "A02"
+      },
+      "expected": {
+        "regle_decision": "A3",
+        "statut": "non_evaluable"
+      }
+    },
+    {
+      "case_id": "R4-controle_inconnu_independance",
+      "description": "controle inconnu independance",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "non_evaluee",
+        "contradiction_references": [],
+        "independance_reference": "REVUE-INDEPENDANTE-SYNTHETIQUE",
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R4",
+        "action_id": "A02"
+      },
+      "expected": {
+        "regle_decision": "A5",
+        "statut": "conditionnelle"
+      }
+    },
+    {
+      "case_id": "R1-absence_sans_preuve",
+      "description": "absence sans preuve",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "absence_documentee",
+        "preuve_ids": [],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R1",
+        "action_id": "A04"
+      },
+      "expected": {
+        "regle_decision": "V0",
+        "statut": "ERREUR"
+      }
+    },
+    {
+      "case_id": "R1-fausse_nonapplicabilite_positive",
+      "description": "fausse nonapplicabilite positive",
+      "inputs": {
+        "applicabilite": "non_applicable_documentee",
+        "applicabilite_reference": "EXCLUSION-SYNTHETIQUE",
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R1",
+        "action_id": "A04"
+      },
+      "expected": {
+        "regle_decision": "V0",
+        "statut": "ERREUR"
+      }
+    },
+    {
+      "case_id": "R1-etayage_avec_couverture_incomplete",
+      "description": "etayage avec couverture incomplete",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "partielle",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R1",
+        "action_id": "A04"
+      },
+      "expected": {
+        "regle_decision": "V0",
+        "statut": "ERREUR"
+      }
+    },
+    {
+      "case_id": "R2-absence_sans_preuve",
+      "description": "absence sans preuve",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "absence_documentee",
+        "preuve_ids": [],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R2",
+        "action_id": "A01"
+      },
+      "expected": {
+        "regle_decision": "V0",
+        "statut": "ERREUR"
+      }
+    },
+    {
+      "case_id": "R2-fausse_nonapplicabilite_positive",
+      "description": "fausse nonapplicabilite positive",
+      "inputs": {
+        "applicabilite": "non_applicable_documentee",
+        "applicabilite_reference": "EXCLUSION-SYNTHETIQUE",
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R2",
+        "action_id": "A01"
+      },
+      "expected": {
+        "regle_decision": "V0",
+        "statut": "ERREUR"
+      }
+    },
+    {
+      "case_id": "R2-etayage_avec_couverture_incomplete",
+      "description": "etayage avec couverture incomplete",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "partielle",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R2",
+        "action_id": "A01"
+      },
+      "expected": {
+        "regle_decision": "V0",
+        "statut": "ERREUR"
+      }
+    },
+    {
+      "case_id": "R3-absence_sans_preuve",
+      "description": "absence sans preuve",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "absence_documentee",
+        "preuve_ids": [],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R3",
+        "action_id": "A03"
+      },
+      "expected": {
+        "regle_decision": "V0",
+        "statut": "ERREUR"
+      }
+    },
+    {
+      "case_id": "R3-fausse_nonapplicabilite_positive",
+      "description": "fausse nonapplicabilite positive",
+      "inputs": {
+        "applicabilite": "non_applicable_documentee",
+        "applicabilite_reference": "EXCLUSION-SYNTHETIQUE",
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R3",
+        "action_id": "A03"
+      },
+      "expected": {
+        "regle_decision": "V0",
+        "statut": "ERREUR"
+      }
+    },
+    {
+      "case_id": "R3-etayage_avec_couverture_incomplete",
+      "description": "etayage avec couverture incomplete",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "partielle",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R3",
+        "action_id": "A03"
+      },
+      "expected": {
+        "regle_decision": "V0",
+        "statut": "ERREUR"
+      }
+    },
+    {
+      "case_id": "R4-absence_sans_preuve",
+      "description": "absence sans preuve",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "absence_documentee",
+        "preuve_ids": [],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R4",
+        "action_id": "A02"
+      },
+      "expected": {
+        "regle_decision": "V0",
+        "statut": "ERREUR"
+      }
+    },
+    {
+      "case_id": "R4-fausse_nonapplicabilite_positive",
+      "description": "fausse nonapplicabilite positive",
+      "inputs": {
+        "applicabilite": "non_applicable_documentee",
+        "applicabilite_reference": "EXCLUSION-SYNTHETIQUE",
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "suffisante",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R4",
+        "action_id": "A02"
+      },
+      "expected": {
+        "regle_decision": "V0",
+        "statut": "ERREUR"
+      }
+    },
+    {
+      "case_id": "R4-etayage_avec_couverture_incomplete",
+      "description": "etayage avec couverture incomplete",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "partielle",
+        "signal": "etaye",
+        "preuve_ids": [
+          "PREUVE-SYNTHETIQUE"
+        ],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "reference": "SYNTHETIQUE-VERIFICATION-HORS-SIG"
+        },
+        "rule_id": "R4",
+        "action_id": "A02"
+      },
+      "expected": {
+        "regle_decision": "V0",
+        "statut": "ERREUR"
+      }
+    },
+    {
+      "case_id": "R1-croisement_2d_non_qualifie",
+      "description": "croisement 2d non qualifie",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "partielle",
+        "signal": "inconnu",
+        "preuve_ids": [],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "fait_non_suffisant": "croisement_2d_non_qualifie",
+          "source": "SYNTHETIQUE"
+        },
+        "rule_id": "R1",
+        "action_id": "A04"
+      },
+      "expected": {
+        "regle_decision": "A8",
+        "statut": "non_evaluable"
+      }
+    },
+    {
+      "case_id": "R2-faible_densite_seule",
+      "description": "faible densite seule",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "partielle",
+        "signal": "inconnu",
+        "preuve_ids": [],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "fait_non_suffisant": "faible_densite_seule",
+          "source": "SYNTHETIQUE"
+        },
+        "rule_id": "R2",
+        "action_id": "A01"
+      },
+      "expected": {
+        "regle_decision": "A8",
+        "statut": "non_evaluable"
+      }
+    },
+    {
+      "case_id": "R3-friche_sans_lien_continuite",
+      "description": "friche sans lien continuite",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "partielle",
+        "signal": "inconnu",
+        "preuve_ids": [],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "fait_non_suffisant": "friche_sans_lien_continuite",
+          "source": "SYNTHETIQUE"
+        },
+        "rule_id": "R3",
+        "action_id": "A03"
+      },
+      "expected": {
+        "regle_decision": "A8",
+        "statut": "non_evaluable"
+      }
+    },
+    {
+      "case_id": "R4-mares_absentes_inventaire_incomplet",
+      "description": "mares absentes inventaire incomplet",
+      "inputs": {
+        "applicabilite": "oui",
+        "applicabilite_reference": null,
+        "methode_validee": true,
+        "methode_reference": "M2-METHODE-SYNTHETIQUE",
+        "couverture_essentielle": "partielle",
+        "signal": "inconnu",
+        "preuve_ids": [],
+        "preuve_absence_ids": [],
+        "controle_contradiction": "exclue",
+        "contradiction_references": [],
+        "independance_reference": null,
+        "limites": [],
+        "family_evidence": {
+          "fait_non_suffisant": "mares_absentes_inventaire_incomplet",
+          "source": "SYNTHETIQUE"
+        },
+        "rule_id": "R4",
+        "action_id": "A02"
+      },
+      "expected": {
+        "regle_decision": "A8",
+        "statut": "non_evaluable"
+      }
+    }
+  ],
+  "multiproblemes": [
+    {
+      "case_id": "MULTI-01",
+      "inputs_case_ids": [
+        "R1-positif_etaye",
+        "R2-indice_positif",
+        "R3-couverture_inconnue",
+        "R4-absence_verifiee"
+      ],
+      "expected": {
+        "A04": "etayee_pour_examen",
+        "A01": "conditionnelle",
+        "A03": "non_evaluable",
+        "A02": "non_retenue_par_regle"
+      },
+      "no_benefit_ranking": true
+    },
+    {
+      "case_id": "MULTI-02",
+      "inputs_case_ids": [
+        "R1-couverture_inconnue",
+        "R2-positif_etaye",
+        "R3-positif_etaye",
+        "R4-indice_positif"
+      ],
+      "expected": {
+        "A04": "non_evaluable",
+        "A01": "etayee_pour_examen",
+        "A03": "etayee_pour_examen",
+        "A02": "conditionnelle"
+      },
+      "no_benefit_ranking": true
+    }
+  ]
+}
