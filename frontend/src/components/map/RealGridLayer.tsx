@@ -1,12 +1,13 @@
 /**
  * RealGridLayer - MapLibre layer for M1 real candidate hexagonal grid
- * Renders the 43 real hexagons from M1 with neutral styling
- * Separate from TEST data - no ecological priorities, just geographic display
+ * Renders the 43 real hexagons from M1 using validated priority properties.
+ * The priority adapter currently resolves every real cell to INDETERMINATE.
  */
 
 import { useEffect, useRef, useCallback } from 'react'
-import type { Map as MapLibreMap } from 'maplibre-gl'
-import type { FeatureCollection } from 'geojson'
+import type { ExpressionSpecification, Map as MapLibreMap } from 'maplibre-gl'
+import type { FeatureCollection, Geometry } from 'geojson'
+import type { RealGridFeatureProperties } from '../../integrations/priorityAdapter'
 
 const REAL_GRID_SOURCE = 'real-grid-source'
 const REAL_GRID_FILL_LAYER = 'real-grid-fill'
@@ -14,7 +15,7 @@ const REAL_GRID_LINE_LAYER = 'real-grid-line'
 
 interface RealGridLayerProps {
   map: MapLibreMap | undefined
-  realGridData: FeatureCollection
+  realGridData: FeatureCollection<Geometry, RealGridFeatureProperties>
   selectedRealHexagonId: string | null
   hoveredRealHexagonId: string | null
   onSelectRealHexagon: (id: string | null) => void
@@ -50,41 +51,58 @@ export function RealGridLayer({
         promoteId: 'maille_id',
       })
 
-      // Neutral teal fill - no ecological priority colors
       map.addLayer({
         id: REAL_GRID_FILL_LAYER,
         type: 'fill',
         source: REAL_GRID_SOURCE,
         paint: {
-          'fill-color': '#127475', // Teal - neutral, not a priority color
+          'fill-color': [
+            'match',
+            ['get', 'priority_category'],
+            'HIGH',
+            '#D9534F',
+            'MODERATE',
+            '#F29A48',
+            'LOW',
+            '#E6C65B',
+            'INDETERMINATE',
+            '#89938F',
+            '#89938F',
+          ] as ExpressionSpecification,
           'fill-opacity': [
             'case',
             ['boolean', ['feature-state', 'selected'], false],
-            0.45,
+            0.68,
             ['boolean', ['feature-state', 'hover'], false],
-            0.35,
-            0.25, // Lower opacity to preserve basemap visibility
+            0.6,
+            0.5,
           ],
           'fill-opacity-transition': { duration: 200 },
         },
       })
 
-      // Subtle outline
       map.addLayer({
         id: REAL_GRID_LINE_LAYER,
         type: 'line',
         source: REAL_GRID_SOURCE,
         layout: { 'line-join': 'round' },
         paint: {
-          'line-color': '#0E5E5F', // Darker teal
-          'line-opacity': 0.7,
+          'line-color': [
+            'case',
+            ['boolean', ['feature-state', 'selected'], false],
+            '#FFFFFF',
+            ['boolean', ['feature-state', 'hover'], false],
+            '#E9FFF6',
+            '#3E4B47',
+          ] as ExpressionSpecification,
+          'line-opacity': 0.95,
           'line-width': [
             'case',
             ['boolean', ['feature-state', 'selected'], false],
-            2.5,
+            3,
             ['boolean', ['feature-state', 'hover'], false],
-            2,
-            1.5,
+            2.4,
+            1.2,
           ],
         },
       })

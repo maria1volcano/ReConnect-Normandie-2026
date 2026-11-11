@@ -15,6 +15,10 @@ import type {
   RestorationActionSuggestion,
   ZoneDiagnosticBundle,
 } from '../types/hexagon'
+import {
+  applyEcologicalPriorities,
+  type RealGridFeatureProperties,
+} from './priorityAdapter'
 
 export interface HexagonData {
   featureCollection: FeatureCollection<Geometry, HexagonFeatureProperties>
@@ -24,7 +28,7 @@ export interface HexagonData {
 }
 
 export interface RealGridData {
-  featureCollection: FeatureCollection
+  featureCollection: FeatureCollection<Geometry, RealGridFeatureProperties>
   gridVersion: string
   loadingError?: string
 }
@@ -74,6 +78,27 @@ export interface OCSMeasurement {
   area_unit: string
   source_id: string
   source_year: string
+}
+
+export interface M1SourceMetadata {
+  source_id: string
+  name: string
+  producer: string
+  reference_year: string | null
+  version: string | null
+  official_url: string | null
+  license: string | null
+  license_url: string | null
+  geographic_coverage: string | null
+  restrictions: string | null
+  status: string
+}
+
+export interface M1SourceCatalog {
+  version: string
+  generated_from: string
+  sources: Record<string, M1SourceMetadata>
+  unavailable_sources: Record<string, M1SourceMetadata>
 }
 
 export interface PilotData {
@@ -148,6 +173,26 @@ export async function loadOCSMeasurements(maille_id: string): Promise<OCSMeasure
   }
 }
 
+/** Load the lightweight provenance export derived from M1 sources.json. */
+export async function loadM1SourceCatalog(): Promise<M1SourceCatalog | null> {
+  try {
+    const response = await fetch(dataUrl('sources-m1.json'))
+    if (!response.ok) {
+      console.error('[geojsonAdapter] Erreur chargement sources M1:', response.status)
+      return null
+    }
+
+    const catalog: M1SourceCatalog = await response.json()
+    if (!catalog.sources || !catalog.unavailable_sources) {
+      throw new Error('Catalogue de sources M1 invalide')
+    }
+    return catalog
+  } catch (error) {
+    console.error('[geojsonAdapter] Erreur chargement sources M1:', error)
+    return null
+  }
+}
+
 /**
  * Load real M1 candidate hexagonal grid
  * Returns the 43 real hexagons from M1 without ecological priorities
@@ -175,8 +220,10 @@ export async function loadRealGrid(): Promise<RealGridData> {
     const firstFeature = geojson.features[0]
     const gridVersion = firstFeature?.properties?.grid_version || 'unknown'
 
+    const priorityReadyGrid = applyEcologicalPriorities(geojson, [])
+
     return {
-      featureCollection: geojson,
+      featureCollection: priorityReadyGrid,
       gridVersion,
     }
   } catch (error) {

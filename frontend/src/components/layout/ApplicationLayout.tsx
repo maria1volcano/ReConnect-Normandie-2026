@@ -8,7 +8,11 @@ import { RealGridLayer } from '../map/RealGridLayer'
 import type { DepartmentCode } from '../map/normandyDepartments'
 import { ZoneDetail } from '../sector/ZoneDetail'
 import { loadHexagonGrid, loadRealGrid } from '../../integrations/geojsonAdapter'
-import type { FeatureCollection } from 'geojson'
+import type { FeatureCollection, Geometry } from 'geojson'
+import {
+  priorityFromFeature,
+  type RealGridFeatureProperties,
+} from '../../integrations/priorityAdapter'
 
 export function ApplicationLayout() {
   const [selectedDepartment, setSelectedDepartment] = useState<DepartmentCode | null>(null)
@@ -18,7 +22,7 @@ export function ApplicationLayout() {
   const [selectedRealHexagonId, setSelectedRealHexagonId] = useState<string | null>(null)
   const [hoveredRealHexagonId, setHoveredRealHexagonId] = useState<string | null>(null)
   const [hexagonData, setHexagonData] = useState<FeatureCollection>({ type: 'FeatureCollection', features: [] })
-  const [realGridData, setRealGridData] = useState<FeatureCollection>({ type: 'FeatureCollection', features: [] })
+  const [realGridData, setRealGridData] = useState<FeatureCollection<Geometry, RealGridFeatureProperties>>({ type: 'FeatureCollection', features: [] })
   const [hexagonCount, setHexagonCount] = useState(0)
   const [realGridCount, setRealGridCount] = useState(0)
   const [isTestData, setIsTestData] = useState(false)
@@ -88,6 +92,10 @@ export function ApplicationLayout() {
     onSelectDepartment: setSelectedDepartment,
     onHoverDepartment: setHoveredDepartment,
   }
+
+  const selectedRealPriority = selectedRealHexagonId
+    ? realGridData.features.find((feature) => feature.properties.maille_id === selectedRealHexagonId)
+    : undefined
 
   const hexagonState = {
     selectedHexagonId,
@@ -163,33 +171,40 @@ export function ApplicationLayout() {
             <RegionMap {...departmentState} mapRef={mapRef} hexagonCount={hexagonCount} realGridCount={realGridCount} isTestData={isTestData} testModeEnabled={testModeEnabled} showRealGrid={showRealGrid} onZoomToTestZone={handleZoomToTestZone} onZoomToPilot={handleZoomToPilot} onToggleTestMode={handleToggleTestMode} onToggleRealGrid={handleToggleRealGrid} />
             <HexGridLayer map={mapRef.current} hexagonData={hexagonData} testModeEnabled={testModeEnabled} {...hexagonState} />
             <RealGridLayer map={mapRef.current} realGridData={realGridData} selectedRealHexagonId={selectedRealHexagonId} hoveredRealHexagonId={hoveredRealHexagonId} onSelectRealHexagon={handleSelectRealHexagon} onHoverRealHexagon={setHoveredRealHexagonId} showRealGrid={showRealGrid && !testModeEnabled} />
-            <PriorityLegend showRealGrid={showRealGrid && !testModeEnabled} />
+            <PriorityLegend testModeEnabled={testModeEnabled} />
           </div>
 
           <details className="sources-note">
             <summary>Sources et limites</summary>
             <p>
-              Le fond cartographique sert uniquement au repérage. Les limites du pilote, les
-              mailles et leurs sources seront chargées depuis les exports validés par M2/M4.
+              Les mesures réelles mobilisent les familles officielles TVB/SRCE, BD TOPO, OCS GE,
+              BD Haie, SIPAF, Cartofriches et zones humides DREAL. Le pilote et la grille M1 restent
+              provisoires ; M2 doit encore valider leur interprétation scientifique. Le mode TEST
+              utilise des données séparées et explicitement non validées. Le fond cartographique
+              sert uniquement au repérage.
             </p>
           </details>
+          <a className="analysis-jump" href="#analysis-section">
+            Voir l'analyse
+          </a>
         </section>
 
-        {selectedHexagonId ? (
-          <aside className="zone-detail" aria-label="Fiche maille">
+        <section id="analysis-section" className="analysis-workspace" aria-label="Diagnostic et analyse">
+          {selectedHexagonId ? (
             <ZoneDetail selectedHexagonId={selectedHexagonId} testModeEnabled={testModeEnabled} />
-          </aside>
-        ) : selectedRealHexagonId ? (
-          <aside className="zone-detail" aria-label="Fiche maille réelle">
-            <ZoneDetail selectedHexagonId={selectedRealHexagonId} testModeEnabled={false} isRealGrid={true} />
-          </aside>
-        ) : selectedDepartment ? (
-          <aside className="zone-detail" aria-label="Fiche département">
+          ) : selectedRealHexagonId ? (
+            <ZoneDetail
+              selectedHexagonId={selectedRealHexagonId}
+              testModeEnabled={false}
+              isRealGrid={true}
+              ecologicalPriority={selectedRealPriority ? priorityFromFeature(selectedRealPriority.properties) : null}
+            />
+          ) : selectedDepartment ? (
             <DepartmentPanel {...departmentState} />
-          </aside>
-        ) : (
-          <ZoneDetail />
-        )}
+          ) : (
+            <ZoneDetail />
+          )}
+        </section>
       </main>
     </div>
   )

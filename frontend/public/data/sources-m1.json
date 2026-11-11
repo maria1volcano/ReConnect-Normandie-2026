@@ -1,0 +1,138 @@
+{
+  "version": "M1-V1",
+  "generated_from": "M1 data/processed/sources.json",
+  "sources": {
+    "TVB_RES_NORM": {
+      "source_id": "TVB_RES_NORM",
+      "name": "SRCE - Réservoirs de biodiversité - Normandie",
+      "producer": "DREAL Normandie",
+      "reference_year": "2014",
+      "version": "SRCE Basse-Normandie et Haute-Normandie, ressource publiée le 15/11/2024",
+      "official_url": "https://www.data.gouv.fr/datasets/srce-reservoirs-de-biodiversite-normandie",
+      "license": "Licence Ouverte 2.0",
+      "license_url": "https://www.etalab.gouv.fr/licence-ouverte-open-licence",
+      "geographic_coverage": "Normandie, emprise Lambert-93 constatée 341381.45/6795383.00 à 612532.01/6997213.40",
+      "restrictions": "Échelle d'emploi et sens métier des attributs restent à valider avec M2, cohérence entre anciens SRCE à contrôler",
+      "status": "available"
+    },
+    "TVB_COR_BN": {
+      "source_id": "TVB_COR_BN",
+      "name": "SRCE - Corridors - Basse-Normandie",
+      "producer": "DREAL Normandie",
+      "reference_year": "2014",
+      "version": "SRCE Basse-Normandie, ressource publiée le 15/11/2024",
+      "official_url": "https://www.data.gouv.fr/datasets/srce-corridors-basse-normandie",
+      "license": "Licence Ouverte 2.0",
+      "license_url": "https://www.etalab.gouv.fr/licence-ouverte-open-licence",
+      "geographic_coverage": "Calvados, Manche, Orne, emprise Lambert-93 constatée 343045.40/6778729.75 à 560540.36/6969750.49",
+      "restrictions": "Couche issue de la vectorisation des matrices verte et bleue du SRCE 2014, échelle scientifique et sens de CLASS_CORR à valider avec M2, ne prouve pas un corridor fonctionnel actuel",
+      "status": "available"
+    },
+    "BDTOPO_ROUTES": {
+      "source_id": "BDTOPO_ROUTES",
+      "name": "BD TOPO 3.5 - tronçons de route",
+      "producer": "IGN",
+      "reference_year": "Actualité variable par objet",
+      "version": "Flux BD TOPO V3 interrogé le 03/11/2026, archive départementale 3.5 édition 2026-09 disponible séparément",
+      "official_url": "https://www.data.gouv.fr/datasets/bd-topo-r",
+      "license": "Licence Ouverte 2.0",
+      "license_url": "https://www.etalab.gouv.fr/licence-ouverte-open-licence",
+      "geographic_coverage": "Extrait borné estuaire de l'Orne, bbox demandée -0.28/49.20 à -0.22/49.26",
+      "restrictions": "Extrait WFS limité au bbox, champs nuls possibles, millésime global non fourni par la réponse",
+      "status": "available"
+    },
+    "OCSGE": {
+      "source_id": "OCSGE",
+      "name": "Occupation du sol à grande échelle - nouvelle génération",
+      "producer": "IGN, programme financé par la DGALN",
+      "reference_year": "2023",
+      "version": "OCS GE 2.0, livraison 2025-04-00251 du millésime D014-2023",
+      "official_url": "https://www.data.gouv.fr/datasets/ocs-ge",
+      "license": "Licence Ouverte 2.0",
+      "license_url": "https://www.etalab.gouv.fr/licence-ouverte-open-licence",
+      "geographic_coverage": "Calvados D014, emprise EPSG:2154 constatée 394752.21/6857034.20 à 513241.30/6937634.10",
+      "restrictions": "Paquet départemental volumineux une fois extrait, 12 codes CS et 18 codes US observés, ne décrit pas directement la sensibilité écologique",
+      "status": "available"
+    },
+    "BDHAIE": {
+      "source_id": "BDHAIE",
+      "name": "BD Haie V2 mars 2024",
+      "producer": "IGN et OFB",
+      "reference_year": "2020 à 2022 pour les images et sources de mise à jour, produit millésimé 2024",
+      "version": "V2 mars 2024",
+      "official_url": "https://www.data.gouv.fr/datasets/bd-haie",
+      "license": "Licence Ouverte 2.0",
+      "license_url": "https://www.etalab.gouv.fr/licence-ouverte-open-licence",
+      "geographic_coverage": "France métropolitaine, production départementale",
+      "restrictions": "V2 n'emploie pas la même méthode que V1, ne pas déduire qu'un vide prouve une absence de haie",
+      "status": "available"
+    },
+    "SIPAF": {
+      "source_id": "SIPAF",
+      "name": "Système d'information sur les passages à faune",
+      "producer": "Ministère de la Transition écologique, Cerema et Parcs nationaux partenaires",
+      "reference_year": "Mise à jour continue, millésime par objet à inspecter",
+      "version": "Export courant, version formelle non indiquée",
+      "official_url": "https://passagesfaune.fr/",
+      "license": "Licence Ouverte 2.0 pour les données diffusables",
+      "license_url": "https://www.etalab.gouv.fr/licence-ouverte-open-licence",
+      "geographic_coverage": "France",
+      "restrictions": "Inventaire alimenté par les gestionnaires et non exhaustif, certaines données taxonomiques sensibles sont floutées",
+      "status": "available"
+    },
+    "CARTOFRICHES": {
+      "source_id": "CARTOFRICHES",
+      "name": "Sites référencés dans Cartofriches",
+      "producer": "Cerema",
+      "reference_year": "Publication mise à jour environ trimestriellement, fiche mise à jour 18/10/2026",
+      "version": "2026-10-07 export",
+      "official_url": "https://www.data.gouv.fr/datasets/sites-references-dans-cartofriches",
+      "license": "Licence Ouverte 2.0",
+      "license_url": "https://www.etalab.gouv.fr/licence-ouverte-open-licence",
+      "geographic_coverage": "France",
+      "restrictions": "Inventaire non exhaustif et hétérogène, champs incomplets, sites potentiels à confirmer",
+      "status": "available"
+    },
+    "ZH_DREAL_NORM": {
+      "source_id": "ZH_DREAL_NORM",
+      "name": "Zones humides - Normandie",
+      "producer": "DREAL Normandie",
+      "reference_year": "Millésimes hétérogènes issus de plusieurs inventaires",
+      "version": "Fiche mise à jour le 31/08/2026, ressource Shapefile datée 15/11/2024",
+      "official_url": "https://www.data.gouv.fr/datasets/zones-humides-normandie",
+      "license": "Licence Ouverte 2.0",
+      "license_url": "https://www.etalab.gouv.fr/licence-ouverte-open-licence",
+      "geographic_coverage": "Normandie",
+      "restrictions": "Mélange photo-interprétation et inventaires terrain, couverture et précision hétérogènes, ne prouve pas le fonctionnement hydrologique",
+      "status": "available"
+    }
+  },
+  "unavailable_sources": {
+    "PRAM_MARES": {
+      "source_id": "PRAM_MARES",
+      "name": "Base de données du PRAM Normandie",
+      "producer": "Conservatoire d'espaces naturels de Normandie",
+      "reference_year": null,
+      "version": null,
+      "official_url": "https://www.pramnormandie.com/",
+      "license": "A VERIFIER avec le CEN Normandie",
+      "license_url": null,
+      "geographic_coverage": null,
+      "restrictions": "Consultation publique mais extraction hors territoire utilisateur soumise à demande d'accès. Droits de réutilisation et diffusion non publiés, couverture non exhaustive, observations naturalistes potentiellement sensibles.",
+      "status": "CANDIDAT - authorized extract required"
+    },
+    "FRICHES_EPFN": {
+      "source_id": "FRICHES_EPFN",
+      "name": "Observatoire des friches en Normandie, diffusion grand public",
+      "producer": "EPF Normandie, relais DDT/Datanormandie",
+      "reference_year": null,
+      "version": null,
+      "official_url": "https://www.data.gouv.fr/datasets/friches-issues-de-l-epfn-dans-lorne-en-2026",
+      "license": "Licence non spécifiée",
+      "license_url": null,
+      "geographic_coverage": null,
+      "restrictions": "Accès régional mentionné mais aucune ressource téléchargeable sur la fiche vérifiée. Données grand public anonymisées, licence absente, réutilisation et couverture pilote à clarifier avant usage.",
+      "status": "CANDIDAT - licence and resource unconfirmed"
+    }
+  }
+}

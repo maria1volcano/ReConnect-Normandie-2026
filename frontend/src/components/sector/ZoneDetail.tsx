@@ -1,6 +1,25 @@
 import { useState, useEffect } from 'react'
 import type { PriorityExamen, StatutAnalyse, ZoneDiagnosticBundle } from '../../types/hexagon'
-import { loadZoneDiagnostic, loadM1Measurements, loadOCSMeasurements, type M1Measurements, type OCSMeasurement } from '../../integrations/geojsonAdapter'
+import {
+  loadZoneDiagnostic,
+  loadM1Measurements,
+  loadOCSMeasurements,
+  loadM1SourceCatalog,
+  type M1Measurements,
+  type M1SourceCatalog,
+  type OCSMeasurement,
+} from '../../integrations/geojsonAdapter'
+import {
+  loadM2CellSummary,
+  type M2CellSummary,
+} from '../../integrations/m2Adapter'
+import {
+  ECOLOGICAL_PRIORITY,
+  PRIORITY_GRID_VERSION,
+  resolveEcologicalPriority,
+  type ResolvedEcologicalPriority,
+  type ScientificValidationStatus,
+} from '../../integrations/priorityAdapter'
 import { ActionSuggestions } from './ActionSuggestions'
 import { ConflictsPanel } from './ConflictsPanel'
 
@@ -8,6 +27,14 @@ interface ZoneDetailProps {
   selectedHexagonId?: string | null
   testModeEnabled?: boolean
   isRealGrid?: boolean
+  ecologicalPriority?: ResolvedEcologicalPriority | null
+}
+
+const validationLabels: Record<ScientificValidationStatus, string> = {
+  VALIDATED: 'Validée scientifiquement',
+  PENDING: 'Validation scientifique en attente',
+  REJECTED: 'Validation scientifique rejetée',
+  UNKNOWN: 'Non validée',
 }
 
 // Extract short readable label from full maille_id
@@ -44,10 +71,77 @@ function formatLength(value: number | null): string {
   return `${formatNumber(value, 0)} m`
 }
 
-export function ZoneDetail({ selectedHexagonId, testModeEnabled = false, isRealGrid = false }: ZoneDetailProps) {
+const coverageLabels: Record<string, { label: string; detail: string; tone: string }> = {
+  complete_for_provisional_pilot: {
+    label: 'Données disponibles',
+    detail: 'Couverture complète de l’emprise pilote provisoire pour les sources géographiques de base.',
+    tone: 'available',
+  },
+  available_bounded_wfs_non_exhaustive: {
+    label: 'Couverture partielle',
+    detail: 'Extrait borné disponible, mais inventaire non exhaustif.',
+    tone: 'partial',
+  },
+  available_inventory_non_exhaustive: {
+    label: 'Couverture partielle',
+    detail: 'Inventaire disponible mais non exhaustif : une valeur nulle ne prouve pas une absence réelle.',
+    tone: 'partial',
+  },
+  available_bounded_wfs_heterogeneous_inventory: {
+    label: 'Couverture partielle',
+    detail: 'Extrait disponible ; couverture, précision et millésimes hétérogènes.',
+    tone: 'partial',
+  },
+  unavailable_authorized_extract_required: {
+    label: 'Données non disponibles',
+    detail: 'Une extraction autorisée est requise ; la valeur reste indisponible, jamais assimilée à zéro.',
+    tone: 'unavailable',
+  },
+  unavailable_licence_and_resource_unconfirmed: {
+    label: 'À vérifier',
+    detail: 'Licence et ressource téléchargeable non confirmées ; aucune mesure n’est affichée.',
+    tone: 'unknown',
+  },
+}
+
+function coverageInfo(status: string) {
+  return coverageLabels[status] ?? {
+    label: 'À vérifier',
+    detail: `État de couverture non documenté (${status}).`,
+    tone: 'unknown',
+  }
+}
+
+function OCSRow({ measurement }: { measurement: OCSMeasurement }) {
+  const percentage = measurement.ocs_fraction_of_cell * 100
+  const barWidth = `${Math.min(100, Math.max(0, percentage))}%`
+
+  return (
+    <div className="ocs-item">
+      <div className="ocs-row-main">
+        <div className="ocs-code">{measurement.ocs_code_cs}</div>
+        <div className="ocs-area">{formatArea(measurement.ocs_area_m2)}</div>
+        <div className="ocs-fraction">{percentage.toFixed(1)}%</div>
+      </div>
+      <div className="ocs-bar" aria-label={`${percentage.toFixed(1)} % de la surface de la maille`}>
+        <span className="ocs-bar-fill" style={{ width: barWidth }} />
+      </div>
+    </div>
+  )
+}
+
+export function ZoneDetail({
+  selectedHexagonId,
+  testModeEnabled = false,
+  isRealGrid = false,
+  ecologicalPriority,
+}: ZoneDetailProps) {
   const [bundle, setBundle] = useState<ZoneDiagnosticBundle | null>(null)
   const [m1Measurements, setM1Measurements] = useState<M1Measurements | null>(null)
   const [ocsMeasurements, setOCSMeasurements] = useState<OCSMeasurement[]>([])
+  const [sourceCatalog, setSourceCatalog] = useState<M1SourceCatalog | null>(null)
+  const [m2Summary, setM2Summary] = useState<M2CellSummary | null>(null)
+  const [m2State, setM2State] = useState<'idle' | 'loading' | 'available' | 'unavailable'>('idle')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
   const diagnostic = bundle?.diagnostic ?? null
@@ -59,6 +153,7 @@ export function ZoneDetail({ selectedHexagonId, testModeEnabled = false, isRealG
       setBundle(null)
       setM1Measurements(null)
       setOCSMeasurements([])
+      setSourceCatalog(null)
       setError(false)
       return () => {
         cancelled = true
@@ -68,6 +163,7 @@ export function ZoneDetail({ selectedHexagonId, testModeEnabled = false, isRealG
     setBundle(null)
     setM1Measurements(null)
     setOCSMeasurements([])
+    setSourceCatalog(null)
     setLoading(true)
     setError(false)
 
@@ -75,13 +171,15 @@ export function ZoneDetail({ selectedHexagonId, testModeEnabled = false, isRealG
       try {
         if (isRealGrid) {
           // Load M1 measurements for real grid
-          const [measurements, ocs] = await Promise.all([
+          const [measurements, ocs, sources] = await Promise.all([
             loadM1Measurements(selectedHexagonId),
             loadOCSMeasurements(selectedHexagonId),
+            loadM1SourceCatalog(),
           ])
           if (!cancelled) {
             setM1Measurements(measurements)
             setOCSMeasurements(ocs)
+            setSourceCatalog(sources)
             setLoading(false)
           }
         } else {
@@ -105,6 +203,31 @@ export function ZoneDetail({ selectedHexagonId, testModeEnabled = false, isRealG
       cancelled = true
     }
   }, [selectedHexagonId, testModeEnabled, isRealGrid])
+
+  useEffect(() => {
+    const controller = new AbortController()
+
+    if (!selectedHexagonId || !isRealGrid) {
+      setM2Summary(null)
+      setM2State('idle')
+      return () => controller.abort()
+    }
+
+    setM2Summary(null)
+    setM2State('loading')
+    void loadM2CellSummary(selectedHexagonId, controller.signal)
+      .then((summary) => {
+        setM2Summary(summary)
+        setM2State('available')
+      })
+      .catch((loadError: unknown) => {
+        if (loadError instanceof DOMException && loadError.name === 'AbortError') return
+        setM2Summary(null)
+        setM2State('unavailable')
+      })
+
+    return () => controller.abort()
+  }, [selectedHexagonId, isRealGrid])
 
   const getPriorityLabel = (priority?: PriorityExamen): string => {
     switch (priority) {
@@ -162,6 +285,34 @@ export function ZoneDetail({ selectedHexagonId, testModeEnabled = false, isRealG
     }
   }
 
+  const measurementSourceIds = m1Measurements?.source_ids.split(';').filter(Boolean) ?? []
+  const measurementSources = measurementSourceIds.map((sourceId) => ({
+    sourceId,
+    metadata: sourceCatalog?.sources[sourceId] ?? null,
+  }))
+
+  const coverageRows = m1Measurements
+    ? [
+        ['Sources géographiques de base', m1Measurements.p0_coverage_status],
+        ['Haies — BD Haie', m1Measurements.bdhaie_coverage_status],
+        ['Passages à faune — SIPAF', m1Measurements.sipaf_coverage_status],
+        ['Friches — Cartofriches', m1Measurements.cartofriches_coverage_status],
+        ['Zones humides — DREAL', m1Measurements.wetland_coverage_status],
+        ['Mares — PRAM', m1Measurements.pram_coverage_status],
+        ['Friches — EPFN', m1Measurements.epfn_coverage_status],
+      ] as const
+    : []
+
+  const sortedOCSMeasurements = [...ocsMeasurements].sort((a, b) => b.ocs_area_m2 - a.ocs_area_m2)
+  const mainOCSMeasurements = sortedOCSMeasurements.slice(0, 5)
+  const additionalOCSMeasurements = sortedOCSMeasurements.slice(5)
+  const currentEcologicalPriority = isRealGrid && selectedHexagonId
+    ? ecologicalPriority ?? resolveEcologicalPriority(selectedHexagonId, PRIORITY_GRID_VERSION)
+    : null
+  const priorityDisplay = currentEcologicalPriority
+    ? ECOLOGICAL_PRIORITY[currentEcologicalPriority.category]
+    : null
+
   return (
     <aside className="zone-detail" aria-labelledby="zone-detail-title">
       <div className="detail-handle" aria-hidden="true" />
@@ -201,11 +352,83 @@ export function ZoneDetail({ selectedHexagonId, testModeEnabled = false, isRealG
                 </div>
                 <div className="detail-status">
                   <span className="detail-status-label">Statut :</span>
-                  <span className="detail-status-value">Analyse scientifique en attente</span>
+                  <span className="detail-status-value">Analyse scientifique M2 en attente</span>
                 </div>
               </>
             )}
           </div>
+
+          {currentEcologicalPriority && priorityDisplay && (
+            <section className="detail-section ecological-priority-section" aria-labelledby="ecological-priority-title">
+              <div className="ecological-priority-heading">
+                <div>
+                  <h3 id="ecological-priority-title" className="detail-section-title">
+                    Priorité d'examen écologique
+                  </h3>
+                  <p>Classification soumise à validation scientifique</p>
+                </div>
+                <span
+                  className="ecological-priority-swatch"
+                  style={{ backgroundColor: priorityDisplay.color }}
+                  aria-hidden="true"
+                />
+              </div>
+
+              <p className="ecological-priority-current">
+                {currentEcologicalPriority.category === 'INDETERMINATE' &&
+                currentEcologicalPriority.resolution_reason !== 'validated'
+                  ? 'Priorité indéterminée — méthode scientifique en attente de validation'
+                  : priorityDisplay.label}
+              </p>
+
+              <dl className="ecological-priority-metadata">
+                <div>
+                  <dt>Catégorie actuelle</dt>
+                  <dd>{priorityDisplay.label}</dd>
+                </div>
+                <div>
+                  <dt>Statut de validation</dt>
+                  <dd>{validationLabels[currentEcologicalPriority.scientific_validation]}</dd>
+                </div>
+                <div>
+                  <dt>Fiabilité</dt>
+                  <dd>{currentEcologicalPriority.reliability.level}</dd>
+                </div>
+                {currentEcologicalPriority.method_version && (
+                  <div>
+                    <dt>Version de méthode</dt>
+                    <dd>{currentEcologicalPriority.method_version}</dd>
+                  </div>
+                )}
+              </dl>
+
+              <div className="ecological-priority-explanation">
+                <strong>Justification</strong>
+                <p>{currentEcologicalPriority.justification ?? 'Aucune justification validée disponible.'}</p>
+              </div>
+
+              <div className="ecological-priority-explanation">
+                <strong>Limites et incertitudes</strong>
+                <p>
+                  {currentEcologicalPriority.reliability.uncertainty ??
+                    'Le niveau d’incertitude n’est pas documenté.'}
+                </p>
+                {currentEcologicalPriority.reliability.limitations.length > 0 && (
+                  <ul>
+                    {currentEcologicalPriority.reliability.limitations.map((limitation) => (
+                      <li key={limitation}>{limitation}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+
+              {currentEcologicalPriority.provenance.length > 0 && (
+                <p className="ecological-priority-provenance">
+                  Provenance : {currentEcologicalPriority.provenance.join(' · ')}
+                </p>
+              )}
+            </section>
+          )}
 
           {loading && (
             <div className="detail-state" role="status">
@@ -272,71 +495,159 @@ export function ZoneDetail({ selectedHexagonId, testModeEnabled = false, isRealG
             </div>
           )}
 
+          <section className="detail-section m2-observation-section" aria-labelledby="m2-observation-title">
+            <div className="m2-section-heading">
+              <div>
+                <h3 id="m2-observation-title" className="detail-section-title">Observations géométriques M2</h3>
+                <p>Données réelles · consultation interne uniquement</p>
+              </div>
+              <span className="m2-internal-badge">Interne</span>
+            </div>
+
+            {m2State === 'loading' && <p className="m2-service-state">Chargement des observations M2…</p>}
+
+            {(m2State === 'idle' || m2State === 'unavailable') && (
+              <div className="m2-unavailable" role="status">
+                <strong>Données M2 non chargées</strong>
+                <span>Le service local interne est indisponible ou non configuré.</span>
+              </div>
+            )}
+
+            {m2State === 'available' && m2Summary && (
+              <>
+                <div className="indicators-grid m2-indicators-grid">
+                  <div className="indicator-item">
+                    <span className="indicator-label">Observations liées</span>
+                    <span className="indicator-value">{m2Summary.observations.distinctEventCount}</span>
+                    <span className="indicator-unit">événements distincts dans cette maille</span>
+                  </div>
+                  <div className="indicator-item">
+                    <span className="indicator-label">Relations événement–maille</span>
+                    <span className="indicator-value">{m2Summary.observations.relationshipCount}</span>
+                    <span className="indicator-unit">liens locaux, pas un total écologique</span>
+                  </div>
+                  <div className="indicator-item">
+                    <span className="indicator-label">ENJ-01</span>
+                    <span className="indicator-value">Inconnu</span>
+                    <span className="indicator-unit">couverture non attestée</span>
+                  </div>
+                  <div className="indicator-item">
+                    <span className="indicator-label">ENJ-02</span>
+                    <span className="indicator-value">
+                      {m2Summary.indicators.enj02.availability === 'observed' ? 'Présence observée' : 'Inconnu'}
+                    </span>
+                    <span className="indicator-unit">indicateur descriptif disponible</span>
+                  </div>
+                </div>
+                <div className="m2-qualification">
+                  <span>Qualification</span>
+                  <strong>Observations géométriques détectées</strong>
+                </div>
+                <p className="detail-note">
+                  {m2Summary.observations.distinctEventCount === 0
+                    ? 'Aucun événement documenté dans cette maille ne démontre une absence écologique. '
+                    : ''}
+                  Couverture et complétude inconnues. Priorités scientifiques et actions de restauration non calculées.
+                </p>
+              </>
+            )}
+          </section>
+
           {ocsMeasurements.length > 0 && (
             <div className="detail-section">
-              <h3 className="detail-section-title">Occupation du sol (OCS GE 2023)</h3>
+              <div className="ocs-heading">
+                <div>
+                  <h3 className="detail-section-title">Occupation du sol</h3>
+                  <p>OCS GE 2023 · catégories classées par surface décroissante</p>
+                </div>
+              </div>
               <div className="ocs-list">
-                {ocsMeasurements.map((ocs, index) => (
-                  <div key={index} className="ocs-item">
-                    <div className="ocs-code">{ocs.ocs_code_cs}</div>
-                    <div className="ocs-area">{formatArea(ocs.ocs_area_m2)}</div>
-                    <div className="ocs-fraction">{(ocs.ocs_fraction_of_cell * 100).toFixed(1)}%</div>
-                  </div>
+                {mainOCSMeasurements.map((measurement) => (
+                  <OCSRow key={measurement.ocs_code_cs} measurement={measurement} />
                 ))}
               </div>
+              {additionalOCSMeasurements.length > 0 && (
+                <details className="ocs-more">
+                  <summary>Afficher les {additionalOCSMeasurements.length} autres catégories</summary>
+                  <div className="ocs-list ocs-list--additional">
+                    {additionalOCSMeasurements.map((measurement) => (
+                      <OCSRow key={measurement.ocs_code_cs} measurement={measurement} />
+                    ))}
+                  </div>
+                </details>
+              )}
+              <p className="ocs-note">
+                Les codes officiels sont conservés tels que fournis. L'export M1 ne contient pas de libellés de nomenclature.
+              </p>
             </div>
           )}
 
           {m1Measurements && (
-            <div className="detail-section">
-              <h3 className="detail-section-title">Sources et qualité</h3>
-              <div className="quality-display">
-                <div className="quality-item">
-                  <span className="quality-label">Couverture sol :</span>
-                  <span className="quality-value">{m1Measurements.p0_coverage_status}</span>
+            <>
+              <details className="detail-expandable provenance-section">
+                <summary className="detail-expandable-header">
+                  <h3 className="detail-section-title">Sources et provenance</h3>
+                </summary>
+                <div className="detail-expandable-content">
+                  <p className="detail-section-intro">
+                    Sources M1 effectivement associées aux mesures de cette maille.
+                  </p>
+                  <ul className="sources-list">
+                    {measurementSources.map(({ sourceId, metadata }) => (
+                      <li className="source-item" key={sourceId}>
+                        <div className="source-name">{metadata?.name ?? sourceId}</div>
+                        <div className="source-meta">
+                          {metadata ? `${metadata.producer} · ${metadata.reference_year ?? 'Année non précisée'}` : 'Provenance à vérifier'}
+                        </div>
+                        <div className="source-meta">Identifiant M1 : {sourceId}</div>
+                        {metadata?.version && <div className="source-meta">Version : {metadata.version}</div>}
+                        {metadata?.license && <div className="source-meta">Licence : {metadata.license}</div>}
+                        {metadata?.geographic_coverage && (
+                          <div className="source-meta">Couverture : {metadata.geographic_coverage}</div>
+                        )}
+                        {metadata?.official_url && (
+                          <a className="source-link" href={metadata.official_url} target="_blank" rel="noreferrer">
+                            Consulter la source officielle
+                          </a>
+                        )}
+                        {metadata?.restrictions && <p className="source-desc">{metadata.restrictions}</p>}
+                      </li>
+                    ))}
+                  </ul>
+                  {!sourceCatalog && <p className="detail-unavailable">Métadonnées de provenance indisponibles.</p>}
                 </div>
-                <div className="quality-item">
-                  <span className="quality-label">Haies (BD Haie) :</span>
-                  <span className="quality-value">{m1Measurements.bdhaie_coverage_status}</span>
-                </div>
-                <div className="quality-item">
-                  <span className="quality-label">Friches (Cartofriches) :</span>
-                  <span className="quality-value">{m1Measurements.cartofriches_coverage_status}</span>
-                </div>
-                <div className="quality-item">
-                  <span className="quality-label">Zones humides (DREAL) :</span>
-                  <span className="quality-value">{m1Measurements.wetland_coverage_status}</span>
-                </div>
-                <div className="quality-item">
-                  <span className="quality-label">Unités de mesure :</span>
-                  <span className="quality-value">
-                    Longueur: {m1Measurements.length_unit}, Aire: {m1Measurements.area_unit}
-                  </span>
-                </div>
-                <div className="quality-item">
-                  <span className="quality-label">CRS des calculs :</span>
-                  <span className="quality-value">{m1Measurements.measurement_crs}</span>
-                </div>
-              </div>
-            </div>
-          )}
+              </details>
 
-          <div className="detail-section">
-            <h3 className="detail-section-title">Analyse scientifique</h3>
-            <div className="detail-badge detail-badge--warning" aria-label="État des données">
-              <span>En attente de validation M2</span>
-            </div>
-            <p>
-              <strong>Les priorités d'examen, les conflits confirmés et les recommandations de
-              restauration ne sont pas encore disponibles.</strong> Ces éléments seront produits par M2
-              après validation scientifique de la grille et des nomenclatures.
-            </p>
-            <p className="detail-note">
-              <strong>NOTE :</strong> La grille M1 est provisoire. M2 doit valider la pertinence de la
-              résolution (1 km²), de l'échelle des sources TVB (2014) et des règles de détection avant
-              toute interprétation écologique.
-            </p>
-          </div>
+              <details className="detail-expandable quality-limitations-section">
+                <summary className="detail-expandable-header">
+                  <h3 className="detail-section-title">Qualité et limites des données</h3>
+                </summary>
+                <div className="detail-expandable-content">
+                  <div className="coverage-list">
+                    {coverageRows.map(([label, status]) => {
+                      const info = coverageInfo(status)
+                      return (
+                        <div className="coverage-item" key={label}>
+                          <div className="coverage-heading">
+                            <span>{label}</span>
+                            <span className={`coverage-state coverage-state--${info.tone}`}>{info.label}</span>
+                          </div>
+                          <p>{info.detail}</p>
+                        </div>
+                      )
+                    })}
+                  </div>
+                  <p className="detail-note">
+                    Les intersections sont fusionnées avant calcul pour éviter les doubles comptes. Les cellules de bord utilisent leur surface réelle. Un zéro signifie qu’aucun objet documenté n’intersecte la maille dans la source utilisée ; il ne prouve pas l’absence réelle lorsque l’inventaire est incomplet.
+                  </p>
+                  <div className="method-info">
+                    <span className="method-label">Calculs :</span>
+                    <span className="method-value">{m1Measurements.measurement_crs} · longueurs en {m1Measurements.length_unit} · aires en {m1Measurements.area_unit}</span>
+                  </div>
+                </div>
+              </details>
+            </>
+          )}
 
           <details className="detail-expandable">
             <summary className="detail-expandable-header">
@@ -418,7 +729,7 @@ export function ZoneDetail({ selectedHexagonId, testModeEnabled = false, isRealG
             </div>
             {diagnostic.test_data && (
               <div className="detail-badge detail-badge--warning" aria-label="État des données">
-                <span>DONNÉES TEST — NON VALIDÉES</span>
+                <span>DONNÉES SYNTHÉTIQUES — DÉMONSTRATION</span>
               </div>
             )}
             <div className="detail-status">

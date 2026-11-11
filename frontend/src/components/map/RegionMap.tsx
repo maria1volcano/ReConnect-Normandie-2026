@@ -317,11 +317,12 @@ export function RegionMap({
         }
 
         const fitCameraTarget = () => {
-          if (!map || cancelled || userMovedCameraRef.current) return
+          if (!map || cancelled) return
           const { clientWidth, clientHeight } = mapContainer
           const padding = getInitialBoundsPadding(clientWidth)
           if (clientWidth <= padding * 2 || clientHeight <= padding * 2) return
           map.resize()
+          if (userMovedCameraRef.current) return
           map.fitBounds(cameraTargetRef.current, { padding, duration: 0 })
         }
 
@@ -511,7 +512,7 @@ export function RegionMap({
         )}
         {testModeEnabled && isTestData && (
           <span className="status-badge status-badge--warning">
-            DONNÉES TEST — NON VALIDÉES
+            DONNÉES SYNTHÉTIQUES — DÉMONSTRATION
           </span>
         )}
         {testModeEnabled && hexagonCount > 0 && (
