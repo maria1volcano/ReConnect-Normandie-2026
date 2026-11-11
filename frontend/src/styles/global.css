@@ -434,6 +434,17 @@ summary:focus-visible,
   line-height: 1.35;
 }
 
+.legend-test-label strong,
+.legend-test-label span {
+  display: block;
+}
+
+.legend-test-label span {
+  margin-top: 4px;
+  font-weight: 500;
+  letter-spacing: normal;
+}
+
 .ecological-priority-section {
   border: 1px solid rgba(137, 147, 143, 0.72);
   border-radius: 18px;

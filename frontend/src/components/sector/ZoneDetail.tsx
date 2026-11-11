@@ -27,6 +27,7 @@ interface ZoneDetailProps {
   selectedHexagonId?: string | null
   testModeEnabled?: boolean
   isRealGrid?: boolean
+  gridVersion?: string
   ecologicalPriority?: ResolvedEcologicalPriority | null
 }
 
@@ -134,6 +135,7 @@ export function ZoneDetail({
   selectedHexagonId,
   testModeEnabled = false,
   isRealGrid = false,
+  gridVersion = PRIORITY_GRID_VERSION,
   ecologicalPriority,
 }: ZoneDetailProps) {
   const [bundle, setBundle] = useState<ZoneDiagnosticBundle | null>(null)
@@ -172,8 +174,8 @@ export function ZoneDetail({
         if (isRealGrid) {
           // Load M1 measurements for real grid
           const [measurements, ocs, sources] = await Promise.all([
-            loadM1Measurements(selectedHexagonId),
-            loadOCSMeasurements(selectedHexagonId),
+            loadM1Measurements(selectedHexagonId, gridVersion),
+            loadOCSMeasurements(selectedHexagonId, gridVersion),
             loadM1SourceCatalog(),
           ])
           if (!cancelled) {
@@ -202,7 +204,7 @@ export function ZoneDetail({
     return () => {
       cancelled = true
     }
-  }, [selectedHexagonId, testModeEnabled, isRealGrid])
+  }, [selectedHexagonId, testModeEnabled, isRealGrid, gridVersion])
 
   useEffect(() => {
     const controller = new AbortController()
@@ -215,7 +217,7 @@ export function ZoneDetail({
 
     setM2Summary(null)
     setM2State('loading')
-    void loadM2CellSummary(selectedHexagonId, controller.signal)
+    void loadM2CellSummary(selectedHexagonId, controller.signal, gridVersion)
       .then((summary) => {
         setM2Summary(summary)
         setM2State('available')
@@ -227,7 +229,7 @@ export function ZoneDetail({
       })
 
     return () => controller.abort()
-  }, [selectedHexagonId, isRealGrid])
+  }, [selectedHexagonId, isRealGrid, gridVersion])
 
   const getPriorityLabel = (priority?: PriorityExamen): string => {
     switch (priority) {
@@ -307,7 +309,7 @@ export function ZoneDetail({
   const mainOCSMeasurements = sortedOCSMeasurements.slice(0, 5)
   const additionalOCSMeasurements = sortedOCSMeasurements.slice(5)
   const currentEcologicalPriority = isRealGrid && selectedHexagonId
-    ? ecologicalPriority ?? resolveEcologicalPriority(selectedHexagonId, PRIORITY_GRID_VERSION)
+    ? ecologicalPriority ?? resolveEcologicalPriority(selectedHexagonId, gridVersion)
     : null
   const priorityDisplay = currentEcologicalPriority
     ? ECOLOGICAL_PRIORITY[currentEcologicalPriority.category]

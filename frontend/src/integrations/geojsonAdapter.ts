@@ -15,10 +15,13 @@ import type {
   RestorationActionSuggestion,
   ZoneDiagnosticBundle,
 } from '../types/hexagon'
+import type { RealGridFeatureProperties } from './priorityAdapter'
 import {
-  applyEcologicalPriorities,
-  type RealGridFeatureProperties,
-} from './priorityAdapter'
+  DEFAULT_REAL_GRID_DATASET,
+  TEST_GRID_DATASET,
+  prepareGridDataset,
+  type GridDatasetDefinition,
+} from './gridDatasets.ts'
 
 export interface HexagonData {
   featureCollection: FeatureCollection<Geometry, HexagonFeatureProperties>
@@ -30,6 +33,7 @@ export interface HexagonData {
 export interface RealGridData {
   featureCollection: FeatureCollection<Geometry, RealGridFeatureProperties>
   gridVersion: string
+  dataset: GridDatasetDefinition
   loadingError?: string
 }
 
@@ -135,10 +139,20 @@ function dataUrl(fileName: string): string {
   return new URL(`${import.meta.env.BASE_URL}data/${fileName}`, window.location.href).href
 }
 
+export function matchesGridVersion(
+  record: { grid_version: string },
+  expectedGridVersion?: string,
+): boolean {
+  return !expectedGridVersion || record.grid_version === expectedGridVersion
+}
+
 /**
  * Load M1 geographic measurements for a specific hexagon
  */
-export async function loadM1Measurements(maille_id: string): Promise<M1Measurements | null> {
+export async function loadM1Measurements(
+  maille_id: string,
+  expectedGridVersion?: string,
+): Promise<M1Measurements | null> {
   try {
     const response = await fetch(dataUrl('sub_indicateurs.json'))
     if (!response.ok) {
@@ -147,7 +161,10 @@ export async function loadM1Measurements(maille_id: string): Promise<M1Measureme
     }
 
     const data: Record<string, M1Measurements> = await response.json()
-    return data[maille_id] || null
+    const measurement = data[maille_id] || null
+    return measurement && matchesGridVersion(measurement, expectedGridVersion)
+      ? measurement
+      : null
   } catch (error) {
     console.error('[geojsonAdapter] Erreur chargement mesures M1:', error)
     return null
@@ -157,7 +174,10 @@ export async function loadM1Measurements(maille_id: string): Promise<M1Measureme
 /**
  * Load OCS land cover measurements for a specific hexagon
  */
-export async function loadOCSMeasurements(maille_id: string): Promise<OCSMeasurement[]> {
+export async function loadOCSMeasurements(
+  maille_id: string,
+  expectedGridVersion?: string,
+): Promise<OCSMeasurement[]> {
   try {
     const response = await fetch(dataUrl('sub_indicateurs_ocs.json'))
     if (!response.ok) {
@@ -166,7 +186,10 @@ export async function loadOCSMeasurements(maille_id: string): Promise<OCSMeasure
     }
 
     const data: Record<string, OCSMeasurement[]> = await response.json()
-    return data[maille_id] || []
+    const measurements = data[maille_id] || []
+    return expectedGridVersion
+      ? measurements.filter((measurement) => matchesGridVersion(measurement, expectedGridVersion))
+      : measurements
   } catch (error) {
     console.error('[geojsonAdapter] Erreur chargement OCS:', error)
     return []
@@ -193,19 +216,20 @@ export async function loadM1SourceCatalog(): Promise<M1SourceCatalog | null> {
   }
 }
 
-/**
- * Load real M1 candidate hexagonal grid
- * Returns the 43 real hexagons from M1 without ecological priorities
- */
-export async function loadRealGrid(): Promise<RealGridData> {
+async function loadGridDataset(
+  dataset: GridDatasetDefinition,
+  mode: 'TEST' | 'REAL',
+  priorityRecords: readonly unknown[] = [],
+): Promise<RealGridData> {
   try {
-    const response = await fetch(dataUrl('grille_pilote_wgs84.geojson'))
+    const response = await fetch(dataUrl(dataset.fileName))
     if (!response.ok) {
       if (response.status === 404) {
         return {
           featureCollection: { type: 'FeatureCollection', features: [] },
-          gridVersion: 'none',
-          loadingError: 'Grille réelle M1 non disponible',
+          gridVersion: dataset.gridVersion,
+          dataset,
+          loadingError: `Grille ${dataset.label} non disponible`,
         }
       }
       throw new Error(`HTTP ${response.status}: ${response.statusText}`)
@@ -217,23 +241,35 @@ export async function loadRealGrid(): Promise<RealGridData> {
       throw new Error('Format GeoJSON invalide')
     }
 
-    const firstFeature = geojson.features[0]
-    const gridVersion = firstFeature?.properties?.grid_version || 'unknown'
-
-    const priorityReadyGrid = applyEcologicalPriorities(geojson, [])
+    const prepared = prepareGridDataset(geojson, dataset, mode, priorityRecords)
 
     return {
-      featureCollection: priorityReadyGrid,
-      gridVersion,
+      featureCollection: prepared.featureCollection,
+      gridVersion: dataset.gridVersion,
+      dataset,
     }
   } catch (error) {
-    console.error('[geojsonAdapter] Erreur chargement grille réelle:', error)
+    console.error(`[geojsonAdapter] Erreur chargement grille ${dataset.key}:`, error)
     return {
       featureCollection: { type: 'FeatureCollection', features: [] },
-      gridVersion: 'error',
+      gridVersion: dataset.gridVersion,
+      dataset,
       loadingError: error instanceof Error ? error.message : 'Erreur inconnue',
     }
   }
+}
+
+/** Fixed 43-cell M1 pilot used exclusively for synthetic demonstration. */
+export function loadTestGrid(): Promise<RealGridData> {
+  return loadGridDataset(TEST_GRID_DATASET, 'TEST')
+}
+
+/** Configurable REAL dataset; future grids must provide their own versioned definition. */
+export function loadRealGrid(
+  dataset: GridDatasetDefinition = DEFAULT_REAL_GRID_DATASET,
+  priorityRecords: readonly unknown[] = [],
+): Promise<RealGridData> {
+  return loadGridDataset(dataset, 'REAL', priorityRecords)
 }
 
 /**

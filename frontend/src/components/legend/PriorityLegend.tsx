@@ -29,9 +29,14 @@ export function PriorityLegend({ testModeEnabled = false }: PriorityLegendProps)
         ))}
       </ul>
       {testModeEnabled && (
-        <p className="legend-test-label">DONNÉES SYNTHÉTIQUES — DÉMONSTRATION</p>
+        <div className="legend-test-label">
+          <strong>DONNÉES SYNTHÉTIQUES — DÉMONSTRATION</strong>
+          <span>
+            Les couleurs illustrent des priorités fictives. Elles ne constituent pas des conclusions
+            écologiques validées.
+          </span>
+        </div>
       )}
-      
     </aside>
   )
 }

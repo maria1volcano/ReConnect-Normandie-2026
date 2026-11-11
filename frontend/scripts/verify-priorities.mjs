@@ -6,6 +6,13 @@ import {
   applyEcologicalPriorities,
   resolveEcologicalPriority,
 } from '../src/integrations/priorityAdapter.ts'
+import {
+  DEFAULT_REAL_GRID_DATASET,
+  TEST_GRID_DATASET,
+  prepareGridDataset,
+} from '../src/integrations/gridDatasets.ts'
+import { matchesGridVersion } from '../src/integrations/geojsonAdapter.ts'
+import { M2UnavailableError, parseM2CellSummary } from '../src/integrations/m2Adapter.ts'
 
 const publicDataPath = new URL('../public/data/', import.meta.url)
 const grid = JSON.parse(await readFile(new URL('grille_pilote_wgs84.geojson', publicDataPath), 'utf8'))
@@ -19,6 +26,59 @@ assert.ok(
   currentGrid.features.every((feature) => feature.properties.priority_category === 'INDETERMINATE'),
   'Toutes les mailles réelles doivent rester indéterminées sans priorité validée',
 )
+
+const testGrid = prepareGridDataset(grid, TEST_GRID_DATASET, 'TEST')
+assert.equal(testGrid.featureCollection.features.length, 43)
+assert.deepEqual(
+  testGrid.featureCollection.features.map((feature) => feature.geometry),
+  grid.features.map((feature) => feature.geometry),
+  'TEST doit réutiliser exactement les géométries du pilote M1',
+)
+assert.deepEqual(
+  testGrid.featureCollection.features.map((feature) => [
+    feature.properties.maille_id,
+    feature.properties.grid_version,
+  ]),
+  grid.features.map((feature) => [feature.properties.maille_id, feature.properties.grid_version]),
+  'TEST doit conserver les maille_id et grid_version d’origine',
+)
+assert.deepEqual(
+  new Set(testGrid.featureCollection.features.map((feature) => feature.properties.priority_category)),
+  new Set(['HIGH', 'MODERATE', 'LOW', 'INDETERMINATE']),
+  'TEST doit afficher les quatre couleurs synthétiques',
+)
+
+const syntheticExpandedDefinition = {
+  key: 'fixture-expanded-real',
+  label: 'Fixture REAL étendue',
+  fileName: 'fixture-not-public.geojson',
+  gridVersion: 'M1-EXPANDED-FIXTURE-V2',
+  bounds: [[-0.3, 49.1], [-0.1, 49.3]],
+}
+const syntheticExpandedGrid = {
+  type: 'FeatureCollection',
+  features: [
+    {
+      type: 'Feature',
+      properties: { maille_id: 'EXPANDED-001', grid_version: 'M1-EXPANDED-FIXTURE-V2' },
+      geometry: { type: 'Polygon', coordinates: [[[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]] },
+    },
+    {
+      type: 'Feature',
+      properties: { maille_id: 'EXPANDED-002', grid_version: 'M1-EXPANDED-FIXTURE-V2' },
+      geometry: { type: 'Polygon', coordinates: [[[1, 0], [2, 0], [2, 1], [1, 1], [1, 0]]] },
+    },
+  ],
+}
+const expandedReal = prepareGridDataset(syntheticExpandedGrid, syntheticExpandedDefinition, 'REAL')
+assert.equal(expandedReal.featureCollection.features.length, 2)
+assert.equal(testGrid.featureCollection.features.length, 43, 'La configuration REAL ne modifie pas TEST')
+assert.throws(
+  () => prepareGridDataset(syntheticExpandedGrid, DEFAULT_REAL_GRID_DATASET, 'REAL'),
+  /incompatible/,
+)
+assert.equal(matchesGridVersion({ grid_version: PRIORITY_GRID_VERSION }, PRIORITY_GRID_VERSION), true)
+assert.equal(matchesGridVersion({ grid_version: 'INCOMPATIBLE' }, PRIORITY_GRID_VERSION), false)
 
 const baseRecord = {
   maille_id: grid.features[0].properties.maille_id,
@@ -58,6 +118,40 @@ assert.equal(
   'INDETERMINATE',
 )
 
+const m2Fixture = {
+  schemaVersion: 'm2-m4.internal-cell-summary-1',
+  dataNature: 'reelle',
+  diffusion: 'interne_revue_uniquement',
+  cellId: baseRecord.maille_id,
+  gridVersion: PRIORITY_GRID_VERSION,
+  observations: {
+    status: 'geometric_detection',
+    qualification: 'geometrie_2d',
+    distinctEventCount: 0,
+    relationshipCount: 0,
+    canonicalOwnerCount: 0,
+  },
+  indicators: {
+    enj01: { availability: 'unknown', value: null, status: 'unknown' },
+    enj02: { availability: 'unknown', value: null, status: 'unknown' },
+  },
+  coverage: { routes: 'unknown', corridors: 'unknown', completeness: 'unknown' },
+  science: {
+    priority: 'not_calculated',
+    actions: 'not_calculated',
+    validation: 'pending',
+    limitations: [],
+  },
+}
+assert.equal(
+  parseM2CellSummary(m2Fixture, baseRecord.maille_id, PRIORITY_GRID_VERSION).gridVersion,
+  PRIORITY_GRID_VERSION,
+)
+assert.throws(
+  () => parseM2CellSummary(m2Fixture, baseRecord.maille_id, 'INCOMPATIBLE'),
+  M2UnavailableError,
+)
+
 assert.deepEqual(
   Object.fromEntries(Object.entries(ECOLOGICAL_PRIORITY).map(([key, value]) => [key, value.color])),
   {
@@ -76,4 +170,4 @@ for (const file of publicFiles.filter((entry) => entry.endsWith('.json') || entr
   assert.ok(!content.includes('liens_mailles_conflits'), `Schéma M2 interne publié dans ${file}`)
 }
 
-console.log('PASS: 43 mailles grises, validation/version sécurisées, palette V6.1, aucun GeoPackage M2 public')
+console.log('PASS: modes TEST/REAL séparés, géométrie 43 mailles stable, versions M1/M2 sécurisées, aucun GeoPackage M2 public')

@@ -33,6 +33,7 @@ export type PriorityResolutionReason =
   | 'missing_priority'
   | 'grid_version_mismatch'
   | 'scientific_validation_pending'
+  | 'synthetic_demo'
 
 export interface ResolvedEcologicalPriority extends EcologicalPriorityRecord {
   category: EcologicalPriorityCategory
@@ -150,7 +151,7 @@ export function applyEcologicalPriorities(
   const recordsByCell = new Map<string, unknown>()
   for (const candidate of priorityRecords) {
     const parsed = parsePriorityRecord(candidate)
-    if (parsed) recordsByCell.set(parsed.maille_id, candidate)
+    if (parsed) recordsByCell.set(`${parsed.grid_version}::${parsed.maille_id}`, candidate)
   }
 
   return {
@@ -159,7 +160,11 @@ export function applyEcologicalPriorities(
       const properties = feature.properties ?? {}
       const mailleId = typeof properties.maille_id === 'string' ? properties.maille_id : ''
       const gridVersion = typeof properties.grid_version === 'string' ? properties.grid_version : ''
-      const priority = resolveEcologicalPriority(mailleId, gridVersion, recordsByCell.get(mailleId))
+      const priority = resolveEcologicalPriority(
+        mailleId,
+        gridVersion,
+        recordsByCell.get(`${gridVersion}::${mailleId}`),
+      )
 
       return {
         ...feature,

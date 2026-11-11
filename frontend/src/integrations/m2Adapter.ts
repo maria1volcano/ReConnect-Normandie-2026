@@ -14,7 +14,7 @@ export interface M2CellSummary {
   dataNature: 'reelle'
   diffusion: 'interne_revue_uniquement'
   cellId: string
-  gridVersion: typeof M2_GRID_VERSION
+  gridVersion: string
   observations: {
     status: 'geometric_detection'
     qualification: 'geometrie_2d'
@@ -54,7 +54,11 @@ function isNonNegativeInteger(value: unknown): value is number {
   return Number.isInteger(value) && Number(value) >= 0
 }
 
-function parseM2CellSummary(value: unknown, requestedCellId: string): M2CellSummary {
+export function parseM2CellSummary(
+  value: unknown,
+  requestedCellId: string,
+  expectedGridVersion: string,
+): M2CellSummary {
   if (!isRecord(value) || value.schemaVersion !== 'm2-m4.internal-cell-summary-1') {
     throw new M2UnavailableError('Réponse M2 interne incompatible')
   }
@@ -68,7 +72,7 @@ function parseM2CellSummary(value: unknown, requestedCellId: string): M2CellSumm
     value.dataNature !== 'reelle' ||
     value.diffusion !== 'interne_revue_uniquement' ||
     value.cellId !== requestedCellId ||
-    value.gridVersion !== M2_GRID_VERSION ||
+    value.gridVersion !== expectedGridVersion ||
     !isRecord(observations) ||
     observations.status !== 'geometric_detection' ||
     observations.qualification !== 'geometrie_2d' ||
@@ -114,6 +118,7 @@ function parseM2CellSummary(value: unknown, requestedCellId: string): M2CellSumm
 export async function loadM2CellSummary(
   cellId: string,
   signal?: AbortSignal,
+  expectedGridVersion: string = M2_GRID_VERSION,
 ): Promise<M2CellSummary> {
   const response = await fetch(`/__internal/m2/cells/${encodeURIComponent(cellId)}`, {
     headers: { Accept: 'application/json' },
@@ -124,5 +129,5 @@ export async function loadM2CellSummary(
     throw new M2UnavailableError()
   }
 
-  return parseM2CellSummary(await response.json(), cellId)
+  return parseM2CellSummary(await response.json(), cellId, expectedGridVersion)
 }
