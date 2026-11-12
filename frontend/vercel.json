@@ -13,5 +13,9 @@
         { "key": "Cache-Control", "value": "public, max-age=3600" }
       ]
     }
+  ],
+  "rewrites": [
+    { "source": "/methode", "destination": "/index.html" },
+    { "source": "/catalogue", "destination": "/index.html" }
   ]
 }

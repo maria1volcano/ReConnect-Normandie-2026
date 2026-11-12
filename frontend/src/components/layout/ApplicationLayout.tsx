@@ -9,6 +9,9 @@ import type { DepartmentCode } from '../map/normandyDepartments'
 import { ZoneDetail } from '../sector/ZoneDetail'
 import { TerritorialZoneDetail } from '../sector/TerritorialZoneDetail'
 import { loadRealGrid, loadTestGrid, type RealGridData } from '../../integrations/geojsonAdapter'
+import { linkClickHandler, navigate } from '../../app/router'
+import { loadStaticCells } from '../../integrations/m4Adapter'
+import { mailleIdsForRule, type RuleId } from '../../integrations/catalogueData'
 import { priorityFromFeature } from '../../integrations/priorityAdapter'
 import { CAEN_TERRITORY_ID } from '../../integrations/gridDatasets'
 
@@ -68,6 +71,7 @@ export function ApplicationLayout() {
   const [showRealGrid, setShowRealGrid] = useState(true)
   const [realView, setRealView] = useState<'documentary' | 'ecological'>('documentary')
   const [realReloadNonce, setRealReloadNonce] = useState(0)
+  const [familyHighlight, setFamilyHighlight] = useState<{ ruleId: RuleId; ids: Set<string> } | null>(null)
   const mapRef = useRef<MapLibreMap | undefined>(undefined)
   const activeGrid = testModeEnabled ? testGrid : realGrid
   const activeGridData = activeGrid?.featureCollection ?? { type: 'FeatureCollection' as const, features: [] }
@@ -152,6 +156,52 @@ export function ApplicationLayout() {
     setHoveredRealHexagonId(null)
   }, [realGrid?.dataset.key, realGrid?.gridVersion])
 
+  // Filtre « famille d'investigation » transmis par le catalogue (?famille=R1…R4)
+  // et sélection directe d'une maille (?maille=…). Réévalué à chaque navigation.
+  useEffect(() => {
+    const applyQuery = () => {
+      const params = new URLSearchParams(window.location.search)
+      const famille = params.get('famille')
+      const maille = params.get('maille')
+      if (famille && ['R1', 'R2', 'R3', 'R4'].includes(famille)) {
+        void loadStaticCells()
+          .then((cells) => setFamilyHighlight({ ruleId: famille as RuleId, ids: mailleIdsForRule(cells, famille as RuleId) }))
+          .catch(() => setFamilyHighlight(null))
+      } else {
+        setFamilyHighlight(null)
+      }
+      if (maille && realGrid) {
+        const exists = realGrid.featureCollection.features.some(
+          (feature) => feature.properties.maille_id === maille,
+        )
+        if (exists) {
+          setSelectedGridCell({ gridVersion: realGrid.gridVersion, mailleId: maille })
+        }
+      }
+    }
+    applyQuery()
+    window.addEventListener('popstate', applyQuery)
+    return () => window.removeEventListener('popstate', applyQuery)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [realGrid?.gridVersion])
+
+  // Centrer la carte sur les mailles de la famille d'investigation sélectionnée.
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map || !familyHighlight || !realGrid) return
+    const features = realGrid.featureCollection.features.filter((feature) =>
+      familyHighlight.ids.has(feature.properties.maille_id),
+    )
+    if (features.length === 0) return
+    const bounds = featureCollectionBounds({
+      type: 'FeatureCollection',
+      features,
+    })
+    if (bounds) {
+      map.fitBounds(bounds, { padding: 60, duration: 800, maxZoom: 13 })
+    }
+  }, [familyHighlight, realGrid])
+
   return (
     <div className="application-shell">
       <header className="app-header">
@@ -179,9 +229,9 @@ export function ApplicationLayout() {
         </a>
 
         <nav className="header-nav" aria-label="Navigation principale">
-          <span aria-disabled="true">Catalogue</span>
-          <span aria-disabled="true">Méthode</span>
-          <small>À venir</small>
+          <a href="/" onClick={linkClickHandler('/')}>Carte</a>
+          <a href="/methode" onClick={linkClickHandler('/methode')}>Méthode</a>
+          <a href="/catalogue" onClick={linkClickHandler('/catalogue')}>Catalogue</a>
         </nav>
       </header>
 
@@ -200,10 +250,26 @@ export function ApplicationLayout() {
 
           <div className="map-frame">
             <RegionMap {...departmentState} mapRef={mapRef} hexagonCount={testGrid?.featureCollection.features.length ?? 0} realGridCount={realGrid?.featureCollection.features.length ?? 0} isTestData={true} testModeEnabled={testModeEnabled} showRealGrid={showRealGrid} onZoomToTestZone={handleZoomToTestZone} onZoomToPilot={handleZoomToPilot} onToggleTestMode={handleToggleTestMode} onToggleRealGrid={handleToggleRealGrid} studyAreaBounds={realStudyBounds} testModeAvailable={TEST_MODE_UI_ENABLED} />
-            <RealGridLayer classificationView={testModeEnabled ? 'ecological' : realView} map={mapRef.current} realGridData={activeGridData} selectedRealHexagonId={selectedRealHexagonId} hoveredRealHexagonId={hoveredRealHexagonId} onSelectRealHexagon={handleSelectRealHexagon} onHoverRealHexagon={setHoveredRealHexagonId} showRealGrid={showRealGrid || testModeEnabled} />
+            <RealGridLayer classificationView={testModeEnabled ? 'ecological' : realView} map={mapRef.current} realGridData={activeGridData} selectedRealHexagonId={selectedRealHexagonId} hoveredRealHexagonId={hoveredRealHexagonId} onSelectRealHexagon={handleSelectRealHexagon} onHoverRealHexagon={setHoveredRealHexagonId} showRealGrid={showRealGrid || testModeEnabled} highlightedMailleIds={familyHighlight?.ids ?? null} />
             {testModeEnabled ? <PriorityLegend testModeEnabled /> : realView === 'documentary' ? <DocumentaryLegend /> : <PriorityLegend realIndeterminateOnly />}
             {!testModeEnabled && realGrid?.loadingError && <div className="map-status map-status--error" role="alert"><strong>Grille REAL indisponible</strong><span>{realGrid.loadingError} — démarrez le backend local M4 (backend/server.py) puis réessayez.</span><button type="button" className="retry-button" onClick={() => setRealReloadNonce((nonce) => nonce + 1)}>Réessayer</button></div>}
           </div>
+
+          {familyHighlight && !testModeEnabled && (
+            <div className="family-banner" role="status">
+              <div>
+                <strong>Famille {familyHighlight.ruleId}</strong>
+                <span>
+                  {familyHighlight.ids.size} secteur{familyHighlight.ids.size > 1 ? 's' : ''} concerné
+                  {familyHighlight.ids.size > 1 ? 's' : ''} — surlignés sur la carte. Cliquez une
+                  maille pour ouvrir sa fiche diagnostic.
+                </span>
+              </div>
+              <button type="button" className="family-banner-close" onClick={() => navigate('/')}>
+                Effacer le filtre
+              </button>
+            </div>
+          )}
 
           {REAL_VIEW_SWITCHER_ENABLED && !testModeEnabled && (
             <div className="classification-switcher" role="group" aria-label="Vue cartographique réelle">
