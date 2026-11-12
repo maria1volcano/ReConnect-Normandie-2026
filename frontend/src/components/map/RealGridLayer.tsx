@@ -50,6 +50,7 @@ interface RealGridLayerProps {
   onHoverRealHexagon: (id: string | null) => void
   showRealGrid: boolean
   classificationView?: 'documentary' | 'ecological'
+  highlightedMailleIds?: ReadonlySet<string> | null
 }
 
 export function RealGridLayer({
@@ -61,6 +62,7 @@ export function RealGridLayer({
   onHoverRealHexagon,
   showRealGrid,
   classificationView = 'ecological',
+  highlightedMailleIds = null,
 }: RealGridLayerProps) {
   const isInitializedRef = useRef(false)
   const selectRef = useRef(onSelectRealHexagon)
@@ -111,6 +113,8 @@ export function RealGridLayer({
             '#FFFFFF',
             ['boolean', ['feature-state', 'hover'], false],
             '#E9FFF6',
+            ['boolean', ['feature-state', 'highlighted'], false],
+            '#6FF5C8',
             '#3E4B47',
           ] as ExpressionSpecification,
           'line-opacity': 0.95,
@@ -120,6 +124,8 @@ export function RealGridLayer({
             3,
             ['boolean', ['feature-state', 'hover'], false],
             2.4,
+            ['boolean', ['feature-state', 'highlighted'], false],
+            2,
             0.75,
           ],
         },
@@ -217,6 +223,7 @@ export function RealGridLayer({
             {
               hover: mailleId === hoveredRealHexagonId,
               selected: mailleId === selectedRealHexagonId,
+              highlighted: highlightedMailleIds?.has(mailleId) ?? false,
             },
           )
         }
@@ -231,7 +238,7 @@ export function RealGridLayer({
     return () => {
       map.off('styledata', applyStates)
     }
-  }, [map, realGridData, selectedRealHexagonId, hoveredRealHexagonId])
+  }, [map, realGridData, selectedRealHexagonId, hoveredRealHexagonId, highlightedMailleIds])
 
   return null
 }

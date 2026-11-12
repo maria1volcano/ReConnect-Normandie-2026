@@ -50,7 +50,7 @@ function staticDataUrl(fileName: string): string {
 
 let staticCellsPromise: Promise<Record<string, M4CellBundle>> | null = null
 
-function loadStaticCells(signal?: AbortSignal): Promise<Record<string, M4CellBundle>> {
+export function loadStaticCells(signal?: AbortSignal): Promise<Record<string, M4CellBundle>> {
   staticCellsPromise ??= fetchJson<Record<string, M4CellBundle>>(staticDataUrl('cells.json'), signal).catch((error) => {
     staticCellsPromise = null
     throw error
