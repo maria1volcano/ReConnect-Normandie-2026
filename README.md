@@ -1,37 +1,89 @@
-# Datathon-normandie-2026
+# ReConnect Normandie — Datathon 2026
 
+Prédiagnostic territorial des continuités écologiques en Normandie.
+Intégration finale des chantiers **M1** (données SIG), **M2** (diagnostics),
+**M3** (frontend) et **M4** (backend).
 
-# Backend — ReConnect Normandie
+## Architecture
 
-API FastAPI du projet ReConnect Normandie.
+| Brique | Branche | Contenu |
+|---|---|---|
+| M1 | `feat/m1-donnees-sig-v61` | Pipeline SIG reproductible, grille hexagonale pilote, mesures élémentaires, adoption de la grille 6 communes |
+| M2 | `feat/diagnostics-ecologiques` | Méthode de croisement géométrique, schémas de contrat, triage documentaire V1–V4, suite de tests |
+| M3 | `feat/m3-frontend-reconnect-v61` | Application React + TypeScript + Vite + MapLibre GL |
+| M4 | `feat/backend-housin` | API FastAPI de contrat `m2-m4.proposal-1` (données synthétiques / lot interne dédié) |
 
-## Installation
+Branche d'intégration : `integration/final-datathon`.
 
-Depuis le dossier backend :
+## Application M3 (frontend)
 
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+- **Mode REAL (unique interface publique)** : 101 cellules géographiques
+  (`territory_id = caen_et_nord_6communes`,
+  `grid_version = M1-CAEN-6COM-1KM2-FLAT-L93-O0-V1`), couvrant Caen et cinq
+  communes voisines, affichées avec la classification exploratoire
+  documentaire M2 (V1 rouge ×27, V2 orange ×33, V3 jaune ×9, V4 gris ×32).
+- **Ces couleurs sont un ordre de vérification documentaire exploratoire**,
+  pas des priorités écologiques validées. Les priorités écologiques restent
+  indéterminées.
+- Clic sur une cellule : fiche territoriale M2 (observations géométriques,
+  pistes d'investigation R1–R4 non évaluables, limites, provenance).
+- Le mode TEST historique (43 mailles pilotes Orne, données synthétiques)
+  est conservé dans le code et les données mais masqué de l'interface
+  (`TEST_MODE_UI_ENABLED` dans `frontend/src/components/layout/ApplicationLayout.tsx`).
+
+## Backend actif : `backend/server.py` (adaptateur local M4)
+
+Le backend de démonstration actif est **`backend/server.py`**, un adaptateur
+loopback-only qui sert le lot M2 interne certifié (SHA-256 épinglé,
+`diffusion = interne_revue_uniquement`, `publication_autorisee = false`) :
+
+```powershell
+cd backend
+$env:RECONNECT_M2_ZIP='C:\chemin\vers\RECONNECT_CAEN_ET_NORD_M2_DEMO_INTERNE_20261111_V1.zip'
+$env:RECONNECT_FRONTEND_ORIGIN='http://127.0.0.1:5173'
+py server.py   # http://127.0.0.1:8765
 ```
 
-## Démarrage
+Endpoints : `/health`, `/api/internal/caen/metadata`,
+`/api/internal/caen/grid`, `/api/internal/caen/cells/{maille_id}`.
+Accès refusé hors loopback et hors origine frontend autorisée.
+
+## Backend M4 contractuel : `backend/main.py` (FastAPI)
+
+L'implémentation M4 d'origine (`main.py`, `services/`, `schemas/`,
+`tests/`) est conservée pour le contrat `m2-m4.proposal-1`. Elle est conçue
+pour les fixtures synthétiques et l'ancien lot interne 66 mailles
+(`RECONNECT_INTERNAL_GPKG` + `RECONNECT_INTERNAL_TOKEN`, loopback-only,
+géométries non publiées). **Elle n'est pas le backend de la démonstration
+101 mailles** — voir `backend/README.md`.
 
 ```bash
-uvicorn main:app --reload
+cd backend
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements-dev.txt
+python -m pytest -q
+python -m uvicorn main:app --reload --host 127.0.0.1 --port 8000
 ```
 
-## Accès
+## Frontend
 
-- Documentation : http://127.0.0.1:8000/docs
-- Santé du serveur : http://127.0.0.1:8000/health
-- Zones TEST : http://127.0.0.1:8000/zone
+```powershell
+cd frontend
+npm ci
+npm run dev     # http://127.0.0.1:5173
+```
 
-## Données
+Tests : `npm run typecheck`, `npm run test:priorities`, `npm run build`.
 
-Les données actuelles sont fictives (TEST).
-Elles seront remplacées par des exports JSON/GeoJSON validés.
+## Données et restrictions
 
-## Technologies
+- Le ZIP M2 final est **interne uniquement** : il n'est pas dans le dépôt et
+  ne doit pas être publié. La carte REAL nécessite le backend local
+  `server.py` + le ZIP autorisé (`RECONNECT_M2_ZIP`).
+- `data/deliveries/` (GeoPackages, archives M1→M2) est ignoré par Git.
+- Aucun `.env` peuplé n'est versionné ; voir `.env.example`.
+- Limites scientifiques : croisements 2D ≠ obstacles confirmés ; zéro
+  observation ≠ absence ; aucune priorité ni recommandation de travaux
+  validée ; catalogue M5 absent.
 
-Python, FastAPI, Uvicorn.
+Voir `docs/LOCAL_DEMO_RUNBOOK.md` pour le parcours de démonstration.
