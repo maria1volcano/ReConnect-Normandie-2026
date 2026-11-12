@@ -8,6 +8,9 @@ import {
 
 export type GridMode = 'TEST' | 'REAL'
 
+export const CAEN_NORD_GRID_VERSION = 'M1-CAEN-6COM-1KM2-FLAT-L93-O0-V1' as const
+export const CAEN_TERRITORY_ID = 'caen_et_nord_6communes' as const
+
 export interface GridDatasetDefinition {
   key: string
   label: string
@@ -33,16 +36,19 @@ export const TEST_GRID_DATASET: GridDatasetDefinition = {
 }
 
 export const REAL_GRID_DATASETS = {
-  'm1-pilot-v1': {
-    key: 'm1-pilot-v1',
-    label: 'Pilote M1 réel',
-    fileName: 'grille_pilote_wgs84.geojson',
-    gridVersion: PRIORITY_GRID_VERSION,
-    bounds: TEST_GRID_DATASET.bounds,
+  'm1-caen-6com-v1': {
+    key: 'm1-caen-6com-v1',
+    label: 'Territoire M1 Caen et cinq communes',
+    fileName: '',
+    gridVersion: CAEN_NORD_GRID_VERSION,
+    bounds: [
+      [-0.41376271, 49.15302147],
+      [-0.22723671, 49.29291092],
+    ],
   },
 } as const satisfies Record<string, GridDatasetDefinition>
 
-export const DEFAULT_REAL_GRID_DATASET = REAL_GRID_DATASETS['m1-pilot-v1']
+export const DEFAULT_REAL_GRID_DATASET = REAL_GRID_DATASETS['m1-caen-6com-v1']
 
 function validateGrid(
   grid: FeatureCollection<Geometry>,
@@ -103,6 +109,9 @@ export function prepareGridDataset(
 
   if (mode === 'TEST' && grid.features.length !== 43) {
     throw new Error('La grille TEST permanente doit contenir exactement 43 mailles')
+  }
+  if (mode === 'REAL' && grid.features.length !== 101) {
+    throw new Error('La grille REAL Caen et cinq communes doit contenir exactement 101 mailles')
   }
 
   const prepared = applyEcologicalPriorities(grid, mode === 'TEST' ? [] : priorityRecords)

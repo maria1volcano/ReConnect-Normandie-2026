@@ -1499,6 +1499,60 @@ details[open] > .detail-expandable-header::after {
   }
 }
 
+.classification-switcher {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin: 14px auto 0;
+  max-width: 940px;
+}
+
+.classification-switcher button {
+  min-height: 40px;
+  padding: 9px 14px;
+  border: 1px solid rgba(125, 226, 176, 0.25);
+  border-radius: 10px;
+  color: var(--forest-muted);
+  background: rgba(22, 48, 36, 0.86);
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.classification-switcher button:hover,
+.classification-switcher button:focus-visible,
+.classification-switcher button.is-active {
+  border-color: rgba(125, 226, 176, 0.7);
+  color: var(--forest-text);
+  background: rgba(42, 82, 61, 0.95);
+}
+
+.retry-button {
+  align-self: flex-start;
+  min-height: 32px;
+  padding: 6px 12px;
+  border: 1px solid var(--terracotta);
+  border-radius: 10px;
+  color: var(--terracotta);
+  background: transparent;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.retry-button:hover,
+.retry-button:focus-visible {
+  background: rgba(198, 107, 61, 0.14);
+}
+
+@media (max-width: 680px) {
+  .classification-switcher {
+    flex-direction: column;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

@@ -233,6 +233,8 @@ export interface RegionMapProps {
   onZoomToPilot?: () => void
   onToggleTestMode?: () => void
   onToggleRealGrid?: () => void
+  studyAreaBounds?: LngLatBoundsLike | null
+  testModeAvailable?: boolean
 }
 
 export function RegionMap({
@@ -250,6 +252,8 @@ export function RegionMap({
   onZoomToPilot,
   onToggleTestMode,
   onToggleRealGrid,
+  studyAreaBounds = null,
+  testModeAvailable = true,
 }: RegionMapProps = {}) {
   const mapContainerRef = useRef<HTMLDivElement>(null)
   const internalMapRef = useRef<MapLibreMap | undefined>(undefined)
@@ -417,6 +421,20 @@ export function RegionMap({
     }
   }, [mapState, hoveredDepartment, selectedDepartment])
 
+  const fittedStudyAreaRef = useRef(false)
+
+  useEffect(() => {
+    const map = activeMapRef.current
+    if (!map || mapState === 'loading' || !studyAreaBounds || fittedStudyAreaRef.current) return
+    if (userMovedCameraRef.current) return
+    fittedStudyAreaRef.current = true
+    cameraTargetRef.current = studyAreaBounds
+    map.fitBounds(studyAreaBounds, {
+      padding: getInitialBoundsPadding(map.getContainer().clientWidth),
+      duration: prefersReducedMotion() ? 0 : 800,
+    })
+  }, [mapState, studyAreaBounds])
+
   useEffect(() => {
     const map = activeMapRef.current
     if (!map || mapState === 'loading') return
@@ -527,9 +545,9 @@ export function RegionMap({
           type="button"
           className="test-zone-button"
           onClick={onZoomToPilot}
-          aria-label="Zoomer vers la zone pilote M1"
+          aria-label="Zoomer vers le territoire d’étude Caen et cinq communes"
         >
-          Voir le pilote M1
+          Voir la zone d’étude
         </button>
       )}
 
@@ -553,14 +571,16 @@ export function RegionMap({
         {showRealGrid ? 'Masquer la grille M1' : 'Afficher la grille M1'}
       </button>
 
-      <button
-        type="button"
-        className="test-mode-toggle"
-        onClick={onToggleTestMode}
-        aria-pressed={testModeEnabled}
-      >
-        {testModeEnabled ? 'Quitter le mode TEST' : 'Activer le mode TEST'}
-      </button>
+      {testModeAvailable && onToggleTestMode && (
+        <button
+          type="button"
+          className="test-mode-toggle"
+          onClick={onToggleTestMode}
+          aria-pressed={testModeEnabled}
+        >
+          {testModeEnabled ? 'Quitter le mode TEST' : 'Activer le mode TEST'}
+        </button>
+      )}
     </div>
   )
 }

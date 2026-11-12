@@ -41,6 +41,10 @@ export interface ResolvedEcologicalPriority extends EcologicalPriorityRecord {
 }
 
 export interface RealGridFeatureProperties {
+  territory_id?: string
+  documentary_level?: 'rouge' | 'orange' | 'jaune' | 'gris'
+  documentary_rule?: 'V1' | 'V2' | 'V3' | 'V4'
+  documentary_color?: '#D9534F' | '#F29A48' | '#E6C65B' | '#89938F'
   maille_id: string
   grid_version: string
   grid_row?: number

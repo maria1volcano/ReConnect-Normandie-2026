@@ -18,10 +18,12 @@ import type {
 import type { RealGridFeatureProperties } from './priorityAdapter'
 import {
   DEFAULT_REAL_GRID_DATASET,
+  CAEN_TERRITORY_ID,
   TEST_GRID_DATASET,
   prepareGridDataset,
   type GridDatasetDefinition,
 } from './gridDatasets.ts'
+import { loadM4Grid } from './m4Adapter.ts'
 
 export interface HexagonData {
   featureCollection: FeatureCollection<Geometry, HexagonFeatureProperties>
@@ -269,7 +271,20 @@ export function loadRealGrid(
   dataset: GridDatasetDefinition = DEFAULT_REAL_GRID_DATASET,
   priorityRecords: readonly unknown[] = [],
 ): Promise<RealGridData> {
-  return loadGridDataset(dataset, 'REAL', priorityRecords)
+  return (async () => {
+    try {
+      const geojson = await loadM4Grid(dataset.gridVersion, CAEN_TERRITORY_ID)
+      const prepared = prepareGridDataset(geojson, dataset, 'REAL', priorityRecords)
+      return { featureCollection: prepared.featureCollection, gridVersion: dataset.gridVersion, dataset }
+    } catch (error) {
+      return {
+        featureCollection: { type: 'FeatureCollection', features: [] },
+        gridVersion: dataset.gridVersion,
+        dataset,
+        loadingError: error instanceof Error ? error.message : 'Backend local indisponible',
+      }
+    }
+  })()
 }
 
 /**

@@ -11,8 +11,10 @@ import {
 } from '../../integrations/geojsonAdapter'
 import {
   loadM2CellSummary,
+  M2_GRID_VERSION,
   type M2CellSummary,
 } from '../../integrations/m2Adapter'
+import { CAEN_NORD_GRID_VERSION } from '../../integrations/gridDatasets'
 import {
   ECOLOGICAL_PRIORITY,
   PRIORITY_GRID_VERSION,
@@ -29,6 +31,8 @@ interface ZoneDetailProps {
   isRealGrid?: boolean
   gridVersion?: string
   ecologicalPriority?: ResolvedEcologicalPriority | null
+  cellAreaM2?: number
+  isBoundary?: boolean
 }
 
 const validationLabels: Record<ScientificValidationStatus, string> = {
@@ -137,13 +141,15 @@ export function ZoneDetail({
   isRealGrid = false,
   gridVersion = PRIORITY_GRID_VERSION,
   ecologicalPriority,
+  cellAreaM2,
+  isBoundary,
 }: ZoneDetailProps) {
   const [bundle, setBundle] = useState<ZoneDiagnosticBundle | null>(null)
   const [m1Measurements, setM1Measurements] = useState<M1Measurements | null>(null)
   const [ocsMeasurements, setOCSMeasurements] = useState<OCSMeasurement[]>([])
   const [sourceCatalog, setSourceCatalog] = useState<M1SourceCatalog | null>(null)
   const [m2Summary, setM2Summary] = useState<M2CellSummary | null>(null)
-  const [m2State, setM2State] = useState<'idle' | 'loading' | 'available' | 'unavailable'>('idle')
+  const [m2State, setM2State] = useState<'idle' | 'loading' | 'available' | 'unavailable' | 'awaiting-new-grid'>('idle')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
   const diagnostic = bundle?.diagnostic ?? null
@@ -212,6 +218,12 @@ export function ZoneDetail({
     if (!selectedHexagonId || !isRealGrid) {
       setM2Summary(null)
       setM2State('idle')
+      return () => controller.abort()
+    }
+
+    if (gridVersion !== M2_GRID_VERSION) {
+      setM2Summary(null)
+      setM2State('awaiting-new-grid')
       return () => controller.abort()
     }
 
@@ -340,18 +352,18 @@ export function ZoneDetail({
             <p className="context-label">Fiche maille réelle M1</p>
             <h2 id="zone-detail-title">{getShortLabel(selectedHexagonId)}</h2>
             <div className="detail-badge detail-badge--info" aria-label="État des données">
-              <span>Zone pilote provisoire</span>
+              <span>{gridVersion === CAEN_NORD_GRID_VERSION ? 'Territoire Caen Nord' : 'Zone pilote provisoire'}</span>
             </div>
             <div className="detail-status">
               <span className="detail-status-label">Maille :</span>
               <span className="detail-status-value">{selectedHexagonId}</span>
             </div>
+            <div className="detail-status">
+              <span className="detail-status-label">Version grille :</span>
+              <span className="detail-status-value">{gridVersion}</span>
+            </div>
             {m1Measurements && (
               <>
-                <div className="detail-status">
-                  <span className="detail-status-label">Version grille :</span>
-                  <span className="detail-status-value">{m1Measurements.grid_version}</span>
-                </div>
                 <div className="detail-status">
                   <span className="detail-status-label">Statut :</span>
                   <span className="detail-status-value">Analyse scientifique M2 en attente</span>
@@ -440,7 +452,27 @@ export function ZoneDetail({
 
           {!loading && (error || !m1Measurements) && (
             <div className="detail-state" role="status">
-              <p>Mesures géographiques indisponibles pour cette maille.</p>
+              <p>
+                {gridVersion === CAEN_NORD_GRID_VERSION
+                  ? 'Indicateurs M1 de Caen Nord en cours d’intégration.'
+                  : 'Mesures géographiques indisponibles pour cette maille.'}
+              </p>
+            </div>
+          )}
+
+          {!loading && !m1Measurements && cellAreaM2 !== undefined && (
+            <div className="detail-section">
+              <h3 className="detail-section-title">Métadonnées de la maille M1</h3>
+              <div className="indicators-grid">
+                <div className="indicator-item">
+                  <span className="indicator-label">Surface réelle</span>
+                  <span className="indicator-value">{formatArea(cellAreaM2)}</span>
+                </div>
+                <div className="indicator-item">
+                  <span className="indicator-label">Cellule de bordure</span>
+                  <span className="indicator-value">{isBoundary ? 'Oui' : 'Non'}</span>
+                </div>
+              </div>
             </div>
           )}
 
@@ -507,6 +539,13 @@ export function ZoneDetail({
             </div>
 
             {m2State === 'loading' && <p className="m2-service-state">Chargement des observations M2…</p>}
+
+            {m2State === 'awaiting-new-grid' && (
+              <div className="m2-unavailable" role="status">
+                <strong>Observations géométriques M2 — nouvelles données en attente.</strong>
+                <span>Le jeu M2 existant correspond à une autre version de grille et n’est pas réutilisé.</span>
+              </div>
+            )}
 
             {(m2State === 'idle' || m2State === 'unavailable') && (
               <div className="m2-unavailable" role="status">
@@ -659,6 +698,10 @@ export function ZoneDetail({
               <div className="technical-info">
                 <span className="technical-label">maille_id :</span>
                 <span className="technical-value">{selectedHexagonId}</span>
+              </div>
+              <div className="technical-info">
+                <span className="technical-label">grid_version :</span>
+                <span className="technical-value">{gridVersion}</span>
               </div>
               {m1Measurements && (
                 <>

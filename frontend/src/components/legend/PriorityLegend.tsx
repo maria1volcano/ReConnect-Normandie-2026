@@ -7,17 +7,19 @@ const priorityItems = [
 
 interface PriorityLegendProps {
   testModeEnabled?: boolean
+  realIndeterminateOnly?: boolean
 }
 
-export function PriorityLegend({ testModeEnabled = false }: PriorityLegendProps) {
+export function PriorityLegend({ testModeEnabled = false, realIndeterminateOnly = false }: PriorityLegendProps) {
+  const visibleItems = realIndeterminateOnly ? priorityItems.filter((item) => item.key === 'unknown') : priorityItems
   return (
     <aside className="priority-legend" aria-labelledby="legend-title">
       <div className="legend-heading">
         <h2 id="legend-title">Priorités écologiques</h2>
-        <span>{testModeEnabled ? 'Démonstration' : 'Pilote réel'}</span>
+        <span>{testModeEnabled ? 'Démonstration' : 'Non validée'}</span>
       </div>
       <ul>
-        {priorityItems.map((item) => (
+        {visibleItems.map((item) => (
           <li key={item.key}>
             <span
               className={`legend-swatch legend-swatch--${item.key}`}
@@ -37,6 +39,7 @@ export function PriorityLegend({ testModeEnabled = false }: PriorityLegendProps)
           </span>
         </div>
       )}
+      {realIndeterminateOnly && <p>Aucune priorité écologique réelle n’est scientifiquement validée à ce stade.</p>}
     </aside>
   )
 }

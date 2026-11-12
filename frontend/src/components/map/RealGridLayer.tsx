@@ -1,6 +1,6 @@
 /**
  * RealGridLayer - MapLibre layer for M1 real candidate hexagonal grid
- * Renders the 43 real hexagons from M1 using validated priority properties.
+ * Renders the active M1 grid using validated priority properties.
  * The priority adapter currently resolves every real cell to INDETERMINATE.
  */
 
@@ -13,6 +13,34 @@ const REAL_GRID_SOURCE = 'real-grid-source'
 const REAL_GRID_FILL_LAYER = 'real-grid-fill'
 const REAL_GRID_LINE_LAYER = 'real-grid-line'
 
+const DOCUMENTARY_COLOR_EXPRESSION = [
+  'match',
+  ['get', 'documentary_level'],
+  'rouge', '#D9534F',
+  'orange', '#F29A48',
+  'jaune', '#E6C65B',
+  'gris', '#89938F',
+  '#89938F',
+] as ExpressionSpecification
+
+const ECOLOGICAL_COLOR_EXPRESSION = [
+  'match',
+  ['get', 'priority_category'],
+  'HIGH',
+  '#D9534F',
+  'MODERATE',
+  '#F29A48',
+  'LOW',
+  '#E6C65B',
+  'INDETERMINATE',
+  '#89938F',
+  '#89938F',
+] as ExpressionSpecification
+
+function fillColorExpression(view: 'documentary' | 'ecological'): ExpressionSpecification {
+  return view === 'documentary' ? DOCUMENTARY_COLOR_EXPRESSION : ECOLOGICAL_COLOR_EXPRESSION
+}
+
 interface RealGridLayerProps {
   map: MapLibreMap | undefined
   realGridData: FeatureCollection<Geometry, RealGridFeatureProperties>
@@ -21,6 +49,7 @@ interface RealGridLayerProps {
   onSelectRealHexagon: (id: string | null) => void
   onHoverRealHexagon: (id: string | null) => void
   showRealGrid: boolean
+  classificationView?: 'documentary' | 'ecological'
 }
 
 export function RealGridLayer({
@@ -31,6 +60,7 @@ export function RealGridLayer({
   onSelectRealHexagon,
   onHoverRealHexagon,
   showRealGrid,
+  classificationView = 'ecological',
 }: RealGridLayerProps) {
   const isInitializedRef = useRef(false)
   const selectRef = useRef(onSelectRealHexagon)
@@ -56,26 +86,14 @@ export function RealGridLayer({
         type: 'fill',
         source: REAL_GRID_SOURCE,
         paint: {
-          'fill-color': [
-            'match',
-            ['get', 'priority_category'],
-            'HIGH',
-            '#D9534F',
-            'MODERATE',
-            '#F29A48',
-            'LOW',
-            '#E6C65B',
-            'INDETERMINATE',
-            '#89938F',
-            '#89938F',
-          ] as ExpressionSpecification,
+          'fill-color': fillColorExpression(classificationView),
           'fill-opacity': [
             'case',
             ['boolean', ['feature-state', 'selected'], false],
-            0.68,
+            0.78,
             ['boolean', ['feature-state', 'hover'], false],
-            0.6,
-            0.5,
+            0.74,
+            0.7,
           ],
           'fill-opacity-transition': { duration: 200 },
         },
@@ -102,7 +120,7 @@ export function RealGridLayer({
             3,
             ['boolean', ['feature-state', 'hover'], false],
             2.4,
-            1.2,
+            0.75,
           ],
         },
       })
@@ -131,7 +149,7 @@ export function RealGridLayer({
     } catch (error) {
       console.error('[RealGridLayer] Erreur initialisation:', error)
     }
-  }, [map, realGridData])
+  }, [map, realGridData, classificationView])
 
   const cleanupLayer = useCallback(() => {
     if (!map) return
@@ -172,6 +190,18 @@ export function RealGridLayer({
       }
     }
   }, [map, showRealGrid, realGridData, initializeLayer, cleanupLayer])
+
+  useEffect(() => {
+    if (!map || !isInitializedRef.current) return
+    const source = map.getSource(REAL_GRID_SOURCE) as { setData?: (data: unknown) => void } | undefined
+    source?.setData?.(realGridData)
+  }, [map, realGridData])
+
+  useEffect(() => {
+    if (!map || !isInitializedRef.current) return
+    if (!map.getLayer(REAL_GRID_FILL_LAYER)) return
+    map.setPaintProperty(REAL_GRID_FILL_LAYER, 'fill-color', fillColorExpression(classificationView))
+  }, [map, classificationView])
 
   useEffect(() => {
     if (!map || !isInitializedRef.current) return

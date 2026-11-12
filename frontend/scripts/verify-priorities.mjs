@@ -7,12 +7,15 @@ import {
   resolveEcologicalPriority,
 } from '../src/integrations/priorityAdapter.ts'
 import {
+  CAEN_NORD_GRID_VERSION,
+  CAEN_TERRITORY_ID,
   DEFAULT_REAL_GRID_DATASET,
   TEST_GRID_DATASET,
   prepareGridDataset,
 } from '../src/integrations/gridDatasets.ts'
 import { matchesGridVersion } from '../src/integrations/geojsonAdapter.ts'
 import { M2UnavailableError, parseM2CellSummary } from '../src/integrations/m2Adapter.ts'
+import { buildM4CellUrl } from '../src/integrations/m4Adapter.ts'
 
 const publicDataPath = new URL('../public/data/', import.meta.url)
 const grid = JSON.parse(await readFile(new URL('grille_pilote_wgs84.geojson', publicDataPath), 'utf8'))
@@ -48,37 +51,28 @@ assert.deepEqual(
   'TEST doit afficher les quatre couleurs synthétiques',
 )
 
-const syntheticExpandedDefinition = {
-  key: 'fixture-expanded-real',
-  label: 'Fixture REAL étendue',
-  fileName: 'fixture-not-public.geojson',
-  gridVersion: 'M1-EXPANDED-FIXTURE-V2',
-  bounds: [[-0.3, 49.1], [-0.1, 49.3]],
-}
-const syntheticExpandedGrid = {
+const syntheticRealGrid = {
   type: 'FeatureCollection',
-  features: [
-    {
+  features: Array.from({ length: 101 }, (_, index) => ({
       type: 'Feature',
-      properties: { maille_id: 'EXPANDED-001', grid_version: 'M1-EXPANDED-FIXTURE-V2' },
-      geometry: { type: 'Polygon', coordinates: [[[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]] },
-    },
-    {
-      type: 'Feature',
-      properties: { maille_id: 'EXPANDED-002', grid_version: 'M1-EXPANDED-FIXTURE-V2' },
-      geometry: { type: 'Polygon', coordinates: [[[1, 0], [2, 0], [2, 1], [1, 1], [1, 0]]] },
-    },
-  ],
+      properties: { maille_id: `CAEN-${index}`, grid_version: CAEN_NORD_GRID_VERSION, territory_id: CAEN_TERRITORY_ID },
+      geometry: { type: 'Point', coordinates: [index, 0] },
+  })),
 }
-const expandedReal = prepareGridDataset(syntheticExpandedGrid, syntheticExpandedDefinition, 'REAL')
-assert.equal(expandedReal.featureCollection.features.length, 2)
+const expandedReal = prepareGridDataset(syntheticRealGrid, DEFAULT_REAL_GRID_DATASET, 'REAL')
+assert.equal(expandedReal.featureCollection.features.length, 101)
+assert.ok(expandedReal.featureCollection.features.every((feature) => feature.properties.priority_category === 'INDETERMINATE'))
 assert.equal(testGrid.featureCollection.features.length, 43, 'La configuration REAL ne modifie pas TEST')
 assert.throws(
-  () => prepareGridDataset(syntheticExpandedGrid, DEFAULT_REAL_GRID_DATASET, 'REAL'),
-  /incompatible/,
+  () => prepareGridDataset({ ...syntheticRealGrid, features: syntheticRealGrid.features.slice(1) }, DEFAULT_REAL_GRID_DATASET, 'REAL'),
+  /101/,
 )
 assert.equal(matchesGridVersion({ grid_version: PRIORITY_GRID_VERSION }, PRIORITY_GRID_VERSION), true)
 assert.equal(matchesGridVersion({ grid_version: 'INCOMPATIBLE' }, PRIORITY_GRID_VERSION), false)
+assert.match(
+  buildM4CellUrl('https://m4.example/api/', CAEN_TERRITORY_ID, CAEN_NORD_GRID_VERSION, 'CAEN-0'),
+  new RegExp(`grid_version=${encodeURIComponent(CAEN_NORD_GRID_VERSION)}`),
+)
 
 const baseRecord = {
   maille_id: grid.features[0].properties.maille_id,
@@ -170,4 +164,4 @@ for (const file of publicFiles.filter((entry) => entry.endsWith('.json') || entr
   assert.ok(!content.includes('liens_mailles_conflits'), `Schéma M2 interne publié dans ${file}`)
 }
 
-console.log('PASS: modes TEST/REAL séparés, géométrie 43 mailles stable, versions M1/M2 sécurisées, aucun GeoPackage M2 public')
+console.log('PASS: contrat REAL 101 et TEST 43 séparés, versions sécurisées, aucune donnée M2 interne publique')
