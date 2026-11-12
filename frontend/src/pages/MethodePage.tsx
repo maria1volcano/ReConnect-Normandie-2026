@@ -65,7 +65,7 @@ const SOURCES = [
   {
     source: 'BD TOPO 3.5 — tronçons de route',
     producer: 'IGN',
-    vintage: 'Édition 2026, millésime variable par objet',
+    vintage: 'Livraison M1 du 11/11/2026 ; millésimes objets variables ou NULL',
     licence: 'Licence Ouverte 2.0',
     limit: 'Champ état renseigné inégalement ; la présence d’un tronçon ne vaut pas trafic constaté.',
   },
@@ -77,11 +77,11 @@ const SOURCES = [
     limit: 'Occupation du sol, pas une cartographie de sensibilité écologique.',
   },
   {
-    source: 'BD Haie V2',
-    producer: 'IGN / OFB',
-    vintage: 'Produit millésimé 2024 (images 2020–2022)',
+    source: 'BD TOPO — haies et plans d’eau',
+    producer: 'IGN',
+    vintage: 'Livraison M1 du 11/11/2026 ; millésimes objets variables ou NULL',
     licence: 'Licence Ouverte 2.0',
-    limit: 'Un vide cartographique ne prouve pas une absence de haie.',
+    limit: 'Exhaustivité écologique non validée. Les plans d’eau ne sont pas automatiquement des mares ; zéro observation ne démontre pas une absence.',
   },
   {
     source: 'Cartofriches — sites référencés',
@@ -91,11 +91,11 @@ const SOURCES = [
     limit: 'Inventaire non exhaustif ; les sites restent à confirmer.',
   },
   {
-    source: 'SIPAF — passages à faune',
+    source: 'SIPAF — complément à consulter',
     producer: 'MTE / Cerema / Parcs nationaux',
-    vintage: 'Export courant, millésime par objet',
+    vintage: 'Non fourni dans ce lot Caen',
     licence: 'Licence Ouverte 2.0 (données diffusables)',
-    limit: 'Alimenté par les gestionnaires ; non exhaustif.',
+    limit: 'Aucun ouvrage de ce référentiel n’est utilisé comme observation dans ce lot.',
   },
 ]
 
@@ -104,7 +104,7 @@ const LIMITS = [
   'Les données SRCE datent de 2014 : l’occupation du sol et les continuités ont pu changer depuis.',
   'Les inventaires (haies, friches, mares, passages à faune) sont nécessairement incomplets.',
   'Les priorités écologiques restent indéterminées : aucune méthode de connectivité n’a été validée sur ce territoire.',
-  'Les couleurs V1–V4 ordonnent une vérification documentaire ; ce ne sont pas des classes de priorité écologique validées.',
+  'Les couleurs V1–V4 orientent les priorités indicatives d’étude lorsque les décisions du nouveau lot sont disponibles ; elles ne valident pas une priorité écologique.',
 ]
 
 export function MethodePage() {
@@ -114,7 +114,7 @@ export function MethodePage() {
       <main className="doc-page" id="main-content">
         <section className="doc-hero">
           <p className="context-label">M1 · M2 · M3 · M4</p>
-          <h1>Méthode — du croisement cartographique aux pistes d’investigation</h1>
+          <h1>Méthode — du croisement cartographique aux actions à étudier</h1>
           <p className="doc-lede">
             Cette page décrit la chaîne de traitement réellement mise en œuvre pour produire la carte
             des 101 mailles et les fiches de vérification. Elle distingue explicitement ce que le
@@ -133,12 +133,10 @@ export function MethodePage() {
             continuités écologiques</strong> sur le territoire Caen et nord des six communes. Il
             croise les infrastructures linéaires (routes) avec les trames écologiques cartographiées
             (SRCE, occupation du sol, inventaires thématiques) pour identifier les secteurs où une
-            vérification documentaire est prioritaire.
+            étude d’une action peut être instruite en premier.
           </p>
           <p>
-            L’application ne répond pas à la question « où restaurer ? ». Elle répond à « où vérifier
-            en premier, avec quelles sources, et quelles questions se poser ? ». Toute sortie reste
-            une <strong>piste d’investigation documentaire — non validée</strong>.
+            L’application aide à choisir les premières interventions à étudier : passage de la faune en rouge et orange, préservation à examiner en jaune, décision non évaluable en gris. Le rang d’étude reste indicatif et distinct de la priorité écologique D/S. Aucun aménagement n’est prescrit sans validation écologique et technique.
           </p>
         </section>
 
@@ -190,7 +188,7 @@ export function MethodePage() {
             La couleur de chaque maille vient de la table de triage exploratoire
             (<code>docs/table_triage_exploratoire.json</code>, version
             « m2-annotation-documentaire-caen-nord-0.1 »). Il s’agit d’un{' '}
-            <strong>ordre de vérification documentaire seulement</strong> : aucun seuil
+            <strong>classement cartographique utilisé pour orienter les études, distinct de la priorité écologique</strong> : aucun seuil
             d’événements, aucun score écologique, aucune équivalence avec les classes D/S.
           </p>
           <div className="v-rules">

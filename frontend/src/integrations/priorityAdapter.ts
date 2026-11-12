@@ -41,6 +41,8 @@ export interface ResolvedEcologicalPriority extends EcologicalPriorityRecord {
 }
 
 export interface RealGridFeatureProperties {
+  study_priority?: import('./m4Adapter').M4StudyPriority
+  study_color?: string
   territory_id?: string
   documentary_level?: 'rouge' | 'orange' | 'jaune' | 'gris'
   documentary_rule?: 'V1' | 'V2' | 'V3' | 'V4'

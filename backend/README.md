@@ -89,3 +89,17 @@ Pour démarrer localement les deux composants, ouvrir deux terminaux : serveur F
 5. Le catalogue de sources M1 contient des informations documentaires à confirmer ; il n'autorise aucune diffusion de géométries sensibles.
 
 Ce code est limité au périmètre backend M4. Aucun commit, merge ni push n'est réalisé dans les branches de l'équipe.
+
+## Décisions d’action Caen — 12 novembre 2026
+
+Le serveur local `server.py` accepte aussi le ZIP scellé ACTIONS_ETUDE, identifié
+par SHA-256. Il réutilise les routes `/api/internal/caen/grid`, `/cells/{maille_id}`
+et `/metadata`, avec jointure territoire/grille/maille. Les champs supplémentaires
+`study_priority`, `instruction` et `provenance` n’altèrent ni D/S ni les règles.
+
+Voir [la livraison d’intégration](../docs/INTEGRATION_ACTIONS_UI_20261112.md) pour
+le lancement, les tests et le blocage de publication du nouveau complément.
+Les GeoPackages/ZIP restent hors du répertoire servi. `export_public_release.py`
+prépare une candidature minimisée via `--output` ; la diffusion du nouveau lot
+exige `--authorization` lié à son empreinte. L’autorisation historique du précédent
+export public n’est pas étendue automatiquement.

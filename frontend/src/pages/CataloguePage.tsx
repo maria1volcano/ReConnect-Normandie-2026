@@ -45,13 +45,10 @@ export function CataloguePage() {
       <SiteHeader />
       <main className="doc-page catalogue-page" id="main-content">
         <section className="doc-hero">
-          <p className="context-label">M2 · Règles R1–R4</p>
-          <h1>Catalogue des pistes d’investigation</h1>
+          <p className="context-label">Actions et pistes conservées</p>
+          <h1>Actions à étudier et pistes historiques</h1>
           <p className="doc-lede">
-            Quatre familles de vérification documentaire issues de la spécification M2
-            (R1→A04, R2→A01, R3→A03, R4→A02). Chaque fiche est une{' '}
-            <strong>piste d’investigation documentaire — non validée</strong> : elle indique ce
-            qu’il faut vérifier, jamais une intervention à réaliser.
+            Les actions à instruire sont sélectionnées dans chaque fiche territoriale. Les pistes historiques restent consultables ici ; elles ne constituent pas des travaux validés. Les conditions propres à chaque famille doivent être vérifiées.
           </p>
           <a className="analysis-jump" href="/" onClick={linkClickHandler('/')}>
             ← Retour à la carte
@@ -80,7 +77,7 @@ export function CataloguePage() {
                     aria-pressed={familyFilter === f}
                     onClick={() => setFamilyFilter(f)}
                   >
-                    {f === 'all' ? 'Toutes' : f}
+                    {f === 'all' ? 'Toutes' : ({R1: 'Faune', R2: 'Bocage', R3: 'Friches', R4: 'Milieux humides'} as const)[f]}
                   </button>
                 ))}
               </div>
@@ -110,10 +107,10 @@ export function CataloguePage() {
                   <article key={family.ruleId} className="catalogue-card" id={`famille-${family.ruleId}`}>
                     <header className="catalogue-card-head">
                       <div>
-                        <p className="catalogue-ids">{family.ruleId} → {family.actionId}</p>
+
                         <h2>{family.name}</h2>
                       </div>
-                      <span className="lead-badge">Piste d’investigation documentaire — non validée</span>
+                      <span className="lead-badge">Famille à qualifier</span>
                     </header>
 
                     <p className="catalogue-question">« {family.question} »</p>
@@ -129,7 +126,7 @@ export function CataloguePage() {
 
                     <footer className="catalogue-card-foot">
                       <p className="catalogue-counts">
-                        <strong>{family.leadCount}</strong> pistes à étudier sur{' '}
+                        {family.selectedCount === null ? 'Décisions du nouveau lot indisponibles dans cet export.' : <><strong>{family.selectedCount}</strong> sélection(s) d’étude par maille dans le lot chargé.</>}<br /><strong>{family.leadCount}</strong> pistes historiques sur{' '}
                         <strong>{family.cellCount}</strong> mailles
                         {cells.length !== family.cells.length && (
                           <> — <strong>{cells.length}</strong> affichée{cells.length > 1 ? 's' : ''} avec les filtres</>
@@ -178,7 +175,7 @@ export function CataloguePage() {
             <p className="doc-note">
               Les 404 évaluations R1–R4 (101 mailles × 4 règles) sont toutes « non évaluable » : les
               méthodes familiales ne sont pas encore validées sur ce territoire. Le décompte des
-              pistes « à étudier » provient des fiches publiques (<code>cells.json</code>).
+              pistes historiques provient des fiches de la source chargée ; ces pistes ne sont pas des sélections de restauration.
             </p>
           </>
         )}

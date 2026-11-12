@@ -1,4 +1,4 @@
-import { loadStaticCells, type M4CellBundle } from './m4Adapter'
+import { loadCells, type M4CellBundle } from './m4Adapter'
 
 export type RuleId = 'R1' | 'R2' | 'R3' | 'R4'
 
@@ -13,6 +13,7 @@ export interface CatalogueFamily {
   nonEvaluable: string
   aVerifier: string
   sources: string[]
+  selectedCount: number | null
   leadCount: number
   cellCount: number
   cells: Array<{ mailleId: string; municipalities: string[]; documentaryLevel: string }>
@@ -23,11 +24,11 @@ export interface CatalogueFamily {
 // §5. Aucun intitulé ni seuil n'est inventé ici.
 export const CATALOGUE_FAMILY_ORDER: RuleId[] = ['R1', 'R2', 'R3', 'R4']
 
-const FAMILY_META: Record<RuleId, Omit<CatalogueFamily, 'leadCount' | 'cellCount' | 'cells'>> = {
+const FAMILY_META: Record<RuleId, Omit<CatalogueFamily, 'selectedCount' | 'leadCount' | 'cellCount' | 'cells'>> = {
   R1: {
     ruleId: 'R1',
     actionId: 'A04',
-    name: 'Franchissement routier de la faune',
+    name: 'Faciliter le passage de la faune',
     question: 'Croisement route–corridor qualifié, avec examen des ouvrages existants.',
     declarationEtayee:
       'Événement réel route–corridor avec identifiant de conflit, sources route et corridor versionnées, sous-trame pertinente et qualification « conflit_potentiel » ou « obstacle_confirme ».',
@@ -39,12 +40,12 @@ const FAMILY_META: Record<RuleId, Omit<CatalogueFamily, 'leadCount' | 'cellCount
       'Couche manquante, localisation incertaine ou conflit géométrique non résolu.',
     aVerifier:
       'Ouvrage existant (SIPAF), route ou voie, trafic, espèces concernées et gestionnaire. Une entrée R1 ne recommande jamais de construire directement un passage.',
-    sources: ['BD TOPO 3.5 — tronçons de route (IGN)', 'SRCE — corridors et réservoirs 2014 (DREAL Normandie)', 'SIPAF — passages à faune'],
+    sources: ['BD TOPO 3.5 — tronçons de route (IGN)', 'SRCE — corridors et réservoirs 2014 (DREAL Normandie)', 'SIPAF — complément à consulter, non fourni dans ce lot'],
   },
   R2: {
     ruleId: 'R2',
     actionId: 'A01',
-    name: 'Restauration de haies et continuités bocagères',
+    name: 'Restaurer les continuités bocagères',
     question: 'Lacune ou discontinuité du réseau de haies sur une sous-trame pertinente.',
     declarationEtayee:
       'Analyse structurale ou topologique du réseau de haies documentant une lacune reliée à une sous-trame pertinente, avec emprise, millésime et couverture valides.',
@@ -56,12 +57,12 @@ const FAMILY_META: Record<RuleId, Omit<CatalogueFamily, 'leadCount' | 'cellCount
       'Simple densité faible, haies non cartographiées ou absence de méthode de connectivité validée.',
     aVerifier:
       'Usages, parcelles, gestion, état actuel et pratiques agricoles avant toute intervention.',
-    sources: ['BD Haie V2 (IGN / OFB)', 'SRCE — matrice bocagère 2014 (DREAL Normandie)'],
+    sources: ['BD TOPO — haies observées (IGN ; exhaustivité écologique non validée)', 'SRCE — matrice bocagère 2014 (DREAL Normandie)'],
   },
   R3: {
     ruleId: 'R3',
     actionId: 'A03',
-    name: 'Renaturation de friches',
+    name: 'Réhabiliter les friches au bénéfice de la biodiversité',
     question: 'Friche officiellement recensée présentant une relation spatiale justifiée avec une continuité.',
     declarationEtayee:
       'Friche identifiée et contrôlée présentant une relation géométrique à une continuité définie par une méthode de voisinage versionnée, avec faits indispensables suffisants pour proposer une étude.',
@@ -78,7 +79,7 @@ const FAMILY_META: Record<RuleId, Omit<CatalogueFamily, 'leadCount' | 'cellCount
   R4: {
     ruleId: 'R4',
     actionId: 'A02',
-    name: 'Mares et réseaux de mares',
+    name: 'Préserver et reconnecter les mares et milieux humides',
     question: 'Discontinuité ou isolement potentiel documenté dans un réseau de milieux humides.',
     declarationEtayee:
       'Isolement ou lacune du réseau d’ habitats humides documenté par une méthode adaptée et un contexte hydrologique pertinent.',
@@ -90,14 +91,14 @@ const FAMILY_META: Record<RuleId, Omit<CatalogueFamily, 'leadCount' | 'cellCount
       'Simple « absence de points de mares », inventaire partiel, règle de distance arbitraire, aucun contexte hydrologique.',
     aVerifier:
       'Ne pas proposer de point d’implantation ni de création directe ; inventaire et contexte hydrologique d’abord.',
-    sources: ['PRAM — base de données zones humides Normandie', 'SRCE — sous-trame bleue 2014 (DREAL Normandie)'],
+    sources: ['BD TOPO — plans d’eau observés, mares non qualifiées (IGN)', 'Inventaires de zones humides (DREAL ; couverture hétérogène)', 'PRAM — complément à consulter, non fourni dans ce lot'],
   },
 }
 
 let cache: Promise<CatalogueFamily[]> | null = null
 
 export function loadCatalogueFamilies(): Promise<CatalogueFamily[]> {
-  cache ??= loadStaticCells()
+  cache ??= loadCells()
     .then((cells) => buildFamilies(cells))
     .catch((error) => {
       cache = null
@@ -110,7 +111,10 @@ function buildFamilies(cells: Record<string, M4CellBundle>): CatalogueFamily[] {
   return CATALOGUE_FAMILY_ORDER.map((ruleId) => {
     const familyCells: CatalogueFamily['cells'] = []
     let leadCount = 0
+    let selectedCount: number | null = Object.values(cells).every((c) => !!c.instruction) ? 0 : null
     for (const bundle of Object.values(cells)) {
+      if (bundle.instruction?.main_action?.regle_id === ruleId
+          || bundle.instruction?.complementary_actions.some((a) => a.regle_id === ruleId)) selectedCount = (selectedCount ?? 0) + 1
       const leads = bundle.investigations.filter(
         (inv) => inv.rule_id === ruleId && inv.lead_status === 'a_etudier',
       )
@@ -124,7 +128,7 @@ function buildFamilies(cells: Record<string, M4CellBundle>): CatalogueFamily[] {
       }
     }
     familyCells.sort((a, b) => a.mailleId.localeCompare(b.mailleId))
-    return { ...FAMILY_META[ruleId], leadCount, cellCount: familyCells.length, cells: familyCells }
+    return { ...FAMILY_META[ruleId], selectedCount, leadCount, cellCount: familyCells.length, cells: familyCells }
   })
 }
 
