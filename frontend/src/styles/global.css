@@ -2902,3 +2902,58 @@ details[open] > .detail-expandable-header::after {
     align-items: flex-start;
   }
 }
+
+/* Action studies: keep the existing dashboard, use flow layout for legibility. */
+.app-header { height: auto; min-height: 76px; gap: 16px; padding-block: 12px; flex-wrap: wrap; }
+.brand { flex: 1 1 380px; }
+.brand-text { flex-direction: column; align-items: flex-start; gap: 4px; }
+.brand small { border-left: 0; padding-left: 0; white-space: normal; }
+.header-nav { gap: 8px; margin-left: 0; }
+.study-legend { padding: 16px 4px 0; }
+.study-legend h2 { font-size: 1rem; margin: 0 0 12px; }
+.study-legend ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); list-style: none; padding: 0; gap: 10px 18px; margin: 0; }
+.study-legend li { display: flex; align-items: center; gap: 10px; font-size: .84rem; }
+.study-legend p { font-size: .8rem; color: #c5d5ca; line-height: 1.6; }
+.study-priority { border-left: 5px solid; padding: 10px 14px; background: #20362b; border-radius: 6px; }
+.territorial-detail .detail-content { display: block; overflow: visible; }
+.territorial-detail h4 { font-size: 1.06rem; line-height: 1.5; margin: 6px 0; }
+.territorial-detail p, .territorial-detail li { line-height: 1.7; }
+.territorial-detail summary { cursor: pointer; padding: 12px 0; font-weight: 600; }
+.territorial-detail details { padding: 0 12px; }
+.territorial-detail dl { display: grid; grid-template-columns: minmax(95px, .35fr) minmax(0, 1fr); gap: 8px 12px; }
+.territorial-detail dd { margin: 0; overflow-wrap: anywhere; }
+.territorial-detail dt { color: #c5d5ca; }
+.territorial-detail ul { padding-left: 22px; }
+.territorial-detail li { overflow-wrap: anywhere; }
+.action-study { border-left: 3px solid #7de2b0; padding: 4px 16px; background: #20362b; border-radius: 6px; }
+.study-status { font-size: .78rem; color: #7de2b0; font-weight: 700; }
+.no-intervention { font-weight: 600; }
+.unselected-action { border-top: 1px solid rgba(91,220,156,.3); padding: 12px 0; }
+.technical-provenance { margin-block: 20px; }
+@media (max-width: 800px) {
+  .app-header { width: calc(100% - 24px); gap: 12px; }
+  .brand { flex-basis: 100%; width: auto; }
+  .brand strong { font-size: clamp(.85rem, 3.5vw, 1.5rem); white-space: normal; flex-wrap: wrap; }
+  .brand small { font-size: .7rem; }
+  .brand-flag-inline { width: 28px; }
+  .header-nav { width: 100%; justify-content: flex-start; margin: 0; flex-wrap: wrap; }
+  .header-nav a { padding: 9px 12px; }
+  .study-legend ul { grid-template-columns: 1fr; }
+  .workspace .analysis-workspace { padding: 8px; }
+  .territorial-detail { min-width: 0; }
+  .territorial-detail dl { grid-template-columns: 1fr; gap: 4px; }
+  .territorial-detail dd { margin-bottom: 10px; }
+  .classification-switcher { flex-wrap: wrap; }
+  .classification-switcher button { white-space: normal; }
+}
+
+.territorial-detail .detail-note { color: #c5d5ca; font-size: .85rem; line-height: 1.65; }
+
+/* Leave zoom controls and source attribution clear at every width. */
+.region-map > .test-mode-toggle { top: 48px; left: 12px; right: auto; }
+.region-map > .test-zone-button { bottom: 48px; }
+.region-map > .layer-placeholders { right: 54px; }
+
+.workspace .maplibregl-ctrl-attrib { color: #f2f5ee; background: rgba(23,40,32,.94); }
+.workspace .maplibregl-ctrl-attrib a { color: #e1f3e8; }
+@media (max-width: 680px) { .region-map > .test-zone-button { bottom: 100px; } }

@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect, useMemo } from 'react'
 import type { Map as MapLibreMap, LngLatBoundsLike } from 'maplibre-gl'
 import { PriorityLegend } from '../legend/PriorityLegend'
+import { SiteHeader } from './SiteHeader'
+import { StudyLegend } from '../legend/StudyLegend'
 import { DocumentaryLegend } from '../legend/DocumentaryLegend'
 import { DepartmentPanel } from '../map/DepartmentPanel'
 import { RegionMap } from '../map/RegionMap'
@@ -9,8 +11,8 @@ import type { DepartmentCode } from '../map/normandyDepartments'
 import { ZoneDetail } from '../sector/ZoneDetail'
 import { TerritorialZoneDetail } from '../sector/TerritorialZoneDetail'
 import { loadRealGrid, loadTestGrid, type RealGridData } from '../../integrations/geojsonAdapter'
-import { linkClickHandler, navigate } from '../../app/router'
-import { loadStaticCells } from '../../integrations/m4Adapter'
+import { navigate } from '../../app/router'
+import { loadCells } from '../../integrations/m4Adapter'
 import { mailleIdsForRule, type RuleId } from '../../integrations/catalogueData'
 import { priorityFromFeature } from '../../integrations/priorityAdapter'
 import { CAEN_TERRITORY_ID } from '../../integrations/gridDatasets'
@@ -21,11 +23,8 @@ import { CAEN_TERRITORY_ID } from '../../integrations/gridDatasets'
 // Repassez TEST_MODE_UI_ENABLED à true pour réactiver l'interface TEST.
 const TEST_MODE_UI_ENABLED = false
 
-// La vue « Priorité écologique — non validée » (101 cellules grises) reste
-// implémentée dans RealGridLayer/PriorityLegend, mais le sélecteur de vue est
-// retiré de l'interface : la carte affiche uniquement l'ordre de vérification
-// documentaire exploratoire. Repassez à true pour réactiver le sélecteur.
-const REAL_VIEW_SWITCHER_ENABLED = false
+// D/S reste séparée du rang indicatif d’étude. Les deux vues sont accessibles.
+const REAL_VIEW_SWITCHER_ENABLED = true
 
 interface SelectedGridCell {
   gridVersion: string
@@ -72,9 +71,12 @@ export function ApplicationLayout() {
   const [realView, setRealView] = useState<'documentary' | 'ecological'>('documentary')
   const [realReloadNonce, setRealReloadNonce] = useState(0)
   const [familyHighlight, setFamilyHighlight] = useState<{ ruleId: RuleId; ids: Set<string> } | null>(null)
+  const [, setMapRevision] = useState(0)
   const mapRef = useRef<MapLibreMap | undefined>(undefined)
   const activeGrid = testModeEnabled ? testGrid : realGrid
   const activeGridData = activeGrid?.featureCollection ?? { type: 'FeatureCollection' as const, features: [] }
+  const hasStudies = !testModeEnabled && realGrid?.featureCollection.features.length === 101 && realGrid.featureCollection.features.every((f) => !!f.properties.study_priority)
+  const classificationView = realView === 'ecological' ? 'ecological' : hasStudies ? 'study' : 'documentary'
   const selectedRealHexagonId = selectedGridCell && selectedGridCell.gridVersion === activeGrid?.gridVersion
     ? selectedGridCell.mailleId
     : null
@@ -164,7 +166,7 @@ export function ApplicationLayout() {
       const famille = params.get('famille')
       const maille = params.get('maille')
       if (famille && ['R1', 'R2', 'R3', 'R4'].includes(famille)) {
-        void loadStaticCells()
+        void loadCells()
           .then((cells) => setFamilyHighlight({ ruleId: famille as RuleId, ids: mailleIdsForRule(cells, famille as RuleId) }))
           .catch(() => setFamilyHighlight(null))
       } else {
@@ -204,57 +206,29 @@ export function ApplicationLayout() {
 
   return (
     <div className="application-shell">
-      <header className="app-header">
-        <a className="brand" href="#main-content" aria-label="ReConnect Normandie, aller à la carte">
-          <img
-            src="/images/ecological-emblem.png"
-            alt="Emblème écologique ReConnect"
-            className="brand-emblem"
-            width="52"
-            height="52"
-          />
-          <span className="brand-text">
-            <strong>
-              ReConnect <span className="brand-normandie">Normandie</span>
-              <img
-                src="/images/normandy-flag.png"
-                alt="Drapeau de la Normandie"
-                className="brand-flag-inline"
-                width="28"
-                height="19"
-              />
-            </strong>
-            <small>Prédiagnostic des continuités écologiques</small>
-          </span>
-        </a>
-
-        <nav className="header-nav" aria-label="Navigation principale">
-          <a href="/" onClick={linkClickHandler('/')}>Carte</a>
-          <a href="/methode" onClick={linkClickHandler('/methode')}>Méthode</a>
-          <a href="/catalogue" onClick={linkClickHandler('/catalogue')}>Catalogue</a>
-        </nav>
-      </header>
+      <SiteHeader />
 
       <main id="main-content" className="workspace">
         <section className="map-workspace" aria-labelledby="map-title">
           <div className="workspace-heading">
             <div>
               <p className="context-label">Normandie</p>
-              <h1 id="map-title">Explorer les secteurs à examiner</h1>
+              <h1 id="map-title">Choisir les premières actions à étudier</h1>
             </div>
             <p>
-              La priorité indique un besoin de vérification préparatoire. Elle ne constitue ni un
-              score écologique, ni une décision d’investissement.
+              Des observations locales pour orienter les études et préparer les décisions des collectivités.
             </p>
           </div>
 
           <div className="map-frame">
-            <RegionMap {...departmentState} mapRef={mapRef} hexagonCount={testGrid?.featureCollection.features.length ?? 0} realGridCount={realGrid?.featureCollection.features.length ?? 0} isTestData={true} testModeEnabled={testModeEnabled} showRealGrid={showRealGrid} onZoomToTestZone={handleZoomToTestZone} onZoomToPilot={handleZoomToPilot} onToggleTestMode={handleToggleTestMode} onToggleRealGrid={handleToggleRealGrid} studyAreaBounds={realStudyBounds} testModeAvailable={TEST_MODE_UI_ENABLED} />
-            <RealGridLayer classificationView={testModeEnabled ? 'ecological' : realView} map={mapRef.current} realGridData={activeGridData} selectedRealHexagonId={selectedRealHexagonId} hoveredRealHexagonId={hoveredRealHexagonId} onSelectRealHexagon={handleSelectRealHexagon} onHoverRealHexagon={setHoveredRealHexagonId} showRealGrid={showRealGrid || testModeEnabled} highlightedMailleIds={familyHighlight?.ids ?? null} />
-            {testModeEnabled ? <PriorityLegend testModeEnabled /> : realView === 'documentary' ? <DocumentaryLegend /> : <PriorityLegend realIndeterminateOnly />}
-            {!testModeEnabled && realGrid?.loadingError && <div className="map-status map-status--error" role="alert"><strong>Grille REAL indisponible</strong><span>{realGrid.loadingError} — démarrez le backend local M4 (backend/server.py) puis réessayez.</span><button type="button" className="retry-button" onClick={() => setRealReloadNonce((nonce) => nonce + 1)}>Réessayer</button></div>}
+            <RegionMap onMapReady={() => setMapRevision((v) => v + 1)} {...departmentState} mapRef={mapRef} hexagonCount={testGrid?.featureCollection.features.length ?? 0} realGridCount={realGrid?.featureCollection.features.length ?? 0} isTestData={true} testModeEnabled={testModeEnabled} showRealGrid={showRealGrid} onZoomToTestZone={handleZoomToTestZone} onZoomToPilot={handleZoomToPilot} onToggleTestMode={handleToggleTestMode} onToggleRealGrid={handleToggleRealGrid} studyAreaBounds={realStudyBounds} testModeAvailable={TEST_MODE_UI_ENABLED} />
+            <RealGridLayer classificationView={testModeEnabled ? 'ecological' : classificationView} map={mapRef.current} realGridData={activeGridData} selectedRealHexagonId={selectedRealHexagonId} hoveredRealHexagonId={hoveredRealHexagonId} onSelectRealHexagon={handleSelectRealHexagon} onHoverRealHexagon={setHoveredRealHexagonId} showRealGrid={showRealGrid || testModeEnabled} highlightedMailleIds={familyHighlight?.ids ?? null} />
+            {testModeEnabled ? <PriorityLegend testModeEnabled /> : classificationView === 'study' ? null : realView === 'documentary' ? <DocumentaryLegend /> : <PriorityLegend realIndeterminateOnly />}
+            {!testModeEnabled && realGrid?.loadingError && <div className="map-status map-status--error" role="alert"><strong>Grille REAL indisponible</strong><span>{realGrid.loadingError} — vérifiez la disponibilité de la source de données puis réessayez.</span><button type="button" className="retry-button" onClick={() => setRealReloadNonce((nonce) => nonce + 1)}>Réessayer</button></div>}
           </div>
 
+          {hasStudies && realView !== 'ecological' && <StudyLegend />}
+          {!hasStudies && !testModeEnabled && realGrid && !realGrid.loadingError && <p className="detail-note">Les décisions du nouveau lot ne sont pas disponibles dans cet export. Le classement documentaire antérieur reste affiché sans nouvelle action déduite.</p>}
           {familyHighlight && !testModeEnabled && (
             <div className="family-banner" role="status">
               <div>
@@ -273,8 +247,8 @@ export function ApplicationLayout() {
 
           {REAL_VIEW_SWITCHER_ENABLED && !testModeEnabled && (
             <div className="classification-switcher" role="group" aria-label="Vue cartographique réelle">
-              <button type="button" className={realView === 'documentary' ? 'is-active' : ''} aria-pressed={realView === 'documentary'} onClick={() => handleRealViewChange('documentary')}>Ordre de vérification documentaire — exploratoire</button>
-              <button type="button" className={realView === 'ecological' ? 'is-active' : ''} aria-pressed={realView === 'ecological'} onClick={() => handleRealViewChange('ecological')}>Priorité écologique — non validée</button>
+              <button type="button" className={realView === 'documentary' ? 'is-active' : ''} aria-pressed={realView === 'documentary'} onClick={() => handleRealViewChange('documentary')}>{hasStudies ? 'Priorités d’étude des actions' : 'Classement documentaire antérieur'}</button>
+              <button type="button" className={realView === 'ecological' ? 'is-active' : ''} aria-pressed={realView === 'ecological'} onClick={() => handleRealViewChange('ecological')}>Priorité écologique D/S</button>
             </div>
           )}
 
@@ -282,8 +256,7 @@ export function ApplicationLayout() {
             <summary>Sources et limites</summary>
             <p>
               Les observations réelles mobilisent notamment IGN BD TOPO et ADMIN EXPRESS, le SRCE
-              2014, les inventaires DREAL et Cartofriches. La vue documentaire ordonne uniquement
-              la vérification des sources. Les priorités écologiques restent indéterminées faute de validation. Le mode TEST
+              2014, les inventaires DREAL et Cartofriches. La vue indicative prépare l’instruction des actions. Les priorités écologiques restent indéterminées faute de validation. Le mode TEST
               conserve séparément les 43 mailles historiques et leurs couleurs synthétiques.
               Le fond cartographique sert uniquement au repérage.
             </p>

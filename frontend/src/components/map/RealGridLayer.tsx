@@ -37,8 +37,8 @@ const ECOLOGICAL_COLOR_EXPRESSION = [
   '#89938F',
 ] as ExpressionSpecification
 
-function fillColorExpression(view: 'documentary' | 'ecological'): ExpressionSpecification {
-  return view === 'documentary' ? DOCUMENTARY_COLOR_EXPRESSION : ECOLOGICAL_COLOR_EXPRESSION
+function fillColorExpression(view: 'study' | 'documentary' | 'ecological'): ExpressionSpecification {
+  return view === 'study' ? ['get', 'study_color'] as ExpressionSpecification : view === 'documentary' ? DOCUMENTARY_COLOR_EXPRESSION : ECOLOGICAL_COLOR_EXPRESSION
 }
 
 interface RealGridLayerProps {
@@ -49,7 +49,7 @@ interface RealGridLayerProps {
   onSelectRealHexagon: (id: string | null) => void
   onHoverRealHexagon: (id: string | null) => void
   showRealGrid: boolean
-  classificationView?: 'documentary' | 'ecological'
+  classificationView?: 'study' | 'documentary' | 'ecological'
   highlightedMailleIds?: ReadonlySet<string> | null
 }
 

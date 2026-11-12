@@ -234,6 +234,7 @@ export interface RegionMapProps {
   onToggleTestMode?: () => void
   onToggleRealGrid?: () => void
   studyAreaBounds?: LngLatBoundsLike | null
+  onMapReady?: () => void
   testModeAvailable?: boolean
 }
 
@@ -254,6 +255,7 @@ export function RegionMap({
   onToggleRealGrid,
   studyAreaBounds = null,
   testModeAvailable = true,
+  onMapReady,
 }: RegionMapProps = {}) {
   const mapContainerRef = useRef<HTMLDivElement>(null)
   const internalMapRef = useRef<MapLibreMap | undefined>(undefined)
@@ -366,6 +368,7 @@ export function RegionMap({
           if (cancelled || basemapFailed) return
           basemapFailed = true
           setMapState('basemap-error')
+          onMapReady?.()
           map?.setStyle(fallbackStyle)
         }
 
@@ -374,6 +377,7 @@ export function RegionMap({
           clearTimeout(basemapTimeout)
           fitCameraTarget()
           setMapState('ready')
+          onMapReady?.()
         })
 
         basemapTimeout = setTimeout(showBasemapError, 10_000)
@@ -421,27 +425,13 @@ export function RegionMap({
     }
   }, [mapState, hoveredDepartment, selectedDepartment])
 
-  const fittedStudyAreaRef = useRef(false)
-
-  useEffect(() => {
-    const map = activeMapRef.current
-    if (!map || mapState === 'loading' || !studyAreaBounds || fittedStudyAreaRef.current) return
-    if (userMovedCameraRef.current) return
-    fittedStudyAreaRef.current = true
-    cameraTargetRef.current = studyAreaBounds
-    map.fitBounds(studyAreaBounds, {
-      padding: getInitialBoundsPadding(map.getContainer().clientWidth),
-      duration: prefersReducedMotion() ? 0 : 800,
-    })
-  }, [mapState, studyAreaBounds])
-
   useEffect(() => {
     const map = activeMapRef.current
     if (!map || mapState === 'loading') return
 
     const target = selectedDepartment
       ? DEPARTMENTS_BY_CODE.get(selectedDepartment)?.bounds ?? NORMANDY_BOUNDS
-      : NORMANDY_BOUNDS
+      : studyAreaBounds ?? NORMANDY_BOUNDS
     if (target === cameraTargetRef.current && !userMovedCameraRef.current) return
 
     cameraTargetRef.current = target
@@ -451,7 +441,7 @@ export function RegionMap({
       padding: getInitialBoundsPadding(container.clientWidth) * 2,
       duration: prefersReducedMotion() ? 0 : 900,
     })
-  }, [mapState, selectedDepartment])
+  }, [mapState, selectedDepartment, studyAreaBounds])
 
   useEffect(() => {
     void (async () => {
@@ -525,7 +515,7 @@ export function RegionMap({
       <div className="layer-placeholders" aria-label="État des couches territoriales">
         {showRealGrid && realGridCount > 0 && (
           <span className="status-badge status-badge--info">
-            {realGridCount} maille{realGridCount > 1 ? 's' : ''} réelle{realGridCount > 1 ? 's' : ''} M1 chargée{realGridCount > 1 ? 's' : ''}
+            {realGridCount} maille{realGridCount > 1 ? 's' : ''} réelle{realGridCount > 1 ? 's' : ''}
           </span>
         )}
         {testModeEnabled && isTestData && (
@@ -568,7 +558,7 @@ export function RegionMap({
         onClick={onToggleRealGrid}
         aria-pressed={showRealGrid}
       >
-        {showRealGrid ? 'Masquer la grille M1' : 'Afficher la grille M1'}
+        {showRealGrid ? 'Masquer la grille' : 'Afficher la grille'}
       </button>
 
       {testModeAvailable && onToggleTestMode && (

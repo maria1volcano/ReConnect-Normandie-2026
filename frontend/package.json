@@ -8,7 +8,9 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit --pretty false",
-    "test:priorities": "node scripts/verify-priorities.mjs"
+    "test:priorities": "node scripts/verify-priorities.mjs",
+    "test:actions": "node scripts/verify-actions.mjs",
+    "test:browser:actions": "node scripts/smoke-actions-ui.cjs"
   },
   "dependencies": {
     "maplibre-gl": "6.16.0",
@@ -23,4 +25,3 @@
     "vite": "8.3.5"
   }
 }
-
