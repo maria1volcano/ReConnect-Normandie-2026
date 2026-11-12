@@ -1,0 +1,647 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReConnect M2→M4 — proposition 1 — conflits",
+  "description": "Profil régional RFC 7946, XY longitude/latitude CRS84 ; démonstration synthétique uniquement. La validité topologique et les références croisées exigent le validateur Python.",
+  "type": "object",
+  "properties": {
+    "type": {
+      "const": "FeatureCollection"
+    },
+    "contract_version": {
+      "const": "m2-m4.proposal-1"
+    },
+    "test_data": {
+      "const": true
+    },
+    "statut_diffusion": {
+      "const": "synthetique_uniquement"
+    },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "run_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "grid_version": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "method_version": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "dataset_version": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "run_id",
+        "grid_version",
+        "method_version",
+        "dataset_version"
+      ],
+      "additionalProperties": false
+    },
+    "resume": {
+      "type": "object",
+      "properties": {
+        "analyse_effectuee": {
+          "type": "boolean"
+        },
+        "evenements_distincts_observes": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "relations_spatiales": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "analyse_effectuee",
+        "evenements_distincts_observes",
+        "relations_spatiales"
+      ],
+      "additionalProperties": false
+    },
+    "features": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/feature"
+      }
+    }
+  },
+  "required": [
+    "type",
+    "contract_version",
+    "test_data",
+    "statut_diffusion",
+    "provenance",
+    "resume",
+    "features"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "position": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        },
+        {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        }
+      ],
+      "items": false,
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "line": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/position"
+      },
+      "minItems": 2
+    },
+    "ring": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/position"
+      },
+      "minItems": 4
+    },
+    "polygon": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ring"
+      },
+      "minItems": 1
+    },
+    "Point": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "Point"
+        },
+        "coordinates": {
+          "$ref": "#/$defs/position"
+        }
+      },
+      "required": [
+        "type",
+        "coordinates"
+      ],
+      "additionalProperties": false
+    },
+    "LineString": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "LineString"
+        },
+        "coordinates": {
+          "$ref": "#/$defs/line"
+        }
+      },
+      "required": [
+        "type",
+        "coordinates"
+      ],
+      "additionalProperties": false
+    },
+    "Polygon": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "Polygon"
+        },
+        "coordinates": {
+          "$ref": "#/$defs/polygon"
+        }
+      },
+      "required": [
+        "type",
+        "coordinates"
+      ],
+      "additionalProperties": false
+    },
+    "MultiPolygon": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "MultiPolygon"
+        },
+        "coordinates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/polygon"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "type",
+        "coordinates"
+      ],
+      "additionalProperties": false
+    },
+    "MultiLineString": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "MultiLineString"
+        },
+        "coordinates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/line"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "type",
+        "coordinates"
+      ],
+      "additionalProperties": false
+    },
+    "MultiPoint": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "MultiPoint"
+        },
+        "coordinates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/position"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "type",
+        "coordinates"
+      ],
+      "additionalProperties": false
+    },
+    "identifier": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        {
+          "type": "integer"
+        }
+      ]
+    },
+    "nullable_text": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "feature": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "Feature"
+        },
+        "geometry": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/Point"
+            },
+            {
+              "$ref": "#/$defs/LineString"
+            },
+            {
+              "$ref": "#/$defs/Polygon"
+            },
+            {
+              "$ref": "#/$defs/MultiPolygon"
+            },
+            {
+              "$ref": "#/$defs/MultiLineString"
+            },
+            {
+              "$ref": "#/$defs/MultiPoint"
+            }
+          ]
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "conflit_id": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "type": {
+              "const": "route_corridor"
+            },
+            "evidence_level": {
+              "enum": [
+                "geometrie_2d",
+                "criteres_examen_documentes",
+                "preuve_externe_documentee",
+                "regle_contextuelle_documentee"
+              ]
+            },
+            "statut": {
+              "enum": [
+                "croisement_detecte",
+                "conflit_potentiel",
+                "obstacle_confirme",
+                "non_concluant"
+              ]
+            },
+            "source_ids": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "role": {
+                    "enum": [
+                      "routes",
+                      "corridors"
+                    ]
+                  },
+                  "id": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      },
+                      {
+                        "type": "integer"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "role",
+                  "id"
+                ],
+                "additionalProperties": false
+              },
+              "uniqueItems": true
+            },
+            "maille_ids": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  },
+                  {
+                    "type": "integer"
+                  }
+                ]
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "precision_affichage": {
+              "enum": [
+                "precision_non_documentee",
+                "localisation_validee",
+                "localisation_a_confirmer",
+                "localisation_masquee",
+                "localisation_generalisee"
+              ]
+            },
+            "limites": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "method_version": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "territory_relation": {
+              "enum": [
+                "interieur",
+                "frontiere",
+                "interieur_et_frontiere"
+              ]
+            },
+            "diffusion": {
+              "type": "object",
+              "properties": {
+                "geometrie": {
+                  "enum": [
+                    "masquee",
+                    "exacte",
+                    "generalisee"
+                  ]
+                },
+                "source_ids_autorises": {
+                  "type": "boolean"
+                },
+                "decision": {
+                  "enum": [
+                    "masquage_par_defaut",
+                    "decision_declaree"
+                  ]
+                }
+              },
+              "required": [
+                "geometrie",
+                "source_ids_autorises",
+                "decision"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "conflit_id",
+            "type",
+            "evidence_level",
+            "statut",
+            "source_ids",
+            "maille_ids",
+            "precision_affichage",
+            "limites",
+            "method_version",
+            "territory_relation",
+            "diffusion"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "diffusion": {
+                    "properties": {
+                      "source_ids_autorises": {
+                        "const": false
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "source_ids": {
+                    "maxItems": 0
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "territory_relation": {
+                    "const": "frontiere"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "statut": {
+                    "const": "non_concluant"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "statut": {
+                    "const": "obstacle_confirme"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "evidence_level": {
+                    "const": "preuve_externe_documentee"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "geometry",
+        "properties"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "properties": {
+                "properties": {
+                  "diffusion": {
+                    "properties": {
+                      "geometrie": {
+                        "const": "masquee"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "geometry": {
+                "type": "null"
+              },
+              "properties": {
+                "properties": {
+                  "precision_affichage": {
+                    "const": "localisation_masquee"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "properties": {
+                "properties": {
+                  "diffusion": {
+                    "properties": {
+                      "geometrie": {
+                        "const": "generalisee"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "geometry": {
+                "not": {
+                  "type": "null"
+                }
+              },
+              "properties": {
+                "properties": {
+                  "precision_affichage": {
+                    "const": "localisation_generalisee"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "properties": {
+                "properties": {
+                  "diffusion": {
+                    "properties": {
+                      "geometrie": {
+                        "const": "exacte"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "geometry": {
+                "not": {
+                  "type": "null"
+                }
+              },
+              "properties": {
+                "properties": {
+                  "precision_affichage": {
+                    "enum": [
+                      "precision_non_documentee",
+                      "localisation_validee",
+                      "localisation_a_confirmer"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
