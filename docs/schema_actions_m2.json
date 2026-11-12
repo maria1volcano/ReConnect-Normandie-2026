@@ -1,0 +1,5980 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Contrat interne proposé M2 des règles d’actions — audit-2",
+  "description": "Sémantique des faits et sorties à approuver par M4/M5. Aucun moteur ni qualification écologique automatique ; contrôles référentiels obligatoires.",
+  "$ref": "#/$defs/commonInput",
+  "$defs": {
+    "identifier": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        {
+          "type": "integer"
+        }
+      ]
+    },
+    "period": {
+      "type": "object",
+      "properties": {
+        "debut": {
+          "type": "string",
+          "format": "date"
+        },
+        "fin": {
+          "type": "string",
+          "format": "date"
+        },
+        "reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "debut",
+        "fin",
+        "reference"
+      ],
+      "additionalProperties": false
+    },
+    "fact": {
+      "type": "object",
+      "properties": {
+        "etat": {
+          "enum": [
+            "documente",
+            "absence_documentee",
+            "inconnu",
+            "non_applicable_documentee"
+          ]
+        },
+        "valeur": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/eventReferenceValue"
+            },
+            {
+              "$ref": "#/$defs/crossingStatusValue"
+            },
+            {
+              "$ref": "#/$defs/positiveValidityValue"
+            },
+            {
+              "$ref": "#/$defs/subframeValue"
+            },
+            {
+              "$ref": "#/$defs/routeSourcesValue"
+            },
+            {
+              "$ref": "#/$defs/extentRelationValue"
+            },
+            {
+              "$ref": "#/$defs/inventoryValue"
+            },
+            {
+              "$ref": "#/$defs/networkValue"
+            },
+            {
+              "$ref": "#/$defs/externalEvaluationValue"
+            },
+            {
+              "$ref": "#/$defs/thematicCoverageValue"
+            },
+            {
+              "$ref": "#/$defs/brownfieldValue"
+            },
+            {
+              "$ref": "#/$defs/spatialLinkValue"
+            },
+            {
+              "$ref": "#/$defs/methodValue"
+            },
+            {
+              "$ref": "#/$defs/soilContextValue"
+            },
+            {
+              "$ref": "#/$defs/hydrologicalContextValue"
+            },
+            {
+              "$ref": "#/$defs/absenceValue"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "preuve_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "uniqueItems": true
+        },
+        "reference": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "etat",
+        "valeur",
+        "preuve_ids",
+        "reference"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "etat": {
+                "enum": [
+                  "documente",
+                  "absence_documentee",
+                  "non_applicable_documentee"
+                ]
+              }
+            },
+            "required": [
+              "etat"
+            ]
+          },
+          "then": {
+            "properties": {
+              "preuve_ids": {
+                "minItems": 1
+              },
+              "reference": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "etat": {
+                "enum": [
+                  "inconnu",
+                  "non_applicable_documentee"
+                ]
+              }
+            },
+            "required": [
+              "etat"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valeur": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "etat": {
+                "enum": [
+                  "documente",
+                  "absence_documentee"
+                ]
+              }
+            },
+            "required": [
+              "etat"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valeur": {
+                "not": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "Enveloppe de fait. Documente qualifie la traçabilité, pas la satisfaction d’un déclencheur. Chaque nom lie valeur à son type exact."
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "integer"
+            }
+          ]
+        },
+        "dataset_version": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "periode_reference": {
+          "$ref": "#/$defs/period"
+        }
+      },
+      "required": [
+        "namespace",
+        "id",
+        "dataset_version",
+        "reference",
+        "periode_reference"
+      ],
+      "additionalProperties": false
+    },
+    "coverage": {
+      "type": "object",
+      "properties": {
+        "theme": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "statut": {
+          "enum": [
+            "unknown",
+            "declared",
+            "validated"
+          ]
+        },
+        "emprise_reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "periode_reference": {
+          "$ref": "#/$defs/period"
+        },
+        "reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "theme",
+        "statut",
+        "emprise_reference",
+        "periode_reference",
+        "reference"
+      ],
+      "additionalProperties": false
+    },
+    "review": {
+      "type": "object",
+      "properties": {
+        "reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "validated_by": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "validated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "authentifie_par_logiciel": {
+          "const": false
+        }
+      },
+      "required": [
+        "reference",
+        "validated_by",
+        "validated_at",
+        "authentifie_par_logiciel"
+      ],
+      "additionalProperties": false
+    },
+    "familyEvidence": {
+      "type": "object",
+      "properties": {
+        "attestation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "integer"
+            }
+          ]
+        },
+        "rule_id": {
+          "enum": [
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        "maille_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "integer"
+            }
+          ]
+        },
+        "diagnostic_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "phenomene_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "integer"
+            }
+          ]
+        },
+        "emprise_reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "periode_reference": {
+          "$ref": "#/$defs/period"
+        },
+        "methode_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "methode_version": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "methode_reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "qualification": {
+          "enum": [
+            "etaye",
+            "indicatif",
+            "absence_documentee",
+            "inconnu"
+          ]
+        },
+        "preuve_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "uniqueItems": true
+        },
+        "source_objects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/source"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "couvertures": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/coverage"
+          },
+          "minItems": 1
+        },
+        "faits": {
+          "$ref": "#/$defs/knownFamilyFacts"
+        },
+        "validation_m2": {
+          "$ref": "#/$defs/review"
+        },
+        "limites": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "uniqueItems": true
+        },
+        "independance": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "reference": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "preuve_ids": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/identifier"
+                  },
+                  "minItems": 1,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "reference",
+                "preuve_ids"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "liaison_evenement": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "conflit_id": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    {
+                      "type": "integer"
+                    }
+                  ]
+                },
+                "event_binding_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                }
+              },
+              "required": [
+                "conflit_id",
+                "event_binding_sha256"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "required": [
+        "attestation_id",
+        "rule_id",
+        "maille_id",
+        "diagnostic_ids",
+        "phenomene_id",
+        "emprise_reference",
+        "periode_reference",
+        "methode_id",
+        "methode_version",
+        "methode_reference",
+        "qualification",
+        "preuve_ids",
+        "source_objects",
+        "couvertures",
+        "faits",
+        "validation_m2",
+        "limites",
+        "independance",
+        "liaison_evenement"
+      ],
+      "additionalProperties": false
+    },
+    "pendingEvidence": {
+      "type": "object",
+      "properties": {
+        "etat": {
+          "const": "en_attente"
+        },
+        "rule_id": {
+          "enum": [
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        "maille_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "integer"
+            }
+          ]
+        },
+        "diagnostic_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "uniqueItems": true
+        },
+        "qualification": {
+          "const": "inconnu"
+        },
+        "manquants": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "limites": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "reference_analyse": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "etat",
+        "rule_id",
+        "maille_id",
+        "diagnostic_ids",
+        "qualification",
+        "manquants",
+        "limites",
+        "reference_analyse"
+      ],
+      "additionalProperties": false
+    },
+    "domainEvidence": {
+      "type": "object",
+      "properties": {
+        "etat": {
+          "const": "non_applicable_documentee"
+        },
+        "rule_id": {
+          "enum": [
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        "maille_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "integer"
+            }
+          ]
+        },
+        "diagnostic_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "uniqueItems": true
+        },
+        "qualification": {
+          "const": "inconnu"
+        },
+        "applicabilite_reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "methode_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "methode_version": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "methode_reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "emprise_reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "periode_reference": {
+          "$ref": "#/$defs/period"
+        },
+        "preuve_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "validation_m2": {
+          "$ref": "#/$defs/review"
+        },
+        "limites": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "etat",
+        "rule_id",
+        "maille_id",
+        "diagnostic_ids",
+        "qualification",
+        "applicabilite_reference",
+        "methode_id",
+        "methode_version",
+        "methode_reference",
+        "emprise_reference",
+        "periode_reference",
+        "preuve_ids",
+        "validation_m2",
+        "limites"
+      ],
+      "additionalProperties": false
+    },
+    "commonInput": {
+      "type": "object",
+      "properties": {
+        "rule_id": {
+          "enum": [
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        "action_id": {
+          "enum": [
+            "A01",
+            "A02",
+            "A03",
+            "A04"
+          ]
+        },
+        "applicabilite": {
+          "enum": [
+            "oui",
+            "non_applicable_documentee",
+            "inconnue"
+          ]
+        },
+        "applicabilite_reference": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "methode_validee": {
+          "type": "boolean"
+        },
+        "methode_reference": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "couverture_essentielle": {
+          "enum": [
+            "suffisante",
+            "partielle",
+            "insuffisante"
+          ]
+        },
+        "signal": {
+          "enum": [
+            "etaye",
+            "indicatif",
+            "absence_documentee",
+            "inconnu"
+          ]
+        },
+        "preuve_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "uniqueItems": true
+        },
+        "preuve_absence_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "uniqueItems": true
+        },
+        "controle_contradiction": {
+          "enum": [
+            "exclue",
+            "confirmee",
+            "non_evaluee"
+          ]
+        },
+        "contradiction_references": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "uniqueItems": true
+        },
+        "independance_reference": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "limites": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "uniqueItems": true
+        },
+        "family_evidence": {
+          "type": "object"
+        },
+        "maille_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "integer"
+            }
+          ]
+        },
+        "diagnostic_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "uniqueItems": true
+        },
+        "rule_version": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "rule_id",
+        "action_id",
+        "applicabilite",
+        "applicabilite_reference",
+        "methode_validee",
+        "methode_reference",
+        "couverture_essentielle",
+        "signal",
+        "preuve_ids",
+        "preuve_absence_ids",
+        "controle_contradiction",
+        "contradiction_references",
+        "independance_reference",
+        "limites",
+        "family_evidence"
+      ],
+      "additionalProperties": false,
+      "description": "Contrat abstrait des 52 fixtures pour la table commune ; ne valide pas les faits familiaux de production.",
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "rule_id": {
+                "const": "R1"
+              }
+            },
+            "required": [
+              "rule_id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "action_id": {
+                "const": "A04"
+              },
+              "rule_version": {
+                "const": "m2-actions.spec-proposal-1"
+              }
+            },
+            "required": [
+              "action_id"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "rule_id": {
+                "const": "R2"
+              }
+            },
+            "required": [
+              "rule_id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "action_id": {
+                "const": "A01"
+              },
+              "rule_version": {
+                "const": "m2-actions.spec-proposal-1"
+              }
+            },
+            "required": [
+              "action_id"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "rule_id": {
+                "const": "R3"
+              }
+            },
+            "required": [
+              "rule_id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "action_id": {
+                "const": "A03"
+              },
+              "rule_version": {
+                "const": "m2-actions.spec-proposal-1"
+              }
+            },
+            "required": [
+              "action_id"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "rule_id": {
+                "const": "R4"
+              }
+            },
+            "required": [
+              "rule_id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "action_id": {
+                "const": "A02"
+              },
+              "rule_version": {
+                "const": "m2-actions.spec-proposal-1"
+              }
+            },
+            "required": [
+              "action_id"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "applicabilite": {
+                "const": "non_applicable_documentee"
+              }
+            },
+            "required": [
+              "applicabilite"
+            ]
+          },
+          "then": {
+            "properties": {
+              "applicabilite_reference": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "signal": {
+                "enum": [
+                  "absence_documentee",
+                  "inconnu"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "methode_validee": {
+                "const": true
+              }
+            },
+            "required": [
+              "methode_validee"
+            ]
+          },
+          "then": {
+            "properties": {
+              "methode_reference": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "signal": {
+                "enum": [
+                  "etaye",
+                  "indicatif"
+                ]
+              }
+            },
+            "required": [
+              "signal"
+            ]
+          },
+          "then": {
+            "properties": {
+              "preuve_ids": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "signal": {
+                "const": "etaye"
+              }
+            },
+            "required": [
+              "signal"
+            ]
+          },
+          "then": {
+            "properties": {
+              "couverture_essentielle": {
+                "const": "suffisante"
+              }
+            },
+            "required": [
+              "couverture_essentielle"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "signal": {
+                "const": "absence_documentee"
+              }
+            },
+            "required": [
+              "signal"
+            ]
+          },
+          "then": {
+            "properties": {
+              "couverture_essentielle": {
+                "const": "suffisante"
+              },
+              "preuve_absence_ids": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "controle_contradiction": {
+                "const": "confirmee"
+              }
+            },
+            "required": [
+              "controle_contradiction"
+            ]
+          },
+          "then": {
+            "properties": {
+              "contradiction_references": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "normalizedInput": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/commonInput"
+        },
+        {
+          "required": [
+            "maille_id",
+            "diagnostic_ids",
+            "rule_version"
+          ],
+          "properties": {
+            "family_evidence": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/familyEvidence"
+                },
+                {
+                  "$ref": "#/$defs/pendingEvidence"
+                },
+                {
+                  "$ref": "#/$defs/domainEvidence"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "signal": {
+                "const": "etaye"
+              }
+            },
+            "required": [
+              "signal"
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "qualification": {
+                    "const": "etaye"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "signal": {
+                "const": "indicatif"
+              }
+            },
+            "required": [
+              "signal"
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "qualification": {
+                    "const": "indicatif"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "signal": {
+                "const": "absence_documentee"
+              }
+            },
+            "required": [
+              "signal"
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "qualification": {
+                    "const": "absence_documentee"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "signal": {
+                "const": "inconnu"
+              }
+            },
+            "required": [
+              "signal"
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "qualification": {
+                    "const": "inconnu"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "rule_id": {
+                "const": "R1"
+              }
+            },
+            "required": [
+              "rule_id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "rule_id": {
+                    "const": "R1"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "allOf": [
+              {
+                "properties": {
+                  "rule_id": {
+                    "const": "R1"
+                  }
+                },
+                "required": [
+                  "rule_id"
+                ]
+              },
+              {
+                "properties": {
+                  "signal": {
+                    "enum": [
+                      "etaye",
+                      "indicatif"
+                    ]
+                  }
+                },
+                "required": [
+                  "signal"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "faits": {
+                    "required": [
+                      "evenement_route_corridor_reference",
+                      "statut_croisement",
+                      "validite_positive",
+                      "sous_trame_documentee",
+                      "route_source_versionnee",
+                      "emprise_reliee"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "allOf": [
+              {
+                "properties": {
+                  "rule_id": {
+                    "const": "R1"
+                  }
+                },
+                "required": [
+                  "rule_id"
+                ]
+              },
+              {
+                "properties": {
+                  "signal": {
+                    "const": "etaye"
+                  }
+                },
+                "required": [
+                  "signal"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "faits": {
+                    "properties": {
+                      "evenement_route_corridor_reference": {
+                        "properties": {
+                          "etat": {
+                            "const": "documente"
+                          }
+                        }
+                      },
+                      "statut_croisement": {
+                        "properties": {
+                          "etat": {
+                            "const": "documente"
+                          }
+                        }
+                      },
+                      "validite_positive": {
+                        "properties": {
+                          "etat": {
+                            "const": "documente"
+                          }
+                        }
+                      },
+                      "sous_trame_documentee": {
+                        "properties": {
+                          "etat": {
+                            "const": "documente"
+                          }
+                        }
+                      },
+                      "route_source_versionnee": {
+                        "properties": {
+                          "etat": {
+                            "const": "documente"
+                          }
+                        }
+                      },
+                      "emprise_reliee": {
+                        "properties": {
+                          "etat": {
+                            "const": "documente"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "rule_id": {
+                "const": "R2"
+              }
+            },
+            "required": [
+              "rule_id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "rule_id": {
+                    "const": "R2"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "allOf": [
+              {
+                "properties": {
+                  "rule_id": {
+                    "const": "R2"
+                  }
+                },
+                "required": [
+                  "rule_id"
+                ]
+              },
+              {
+                "properties": {
+                  "signal": {
+                    "enum": [
+                      "etaye",
+                      "indicatif"
+                    ]
+                  }
+                },
+                "required": [
+                  "signal"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "faits": {
+                    "required": [
+                      "haies_inventaire_date",
+                      "sous_trame_bocagere",
+                      "continuite_reseau_referencee",
+                      "analyse_lacune_documentee",
+                      "couverture_thematique",
+                      "emprise_reliee"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "allOf": [
+              {
+                "properties": {
+                  "rule_id": {
+                    "const": "R2"
+                  }
+                },
+                "required": [
+                  "rule_id"
+                ]
+              },
+              {
+                "properties": {
+                  "signal": {
+                    "const": "etaye"
+                  }
+                },
+                "required": [
+                  "signal"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "faits": {
+                    "properties": {
+                      "haies_inventaire_date": {
+                        "properties": {
+                          "etat": {
+                            "const": "documente"
+                          }
+                        }
+                      },
+                      "sous_trame_bocagere": {
+                        "properties": {
+                          "etat": {
+                            "const": "documente"
+                          }
+                        }
+                      },
+                      "continuite_reseau_referencee": {
+                        "properties": {
+                          "etat": {
+                            "const": "documente"
+                          }
+                        }
+                      },
+                      "analyse_lacune_documentee": {
+                        "properties": {
+                          "etat": {
+                            "const": "documente"
+                          }
+                        }
+                      },
+                      "couverture_thematique": {
+                        "properties": {
+                          "etat": {
+                            "const": "documente"
+                          }
+                        }
+                      },
+                      "emprise_reliee": {
+                        "properties": {
+                          "etat": {
+                            "const": "documente"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "rule_id": {
+                "const": "R3"
+              }
+            },
+            "required": [
+              "rule_id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "rule_id": {
+                    "const": "R3"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "allOf": [
+              {
+                "properties": {
+                  "rule_id": {
+                    "const": "R3"
+                  }
+                },
+                "required": [
+                  "rule_id"
+                ]
+              },
+              {
+                "properties": {
+                  "signal": {
+                    "enum": [
+                      "etaye",
+                      "indicatif"
+                    ]
+                  }
+                },
+                "required": [
+                  "signal"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "faits": {
+                    "required": [
+                      "friche_id_et_statut",
+                      "friche_source_datee",
+                      "lien_geometrique_continuite",
+                      "methode_voisinage_documentee",
+                      "contexte_sol",
+                      "emprise_reliee"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "allOf": [
+              {
+                "properties": {
+                  "rule_id": {
+                    "const": "R3"
+                  }
+                },
+                "required": [
+                  "rule_id"
+                ]
+              },
+              {
+                "properties": {
+                  "signal": {
+                    "const": "etaye"
+                  }
+                },
+                "required": [
+                  "signal"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "faits": {
+                    "properties": {
+                      "friche_id_et_statut": {
+                        "properties": {
+                          "etat": {
+                            "const": "documente"
+                          }
+                        }
+                      },
+                      "friche_source_datee": {
+                        "properties": {
+                          "etat": {
+                            "const": "documente"
+                          }
+                        }
+                      },
+                      "lien_geometrique_continuite": {
+                        "properties": {
+                          "etat": {
+                            "const": "documente"
+                          }
+                        }
+                      },
+                      "methode_voisinage_documentee": {
+                        "properties": {
+                          "etat": {
+                            "const": "documente"
+                          }
+                        }
+                      },
+                      "contexte_sol": {
+                        "properties": {
+                          "etat": {
+                            "const": "documente"
+                          }
+                        }
+                      },
+                      "emprise_reliee": {
+                        "properties": {
+                          "etat": {
+                            "const": "documente"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "rule_id": {
+                "const": "R4"
+              }
+            },
+            "required": [
+              "rule_id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "rule_id": {
+                    "const": "R4"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "allOf": [
+              {
+                "properties": {
+                  "rule_id": {
+                    "const": "R4"
+                  }
+                },
+                "required": [
+                  "rule_id"
+                ]
+              },
+              {
+                "properties": {
+                  "signal": {
+                    "enum": [
+                      "etaye",
+                      "indicatif"
+                    ]
+                  }
+                },
+                "required": [
+                  "signal"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "faits": {
+                    "required": [
+                      "inventaire_mares_date",
+                      "sous_trame_humide",
+                      "reseau_habitats_reference",
+                      "analyse_isolement_documentee",
+                      "contexte_hydrologique",
+                      "emprise_reliee"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "allOf": [
+              {
+                "properties": {
+                  "rule_id": {
+                    "const": "R4"
+                  }
+                },
+                "required": [
+                  "rule_id"
+                ]
+              },
+              {
+                "properties": {
+                  "signal": {
+                    "const": "etaye"
+                  }
+                },
+                "required": [
+                  "signal"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "faits": {
+                    "properties": {
+                      "inventaire_mares_date": {
+                        "properties": {
+                          "etat": {
+                            "const": "documente"
+                          }
+                        }
+                      },
+                      "sous_trame_humide": {
+                        "properties": {
+                          "etat": {
+                            "const": "documente"
+                          }
+                        }
+                      },
+                      "reseau_habitats_reference": {
+                        "properties": {
+                          "etat": {
+                            "const": "documente"
+                          }
+                        }
+                      },
+                      "analyse_isolement_documentee": {
+                        "properties": {
+                          "etat": {
+                            "const": "documente"
+                          }
+                        }
+                      },
+                      "contexte_hydrologique": {
+                        "properties": {
+                          "etat": {
+                            "const": "documente"
+                          }
+                        }
+                      },
+                      "emprise_reliee": {
+                        "properties": {
+                          "etat": {
+                            "const": "documente"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "etat": {
+                    "const": "en_attente"
+                  }
+                },
+                "required": [
+                  "etat"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "signal": {
+                "const": "inconnu"
+              },
+              "applicabilite": {
+                "enum": [
+                  "oui",
+                  "inconnue"
+                ]
+              }
+            },
+            "required": [
+              "signal",
+              "applicabilite"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "etat": {
+                    "const": "non_applicable_documentee"
+                  }
+                },
+                "required": [
+                  "etat"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "signal": {
+                "const": "inconnu"
+              },
+              "applicabilite": {
+                "const": "non_applicable_documentee"
+              }
+            },
+            "required": [
+              "signal",
+              "applicabilite"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "signal": {
+                "enum": [
+                  "etaye",
+                  "indicatif"
+                ]
+              }
+            },
+            "required": [
+              "signal"
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "preuve_ids": {
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "signal": {
+                "enum": [
+                  "etaye",
+                  "indicatif",
+                  "absence_documentee"
+                ]
+              }
+            },
+            "required": [
+              "signal"
+            ]
+          },
+          "then": {
+            "properties": {
+              "diagnostic_ids": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "signal": {
+                "const": "absence_documentee"
+              }
+            },
+            "required": [
+              "signal"
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "faits": {
+                    "required": [
+                      "absence_declencheur"
+                    ],
+                    "properties": {
+                      "absence_declencheur": {
+                        "properties": {
+                          "etat": {
+                            "const": "absence_documentee"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "preuve_ids": {
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "signal": {
+                "const": "absence_documentee"
+              }
+            },
+            "required": [
+              "signal"
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "couvertures": {
+                    "items": {
+                      "properties": {
+                        "statut": {
+                          "const": "validated"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "allOf": [
+              {
+                "properties": {
+                  "rule_id": {
+                    "const": "R1"
+                  }
+                },
+                "required": [
+                  "rule_id"
+                ]
+              },
+              {
+                "properties": {
+                  "signal": {
+                    "const": "etaye"
+                  }
+                },
+                "required": [
+                  "signal"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "faits": {
+                    "properties": {
+                      "statut_croisement": {
+                        "properties": {
+                          "valeur": {
+                            "enum": [
+                              "conflit_potentiel",
+                              "obstacle_confirme"
+                            ]
+                          }
+                        }
+                      },
+                      "validite_positive": {
+                        "properties": {
+                          "valeur": {
+                            "const": true
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "liaison_evenement": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "allOf": [
+              {
+                "properties": {
+                  "rule_id": {
+                    "const": "R1"
+                  }
+                },
+                "required": [
+                  "rule_id"
+                ]
+              },
+              {
+                "properties": {
+                  "signal": {
+                    "const": "indicatif"
+                  }
+                },
+                "required": [
+                  "signal"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "liaison_evenement": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "allOf": [
+              {
+                "properties": {
+                  "rule_id": {
+                    "const": "R1"
+                  }
+                },
+                "required": [
+                  "rule_id"
+                ]
+              },
+              {
+                "properties": {
+                  "signal": {
+                    "enum": [
+                      "etaye",
+                      "indicatif"
+                    ]
+                  }
+                },
+                "required": [
+                  "signal"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "faits": {
+                    "properties": {
+                      "validite_positive": {
+                        "properties": {
+                          "valeur": {
+                            "const": true
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "allOf": [
+              {
+                "properties": {
+                  "controle_contradiction": {
+                    "const": "non_evaluee"
+                  }
+                },
+                "required": [
+                  "controle_contradiction"
+                ]
+              },
+              {
+                "properties": {
+                  "independance_reference": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "independance_reference"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "independance": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "rule_id": {
+                "const": "R1"
+              }
+            },
+            "required": [
+              "rule_id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "faits": {
+                    "$ref": "#/$defs/familyFactsR1"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "allOf": [
+              {
+                "properties": {
+                  "rule_id": {
+                    "const": "R1"
+                  }
+                },
+                "required": [
+                  "rule_id"
+                ]
+              },
+              {
+                "properties": {
+                  "signal": {
+                    "const": "etaye"
+                  }
+                },
+                "required": [
+                  "signal"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "faits": {
+                    "$ref": "#/$defs/etayeFactsR1"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "rule_id": {
+                "const": "R2"
+              }
+            },
+            "required": [
+              "rule_id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "faits": {
+                    "$ref": "#/$defs/familyFactsR2"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "allOf": [
+              {
+                "properties": {
+                  "rule_id": {
+                    "const": "R2"
+                  }
+                },
+                "required": [
+                  "rule_id"
+                ]
+              },
+              {
+                "properties": {
+                  "signal": {
+                    "const": "etaye"
+                  }
+                },
+                "required": [
+                  "signal"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "faits": {
+                    "$ref": "#/$defs/etayeFactsR2"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "rule_id": {
+                "const": "R3"
+              }
+            },
+            "required": [
+              "rule_id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "faits": {
+                    "$ref": "#/$defs/familyFactsR3"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "allOf": [
+              {
+                "properties": {
+                  "rule_id": {
+                    "const": "R3"
+                  }
+                },
+                "required": [
+                  "rule_id"
+                ]
+              },
+              {
+                "properties": {
+                  "signal": {
+                    "const": "etaye"
+                  }
+                },
+                "required": [
+                  "signal"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "faits": {
+                    "$ref": "#/$defs/etayeFactsR3"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "rule_id": {
+                "const": "R4"
+              }
+            },
+            "required": [
+              "rule_id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "faits": {
+                    "$ref": "#/$defs/familyFactsR4"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "allOf": [
+              {
+                "properties": {
+                  "rule_id": {
+                    "const": "R4"
+                  }
+                },
+                "required": [
+                  "rule_id"
+                ]
+              },
+              {
+                "properties": {
+                  "signal": {
+                    "const": "etaye"
+                  }
+                },
+                "required": [
+                  "signal"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "properties": {
+              "family_evidence": {
+                "properties": {
+                  "faits": {
+                    "$ref": "#/$defs/etayeFactsR4"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "signal": {
+                "const": "absence_documentee"
+              }
+            },
+            "required": [
+              "signal"
+            ]
+          },
+          "then": {
+            "properties": {
+              "methode_validee": {
+                "const": true
+              },
+              "family_evidence": {
+                "properties": {
+                  "faits": {
+                    "properties": {
+                      "absence_declencheur": {
+                        "properties": {
+                          "valeur": {
+                            "const": true
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "Proposition interne M2 vers M4. Le schéma ne résout pas les registres ni la véracité scientifique des attestations."
+    },
+    "sourceIdentityValue": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "id": {
+          "$ref": "#/$defs/identifier"
+        }
+      },
+      "required": [
+        "namespace",
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "sourceVersionValue": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "dataset_version": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "namespace",
+        "id",
+        "dataset_version"
+      ],
+      "additionalProperties": false
+    },
+    "methodValue": {
+      "type": "object",
+      "properties": {
+        "methode_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "domaine_reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "methode_id",
+        "version",
+        "reference",
+        "domaine_reference"
+      ],
+      "additionalProperties": false
+    },
+    "eventReferenceValue": {
+      "type": "object",
+      "properties": {
+        "conflit_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "route_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceIdentityValue"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "corridor_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceIdentityValue"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "geometry_reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "event_binding_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "conflit_id",
+        "route_sources",
+        "corridor_sources",
+        "geometry_reference",
+        "event_binding_sha256"
+      ],
+      "additionalProperties": false
+    },
+    "subframeValue": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "referentiel": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "pertinence": {
+          "enum": [
+            "etablie",
+            "non_etablie",
+            "inconnue"
+          ]
+        }
+      },
+      "required": [
+        "code",
+        "referentiel",
+        "version",
+        "pertinence"
+      ],
+      "additionalProperties": false
+    },
+    "extentRelationValue": {
+      "type": "object",
+      "properties": {
+        "emprise_reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "objet_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "uniqueItems": true,
+          "minItems": 1
+        },
+        "relation": {
+          "enum": [
+            "interieur",
+            "interieur_et_frontiere",
+            "frontiere_seule",
+            "hors_emprise",
+            "indeterminee"
+          ]
+        }
+      },
+      "required": [
+        "emprise_reference",
+        "objet_ids",
+        "relation"
+      ],
+      "additionalProperties": false
+    },
+    "inventoryValue": {
+      "type": "object",
+      "properties": {
+        "source_objects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceVersionValue"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "periode_reference": {
+          "$ref": "#/$defs/period"
+        }
+      },
+      "required": [
+        "source_objects",
+        "periode_reference"
+      ],
+      "additionalProperties": false
+    },
+    "networkValue": {
+      "type": "object",
+      "properties": {
+        "reseau_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "objet_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "uniqueItems": true,
+          "minItems": 1
+        },
+        "geometry_reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "sous_trame_code": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "reseau_id",
+        "objet_ids",
+        "geometry_reference",
+        "sous_trame_code"
+      ],
+      "additionalProperties": false
+    },
+    "externalEvaluationValue": {
+      "type": "object",
+      "properties": {
+        "evaluation_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "methode_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "methode_version": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "methode_reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "conclusion": {
+          "enum": [
+            "declencheur_etabli",
+            "indice_documente",
+            "declencheur_absent",
+            "indetermine"
+          ]
+        },
+        "rapport_reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "evaluation_id",
+        "methode_id",
+        "methode_version",
+        "methode_reference",
+        "conclusion",
+        "rapport_reference"
+      ],
+      "additionalProperties": false
+    },
+    "thematicCoverageValue": {
+      "type": "object",
+      "properties": {
+        "categories_requises": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "uniqueItems": true
+        },
+        "sous_trames_requises": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "uniqueItems": true
+        },
+        "categories_couvertes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "uniqueItems": true
+        },
+        "sous_trames_couvertes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "uniqueItems": true
+        },
+        "validation_reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "conclusion": {
+          "enum": [
+            "suffisante_pour_faits_requis",
+            "incomplete",
+            "inconnue"
+          ]
+        }
+      },
+      "required": [
+        "categories_requises",
+        "sous_trames_requises",
+        "categories_couvertes",
+        "sous_trames_couvertes",
+        "validation_reference",
+        "conclusion"
+      ],
+      "additionalProperties": false
+    },
+    "brownfieldValue": {
+      "type": "object",
+      "properties": {
+        "friche_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "statut_source": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "referentiel_statut": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "version_referentiel": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "eligibilite_etude": {
+          "enum": [
+            "etablie",
+            "non_etablie",
+            "inconnue"
+          ]
+        }
+      },
+      "required": [
+        "friche_id",
+        "statut_source",
+        "referentiel_statut",
+        "version_referentiel",
+        "eligibilite_etude"
+      ],
+      "additionalProperties": false
+    },
+    "spatialLinkValue": {
+      "type": "object",
+      "properties": {
+        "friche_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "continuite_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "relation_reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "methode_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "methode_version": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "methode_reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "conclusion": {
+          "enum": [
+            "declencheur_etabli",
+            "indice_documente",
+            "declencheur_absent",
+            "indetermine"
+          ]
+        }
+      },
+      "required": [
+        "friche_id",
+        "continuite_id",
+        "relation_reference",
+        "methode_id",
+        "methode_version",
+        "methode_reference",
+        "conclusion"
+      ],
+      "additionalProperties": false
+    },
+    "soilContextValue": {
+      "type": "object",
+      "properties": {
+        "source_reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "nomenclature_reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "codes_observes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "interpretation_reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "source_reference",
+        "nomenclature_reference",
+        "codes_observes",
+        "interpretation_reference"
+      ],
+      "additionalProperties": false
+    },
+    "hydrologicalContextValue": {
+      "type": "object",
+      "properties": {
+        "analyse_reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "methode_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "methode_version": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "methode_reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "adequation_etude": {
+          "enum": [
+            "etablie",
+            "non_etablie",
+            "inconnue"
+          ]
+        }
+      },
+      "required": [
+        "analyse_reference",
+        "methode_id",
+        "methode_version",
+        "methode_reference",
+        "adequation_etude"
+      ],
+      "additionalProperties": false
+    },
+    "crossingStatusValue": {
+      "enum": [
+        "croisement_detecte",
+        "conflit_potentiel",
+        "obstacle_confirme",
+        "non_concluant"
+      ]
+    },
+    "positiveValidityValue": {
+      "type": "boolean"
+    },
+    "routeSourcesValue": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/sourceVersionValue"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "absenceValue": {
+      "type": "boolean"
+    },
+    "fact_evenement_route_corridor_reference": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/fact"
+        },
+        {
+          "if": {
+            "properties": {
+              "etat": {
+                "enum": [
+                  "documente",
+                  "absence_documentee"
+                ]
+              }
+            },
+            "required": [
+              "etat"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valeur": {
+                "$ref": "#/$defs/eventReferenceValue"
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "etat": {
+              "enum": [
+                "documente",
+                "inconnu",
+                "non_applicable_documentee"
+              ]
+            }
+          }
+        }
+      ],
+      "description": "Références de l’intersection M2, de sa géométrie et de ses deux sources."
+    },
+    "fact_statut_croisement": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/fact"
+        },
+        {
+          "if": {
+            "properties": {
+              "etat": {
+                "enum": [
+                  "documente",
+                  "absence_documentee"
+                ]
+              }
+            },
+            "required": [
+              "etat"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valeur": {
+                "$ref": "#/$defs/crossingStatusValue"
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "etat": {
+              "enum": [
+                "documente",
+                "inconnu",
+                "non_applicable_documentee"
+              ]
+            }
+          }
+        }
+      ],
+      "description": "Qualification M2 de l’événement, distincte de la simple détection."
+    },
+    "fact_validite_positive": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/fact"
+        },
+        {
+          "if": {
+            "properties": {
+              "etat": {
+                "enum": [
+                  "documente",
+                  "absence_documentee"
+                ]
+              }
+            },
+            "required": [
+              "etat"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valeur": {
+                "$ref": "#/$defs/positiveValidityValue"
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "etat": {
+              "enum": [
+                "documente",
+                "inconnu",
+                "non_applicable_documentee"
+              ]
+            }
+          }
+        }
+      ],
+      "description": "Assertion de capacité positive QA pour cette observation précise, sans qualification automatique."
+    },
+    "fact_sous_trame_documentee": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/fact"
+        },
+        {
+          "if": {
+            "properties": {
+              "etat": {
+                "enum": [
+                  "documente",
+                  "absence_documentee"
+                ]
+              }
+            },
+            "required": [
+              "etat"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valeur": {
+                "$ref": "#/$defs/subframeValue"
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "etat": {
+              "enum": [
+                "documente",
+                "inconnu",
+                "non_applicable_documentee"
+              ]
+            }
+          }
+        }
+      ],
+      "description": "Sous-trame réellement référencée et pertinence pour le phénomène routier."
+    },
+    "fact_route_source_versionnee": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/fact"
+        },
+        {
+          "if": {
+            "properties": {
+              "etat": {
+                "enum": [
+                  "documente",
+                  "absence_documentee"
+                ]
+              }
+            },
+            "required": [
+              "etat"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valeur": {
+                "$ref": "#/$defs/routeSourcesValue"
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "etat": {
+              "enum": [
+                "documente",
+                "inconnu",
+                "non_applicable_documentee"
+              ]
+            }
+          }
+        }
+      ],
+      "description": "Identités et versions des objets routiers réellement utilisés."
+    },
+    "fact_emprise_reliee": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/fact"
+        },
+        {
+          "if": {
+            "properties": {
+              "etat": {
+                "enum": [
+                  "documente",
+                  "absence_documentee"
+                ]
+              }
+            },
+            "required": [
+              "etat"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valeur": {
+                "$ref": "#/$defs/extentRelationValue"
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "etat": {
+              "enum": [
+                "documente",
+                "inconnu",
+                "non_applicable_documentee"
+              ]
+            }
+          }
+        }
+      ],
+      "description": "Lien géométrique des objets concernés à l’emprise étudiée."
+    },
+    "fact_haies_inventaire_date": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/fact"
+        },
+        {
+          "if": {
+            "properties": {
+              "etat": {
+                "enum": [
+                  "documente",
+                  "absence_documentee"
+                ]
+              }
+            },
+            "required": [
+              "etat"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valeur": {
+                "$ref": "#/$defs/inventoryValue"
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "etat": {
+              "enum": [
+                "documente",
+                "inconnu",
+                "non_applicable_documentee"
+              ]
+            }
+          }
+        }
+      ],
+      "description": "Provenance et période de l’inventaire de haies utilisé, pas une densité."
+    },
+    "fact_sous_trame_bocagere": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/fact"
+        },
+        {
+          "if": {
+            "properties": {
+              "etat": {
+                "enum": [
+                  "documente",
+                  "absence_documentee"
+                ]
+              }
+            },
+            "required": [
+              "etat"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valeur": {
+                "$ref": "#/$defs/subframeValue"
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "etat": {
+              "enum": [
+                "documente",
+                "inconnu",
+                "non_applicable_documentee"
+              ]
+            }
+          }
+        }
+      ],
+      "description": "Sous-trame dont le contexte bocager est identifié par la nomenclature M1."
+    },
+    "fact_continuite_reseau_referencee": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/fact"
+        },
+        {
+          "if": {
+            "properties": {
+              "etat": {
+                "enum": [
+                  "documente",
+                  "absence_documentee"
+                ]
+              }
+            },
+            "required": [
+              "etat"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valeur": {
+                "$ref": "#/$defs/networkValue"
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "etat": {
+              "enum": [
+                "documente",
+                "inconnu",
+                "non_applicable_documentee"
+              ]
+            }
+          }
+        }
+      ],
+      "description": "Réseau et objets de haies/habitats effectivement analysés."
+    },
+    "fact_analyse_lacune_documentee": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/fact"
+        },
+        {
+          "if": {
+            "properties": {
+              "etat": {
+                "enum": [
+                  "documente",
+                  "absence_documentee"
+                ]
+              }
+            },
+            "required": [
+              "etat"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valeur": {
+                "$ref": "#/$defs/externalEvaluationValue"
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "etat": {
+              "enum": [
+                "documente",
+                "inconnu",
+                "non_applicable_documentee"
+              ]
+            }
+          }
+        }
+      ],
+      "description": "Résultat d’une analyse de lacune, pouvant aussi conclure à son absence ou rester indéterminé."
+    },
+    "fact_couverture_thematique": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/fact"
+        },
+        {
+          "if": {
+            "properties": {
+              "etat": {
+                "enum": [
+                  "documente",
+                  "absence_documentee"
+                ]
+              }
+            },
+            "required": [
+              "etat"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valeur": {
+                "$ref": "#/$defs/thematicCoverageValue"
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "etat": {
+              "enum": [
+                "documente",
+                "inconnu",
+                "non_applicable_documentee"
+              ]
+            }
+          }
+        }
+      ],
+      "description": "Portée des catégories et sous-trames nécessaires à la conclusion."
+    },
+    "fact_friche_id_et_statut": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/fact"
+        },
+        {
+          "if": {
+            "properties": {
+              "etat": {
+                "enum": [
+                  "documente",
+                  "absence_documentee"
+                ]
+              }
+            },
+            "required": [
+              "etat"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valeur": {
+                "$ref": "#/$defs/brownfieldValue"
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "etat": {
+              "enum": [
+                "documente",
+                "inconnu",
+                "non_applicable_documentee"
+              ]
+            }
+          }
+        }
+      ],
+      "description": "Site recensé, statut source et admissibilité à une étude de continuité."
+    },
+    "fact_friche_source_datee": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/fact"
+        },
+        {
+          "if": {
+            "properties": {
+              "etat": {
+                "enum": [
+                  "documente",
+                  "absence_documentee"
+                ]
+              }
+            },
+            "required": [
+              "etat"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valeur": {
+                "$ref": "#/$defs/inventoryValue"
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "etat": {
+              "enum": [
+                "documente",
+                "inconnu",
+                "non_applicable_documentee"
+              ]
+            }
+          }
+        }
+      ],
+      "description": "Sources et périodes de l’inventaire de friches réellement exploité."
+    },
+    "fact_lien_geometrique_continuite": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/fact"
+        },
+        {
+          "if": {
+            "properties": {
+              "etat": {
+                "enum": [
+                  "documente",
+                  "absence_documentee"
+                ]
+              }
+            },
+            "required": [
+              "etat"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valeur": {
+                "$ref": "#/$defs/spatialLinkValue"
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "etat": {
+              "enum": [
+                "documente",
+                "inconnu",
+                "non_applicable_documentee"
+              ]
+            }
+          }
+        }
+      ],
+      "description": "Résultat d’une relation géométrique entre une friche et une continuité identifiées."
+    },
+    "fact_methode_voisinage_documentee": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/fact"
+        },
+        {
+          "if": {
+            "properties": {
+              "etat": {
+                "enum": [
+                  "documente",
+                  "absence_documentee"
+                ]
+              }
+            },
+            "required": [
+              "etat"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valeur": {
+                "$ref": "#/$defs/methodValue"
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "etat": {
+              "enum": [
+                "documente",
+                "inconnu",
+                "non_applicable_documentee"
+              ]
+            }
+          }
+        }
+      ],
+      "description": "Définition et domaine de la méthode de voisinage, pas une mesure de distance."
+    },
+    "fact_contexte_sol": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/fact"
+        },
+        {
+          "if": {
+            "properties": {
+              "etat": {
+                "enum": [
+                  "documente",
+                  "absence_documentee"
+                ]
+              }
+            },
+            "required": [
+              "etat"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valeur": {
+                "$ref": "#/$defs/soilContextValue"
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "etat": {
+              "enum": [
+                "documente",
+                "inconnu",
+                "non_applicable_documentee"
+              ]
+            }
+          }
+        }
+      ],
+      "description": "Codes d’occupation des sols observés avec leur nomenclature et interprétation."
+    },
+    "fact_inventaire_mares_date": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/fact"
+        },
+        {
+          "if": {
+            "properties": {
+              "etat": {
+                "enum": [
+                  "documente",
+                  "absence_documentee"
+                ]
+              }
+            },
+            "required": [
+              "etat"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valeur": {
+                "$ref": "#/$defs/inventoryValue"
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "etat": {
+              "enum": [
+                "documente",
+                "inconnu",
+                "non_applicable_documentee"
+              ]
+            }
+          }
+        }
+      ],
+      "description": "Provenance et période de l’inventaire des mares/habitats humides."
+    },
+    "fact_sous_trame_humide": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/fact"
+        },
+        {
+          "if": {
+            "properties": {
+              "etat": {
+                "enum": [
+                  "documente",
+                  "absence_documentee"
+                ]
+              }
+            },
+            "required": [
+              "etat"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valeur": {
+                "$ref": "#/$defs/subframeValue"
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "etat": {
+              "enum": [
+                "documente",
+                "inconnu",
+                "non_applicable_documentee"
+              ]
+            }
+          }
+        }
+      ],
+      "description": "Sous-trame pertinente pour les habitats humides, selon référentiel identifié."
+    },
+    "fact_reseau_habitats_reference": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/fact"
+        },
+        {
+          "if": {
+            "properties": {
+              "etat": {
+                "enum": [
+                  "documente",
+                  "absence_documentee"
+                ]
+              }
+            },
+            "required": [
+              "etat"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valeur": {
+                "$ref": "#/$defs/networkValue"
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "etat": {
+              "enum": [
+                "documente",
+                "inconnu",
+                "non_applicable_documentee"
+              ]
+            }
+          }
+        }
+      ],
+      "description": "Réseau d’habitats humides et objets réellement étudiés."
+    },
+    "fact_analyse_isolement_documentee": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/fact"
+        },
+        {
+          "if": {
+            "properties": {
+              "etat": {
+                "enum": [
+                  "documente",
+                  "absence_documentee"
+                ]
+              }
+            },
+            "required": [
+              "etat"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valeur": {
+                "$ref": "#/$defs/externalEvaluationValue"
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "etat": {
+              "enum": [
+                "documente",
+                "inconnu",
+                "non_applicable_documentee"
+              ]
+            }
+          }
+        }
+      ],
+      "description": "Conclusion d’une analyse d’isolement/lacune du réseau humide."
+    },
+    "fact_contexte_hydrologique": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/fact"
+        },
+        {
+          "if": {
+            "properties": {
+              "etat": {
+                "enum": [
+                  "documente",
+                  "absence_documentee"
+                ]
+              }
+            },
+            "required": [
+              "etat"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valeur": {
+                "$ref": "#/$defs/hydrologicalContextValue"
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "etat": {
+              "enum": [
+                "documente",
+                "inconnu",
+                "non_applicable_documentee"
+              ]
+            }
+          }
+        }
+      ],
+      "description": "Analyse référencée de l’adéquation hydrologique à une étude, pas une autorisation de créer une mare."
+    },
+    "fact_absence_declencheur": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/fact"
+        },
+        {
+          "if": {
+            "properties": {
+              "etat": {
+                "enum": [
+                  "documente",
+                  "absence_documentee"
+                ]
+              }
+            },
+            "required": [
+              "etat"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valeur": {
+                "$ref": "#/$defs/absenceValue"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "etat": {
+                "const": "absence_documentee"
+              }
+            },
+            "required": [
+              "etat"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valeur": {
+                "const": true
+              }
+            }
+          }
+        }
+      ],
+      "description": "True affirme que l’absence du déclencheur est établie dans le périmètre/méthode/période ; false ne prouve ni absence ni présence."
+    },
+    "knownFamilyFacts": {
+      "type": "object",
+      "properties": {
+        "evenement_route_corridor_reference": {
+          "$ref": "#/$defs/fact_evenement_route_corridor_reference"
+        },
+        "statut_croisement": {
+          "$ref": "#/$defs/fact_statut_croisement"
+        },
+        "validite_positive": {
+          "$ref": "#/$defs/fact_validite_positive"
+        },
+        "sous_trame_documentee": {
+          "$ref": "#/$defs/fact_sous_trame_documentee"
+        },
+        "route_source_versionnee": {
+          "$ref": "#/$defs/fact_route_source_versionnee"
+        },
+        "emprise_reliee": {
+          "$ref": "#/$defs/fact_emprise_reliee"
+        },
+        "haies_inventaire_date": {
+          "$ref": "#/$defs/fact_haies_inventaire_date"
+        },
+        "sous_trame_bocagere": {
+          "$ref": "#/$defs/fact_sous_trame_bocagere"
+        },
+        "continuite_reseau_referencee": {
+          "$ref": "#/$defs/fact_continuite_reseau_referencee"
+        },
+        "analyse_lacune_documentee": {
+          "$ref": "#/$defs/fact_analyse_lacune_documentee"
+        },
+        "couverture_thematique": {
+          "$ref": "#/$defs/fact_couverture_thematique"
+        },
+        "friche_id_et_statut": {
+          "$ref": "#/$defs/fact_friche_id_et_statut"
+        },
+        "friche_source_datee": {
+          "$ref": "#/$defs/fact_friche_source_datee"
+        },
+        "lien_geometrique_continuite": {
+          "$ref": "#/$defs/fact_lien_geometrique_continuite"
+        },
+        "methode_voisinage_documentee": {
+          "$ref": "#/$defs/fact_methode_voisinage_documentee"
+        },
+        "contexte_sol": {
+          "$ref": "#/$defs/fact_contexte_sol"
+        },
+        "inventaire_mares_date": {
+          "$ref": "#/$defs/fact_inventaire_mares_date"
+        },
+        "sous_trame_humide": {
+          "$ref": "#/$defs/fact_sous_trame_humide"
+        },
+        "reseau_habitats_reference": {
+          "$ref": "#/$defs/fact_reseau_habitats_reference"
+        },
+        "analyse_isolement_documentee": {
+          "$ref": "#/$defs/fact_analyse_isolement_documentee"
+        },
+        "contexte_hydrologique": {
+          "$ref": "#/$defs/fact_contexte_hydrologique"
+        },
+        "absence_declencheur": {
+          "$ref": "#/$defs/fact_absence_declencheur"
+        }
+      },
+      "additionalProperties": false
+    },
+    "familyFactsR1": {
+      "type": "object",
+      "properties": {
+        "evenement_route_corridor_reference": {
+          "$ref": "#/$defs/fact_evenement_route_corridor_reference"
+        },
+        "statut_croisement": {
+          "$ref": "#/$defs/fact_statut_croisement"
+        },
+        "validite_positive": {
+          "$ref": "#/$defs/fact_validite_positive"
+        },
+        "sous_trame_documentee": {
+          "$ref": "#/$defs/fact_sous_trame_documentee"
+        },
+        "route_source_versionnee": {
+          "$ref": "#/$defs/fact_route_source_versionnee"
+        },
+        "emprise_reliee": {
+          "$ref": "#/$defs/fact_emprise_reliee"
+        },
+        "absence_declencheur": {
+          "$ref": "#/$defs/fact_absence_declencheur"
+        }
+      },
+      "additionalProperties": false
+    },
+    "etayeFactsR1": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/familyFactsR1"
+        },
+        {
+          "required": [
+            "evenement_route_corridor_reference",
+            "statut_croisement",
+            "validite_positive",
+            "sous_trame_documentee",
+            "route_source_versionnee",
+            "emprise_reliee"
+          ],
+          "properties": {
+            "evenement_route_corridor_reference": {
+              "allOf": [
+                {
+                  "properties": {
+                    "etat": {
+                      "const": "documente"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "valeur": {}
+                  }
+                }
+              ]
+            },
+            "statut_croisement": {
+              "allOf": [
+                {
+                  "properties": {
+                    "etat": {
+                      "const": "documente"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "valeur": {
+                      "enum": [
+                        "conflit_potentiel",
+                        "obstacle_confirme"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "validite_positive": {
+              "allOf": [
+                {
+                  "properties": {
+                    "etat": {
+                      "const": "documente"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "valeur": {
+                      "const": true
+                    }
+                  }
+                }
+              ]
+            },
+            "sous_trame_documentee": {
+              "allOf": [
+                {
+                  "properties": {
+                    "etat": {
+                      "const": "documente"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "valeur": {
+                      "properties": {
+                        "pertinence": {
+                          "const": "etablie"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "route_source_versionnee": {
+              "allOf": [
+                {
+                  "properties": {
+                    "etat": {
+                      "const": "documente"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "valeur": {}
+                  }
+                }
+              ]
+            },
+            "emprise_reliee": {
+              "allOf": [
+                {
+                  "properties": {
+                    "etat": {
+                      "const": "documente"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "valeur": {
+                      "properties": {
+                        "relation": {
+                          "enum": [
+                            "interieur",
+                            "interieur_et_frontiere"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "familyFactsR2": {
+      "type": "object",
+      "properties": {
+        "haies_inventaire_date": {
+          "$ref": "#/$defs/fact_haies_inventaire_date"
+        },
+        "sous_trame_bocagere": {
+          "$ref": "#/$defs/fact_sous_trame_bocagere"
+        },
+        "continuite_reseau_referencee": {
+          "$ref": "#/$defs/fact_continuite_reseau_referencee"
+        },
+        "analyse_lacune_documentee": {
+          "$ref": "#/$defs/fact_analyse_lacune_documentee"
+        },
+        "couverture_thematique": {
+          "$ref": "#/$defs/fact_couverture_thematique"
+        },
+        "emprise_reliee": {
+          "$ref": "#/$defs/fact_emprise_reliee"
+        },
+        "absence_declencheur": {
+          "$ref": "#/$defs/fact_absence_declencheur"
+        }
+      },
+      "additionalProperties": false
+    },
+    "etayeFactsR2": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/familyFactsR2"
+        },
+        {
+          "required": [
+            "haies_inventaire_date",
+            "sous_trame_bocagere",
+            "continuite_reseau_referencee",
+            "analyse_lacune_documentee",
+            "couverture_thematique",
+            "emprise_reliee"
+          ],
+          "properties": {
+            "haies_inventaire_date": {
+              "allOf": [
+                {
+                  "properties": {
+                    "etat": {
+                      "const": "documente"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "valeur": {}
+                  }
+                }
+              ]
+            },
+            "sous_trame_bocagere": {
+              "allOf": [
+                {
+                  "properties": {
+                    "etat": {
+                      "const": "documente"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "valeur": {
+                      "properties": {
+                        "pertinence": {
+                          "const": "etablie"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "continuite_reseau_referencee": {
+              "allOf": [
+                {
+                  "properties": {
+                    "etat": {
+                      "const": "documente"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "valeur": {}
+                  }
+                }
+              ]
+            },
+            "analyse_lacune_documentee": {
+              "allOf": [
+                {
+                  "properties": {
+                    "etat": {
+                      "const": "documente"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "valeur": {
+                      "properties": {
+                        "conclusion": {
+                          "const": "declencheur_etabli"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "couverture_thematique": {
+              "allOf": [
+                {
+                  "properties": {
+                    "etat": {
+                      "const": "documente"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "valeur": {
+                      "properties": {
+                        "conclusion": {
+                          "const": "suffisante_pour_faits_requis"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "emprise_reliee": {
+              "allOf": [
+                {
+                  "properties": {
+                    "etat": {
+                      "const": "documente"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "valeur": {
+                      "properties": {
+                        "relation": {
+                          "enum": [
+                            "interieur",
+                            "interieur_et_frontiere"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "familyFactsR3": {
+      "type": "object",
+      "properties": {
+        "friche_id_et_statut": {
+          "$ref": "#/$defs/fact_friche_id_et_statut"
+        },
+        "friche_source_datee": {
+          "$ref": "#/$defs/fact_friche_source_datee"
+        },
+        "lien_geometrique_continuite": {
+          "$ref": "#/$defs/fact_lien_geometrique_continuite"
+        },
+        "methode_voisinage_documentee": {
+          "$ref": "#/$defs/fact_methode_voisinage_documentee"
+        },
+        "contexte_sol": {
+          "$ref": "#/$defs/fact_contexte_sol"
+        },
+        "emprise_reliee": {
+          "$ref": "#/$defs/fact_emprise_reliee"
+        },
+        "absence_declencheur": {
+          "$ref": "#/$defs/fact_absence_declencheur"
+        }
+      },
+      "additionalProperties": false
+    },
+    "etayeFactsR3": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/familyFactsR3"
+        },
+        {
+          "required": [
+            "friche_id_et_statut",
+            "friche_source_datee",
+            "lien_geometrique_continuite",
+            "methode_voisinage_documentee",
+            "contexte_sol",
+            "emprise_reliee"
+          ],
+          "properties": {
+            "friche_id_et_statut": {
+              "allOf": [
+                {
+                  "properties": {
+                    "etat": {
+                      "const": "documente"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "valeur": {
+                      "properties": {
+                        "eligibilite_etude": {
+                          "const": "etablie"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "friche_source_datee": {
+              "allOf": [
+                {
+                  "properties": {
+                    "etat": {
+                      "const": "documente"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "valeur": {}
+                  }
+                }
+              ]
+            },
+            "lien_geometrique_continuite": {
+              "allOf": [
+                {
+                  "properties": {
+                    "etat": {
+                      "const": "documente"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "valeur": {
+                      "properties": {
+                        "conclusion": {
+                          "const": "declencheur_etabli"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "methode_voisinage_documentee": {
+              "allOf": [
+                {
+                  "properties": {
+                    "etat": {
+                      "const": "documente"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "valeur": {}
+                  }
+                }
+              ]
+            },
+            "contexte_sol": {
+              "allOf": [
+                {
+                  "properties": {
+                    "etat": {
+                      "const": "documente"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "valeur": {}
+                  }
+                }
+              ]
+            },
+            "emprise_reliee": {
+              "allOf": [
+                {
+                  "properties": {
+                    "etat": {
+                      "const": "documente"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "valeur": {
+                      "properties": {
+                        "relation": {
+                          "enum": [
+                            "interieur",
+                            "interieur_et_frontiere"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "familyFactsR4": {
+      "type": "object",
+      "properties": {
+        "inventaire_mares_date": {
+          "$ref": "#/$defs/fact_inventaire_mares_date"
+        },
+        "sous_trame_humide": {
+          "$ref": "#/$defs/fact_sous_trame_humide"
+        },
+        "reseau_habitats_reference": {
+          "$ref": "#/$defs/fact_reseau_habitats_reference"
+        },
+        "analyse_isolement_documentee": {
+          "$ref": "#/$defs/fact_analyse_isolement_documentee"
+        },
+        "contexte_hydrologique": {
+          "$ref": "#/$defs/fact_contexte_hydrologique"
+        },
+        "emprise_reliee": {
+          "$ref": "#/$defs/fact_emprise_reliee"
+        },
+        "absence_declencheur": {
+          "$ref": "#/$defs/fact_absence_declencheur"
+        }
+      },
+      "additionalProperties": false
+    },
+    "etayeFactsR4": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/familyFactsR4"
+        },
+        {
+          "required": [
+            "inventaire_mares_date",
+            "sous_trame_humide",
+            "reseau_habitats_reference",
+            "analyse_isolement_documentee",
+            "contexte_hydrologique",
+            "emprise_reliee"
+          ],
+          "properties": {
+            "inventaire_mares_date": {
+              "allOf": [
+                {
+                  "properties": {
+                    "etat": {
+                      "const": "documente"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "valeur": {}
+                  }
+                }
+              ]
+            },
+            "sous_trame_humide": {
+              "allOf": [
+                {
+                  "properties": {
+                    "etat": {
+                      "const": "documente"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "valeur": {
+                      "properties": {
+                        "pertinence": {
+                          "const": "etablie"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "reseau_habitats_reference": {
+              "allOf": [
+                {
+                  "properties": {
+                    "etat": {
+                      "const": "documente"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "valeur": {}
+                  }
+                }
+              ]
+            },
+            "analyse_isolement_documentee": {
+              "allOf": [
+                {
+                  "properties": {
+                    "etat": {
+                      "const": "documente"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "valeur": {
+                      "properties": {
+                        "conclusion": {
+                          "const": "declencheur_etabli"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "contexte_hydrologique": {
+              "allOf": [
+                {
+                  "properties": {
+                    "etat": {
+                      "const": "documente"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "valeur": {
+                      "properties": {
+                        "adequation_etude": {
+                          "const": "etablie"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "emprise_reliee": {
+              "allOf": [
+                {
+                  "properties": {
+                    "etat": {
+                      "const": "documente"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "valeur": {
+                      "properties": {
+                        "relation": {
+                          "enum": [
+                            "interieur",
+                            "interieur_et_frontiere"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "actionResult": {
+      "type": "object",
+      "properties": {
+        "maille_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "diagnostic_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "uniqueItems": true
+        },
+        "phenomene_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "uniqueItems": true
+        },
+        "rule_id": {
+          "enum": [
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        "action_id": {
+          "enum": [
+            "A01",
+            "A02",
+            "A03",
+            "A04"
+          ]
+        },
+        "rule_version": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "ruleset_version": {
+          "const": "m2-actions.spec-proposal-1"
+        },
+        "contract_revision": {
+          "const": "audit-2"
+        },
+        "statut": {
+          "enum": [
+            "etayee_pour_examen",
+            "conditionnelle",
+            "non_retenue_par_regle",
+            "non_evaluable"
+          ]
+        },
+        "regle_decision": {
+          "enum": [
+            "A0",
+            "A1",
+            "A2",
+            "A3",
+            "A4",
+            "A5",
+            "A6",
+            "A7",
+            "A8"
+          ]
+        },
+        "motif_principal": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "preuve_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "uniqueItems": true
+        },
+        "preuve_absence_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "uniqueItems": true
+        },
+        "attestation_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "uniqueItems": true
+        },
+        "conflit_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "uniqueItems": true
+        },
+        "applicabilite_reference": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "contradiction_references": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "uniqueItems": true
+        },
+        "limites": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "uniqueItems": true
+        },
+        "prerequis_a_verifier": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "uniqueItems": true
+        },
+        "methode": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "methode_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "version": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "reference": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              },
+              "required": [
+                "methode_id",
+                "version",
+                "reference"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "qualite": {
+          "type": "object",
+          "properties": {
+            "couverture_essentielle": {
+              "enum": [
+                "suffisante",
+                "partielle",
+                "insuffisante"
+              ]
+            },
+            "methode_validee": {
+              "type": "boolean"
+            },
+            "couverture_references": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "couverture_essentielle",
+            "methode_validee",
+            "couverture_references"
+          ],
+          "additionalProperties": false
+        },
+        "etat_validation": {
+          "enum": [
+            "structure_seule",
+            "controle_referentiel_documente"
+          ]
+        },
+        "validation_reference": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "authentifie_par_logiciel": {
+          "const": false
+        },
+        "justification_courte": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "maille_id",
+        "diagnostic_ids",
+        "phenomene_ids",
+        "rule_id",
+        "action_id",
+        "rule_version",
+        "ruleset_version",
+        "contract_revision",
+        "statut",
+        "regle_decision",
+        "motif_principal",
+        "preuve_ids",
+        "preuve_absence_ids",
+        "attestation_ids",
+        "conflit_ids",
+        "applicabilite_reference",
+        "contradiction_references",
+        "limites",
+        "prerequis_a_verifier",
+        "methode",
+        "qualite",
+        "etat_validation",
+        "validation_reference",
+        "authentifie_par_logiciel",
+        "justification_courte"
+      ],
+      "additionalProperties": false,
+      "description": "Résultat interne d’action proposé. La cohérence avec les entrées, preuves et registres doit être contrôlée par M4 avant toute diffusion.",
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "rule_id": {
+                "const": "R1"
+              }
+            },
+            "required": [
+              "rule_id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "action_id": {
+                "const": "A04"
+              },
+              "rule_version": {
+                "const": "m2-actions.spec-proposal-1"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "rule_id": {
+                "const": "R2"
+              }
+            },
+            "required": [
+              "rule_id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "action_id": {
+                "const": "A01"
+              },
+              "rule_version": {
+                "const": "m2-actions.spec-proposal-1"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "rule_id": {
+                "const": "R3"
+              }
+            },
+            "required": [
+              "rule_id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "action_id": {
+                "const": "A03"
+              },
+              "rule_version": {
+                "const": "m2-actions.spec-proposal-1"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "rule_id": {
+                "const": "R4"
+              }
+            },
+            "required": [
+              "rule_id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "action_id": {
+                "const": "A02"
+              },
+              "rule_version": {
+                "const": "m2-actions.spec-proposal-1"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "regle_decision": {
+                "const": "A0"
+              }
+            },
+            "required": [
+              "regle_decision"
+            ]
+          },
+          "then": {
+            "properties": {
+              "statut": {
+                "const": "non_evaluable"
+              },
+              "motif_principal": {
+                "const": "contradiction_bloquante"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "regle_decision": {
+                "const": "A1"
+              }
+            },
+            "required": [
+              "regle_decision"
+            ]
+          },
+          "then": {
+            "properties": {
+              "statut": {
+                "const": "non_retenue_par_regle"
+              },
+              "motif_principal": {
+                "const": "hors_domaine_documente"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "regle_decision": {
+                "const": "A2"
+              }
+            },
+            "required": [
+              "regle_decision"
+            ]
+          },
+          "then": {
+            "properties": {
+              "statut": {
+                "const": "non_evaluable"
+              },
+              "motif_principal": {
+                "const": "domaine_methode_ou_donnees_insuffisants"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "regle_decision": {
+                "const": "A3"
+              }
+            },
+            "required": [
+              "regle_decision"
+            ]
+          },
+          "then": {
+            "properties": {
+              "statut": {
+                "const": "non_evaluable"
+              },
+              "motif_principal": {
+                "const": "controle_contradiction_non_evalue"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "regle_decision": {
+                "const": "A4"
+              }
+            },
+            "required": [
+              "regle_decision"
+            ]
+          },
+          "then": {
+            "properties": {
+              "statut": {
+                "const": "etayee_pour_examen"
+              },
+              "motif_principal": {
+                "const": "declencheur_etaye"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "regle_decision": {
+                "const": "A5"
+              }
+            },
+            "required": [
+              "regle_decision"
+            ]
+          },
+          "then": {
+            "properties": {
+              "statut": {
+                "const": "conditionnelle"
+              },
+              "motif_principal": {
+                "const": "etayage_avec_controle_incomplet"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "regle_decision": {
+                "const": "A6"
+              }
+            },
+            "required": [
+              "regle_decision"
+            ]
+          },
+          "then": {
+            "properties": {
+              "statut": {
+                "const": "conditionnelle"
+              },
+              "motif_principal": {
+                "const": "indice_documente_a_verifier"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "regle_decision": {
+                "const": "A7"
+              }
+            },
+            "required": [
+              "regle_decision"
+            ]
+          },
+          "then": {
+            "properties": {
+              "statut": {
+                "const": "non_retenue_par_regle"
+              },
+              "motif_principal": {
+                "const": "absence_declencheur_documentee"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "regle_decision": {
+                "const": "A8"
+              }
+            },
+            "required": [
+              "regle_decision"
+            ]
+          },
+          "then": {
+            "properties": {
+              "statut": {
+                "const": "non_evaluable"
+              },
+              "motif_principal": {
+                "const": "non_qualifiable_sans_inventer"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "etat_validation": {
+                "const": "controle_referentiel_documente"
+              }
+            },
+            "required": [
+              "etat_validation"
+            ]
+          },
+          "then": {
+            "properties": {
+              "validation_reference": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "statut": {
+                "enum": [
+                  "etayee_pour_examen",
+                  "conditionnelle",
+                  "non_retenue_par_regle"
+                ]
+              }
+            },
+            "required": [
+              "statut"
+            ]
+          },
+          "then": {
+            "properties": {
+              "etat_validation": {
+                "const": "controle_referentiel_documente"
+              },
+              "validation_reference": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "attestation_ids": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "statut": {
+                "enum": [
+                  "etayee_pour_examen",
+                  "conditionnelle"
+                ]
+              }
+            },
+            "required": [
+              "statut"
+            ]
+          },
+          "then": {
+            "properties": {
+              "preuve_ids": {
+                "minItems": 1
+              },
+              "diagnostic_ids": {
+                "minItems": 1
+              },
+              "phenomene_ids": {
+                "minItems": 1
+              },
+              "prerequis_a_verifier": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "regle_decision": {
+                "enum": [
+                  "A4",
+                  "A5",
+                  "A7"
+                ]
+              }
+            },
+            "required": [
+              "regle_decision"
+            ]
+          },
+          "then": {
+            "properties": {
+              "qualite": {
+                "properties": {
+                  "couverture_essentielle": {
+                    "const": "suffisante"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "regle_decision": {
+                "const": "A7"
+              }
+            },
+            "required": [
+              "regle_decision"
+            ]
+          },
+          "then": {
+            "properties": {
+              "preuve_absence_ids": {
+                "minItems": 1
+              },
+              "qualite": {
+                "properties": {
+                  "couverture_references": {
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "regle_decision": {
+                "const": "A1"
+              }
+            },
+            "required": [
+              "regle_decision"
+            ]
+          },
+          "then": {
+            "properties": {
+              "applicabilite_reference": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "preuve_ids": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "regle_decision": {
+                "const": "A0"
+              }
+            },
+            "required": [
+              "regle_decision"
+            ]
+          },
+          "then": {
+            "properties": {
+              "contradiction_references": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "statut": {
+                "const": "non_evaluable"
+              }
+            },
+            "required": [
+              "statut"
+            ]
+          },
+          "then": {
+            "properties": {
+              "limites": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "regle_decision": {
+                "enum": [
+                  "A4",
+                  "A5",
+                  "A6",
+                  "A7"
+                ]
+              }
+            },
+            "required": [
+              "regle_decision"
+            ]
+          },
+          "then": {
+            "properties": {
+              "methode": {
+                "type": "object"
+              },
+              "qualite": {
+                "properties": {
+                  "methode_validee": {
+                    "const": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "rule_id": {
+                "const": "R1"
+              },
+              "statut": {
+                "enum": [
+                  "etayee_pour_examen",
+                  "conditionnelle"
+                ]
+              }
+            },
+            "required": [
+              "rule_id",
+              "statut"
+            ]
+          },
+          "then": {
+            "properties": {
+              "conflit_ids": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "regle_decision": {
+                "const": "A6"
+              }
+            },
+            "required": [
+              "regle_decision"
+            ]
+          },
+          "then": {
+            "properties": {
+              "qualite": {
+                "properties": {
+                  "couverture_essentielle": {
+                    "enum": [
+                      "suffisante",
+                      "partielle"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "actionPublicProjection": {
+      "type": "object",
+      "properties": {
+        "maille_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "rule_id": {
+          "enum": [
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        "action_id": {
+          "enum": [
+            "A01",
+            "A02",
+            "A03",
+            "A04"
+          ]
+        },
+        "rule_version": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "ruleset_version": {
+          "const": "m2-actions.spec-proposal-1"
+        },
+        "contract_revision": {
+          "const": "audit-2"
+        },
+        "statut": {
+          "enum": [
+            "etayee_pour_examen",
+            "conditionnelle",
+            "non_retenue_par_regle",
+            "non_evaluable"
+          ]
+        },
+        "regle_decision": {
+          "enum": [
+            "A0",
+            "A1",
+            "A2",
+            "A3",
+            "A4",
+            "A5",
+            "A6",
+            "A7",
+            "A8"
+          ]
+        },
+        "motif_principal": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "justification_courte": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "limites_publiques": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "uniqueItems": true
+        },
+        "prerequis_publics": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "uniqueItems": true
+        },
+        "diffusion": {
+          "type": "object",
+          "properties": {
+            "etat": {
+              "const": "autorisee_apres_revue"
+            },
+            "policy_version": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          },
+          "required": [
+            "etat",
+            "policy_version"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "maille_id",
+        "rule_id",
+        "action_id",
+        "rule_version",
+        "ruleset_version",
+        "contract_revision",
+        "statut",
+        "regle_decision",
+        "motif_principal",
+        "justification_courte",
+        "limites_publiques",
+        "prerequis_publics",
+        "diffusion"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "rule_id": {
+                "const": "R1"
+              }
+            },
+            "required": [
+              "rule_id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "action_id": {
+                "const": "A04"
+              },
+              "rule_version": {
+                "const": "m2-actions.spec-proposal-1"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "rule_id": {
+                "const": "R2"
+              }
+            },
+            "required": [
+              "rule_id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "action_id": {
+                "const": "A01"
+              },
+              "rule_version": {
+                "const": "m2-actions.spec-proposal-1"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "rule_id": {
+                "const": "R3"
+              }
+            },
+            "required": [
+              "rule_id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "action_id": {
+                "const": "A03"
+              },
+              "rule_version": {
+                "const": "m2-actions.spec-proposal-1"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "rule_id": {
+                "const": "R4"
+              }
+            },
+            "required": [
+              "rule_id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "action_id": {
+                "const": "A02"
+              },
+              "rule_version": {
+                "const": "m2-actions.spec-proposal-1"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "regle_decision": {
+                "const": "A0"
+              }
+            },
+            "required": [
+              "regle_decision"
+            ]
+          },
+          "then": {
+            "properties": {
+              "statut": {
+                "const": "non_evaluable"
+              },
+              "motif_principal": {
+                "const": "contradiction_bloquante"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "regle_decision": {
+                "const": "A1"
+              }
+            },
+            "required": [
+              "regle_decision"
+            ]
+          },
+          "then": {
+            "properties": {
+              "statut": {
+                "const": "non_retenue_par_regle"
+              },
+              "motif_principal": {
+                "const": "hors_domaine_documente"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "regle_decision": {
+                "const": "A2"
+              }
+            },
+            "required": [
+              "regle_decision"
+            ]
+          },
+          "then": {
+            "properties": {
+              "statut": {
+                "const": "non_evaluable"
+              },
+              "motif_principal": {
+                "const": "domaine_methode_ou_donnees_insuffisants"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "regle_decision": {
+                "const": "A3"
+              }
+            },
+            "required": [
+              "regle_decision"
+            ]
+          },
+          "then": {
+            "properties": {
+              "statut": {
+                "const": "non_evaluable"
+              },
+              "motif_principal": {
+                "const": "controle_contradiction_non_evalue"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "regle_decision": {
+                "const": "A4"
+              }
+            },
+            "required": [
+              "regle_decision"
+            ]
+          },
+          "then": {
+            "properties": {
+              "statut": {
+                "const": "etayee_pour_examen"
+              },
+              "motif_principal": {
+                "const": "declencheur_etaye"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "regle_decision": {
+                "const": "A5"
+              }
+            },
+            "required": [
+              "regle_decision"
+            ]
+          },
+          "then": {
+            "properties": {
+              "statut": {
+                "const": "conditionnelle"
+              },
+              "motif_principal": {
+                "const": "etayage_avec_controle_incomplet"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "regle_decision": {
+                "const": "A6"
+              }
+            },
+            "required": [
+              "regle_decision"
+            ]
+          },
+          "then": {
+            "properties": {
+              "statut": {
+                "const": "conditionnelle"
+              },
+              "motif_principal": {
+                "const": "indice_documente_a_verifier"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "regle_decision": {
+                "const": "A7"
+              }
+            },
+            "required": [
+              "regle_decision"
+            ]
+          },
+          "then": {
+            "properties": {
+              "statut": {
+                "const": "non_retenue_par_regle"
+              },
+              "motif_principal": {
+                "const": "absence_declencheur_documentee"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "regle_decision": {
+                "const": "A8"
+              }
+            },
+            "required": [
+              "regle_decision"
+            ]
+          },
+          "then": {
+            "properties": {
+              "statut": {
+                "const": "non_evaluable"
+              },
+              "motif_principal": {
+                "const": "non_qualifiable_sans_inventer"
+              }
+            }
+          }
+        }
+      ],
+      "description": "Projection publique par liste d’autorisation, à construire explicitement par M4 après contrôle du résultat interne et des droits. Aucun transfert automatique des preuves privées."
+    },
+    "actionValidationError": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "validation_error"
+        },
+        "maille_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/identifier"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "rule_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "code": {
+          "enum": [
+            "E_ACTION_INPUT_INVALIDE",
+            "E_ACTION_TYPE_INVALIDE",
+            "E_ACTION_ID_INCONNU",
+            "E_ACTION_DECISION_DUPLIQUE",
+            "E_ACTION_REFERENCE_NON_APPLICABILITE",
+            "E_ACTION_METHODE_SANS_REFERENCE",
+            "E_ACTION_PREUVE_POSITIVE_ABSENTE",
+            "E_ACTION_ABSENCE_NON_DOCUMENTEE",
+            "E_ACTION_ETAYAGE_COUVERTURE_INSUFFISANTE",
+            "E_ACTION_NON_APPLICABILITE_INCOHERENTE",
+            "E_ACTION_CONTRADICTION_SANS_REFERENCE",
+            "E_ACTION_ATTESTATION_FAMILLE_INVALIDE",
+            "E_ACTION_SOURCE_PREUVE_DISCORDANTE",
+            "E_ACTION_TABLE_NON_TOTALE"
+          ]
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "field": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "code": {
+                "enum": [
+                  "E_ACTION_INPUT_INVALIDE",
+                  "E_ACTION_TYPE_INVALIDE",
+                  "E_ACTION_ID_INCONNU",
+                  "E_ACTION_DECISION_DUPLIQUE",
+                  "E_ACTION_REFERENCE_NON_APPLICABILITE",
+                  "E_ACTION_METHODE_SANS_REFERENCE",
+                  "E_ACTION_PREUVE_POSITIVE_ABSENTE",
+                  "E_ACTION_ABSENCE_NON_DOCUMENTEE",
+                  "E_ACTION_ETAYAGE_COUVERTURE_INSUFFISANTE",
+                  "E_ACTION_NON_APPLICABILITE_INCOHERENTE",
+                  "E_ACTION_CONTRADICTION_SANS_REFERENCE",
+                  "E_ACTION_ATTESTATION_FAMILLE_INVALIDE",
+                  "E_ACTION_SOURCE_PREUVE_DISCORDANTE",
+                  "E_ACTION_TABLE_NON_TOTALE"
+                ]
+              }
+            },
+            "required": [
+              "field",
+              "code"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "type",
+        "maille_id",
+        "rule_id",
+        "code",
+        "details"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

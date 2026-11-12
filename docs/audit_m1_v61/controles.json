@@ -1,0 +1,888 @@
+{
+  "scope": "Delivered GeoJSON/CSV checked; absent GPKGs and raw data NOT independently verified",
+  "m1_commit": "fc76d6230994af9aef27f42bb42e0374cd0c8251",
+  "m2_commit": "9a5fe89193a394dc457b070cae5436e25d60f139",
+  "python": "3.10.6 (v3.10.6:9c7b4bd164, Aug  1 2022, 17:13:48) [Clang 13.0.0 (clang-1300.0.29.30)]",
+  "software": {
+    "geopandas": "1.1.4",
+    "shapely": "2.1.2",
+    "pandas": "2.3.3",
+    "numpy": "2.2.6",
+    "pyproj": "3.7.1",
+    "pyogrio": "0.13.0"
+  },
+  "inventory": [
+    {
+      "path": "README.md",
+      "bytes": 25,
+      "sha256": "9ec06379cb75c69ac7a6753d3f5a201914c43a99b9d532139dc62685d56773aa"
+    },
+    {
+      "path": "analysis/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "analysis/calculate_m1_measurements.py",
+      "bytes": 10606,
+      "sha256": "6ab5ba1dfa73d43433dda36b6e535e8a6fa21664307f0609195735417e01a50b"
+    },
+    {
+      "path": "analysis/export_m3_data.py",
+      "bytes": 1695,
+      "sha256": "88a070724456b16f3e7c97716f4024c92bdc05447263208371ed5cd35069a960"
+    },
+    {
+      "path": "analysis/generate_hex_grid.py",
+      "bytes": 6998,
+      "sha256": "ab6408a08affd9f09856be8b8fc13506636f369fa4fb88b354bf7f360baf9ecb"
+    },
+    {
+      "path": "analysis/prepare_m1.py",
+      "bytes": 11578,
+      "sha256": "f6969b4efe51fe69088b05545cd5655ee6438778e858e493b2d2c936d7945b92"
+    },
+    {
+      "path": "analysis/requirements-m1.txt",
+      "bytes": 76,
+      "sha256": "43b5e73da98dc276b055d509110427e2610c56a190223a74ac5dac72f3526a14"
+    },
+    {
+      "path": "analysis/test_export_m3_data.py",
+      "bytes": 1623,
+      "sha256": "5cbc75c9d79df784d4bc4724c38a9d7e81e95f6a3318b02edee96993665d766b"
+    },
+    {
+      "path": "analysis/test_hex_grid.py",
+      "bytes": 3261,
+      "sha256": "153f1b49490f2af249cd9b9015210c46c99864d4d67a76b479f8ebc32f73d931"
+    },
+    {
+      "path": "analysis/test_m1_measurements.py",
+      "bytes": 2979,
+      "sha256": "2358c629196f28eaacbbb74ccfd97c00dd4d99bc96dfb820c6dbc1024ebb0d8f"
+    },
+    {
+      "path": "analysis/test_prepare_m1.py",
+      "bytes": 2983,
+      "sha256": "90c8ee85fffdd4abff6f69df26258791d62b9eaed8c264ed739bfc4fdbb60bf1"
+    },
+    {
+      "path": "backend/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "catalogue/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "data/derived/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "data/processed/.gitignore",
+      "bytes": 7,
+      "sha256": "83c57277807b01c87b9cf09e45aec5afd6a9cb939cb4c2fdb854cbae3c1a6dbc"
+    },
+    {
+      "path": "data/processed/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "data/processed/m1_grid_report.json",
+      "bytes": 1106,
+      "sha256": "d2b717fa362e6966f29b966b9c975f8fa1828dfe1b3fb0bd5082dd098971ed00"
+    },
+    {
+      "path": "data/processed/m1_measurements_report.json",
+      "bytes": 1684,
+      "sha256": "d839f341e170eb430b4cd83e4e718f60aa49d6f4661062e3e5d0e70f3b43b7c7"
+    },
+    {
+      "path": "data/processed/m1_processing_report.json",
+      "bytes": 5102,
+      "sha256": "c9d535c4097279f13312c80e719db4208ecd37731648e6ea246b70074bd7d21a"
+    },
+    {
+      "path": "data/processed/sources.json",
+      "bytes": 15723,
+      "sha256": "21f4164449399e1395afaf6eba95fa2f34814e5183a983d3ed35f6ab3fda8e1c"
+    },
+    {
+      "path": "data/processed/sub_indicateurs.csv",
+      "bytes": 24984,
+      "sha256": "c77ca0335d9a5d448ce456216b0ea721530c489ff42ce68551401d30acf89526"
+    },
+    {
+      "path": "data/processed/sub_indicateurs_ocs.csv",
+      "bytes": 23957,
+      "sha256": "505dcfd3df7077638225c62ecda0688baf6a2b09d5ab2e682c5f6ce67a15d4c7"
+    },
+    {
+      "path": "data/public/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "data/public/grille_pilote_wgs84.geojson",
+      "bytes": 30870,
+      "sha256": "c45387b98bec7bd7978ba70e44099107d5ddb2f28080927e165a8dfc3c4ed7c1"
+    },
+    {
+      "path": "data/raw/.gitignore",
+      "bytes": 231,
+      "sha256": "89f9dbbca8c89f4d1b0e3898d90bea669c99d3f6f307b506c51e603113904317"
+    },
+    {
+      "path": "data/raw/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "data/raw/README.md",
+      "bytes": 3596,
+      "sha256": "9b2fa5420405c51286644a000033e6ef165d41cb920f6f2615447129c024ae14"
+    },
+    {
+      "path": "docs/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/M1_ETAPE_1_RAPPORT.md",
+      "bytes": 3777,
+      "sha256": "72a9b8037a450d8209a11002f3ce70b9fe3da5989b0fef16eeae789ff0a25150"
+    },
+    {
+      "path": "docs/M1_ETAPE_2_RAPPORT.md",
+      "bytes": 6715,
+      "sha256": "026ca20bc2da98a348a92238dd4b3f62378c7fd6144f615517c71df6e4d9666f"
+    },
+    {
+      "path": "docs/M1_ETAPE_3_RAPPORT.md",
+      "bytes": 3508,
+      "sha256": "67e8debd6cfcad390bc8ee98da1385b22cefe8f2a77e9b5481812fad4ab310f1"
+    },
+    {
+      "path": "docs/M1_ETAPE_4_RAPPORT.md",
+      "bytes": 2253,
+      "sha256": "176e3b580e373f0c0fade1161492ea4be468830ad5797770587f41b5edf933bb"
+    },
+    {
+      "path": "docs/M1_ETAPE_5_RAPPORT.md",
+      "bytes": 2688,
+      "sha256": "3fc57ead40204314630f2b5a765848df07f7020faa4334bdc9a88171cf3b9aec"
+    },
+    {
+      "path": "docs/M1_ETAPE_6_RAPPORT.md",
+      "bytes": 7902,
+      "sha256": "1eca1922a225eb429fb4292c778c1a858cd5e1f614835ce28eb511a4f2df0265"
+    },
+    {
+      "path": "docs/M1_GRILLE_HEXAGONALE.md",
+      "bytes": 3273,
+      "sha256": "f03a9a476cd0a1e3405a5e61f8d6a42ab44ca328c028db3d05cf4debfc4becf3"
+    },
+    {
+      "path": "docs/M1_HANDOFF.md",
+      "bytes": 14986,
+      "sha256": "ee47ed79a1b9e552f387970707d85323c34294e49f9674a6049aefe60693d3da"
+    },
+    {
+      "path": "docs/M1_PIPELINE_SIG.md",
+      "bytes": 3798,
+      "sha256": "4ab2710c5f15611f209fa59966103e46851fc4e09d743252868850448e923f4a"
+    },
+    {
+      "path": "docs/M1_SOUS_INDICATEURS.md",
+      "bytes": 3670,
+      "sha256": "11e536a41fe6961297760caf6269b1c607af3ad5976afce55e68bbb2f8045b3c"
+    },
+    {
+      "path": "docs/inventaire_sources.csv",
+      "bytes": 14262,
+      "sha256": "bce77fbfb3a6a3db119af7a83cfa00749269c524431d7b04d6e7e97f68e7f8bd"
+    },
+    {
+      "path": "docs/pilote_decision.md",
+      "bytes": 5853,
+      "sha256": "52befec1a8b1d9162132e5930c5c06221a60cc6cba002c8ab0719ed0e5ca09e5"
+    },
+    {
+      "path": "docs/plan_acquisition_m1.md",
+      "bytes": 4140,
+      "sha256": "13d4dc0ad40534c7d1dbd6986e950037bc32795a2798419832979f5715bca50b"
+    },
+    {
+      "path": "docs/quality_report.md",
+      "bytes": 13705,
+      "sha256": "5beb4ead58f0c7df9fadaf8c734b31a4baea49ace3cea91fea73a65e1d893a3c"
+    },
+    {
+      "path": "frontend/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tests/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "missing_handoff_gpkgs": [
+    "grille_pilote",
+    "reservoirs",
+    "corridors",
+    "routes",
+    "sols",
+    "zones_construites"
+  ],
+  "csv_hashes": {
+    "sub_indicateurs.csv": {
+      "expected": "C77CA0335D9A5D448CE456216B0EA721530C489FF42CE68551401D30ACF89526",
+      "observed": "C77CA0335D9A5D448CE456216B0EA721530C489FF42CE68551401D30ACF89526",
+      "observed_lf": "C77CA0335D9A5D448CE456216B0EA721530C489FF42CE68551401D30ACF89526"
+    },
+    "sub_indicateurs_ocs.csv": {
+      "expected": "505DCFD3DF7077638225C62ECDA0688BAF6A2B09D5AB2E682C5F6CE67A15D4C7",
+      "observed": "505DCFD3DF7077638225C62ECDA0688BAF6A2B09D5AB2E682C5F6CE67A15D4C7",
+      "observed_lf": "505DCFD3DF7077638225C62ECDA0688BAF6A2B09D5AB2E682C5F6CE67A15D4C7"
+    }
+  },
+  "delivered_geojson": {
+    "original_crs": "EPSG:4326",
+    "bbox_wgs84": [
+      -0.28,
+      49.2,
+      -0.22,
+      49.26000347994546
+    ],
+    "properties": [
+      "maille_id",
+      "grid_version",
+      "grid_row",
+      "grid_col",
+      "center_x",
+      "center_y",
+      "full_area_m2",
+      "clipped_area_m2",
+      "area_m2",
+      "pilot_fraction",
+      "is_boundary",
+      "geometry"
+    ],
+    "count": 43,
+    "crs": "EPSG:2154",
+    "geometry_types": {
+      "Polygon": 43
+    },
+    "invalid": 0,
+    "empty": 0,
+    "duplicate_ids": 0,
+    "sum_area_m2": 29171588.467233066,
+    "union_area_m2": 29171588.467228226,
+    "overlap_sum_minus_union_m2": 4.839152097702026e-06,
+    "missing_pilot_area_m2": 0.0,
+    "outside_pilot_area_m2": 0.0,
+    "bbox_l93": [
+      460989.25724225404,
+      6904815.661231698,
+      465631.0451397607,
+      6911663.950543515
+    ],
+    "min_area_m2": 11.728219738937309,
+    "max_area_m2": 1000000.0000019321,
+    "m2_validation": {
+      "ok": false,
+      "metric_crs": "EPSG:2154",
+      "layers": {},
+      "errors": [
+        {
+          "severity": "error",
+          "code": "grid_overlap",
+          "layer": "grid",
+          "message": "Chevauchement surfacique de mailles : la grille officielle ne doit pas compter deux fois des surfaces.",
+          "details": {
+            "overlap_area_m2": 4.839152097702026e-06
+          }
+        }
+      ],
+      "warnings": [],
+      "quality": [
+        {
+          "severity": "info",
+          "code": "territory_coverage",
+          "layer": "grid",
+          "message": "Couverture géométrique de la grille.",
+          "details": {
+            "territory_area_m2": 29171588.467230618,
+            "uncovered_area_m2": 0.0,
+            "overlap_area_m2": 4.839152097702026e-06
+          }
+        }
+      ]
+    }
+  },
+  "regenerated_grid_in_memory": {
+    "count": 43,
+    "crs": "EPSG:2154",
+    "geometry_types": {
+      "Polygon": 43
+    },
+    "invalid": 0,
+    "empty": 0,
+    "duplicate_ids": 0,
+    "sum_area_m2": 29171588.46723408,
+    "union_area_m2": 29171588.467229567,
+    "overlap_sum_minus_union_m2": 4.511326551437378e-06,
+    "missing_pilot_area_m2": 0.0,
+    "outside_pilot_area_m2": 0.0,
+    "bbox_l93": [
+      460989.25724225404,
+      6904815.661231698,
+      465631.0451397607,
+      6911663.950543515
+    ],
+    "min_area_m2": 11.72821973771708,
+    "max_area_m2": 1000000.0000002142,
+    "m2_validation": {
+      "ok": false,
+      "metric_crs": "EPSG:2154",
+      "layers": {},
+      "errors": [
+        {
+          "severity": "error",
+          "code": "grid_overlap",
+          "layer": "grid",
+          "message": "Chevauchement surfacique de mailles : la grille officielle ne doit pas compter deux fois des surfaces.",
+          "details": {
+            "overlap_area_m2": 4.511326551437378e-06
+          }
+        }
+      ],
+      "warnings": [],
+      "quality": [
+        {
+          "severity": "info",
+          "code": "territory_coverage",
+          "layer": "grid",
+          "message": "Couverture géométrique de la grille.",
+          "details": {
+            "territory_area_m2": 29171588.467230618,
+            "uncovered_area_m2": 0.0,
+            "overlap_area_m2": 4.511326551437378e-06
+          }
+        }
+      ]
+    },
+    "full_area_min": 1000000.0000002142,
+    "full_area_max": 1000000.0000002142,
+    "full_hash": "7CD6CA2479CB0046DFA4090875BB37F79305FAD711C79487751C260DD8E041B0",
+    "clipped_hash": "9D7C0AE4CD08F3AD6CE233AE59B8F7C777FEBB50BBC1B563933040B726752201",
+    "repeat_hash_equal": true
+  },
+  "grid_comparison": {
+    "same_ids": true,
+    "maximum_hausdorff_m": 2.796391991308032e-09,
+    "maximum_symmetric_difference_m2": 3.3650679104713197e-06,
+    "csv_ids_equal": true,
+    "ocs_ids_subset": true,
+    "max_csv_vs_regenerated_area_m2": 4.983157850801945e-07,
+    "max_geojson_property_vs_geometry_area_m2": 2.3025786504149437e-06
+  },
+  "small_cells": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000501",
+      "cell_area_m2": 11.72822,
+      "pilot_fraction": 1.1728219737714568e-05,
+      "road_length_m": 0.0,
+      "road_density_m_per_km2": 0.0,
+      "hedge_length_m": 0.0,
+      "reservoir_area_m2": 0.0,
+      "corridor_area_m2": 0.0,
+      "ocs_coverage_fraction": 1.0,
+      "constructed_area_m2": 0.0
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000495",
+      "cell_area_m2": 1267.524616,
+      "pilot_fraction": 0.0012675246158727143,
+      "road_length_m": 0.0,
+      "road_density_m_per_km2": 0.0,
+      "hedge_length_m": 0.0,
+      "reservoir_area_m2": 0.0,
+      "corridor_area_m2": 0.0,
+      "ocs_coverage_fraction": 1.0,
+      "constructed_area_m2": 0.0
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006425-C+000495",
+      "cell_area_m2": 5370.436398,
+      "pilot_fraction": 0.0053704363981077466,
+      "road_length_m": 0.0,
+      "road_density_m_per_km2": 0.0,
+      "hedge_length_m": 0.0,
+      "reservoir_area_m2": 0.0,
+      "corridor_area_m2": 0.0,
+      "ocs_coverage_fraction": 1.0,
+      "constructed_area_m2": 0.0
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000495",
+      "cell_area_m2": 8936.610382,
+      "pilot_fraction": 0.008936610382292412,
+      "road_length_m": 181.617303,
+      "road_density_m_per_km2": 20322.840007192335,
+      "hedge_length_m": 0.0,
+      "reservoir_area_m2": 0.0,
+      "corridor_area_m2": 0.0,
+      "ocs_coverage_fraction": 1.0,
+      "constructed_area_m2": 7673.894009
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000495",
+      "cell_area_m2": 23551.50061,
+      "pilot_fraction": 0.02355150061036117,
+      "road_length_m": 252.656447,
+      "road_density_m_per_km2": 10727.827970873403,
+      "hedge_length_m": 88.022086,
+      "reservoir_area_m2": 6892.37692,
+      "corridor_area_m2": 23551.50061,
+      "ocs_coverage_fraction": 1.0,
+      "constructed_area_m2": 212.649088
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000495",
+      "cell_area_m2": 45112.1953,
+      "pilot_fraction": 0.04511219530008803,
+      "road_length_m": 782.804104,
+      "road_density_m_per_km2": 17352.38329224027,
+      "hedge_length_m": 76.248473,
+      "reservoir_area_m2": 0.0,
+      "corridor_area_m2": 45112.1953,
+      "ocs_coverage_fraction": 1.0,
+      "constructed_area_m2": 775.994771
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000495",
+      "cell_area_m2": 73618.694451,
+      "pilot_fraction": 0.07361869445136793,
+      "road_length_m": 72.342069,
+      "road_density_m_per_km2": 982.6589501413976,
+      "hedge_length_m": 0.0,
+      "reservoir_area_m2": 0.0,
+      "corridor_area_m2": 0.0,
+      "ocs_coverage_fraction": 1.0,
+      "constructed_area_m2": 0.0
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000495",
+      "cell_area_m2": 109070.998064,
+      "pilot_fraction": 0.10907099806439574,
+      "road_length_m": 1268.312281,
+      "road_density_m_per_km2": 11628.318283617316,
+      "hedge_length_m": 23.450522,
+      "reservoir_area_m2": 0.0,
+      "corridor_area_m2": 19511.975662,
+      "ocs_coverage_fraction": 1.0,
+      "constructed_area_m2": 21544.882055
+    }
+  ],
+  "csv": {
+    "rows": 43,
+    "columns": [
+      "maille_id",
+      "grid_version",
+      "cell_area_m2",
+      "is_boundary",
+      "road_length_m",
+      "road_object_count",
+      "reservoir_area_m2",
+      "reservoir_object_count",
+      "corridor_area_m2",
+      "corridor_object_count",
+      "ocs_covered_area_m2",
+      "ocs_coverage_fraction",
+      "constructed_area_m2",
+      "hedge_length_m",
+      "hedge_object_count",
+      "sipaf_record_count",
+      "cartofriches_area_m2",
+      "cartofriches_site_count",
+      "wetland_area_m2",
+      "wetland_record_count",
+      "pram_pond_count",
+      "epfn_site_count",
+      "length_unit",
+      "area_unit",
+      "measurement_crs",
+      "p0_coverage_status",
+      "bdhaie_coverage_status",
+      "sipaf_coverage_status",
+      "cartofriches_coverage_status",
+      "wetland_coverage_status",
+      "pram_coverage_status",
+      "epfn_coverage_status",
+      "source_ids"
+    ],
+    "duplicate_ids": 0,
+    "null_counts": {
+      "maille_id": 0,
+      "grid_version": 0,
+      "cell_area_m2": 0,
+      "is_boundary": 0,
+      "road_length_m": 0,
+      "road_object_count": 0,
+      "reservoir_area_m2": 0,
+      "reservoir_object_count": 0,
+      "corridor_area_m2": 0,
+      "corridor_object_count": 0,
+      "ocs_covered_area_m2": 0,
+      "ocs_coverage_fraction": 0,
+      "constructed_area_m2": 0,
+      "hedge_length_m": 0,
+      "hedge_object_count": 0,
+      "sipaf_record_count": 0,
+      "cartofriches_area_m2": 0,
+      "cartofriches_site_count": 0,
+      "wetland_area_m2": 0,
+      "wetland_record_count": 0,
+      "pram_pond_count": 43,
+      "epfn_site_count": 43,
+      "length_unit": 0,
+      "area_unit": 0,
+      "measurement_crs": 0,
+      "p0_coverage_status": 0,
+      "bdhaie_coverage_status": 0,
+      "sipaf_coverage_status": 0,
+      "cartofriches_coverage_status": 0,
+      "wetland_coverage_status": 0,
+      "pram_coverage_status": 0,
+      "epfn_coverage_status": 0,
+      "source_ids": 0
+    },
+    "negative_counts": {
+      "cell_area_m2": 0,
+      "road_length_m": 0,
+      "road_object_count": 0,
+      "reservoir_area_m2": 0,
+      "reservoir_object_count": 0,
+      "corridor_area_m2": 0,
+      "corridor_object_count": 0,
+      "ocs_covered_area_m2": 0,
+      "ocs_coverage_fraction": 0,
+      "constructed_area_m2": 0,
+      "hedge_length_m": 0,
+      "hedge_object_count": 0,
+      "sipaf_record_count": 0,
+      "cartofriches_area_m2": 0,
+      "cartofriches_site_count": 0,
+      "wetland_area_m2": 0,
+      "wetland_record_count": 0,
+      "pram_pond_count": 0,
+      "epfn_site_count": 0
+    },
+    "nonfinite_nonnull": 0,
+    "boundary_counts": {
+      "true": 28,
+      "false": 15
+    },
+    "constant_fields": {
+      "grid_version": [
+        "M1-CAND-1KM2-FLAT-L93-O0-V1"
+      ],
+      "ocs_coverage_fraction": [
+        1.0
+      ],
+      "sipaf_record_count": [
+        0
+      ],
+      "length_unit": [
+        "m"
+      ],
+      "area_unit": [
+        "m2"
+      ],
+      "measurement_crs": [
+        "EPSG:2154"
+      ],
+      "p0_coverage_status": [
+        "complete_for_provisional_pilot"
+      ],
+      "bdhaie_coverage_status": [
+        "available_bounded_wfs_non_exhaustive"
+      ],
+      "sipaf_coverage_status": [
+        "available_inventory_non_exhaustive"
+      ],
+      "cartofriches_coverage_status": [
+        "available_inventory_non_exhaustive"
+      ],
+      "wetland_coverage_status": [
+        "available_bounded_wfs_heterogeneous_inventory"
+      ],
+      "pram_coverage_status": [
+        "unavailable_authorized_extract_required"
+      ],
+      "epfn_coverage_status": [
+        "unavailable_licence_and_resource_unconfirmed"
+      ],
+      "source_ids": [
+        "BDTOPO_ROUTES;TVB_RES_NORM;TVB_COR_BN;OCSGE;BDHAIE;SIPAF;CARTOFRICHES;ZH_DREAL_NORM"
+      ]
+    },
+    "numeric_ranges": {
+      "cell_area_m2": {
+        "min": 11.72822,
+        "max": 1000000.0,
+        "sum": 29171588.467231,
+        "zeros": 0
+      },
+      "road_length_m": {
+        "min": 0.0,
+        "max": 16466.193594,
+        "sum": 218793.50947100003,
+        "zeros": 3
+      },
+      "road_object_count": {
+        "min": 0.0,
+        "max": 213.0,
+        "sum": 2158.0,
+        "zeros": 3
+      },
+      "reservoir_area_m2": {
+        "min": 0.0,
+        "max": 800793.837759,
+        "sum": 3502366.333329,
+        "zeros": 28
+      },
+      "reservoir_object_count": {
+        "min": 0.0,
+        "max": 13.0,
+        "sum": 69.0,
+        "zeros": 28
+      },
+      "corridor_area_m2": {
+        "min": 0.0,
+        "max": 1000000.0,
+        "sum": 10860687.991216,
+        "zeros": 13
+      },
+      "corridor_object_count": {
+        "min": 0.0,
+        "max": 4.0,
+        "sum": 69.0,
+        "zeros": 13
+      },
+      "ocs_covered_area_m2": {
+        "min": 11.72822,
+        "max": 1000000.0,
+        "sum": 29171588.467230003,
+        "zeros": 0
+      },
+      "ocs_coverage_fraction": {
+        "min": 1.0,
+        "max": 1.0,
+        "sum": 43.0,
+        "zeros": 0
+      },
+      "constructed_area_m2": {
+        "min": 0.0,
+        "max": 486335.562794,
+        "sum": 5265376.203411001,
+        "zeros": 9
+      },
+      "hedge_length_m": {
+        "min": 0.0,
+        "max": 9669.031994,
+        "sum": 108859.625046,
+        "zeros": 6
+      },
+      "hedge_object_count": {
+        "min": 0.0,
+        "max": 119.0,
+        "sum": 1301.0,
+        "zeros": 6
+      },
+      "sipaf_record_count": {
+        "min": 0.0,
+        "max": 0.0,
+        "sum": 0.0,
+        "zeros": 43
+      },
+      "cartofriches_area_m2": {
+        "min": 0.0,
+        "max": 4388.055638,
+        "sum": 7344.571361,
+        "zeros": 40
+      },
+      "cartofriches_site_count": {
+        "min": 0.0,
+        "max": 1.0,
+        "sum": 3.0,
+        "zeros": 40
+      },
+      "wetland_area_m2": {
+        "min": 0.0,
+        "max": 683005.555633,
+        "sum": 2288687.027886,
+        "zeros": 12
+      },
+      "wetland_record_count": {
+        "min": 0.0,
+        "max": 24.0,
+        "sum": 191.0,
+        "zeros": 12
+      }
+    },
+    "area_over_cell_max_m2": {
+      "reservoir_area_m2": -11.72822,
+      "corridor_area_m2": 0.0,
+      "ocs_covered_area_m2": 0.0,
+      "constructed_area_m2": -11.72822,
+      "cartofriches_area_m2": -11.72822,
+      "wetland_area_m2": -11.72822
+    }
+  },
+  "csv_semantic_checks": {
+    "count_columns_integral": true,
+    "boundary_flags_match": true,
+    "ocs_versions_match": true,
+    "ocs_source_ids_match": true,
+    "ocs_source_year_match": true,
+    "main_versions_match": true
+  },
+  "ocs": {
+    "rows": 227,
+    "columns": [
+      "maille_id",
+      "grid_version",
+      "ocs_code_cs",
+      "ocs_area_m2",
+      "ocs_fraction_of_cell",
+      "area_unit",
+      "source_id",
+      "source_year"
+    ],
+    "null_counts": {
+      "maille_id": 0,
+      "grid_version": 0,
+      "ocs_code_cs": 0,
+      "ocs_area_m2": 0,
+      "ocs_fraction_of_cell": 0,
+      "area_unit": 0,
+      "source_id": 0,
+      "source_year": 0
+    },
+    "duplicate_keys": 0,
+    "codes": [
+      "CS1.1.1.1",
+      "CS1.1.1.2",
+      "CS1.1.2.1",
+      "CS1.2.1",
+      "CS1.2.2",
+      "CS2.1.1.1",
+      "CS2.1.1.2",
+      "CS2.1.1.3",
+      "CS2.1.2",
+      "CS2.1.3",
+      "CS2.2.1"
+    ],
+    "max_area_sum_minus_union_m2": 1.00000761449337e-06,
+    "min_area_sum_minus_union_m2": -1.000124029815197e-06,
+    "max_fraction_formula_error": 4.989443211159128e-07,
+    "max_coverage_fraction_error": 2.3329116416448414e-12,
+    "area_by_code_m2": {
+      "CS1.1.1.1": 1092539.011409,
+      "CS1.1.1.2": 1381491.764472,
+      "CS1.1.2.1": 907822.4217920001,
+      "CS1.2.1": 11842.23095,
+      "CS1.2.2": 912454.573081,
+      "CS2.1.1.1": 2938330.817587,
+      "CS2.1.1.2": 3936.6923,
+      "CS2.1.1.3": 29187.656050999998,
+      "CS2.1.2": 253478.820345,
+      "CS2.1.3": 11171.7628,
+      "CS2.2.1": 21629332.716439
+    }
+  },
+  "m2_missing_decisions": {
+    "classify_ecological_stakes": {
+      "enjeu_classe": "inconnu",
+      "enjeu_methode_id": null,
+      "motifs_qualite": [
+        "enjeu_non_documente"
+      ]
+    },
+    "derive_applicability": {
+      "applicabilite": "inconnue",
+      "applicabilite_reference": null,
+      "motifs_qualite": [
+        "applicabilite_non_documentee"
+      ]
+    }
+  },
+  "m2_production_export_guard": {
+    "exception": "ValueError",
+    "message": "Export de production désactivé : données et droits à valider M1/M2/M4."
+  },
+  "technical_grid_sensitivity_only": [
+    {
+      "target_area_m2": 500000,
+      "origin_shift_half_step": false,
+      "cell_count": 78,
+      "interior_cells": 40,
+      "boundary_cells": 38,
+      "min_clipped_area_m2": 982.4113034847019,
+      "union_area_m2": 29171588.467230104
+    },
+    {
+      "target_area_m2": 1000000,
+      "origin_shift_half_step": true,
+      "cell_count": 43,
+      "interior_cells": 19,
+      "boundary_cells": 24,
+      "min_clipped_area_m2": 1463.3015414344545,
+      "union_area_m2": 29171588.467230573
+    },
+    {
+      "target_area_m2": 2000000,
+      "origin_shift_half_step": false,
+      "cell_count": 27,
+      "interior_cells": 7,
+      "boundary_cells": 20,
+      "min_clipped_area_m2": 57156.10002344125,
+      "union_area_m2": 29171588.467229635
+    }
+  ],
+  "bbox_projection_sensitivity": {
+    "method": "1000 subdivisions per geographic bbox edge; diagnostic only",
+    "dense_bbox_area_m2": 29171591.274405032,
+    "pilot_outside_dense_bbox_m2": 1208.315971333126,
+    "dense_bbox_outside_pilot_m2": 1211.1231454978108,
+    "boundary_max_distance_m": 0.4153940538059541
+  },
+  "m2_initial_status": " M analysis/detect_conflicts.py\n M docs/methode_m2.md\n?? .DS_Store\n?? analysis/evaluate_priorities.py\n?? analysis/export_priority_results.py\n?? analysis/prepare_priority_inputs.py\n?? docs/audit_actions_m2.md\n?? docs/audit_correctif_priorite_m2.md\n?? docs/contrat_qualite_amont_m2.md\n?? docs/dictionnaire_faits_actions_m2.md\n?? docs/notes_contrat_m3_m4_proposal2.md\n?? docs/regles_actions_m2.md\n?? docs/rules_actions.json\n?? docs/schema_actions_m2.json\n?? docs/table_decision_m2.md\n?? docs/transfert_actions_m2_m4.md\n?? docs/verification_m2_priorites.md\n?? docs/verification_spec_m2_v2.md\n?? tests/.DS_Store\n?? tests/fixtures/.DS_Store\n?? tests/fixtures/m2/action_rule_cases.json\n?? tests/fixtures/m2/decision_cases_m2.json\n?? tests/m2_priority_helpers.py\n?? tests/test_m2_action_facts_audit2.py\n?? tests/test_m2_action_rule_contract.py\n?? tests/test_m2_priorities.py\n?? tests/test_m2_priority_audit.py\n?? tests/test_m2_priority_inputs.py\n",
+  "m2_audited_code_sha256": {
+    "analysis/evaluate_priorities.py": "7fe62acd370bb8b67187900aba1b5cfbda35eade2961844507c37c30171ceccf",
+    "analysis/export_priority_results.py": "858bcf7e0e65b33d1b36c7923318129caffb78238e51633005a171e32042a554",
+    "analysis/prepare_priority_inputs.py": "2583928039144bcf13b4078b108a936e43a07cf5f1f27649aee2e0f38a0085ab",
+    "analysis/__init__.py": "00267fde3b49e444caa3be1a5087881be47c7e6e2d0cbda5bfe5982461a57eb2",
+    "analysis/aggregate_conflicts.py": "5bbebbbca99abf680a8d5b20861baf7780acb9ffd02e927bc7f0e3a8426a1516",
+    "analysis/detect_conflicts.py": "24a01c6aa412ec47434b360381dde9d2a17eddba7b2e954b5bdfc76dea81f0f8",
+    "analysis/export_m2_contract.py": "26f50dc79324d04f04e1272ce96d693ae8764c76725d543c3ea746dd0ad61154",
+    "analysis/indicateurs_enjeux.py": "3cbcf2cf6c5aa4f8524c2695a463af3c757354525fbb1b064edb19b9bbd0cb7c",
+    "analysis/run_conflicts.py": "d9773fd3d69c67a192dfe36406ecd8789b6fabbe61ac5d4ad406762ddedf8aca",
+    "analysis/run_enjeux.py": "c40d73d84212be8ae768c98a298da039212c56814778a189805fd1df48e07b7f",
+    "analysis/validate_inputs.py": "666d9df6666d47318ed61172293ef5e53f2e24ed5dedd7dff133963601983397"
+  },
+  "preservation": {
+    "changed_preexisting_files": [],
+    "head_unchanged": true,
+    "branch_unchanged": true
+  }
+}

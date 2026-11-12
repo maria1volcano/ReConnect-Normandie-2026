@@ -1,0 +1,2128 @@
+{
+  "version": "m2-priorites.proposal-2",
+  "test_data": true,
+  "warning": "SCENARIOS SYNTHETIQUES UNIQUEMENT. Oracles de conformité a une convention provisoire, pas preuve de validite ecologique. Approbation M1/M2 requise avant calcul reel.",
+  "expected_output_contract": [
+    "regles_diagnostics",
+    "motifs_principaux_diagnostics",
+    "priorite_examen",
+    "regle_appliquee",
+    "couverture_synthese",
+    "diagnostic_ids_justificatifs",
+    "diagnostic_ids_non_evalues",
+    "familles_manquantes",
+    "motifs_limites"
+  ],
+  "cases": [
+    {
+      "case_id": "T01",
+      "description": "Enjeu fort et conflit potentiel étayé",
+      "familles_attendues": [
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "fort",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T01-A"
+          ],
+          "motifs_qualite": []
+        }
+      ],
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D5"
+        },
+        "priorite_examen": "elevee",
+        "regle_appliquee": "S1",
+        "couverture_synthese": "complete",
+        "diagnostic_ids_justificatifs": [
+          "A"
+        ],
+        "diagnostic_ids_non_evalues": [],
+        "familles_manquantes": [],
+        "motifs_limites": [],
+        "motifs_principaux_diagnostics": {
+          "A": "conflit_etaye_enjeu_fort"
+        }
+      },
+      "study_area_m2": 1000000,
+      "priority_method_version": "m2-priorites.proposal-2"
+    },
+    {
+      "case_id": "T02",
+      "description": "Enjeu moyen et conflit potentiel étayé",
+      "familles_attendues": [
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "moyen",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T02-A"
+          ],
+          "motifs_qualite": []
+        }
+      ],
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D7"
+        },
+        "priorite_examen": "moderee",
+        "regle_appliquee": "S2",
+        "couverture_synthese": "complete",
+        "diagnostic_ids_justificatifs": [
+          "A"
+        ],
+        "diagnostic_ids_non_evalues": [],
+        "familles_manquantes": [],
+        "motifs_limites": [],
+        "motifs_principaux_diagnostics": {
+          "A": "pression_observee_enjeu_moyen"
+        }
+      },
+      "study_area_m2": 1000000,
+      "priority_method_version": "m2-priorites.proposal-2"
+    },
+    {
+      "case_id": "T03",
+      "description": "Enjeu fort, croisement 2D fiable mais non qualifié",
+      "familles_attendues": [
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "fort",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "croisement_detecte",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T03-A"
+          ],
+          "motifs_qualite": []
+        }
+      ],
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D6"
+        },
+        "priorite_examen": "moderee",
+        "regle_appliquee": "S2",
+        "couverture_synthese": "complete",
+        "diagnostic_ids_justificatifs": [
+          "A"
+        ],
+        "diagnostic_ids_non_evalues": [],
+        "familles_manquantes": [],
+        "motifs_limites": [],
+        "motifs_principaux_diagnostics": {
+          "A": "croisement_non_qualifie_enjeu_fort"
+        }
+      },
+      "study_area_m2": 1000000,
+      "priority_method_version": "m2-priorites.proposal-2"
+    },
+    {
+      "case_id": "T04",
+      "description": "Enjeu faible et absence validée",
+      "familles_attendues": [
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "faible",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "absence_validee",
+          "validite_positive": false,
+          "validite_absence": true,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [],
+          "motifs_qualite": []
+        }
+      ],
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D9"
+        },
+        "priorite_examen": "faible",
+        "regle_appliquee": "S3",
+        "couverture_synthese": "complete",
+        "diagnostic_ids_justificatifs": [
+          "A"
+        ],
+        "diagnostic_ids_non_evalues": [],
+        "familles_manquantes": [],
+        "motifs_limites": [],
+        "motifs_principaux_diagnostics": {
+          "A": "absence_pression_validee"
+        }
+      },
+      "study_area_m2": 1000000,
+      "priority_method_version": "m2-priorites.proposal-2"
+    },
+    {
+      "case_id": "T05",
+      "description": "Enjeu fort et absence validée : priorité restauration faible, enjeu écologique élevé",
+      "familles_attendues": [
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "fort",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "absence_validee",
+          "validite_positive": false,
+          "validite_absence": true,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [],
+          "motifs_qualite": []
+        }
+      ],
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D9"
+        },
+        "priorite_examen": "faible",
+        "regle_appliquee": "S3",
+        "couverture_synthese": "complete",
+        "diagnostic_ids_justificatifs": [
+          "A"
+        ],
+        "diagnostic_ids_non_evalues": [],
+        "familles_manquantes": [],
+        "motifs_limites": [],
+        "motifs_principaux_diagnostics": {
+          "A": "absence_pression_validee"
+        }
+      },
+      "study_area_m2": 1000000,
+      "priority_method_version": "m2-priorites.proposal-2"
+    },
+    {
+      "case_id": "T06",
+      "description": "Enjeu inconnu et pression étayée",
+      "familles_attendues": [
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "inconnu",
+          "enjeu_methode_id": null,
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T06-A"
+          ],
+          "motifs_qualite": []
+        }
+      ],
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D2"
+        },
+        "priorite_examen": "indeterminee",
+        "regle_appliquee": "S4",
+        "couverture_synthese": "partielle",
+        "diagnostic_ids_justificatifs": [],
+        "diagnostic_ids_non_evalues": [
+          "A"
+        ],
+        "familles_manquantes": [],
+        "motifs_limites": [
+          "enjeu_non_documente"
+        ],
+        "motifs_principaux_diagnostics": {
+          "A": "enjeu_non_documente"
+        }
+      },
+      "study_area_m2": 1000000,
+      "priority_method_version": "m2-priorites.proposal-2"
+    },
+    {
+      "case_id": "T07",
+      "description": "0 événement observé avec couverture inconnue",
+      "familles_attendues": [
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "faible",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "non_evalue",
+          "validite_positive": false,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [],
+          "motifs_qualite": []
+        }
+      ],
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D3"
+        },
+        "priorite_examen": "indeterminee",
+        "regle_appliquee": "S4",
+        "couverture_synthese": "partielle",
+        "diagnostic_ids_justificatifs": [],
+        "diagnostic_ids_non_evalues": [
+          "A"
+        ],
+        "familles_manquantes": [],
+        "motifs_limites": [
+          "pression_non_evaluee"
+        ],
+        "motifs_principaux_diagnostics": {
+          "A": "pression_non_evaluee"
+        }
+      },
+      "study_area_m2": 1000000,
+      "priority_method_version": "m2-priorites.proposal-2"
+    },
+    {
+      "case_id": "T08",
+      "description": "Événement non concluant et enjeu fort",
+      "familles_attendues": [
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "fort",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "non_concluant",
+          "validite_positive": false,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [],
+          "motifs_qualite": []
+        }
+      ],
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D3"
+        },
+        "priorite_examen": "indeterminee",
+        "regle_appliquee": "S4",
+        "couverture_synthese": "partielle",
+        "diagnostic_ids_justificatifs": [],
+        "diagnostic_ids_non_evalues": [
+          "A"
+        ],
+        "familles_manquantes": [],
+        "motifs_limites": [
+          "preuve_non_concluante"
+        ],
+        "motifs_principaux_diagnostics": {
+          "A": "preuve_non_concluante"
+        }
+      },
+      "study_area_m2": 1000000,
+      "priority_method_version": "m2-priorites.proposal-2"
+    },
+    {
+      "case_id": "T09",
+      "description": "Enjeu faible et simple croisement",
+      "familles_attendues": [
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "faible",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "croisement_detecte",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T09-A"
+          ],
+          "motifs_qualite": []
+        }
+      ],
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D10a"
+        },
+        "priorite_examen": "indeterminee",
+        "regle_appliquee": "S4",
+        "couverture_synthese": "complete",
+        "diagnostic_ids_justificatifs": [],
+        "diagnostic_ids_non_evalues": [
+          "A"
+        ],
+        "familles_manquantes": [],
+        "motifs_limites": [
+          "signal_non_qualifie"
+        ],
+        "motifs_principaux_diagnostics": {
+          "A": "signal_non_qualifie"
+        }
+      },
+      "study_area_m2": 1000000,
+      "priority_method_version": "m2-priorites.proposal-2"
+    },
+    {
+      "case_id": "T10",
+      "description": "Obstacle confirmé, enjeu faible",
+      "familles_attendues": [
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "faible",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "obstacle_confirme",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T10-A"
+          ],
+          "motifs_qualite": []
+        }
+      ],
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D8"
+        },
+        "priorite_examen": "moderee",
+        "regle_appliquee": "S2",
+        "couverture_synthese": "complete",
+        "diagnostic_ids_justificatifs": [
+          "A"
+        ],
+        "diagnostic_ids_non_evalues": [],
+        "familles_manquantes": [],
+        "motifs_limites": [],
+        "motifs_principaux_diagnostics": {
+          "A": "conflit_etaye_enjeu_faible"
+        }
+      },
+      "study_area_m2": 1000000,
+      "priority_method_version": "m2-priorites.proposal-2"
+    },
+    {
+      "case_id": "T11",
+      "description": "Enjeu fort et conflit apparent mais géométrie non fiable",
+      "familles_attendues": [
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "fort",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": false,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T11-A"
+          ],
+          "motifs_qualite": []
+        }
+      ],
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D4"
+        },
+        "priorite_examen": "indeterminee",
+        "regle_appliquee": "S4",
+        "couverture_synthese": "partielle",
+        "diagnostic_ids_justificatifs": [],
+        "diagnostic_ids_non_evalues": [
+          "A"
+        ],
+        "familles_manquantes": [],
+        "motifs_limites": [
+          "preuve_positive_non_validee"
+        ],
+        "motifs_principaux_diagnostics": {
+          "A": "preuve_positive_non_validee"
+        }
+      },
+      "study_area_m2": 1000000,
+      "priority_method_version": "m2-priorites.proposal-2"
+    },
+    {
+      "case_id": "T12",
+      "description": "Contradiction locale entre événement et absence validée",
+      "familles_attendues": [
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "fort",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": true,
+          "applicabilite_reference": null,
+          "contradiction_reference": "REFERENCE-CONTRADICTION-SYNTHETIQUE",
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T12-A"
+          ],
+          "motifs_qualite": []
+        }
+      ],
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D1"
+        },
+        "priorite_examen": "indeterminee",
+        "regle_appliquee": "S4",
+        "couverture_synthese": "partielle",
+        "diagnostic_ids_justificatifs": [],
+        "diagnostic_ids_non_evalues": [
+          "A"
+        ],
+        "familles_manquantes": [],
+        "motifs_limites": [
+          "donnees_contradictoires"
+        ],
+        "motifs_principaux_diagnostics": {
+          "A": "donnees_contradictoires"
+        }
+      },
+      "study_area_m2": 1000000,
+      "priority_method_version": "m2-priorites.proposal-2"
+    },
+    {
+      "case_id": "T13",
+      "description": "Signal fort fiable et famille secondaire impossible à évaluer",
+      "familles_attendues": [
+        "bocage",
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "fort",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T13-A"
+          ],
+          "motifs_qualite": []
+        },
+        {
+          "diagnostic_id": "B_bocage",
+          "famille_id": "bocage",
+          "enjeu_classe": "inconnu",
+          "enjeu_methode_id": null,
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-bocage",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T13-B_bocage"
+          ],
+          "motifs_qualite": []
+        }
+      ],
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D5",
+          "B_bocage": "D2"
+        },
+        "priorite_examen": "elevee",
+        "regle_appliquee": "S1",
+        "couverture_synthese": "partielle",
+        "diagnostic_ids_justificatifs": [
+          "A"
+        ],
+        "diagnostic_ids_non_evalues": [
+          "B_bocage"
+        ],
+        "familles_manquantes": [],
+        "motifs_limites": [
+          "enjeu_non_documente"
+        ],
+        "motifs_principaux_diagnostics": {
+          "A": "conflit_etaye_enjeu_fort",
+          "B_bocage": "enjeu_non_documente"
+        }
+      },
+      "study_area_m2": 1000000,
+      "priority_method_version": "m2-priorites.proposal-2"
+    },
+    {
+      "case_id": "T14",
+      "description": "Signal modéré fiable et famille secondaire impossible à évaluer",
+      "familles_attendues": [
+        "bocage",
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "moyen",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T14-A"
+          ],
+          "motifs_qualite": []
+        },
+        {
+          "diagnostic_id": "B_bocage",
+          "famille_id": "bocage",
+          "enjeu_classe": "inconnu",
+          "enjeu_methode_id": null,
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-bocage",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T14-B_bocage"
+          ],
+          "motifs_qualite": []
+        }
+      ],
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D7",
+          "B_bocage": "D2"
+        },
+        "priorite_examen": "moderee",
+        "regle_appliquee": "S2",
+        "couverture_synthese": "partielle",
+        "diagnostic_ids_justificatifs": [
+          "A"
+        ],
+        "diagnostic_ids_non_evalues": [
+          "B_bocage"
+        ],
+        "familles_manquantes": [],
+        "motifs_limites": [
+          "enjeu_non_documente"
+        ],
+        "motifs_principaux_diagnostics": {
+          "A": "pression_observee_enjeu_moyen",
+          "B_bocage": "enjeu_non_documente"
+        }
+      },
+      "study_area_m2": 1000000,
+      "priority_method_version": "m2-priorites.proposal-2"
+    },
+    {
+      "case_id": "T15",
+      "description": "Deux problèmes modérés distincts ne se promeuvent pas",
+      "familles_attendues": [
+        "bocage",
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "moyen",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [
+            {
+              "namespace": "BDTOPO-SYNTHETIQUE",
+              "id": "ROUTE-A"
+            }
+          ],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T15-A"
+          ],
+          "motifs_qualite": []
+        },
+        {
+          "diagnostic_id": "B_bocage",
+          "famille_id": "bocage",
+          "enjeu_classe": "moyen",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [
+            {
+              "namespace": "BDHAIE-SYNTHETIQUE",
+              "id": "HAIE-B"
+            }
+          ],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-bocage",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T15-B_bocage"
+          ],
+          "motifs_qualite": []
+        }
+      ],
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D7",
+          "B_bocage": "D7"
+        },
+        "priorite_examen": "moderee",
+        "regle_appliquee": "S2",
+        "couverture_synthese": "complete",
+        "diagnostic_ids_justificatifs": [
+          "A",
+          "B_bocage"
+        ],
+        "diagnostic_ids_non_evalues": [],
+        "familles_manquantes": [],
+        "motifs_limites": [],
+        "motifs_principaux_diagnostics": {
+          "A": "pression_observee_enjeu_moyen",
+          "B_bocage": "pression_observee_enjeu_moyen"
+        }
+      },
+      "study_area_m2": 1000000,
+      "priority_method_version": "m2-priorites.proposal-2"
+    },
+    {
+      "case_id": "T16",
+      "description": "Deux pressions modérées liées ne se promeuvent pas",
+      "familles_attendues": [
+        "pression_route",
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "moyen",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [
+            {
+              "namespace": "BDTOPO-SYNTHETIQUE",
+              "id": "ROUTE-001"
+            }
+          ],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T16-A"
+          ],
+          "motifs_qualite": []
+        },
+        {
+          "diagnostic_id": "B_pression_route",
+          "famille_id": "pression_route",
+          "enjeu_classe": "moyen",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [
+            {
+              "namespace": "BDTOPO-SYNTHETIQUE",
+              "id": "ROUTE-001"
+            }
+          ],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-pression_route",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T16-B_pression_route"
+          ],
+          "motifs_qualite": []
+        }
+      ],
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D7",
+          "B_pression_route": "D7"
+        },
+        "priorite_examen": "moderee",
+        "regle_appliquee": "S2",
+        "couverture_synthese": "complete",
+        "diagnostic_ids_justificatifs": [
+          "A",
+          "B_pression_route"
+        ],
+        "diagnostic_ids_non_evalues": [],
+        "familles_manquantes": [],
+        "motifs_limites": [],
+        "liens_diagnostics": [
+          {
+            "diagnostic_ids": [
+              "A",
+              "B_pression_route"
+            ],
+            "raison": "source_partagee"
+          }
+        ],
+        "motifs_principaux_diagnostics": {
+          "A": "pression_observee_enjeu_moyen",
+          "B_pression_route": "pression_observee_enjeu_moyen"
+        }
+      },
+      "study_area_m2": 1000000,
+      "priority_method_version": "m2-priorites.proposal-2"
+    },
+    {
+      "case_id": "T17",
+      "description": "Signal fort et signal faible d autre famille",
+      "familles_attendues": [
+        "bocage",
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "fort",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T17-A"
+          ],
+          "motifs_qualite": []
+        },
+        {
+          "diagnostic_id": "B_bocage",
+          "famille_id": "bocage",
+          "enjeu_classe": "faible",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "absence_validee",
+          "validite_positive": false,
+          "validite_absence": true,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-bocage",
+          "preuve_ids": [],
+          "motifs_qualite": []
+        }
+      ],
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D5",
+          "B_bocage": "D9"
+        },
+        "priorite_examen": "elevee",
+        "regle_appliquee": "S1",
+        "couverture_synthese": "complete",
+        "diagnostic_ids_justificatifs": [
+          "A"
+        ],
+        "diagnostic_ids_non_evalues": [],
+        "familles_manquantes": [],
+        "motifs_limites": [],
+        "motifs_principaux_diagnostics": {
+          "A": "conflit_etaye_enjeu_fort",
+          "B_bocage": "absence_pression_validee"
+        }
+      },
+      "study_area_m2": 1000000,
+      "priority_method_version": "m2-priorites.proposal-2"
+    },
+    {
+      "case_id": "T18",
+      "description": "Signal fort et contradiction sur autre famille",
+      "familles_attendues": [
+        "bocage",
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "fort",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T18-A"
+          ],
+          "motifs_qualite": []
+        },
+        {
+          "diagnostic_id": "B_bocage",
+          "famille_id": "bocage",
+          "enjeu_classe": "fort",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": true,
+          "applicabilite_reference": null,
+          "contradiction_reference": "REFERENCE-CONTRADICTION-SYNTHETIQUE",
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-bocage",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T18-B_bocage"
+          ],
+          "motifs_qualite": []
+        }
+      ],
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D5",
+          "B_bocage": "D1"
+        },
+        "priorite_examen": "elevee",
+        "regle_appliquee": "S1",
+        "couverture_synthese": "partielle",
+        "diagnostic_ids_justificatifs": [
+          "A"
+        ],
+        "diagnostic_ids_non_evalues": [
+          "B_bocage"
+        ],
+        "familles_manquantes": [],
+        "motifs_limites": [
+          "donnees_contradictoires"
+        ],
+        "motifs_principaux_diagnostics": {
+          "A": "conflit_etaye_enjeu_fort",
+          "B_bocage": "donnees_contradictoires"
+        }
+      },
+      "study_area_m2": 1000000,
+      "priority_method_version": "m2-priorites.proposal-2"
+    },
+    {
+      "case_id": "T19",
+      "description": "Conclusion faible interdite si une famille attendue est inconnue",
+      "familles_attendues": [
+        "bocage",
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "faible",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "absence_validee",
+          "validite_positive": false,
+          "validite_absence": true,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [],
+          "motifs_qualite": []
+        },
+        {
+          "diagnostic_id": "B_bocage",
+          "famille_id": "bocage",
+          "enjeu_classe": "inconnu",
+          "enjeu_methode_id": null,
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-bocage",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T19-B_bocage"
+          ],
+          "motifs_qualite": []
+        }
+      ],
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D9",
+          "B_bocage": "D2"
+        },
+        "priorite_examen": "indeterminee",
+        "regle_appliquee": "S4",
+        "couverture_synthese": "partielle",
+        "diagnostic_ids_justificatifs": [],
+        "diagnostic_ids_non_evalues": [
+          "B_bocage"
+        ],
+        "familles_manquantes": [],
+        "motifs_limites": [
+          "enjeu_non_documente"
+        ],
+        "motifs_principaux_diagnostics": {
+          "A": "absence_pression_validee",
+          "B_bocage": "enjeu_non_documente"
+        }
+      },
+      "study_area_m2": 1000000,
+      "priority_method_version": "m2-priorites.proposal-2"
+    },
+    {
+      "case_id": "T20",
+      "description": "Une famille explicitement non applicable ne bloque pas une conclusion faible",
+      "familles_attendues": [
+        "bocage",
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "faible",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "absence_validee",
+          "validite_positive": false,
+          "validite_absence": true,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [],
+          "motifs_qualite": []
+        },
+        {
+          "diagnostic_id": "B_bocage",
+          "famille_id": "bocage",
+          "enjeu_classe": "inconnu",
+          "enjeu_methode_id": null,
+          "signal_pression": "non_evalue",
+          "validite_positive": false,
+          "validite_absence": false,
+          "applicabilite": "non_applicable_documentee",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": "DOCUMENT-SYNTHETIQUE-NON-APPLICABILITE",
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-bocage",
+          "preuve_ids": [],
+          "motifs_qualite": []
+        }
+      ],
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D9",
+          "B_bocage": "D0"
+        },
+        "priorite_examen": "faible",
+        "regle_appliquee": "S3",
+        "couverture_synthese": "complete",
+        "diagnostic_ids_justificatifs": [
+          "A"
+        ],
+        "diagnostic_ids_non_evalues": [],
+        "familles_manquantes": [],
+        "motifs_limites": [],
+        "motifs_principaux_diagnostics": {
+          "A": "absence_pression_validee",
+          "B_bocage": "non_applicabilite_documentee"
+        }
+      },
+      "study_area_m2": 1000000,
+      "priority_method_version": "m2-priorites.proposal-2"
+    },
+    {
+      "case_id": "T21",
+      "description": "Croisement purement frontalier avec incertitude non résolue",
+      "familles_attendues": [
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "fort",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "non_concluant",
+          "validite_positive": false,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [],
+          "motifs_qualite": [
+            "precision_localisation_insuffisante"
+          ]
+        }
+      ],
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D3"
+        },
+        "priorite_examen": "indeterminee",
+        "regle_appliquee": "S4",
+        "couverture_synthese": "partielle",
+        "diagnostic_ids_justificatifs": [],
+        "diagnostic_ids_non_evalues": [
+          "A"
+        ],
+        "familles_manquantes": [],
+        "motifs_limites": [
+          "precision_localisation_insuffisante",
+          "preuve_non_concluante"
+        ],
+        "motifs_principaux_diagnostics": {
+          "A": "preuve_non_concluante"
+        }
+      },
+      "study_area_m2": 1000000,
+      "priority_method_version": "m2-priorites.proposal-2"
+    },
+    {
+      "case_id": "T22",
+      "description": "Toutes les familles documentées non applicables : pas de couleur faible",
+      "study_area_m2": 1000000,
+      "familles_attendues": [
+        "route_corridor",
+        "bocage"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "inconnu",
+          "enjeu_methode_id": null,
+          "signal_pression": "non_evalue",
+          "validite_positive": false,
+          "validite_absence": false,
+          "applicabilite": "non_applicable_documentee",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": "REFERENCE-APPLICABILITE-SYNTHETIQUE",
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [],
+          "motifs_qualite": []
+        },
+        {
+          "diagnostic_id": "B",
+          "famille_id": "bocage",
+          "enjeu_classe": "inconnu",
+          "enjeu_methode_id": null,
+          "signal_pression": "non_evalue",
+          "validite_positive": false,
+          "validite_absence": false,
+          "applicabilite": "non_applicable_documentee",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": "REFERENCE-APPLICABILITE-SYNTHETIQUE",
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-bocage",
+          "preuve_ids": [],
+          "motifs_qualite": []
+        }
+      ],
+      "priority_method_version": "m2-priorites.proposal-2",
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D0",
+          "B": "D0"
+        },
+        "priorite_examen": "indeterminee",
+        "regle_appliquee": "S4",
+        "couverture_synthese": "complete",
+        "diagnostic_ids_justificatifs": [],
+        "diagnostic_ids_non_evalues": [],
+        "familles_manquantes": [],
+        "motifs_limites": [
+          "aucune_famille_applicable"
+        ],
+        "motifs_principaux_diagnostics": {
+          "A": "non_applicabilite_documentee",
+          "B": "non_applicabilite_documentee"
+        }
+      }
+    },
+    {
+      "case_id": "T23",
+      "description": "Famille déclarée absente ; jamais faible",
+      "study_area_m2": 1000000,
+      "familles_attendues": [
+        "route_corridor",
+        "bocage"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "faible",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "absence_validee",
+          "validite_positive": false,
+          "validite_absence": true,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [],
+          "motifs_qualite": []
+        }
+      ],
+      "priority_method_version": "m2-priorites.proposal-2",
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D9"
+        },
+        "priorite_examen": "indeterminee",
+        "regle_appliquee": "S4",
+        "couverture_synthese": "partielle",
+        "diagnostic_ids_justificatifs": [],
+        "diagnostic_ids_non_evalues": [],
+        "familles_manquantes": [
+          "bocage"
+        ],
+        "motifs_limites": [
+          "famille_attendue_absente"
+        ],
+        "motifs_principaux_diagnostics": {
+          "A": "absence_pression_validee"
+        }
+      }
+    },
+    {
+      "case_id": "T24",
+      "description": "Enjeu fort avec obstacle confirmé",
+      "study_area_m2": 1000000,
+      "familles_attendues": [
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "fort",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "obstacle_confirme",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T24-A"
+          ],
+          "motifs_qualite": []
+        }
+      ],
+      "priority_method_version": "m2-priorites.proposal-2",
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D5"
+        },
+        "priorite_examen": "elevee",
+        "regle_appliquee": "S1",
+        "couverture_synthese": "complete",
+        "diagnostic_ids_justificatifs": [
+          "A"
+        ],
+        "diagnostic_ids_non_evalues": [],
+        "familles_manquantes": [],
+        "motifs_limites": [],
+        "motifs_principaux_diagnostics": {
+          "A": "conflit_etaye_enjeu_fort"
+        }
+      }
+    },
+    {
+      "case_id": "T25",
+      "description": "Deux diagnostics moyens, croisement et obstacle, sans bonus",
+      "study_area_m2": 1000000,
+      "familles_attendues": [
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "moyen",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "croisement_detecte",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T25-A"
+          ],
+          "motifs_qualite": []
+        },
+        {
+          "diagnostic_id": "B",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "moyen",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "obstacle_confirme",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T25-B"
+          ],
+          "motifs_qualite": []
+        }
+      ],
+      "priority_method_version": "m2-priorites.proposal-2",
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D7",
+          "B": "D7"
+        },
+        "priorite_examen": "moderee",
+        "regle_appliquee": "S2",
+        "couverture_synthese": "complete",
+        "diagnostic_ids_justificatifs": [
+          "A",
+          "B"
+        ],
+        "diagnostic_ids_non_evalues": [],
+        "familles_manquantes": [],
+        "motifs_limites": [],
+        "motifs_principaux_diagnostics": {
+          "A": "pression_observee_enjeu_moyen",
+          "B": "pression_observee_enjeu_moyen"
+        }
+      }
+    },
+    {
+      "case_id": "T26",
+      "description": "Absence dite validée avec capacité absence false : contrat incohérent",
+      "study_area_m2": 1000000,
+      "familles_attendues": [
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "faible",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "absence_validee",
+          "validite_positive": false,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [],
+          "motifs_qualite": []
+        }
+      ],
+      "priority_method_version": "m2-priorites.proposal-2",
+      "expected_error": "E_ABSENCE_INCOHERENTE"
+    },
+    {
+      "case_id": "T27",
+      "description": "Applicabilité inconnue malgré observation positive",
+      "study_area_m2": 1000000,
+      "familles_attendues": [
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "fort",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "inconnue",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T27-A"
+          ],
+          "motifs_qualite": []
+        }
+      ],
+      "priority_method_version": "m2-priorites.proposal-2",
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D1"
+        },
+        "priorite_examen": "indeterminee",
+        "regle_appliquee": "S4",
+        "couverture_synthese": "partielle",
+        "diagnostic_ids_justificatifs": [],
+        "diagnostic_ids_non_evalues": [
+          "A"
+        ],
+        "familles_manquantes": [],
+        "motifs_limites": [
+          "applicabilite_inconnue"
+        ],
+        "motifs_principaux_diagnostics": {
+          "A": "applicabilite_inconnue"
+        }
+      }
+    },
+    {
+      "case_id": "T28",
+      "description": "Non-applicabilité sans référence : erreur bloquante",
+      "study_area_m2": 1000000,
+      "familles_attendues": [
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "inconnu",
+          "enjeu_methode_id": null,
+          "signal_pression": "non_evalue",
+          "validite_positive": false,
+          "validite_absence": false,
+          "applicabilite": "non_applicable_documentee",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [],
+          "motifs_qualite": []
+        }
+      ],
+      "priority_method_version": "m2-priorites.proposal-2",
+      "expected_error": "E_REFERENCE_NON_APPLICABILITE"
+    },
+    {
+      "case_id": "T29",
+      "description": "Enjeu fort déclaré, méthode manquante",
+      "study_area_m2": 1000000,
+      "familles_attendues": [
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "fort",
+          "enjeu_methode_id": null,
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T29-A"
+          ],
+          "motifs_qualite": []
+        }
+      ],
+      "priority_method_version": "m2-priorites.proposal-2",
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D2"
+        },
+        "priorite_examen": "indeterminee",
+        "regle_appliquee": "S4",
+        "couverture_synthese": "partielle",
+        "diagnostic_ids_justificatifs": [],
+        "diagnostic_ids_non_evalues": [
+          "A"
+        ],
+        "familles_manquantes": [],
+        "motifs_limites": [
+          "methode_enjeu_absente"
+        ],
+        "motifs_principaux_diagnostics": {
+          "A": "methode_enjeu_absente"
+        }
+      }
+    },
+    {
+      "case_id": "T30",
+      "description": "Maille à aire étudiée nulle",
+      "study_area_m2": 0,
+      "familles_attendues": [
+        "route_corridor"
+      ],
+      "diagnostics": [],
+      "priority_method_version": "m2-priorites.proposal-2",
+      "expected": {
+        "regles_diagnostics": {},
+        "priorite_examen": null,
+        "regle_appliquee": "S0",
+        "couverture_synthese": null,
+        "diagnostic_ids_justificatifs": [],
+        "diagnostic_ids_non_evalues": [],
+        "familles_manquantes": [],
+        "motifs_limites": [
+          "hors_territoire"
+        ],
+        "motifs_principaux_diagnostics": {}
+      }
+    },
+    {
+      "case_id": "T31",
+      "description": "Diagnostic_id dupliqué : erreur",
+      "study_area_m2": 1000000,
+      "familles_attendues": [
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "fort",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T31-A"
+          ],
+          "motifs_qualite": []
+        },
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "moyen",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T31-A"
+          ],
+          "motifs_qualite": []
+        }
+      ],
+      "priority_method_version": "m2-priorites.proposal-2",
+      "expected_error": "E_ID_DUPLIQUE"
+    },
+    {
+      "case_id": "T32",
+      "description": "Diagnostic de famille hors périmètre : erreur",
+      "study_area_m2": 1000000,
+      "familles_attendues": [
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "bocage",
+          "enjeu_classe": "fort",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-bocage",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T32-A"
+          ],
+          "motifs_qualite": []
+        }
+      ],
+      "priority_method_version": "m2-priorites.proposal-2",
+      "expected_error": "E_FAMILLE_HORS_PERIMETRE"
+    },
+    {
+      "case_id": "T33",
+      "description": "Un faible et un non évalué de même famille : jamais faible",
+      "study_area_m2": 1000000,
+      "familles_attendues": [
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "faible",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "absence_validee",
+          "validite_positive": false,
+          "validite_absence": true,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [],
+          "motifs_qualite": []
+        },
+        {
+          "diagnostic_id": "B",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "faible",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "non_evalue",
+          "validite_positive": false,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [],
+          "motifs_qualite": []
+        }
+      ],
+      "priority_method_version": "m2-priorites.proposal-2",
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D9",
+          "B": "D3"
+        },
+        "priorite_examen": "indeterminee",
+        "regle_appliquee": "S4",
+        "couverture_synthese": "partielle",
+        "diagnostic_ids_justificatifs": [],
+        "diagnostic_ids_non_evalues": [
+          "B"
+        ],
+        "familles_manquantes": [],
+        "motifs_limites": [
+          "pression_non_evaluee"
+        ],
+        "motifs_principaux_diagnostics": {
+          "A": "absence_pression_validee",
+          "B": "pression_non_evaluee"
+        }
+      }
+    },
+    {
+      "case_id": "T34",
+      "description": "Phénomène commun signalé sans promotion",
+      "study_area_m2": 1000000,
+      "familles_attendues": [
+        "route_corridor",
+        "pression_route"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "moyen",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "phenomene_id": "MECANISME-SYNTHETIQUE-1",
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T34-A"
+          ],
+          "motifs_qualite": []
+        },
+        {
+          "diagnostic_id": "B",
+          "famille_id": "pression_route",
+          "enjeu_classe": "moyen",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "phenomene_id": "MECANISME-SYNTHETIQUE-1",
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-pression_route",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T34-B"
+          ],
+          "motifs_qualite": []
+        }
+      ],
+      "priority_method_version": "m2-priorites.proposal-2",
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D7",
+          "B": "D7"
+        },
+        "priorite_examen": "moderee",
+        "regle_appliquee": "S2",
+        "couverture_synthese": "complete",
+        "diagnostic_ids_justificatifs": [
+          "A",
+          "B"
+        ],
+        "diagnostic_ids_non_evalues": [],
+        "familles_manquantes": [],
+        "motifs_limites": [],
+        "liens_diagnostics": [
+          {
+            "diagnostic_ids": [
+              "A",
+              "B"
+            ],
+            "raison": "phenomene_partage"
+          }
+        ],
+        "motifs_principaux_diagnostics": {
+          "A": "pression_observee_enjeu_moyen",
+          "B": "pression_observee_enjeu_moyen"
+        }
+      }
+    },
+    {
+      "case_id": "T35",
+      "description": "Signal élevé fiable avec autre famille applicabilité inconnue",
+      "study_area_m2": 1000000,
+      "familles_attendues": [
+        "route_corridor",
+        "bocage"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "fort",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T35-A"
+          ],
+          "motifs_qualite": []
+        },
+        {
+          "diagnostic_id": "B",
+          "famille_id": "bocage",
+          "enjeu_classe": "fort",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "inconnue",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-bocage",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T35-B"
+          ],
+          "motifs_qualite": []
+        }
+      ],
+      "priority_method_version": "m2-priorites.proposal-2",
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D5",
+          "B": "D1"
+        },
+        "priorite_examen": "elevee",
+        "regle_appliquee": "S1",
+        "couverture_synthese": "partielle",
+        "diagnostic_ids_justificatifs": [
+          "A"
+        ],
+        "diagnostic_ids_non_evalues": [
+          "B"
+        ],
+        "familles_manquantes": [],
+        "motifs_limites": [
+          "applicabilite_inconnue"
+        ],
+        "motifs_principaux_diagnostics": {
+          "A": "conflit_etaye_enjeu_fort",
+          "B": "applicabilite_inconnue"
+        }
+      }
+    },
+    {
+      "case_id": "T36",
+      "description": "Deux capacités de preuve vraies sur conflit observé : état valide",
+      "study_area_m2": 1000000,
+      "familles_attendues": [
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "fort",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": true,
+          "validite_absence": true,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T36-A"
+          ],
+          "motifs_qualite": []
+        }
+      ],
+      "priority_method_version": "m2-priorites.proposal-2",
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D5"
+        },
+        "priorite_examen": "elevee",
+        "regle_appliquee": "S1",
+        "couverture_synthese": "complete",
+        "diagnostic_ids_justificatifs": [
+          "A"
+        ],
+        "diagnostic_ids_non_evalues": [],
+        "familles_manquantes": [],
+        "motifs_limites": [],
+        "motifs_principaux_diagnostics": {
+          "A": "conflit_etaye_enjeu_fort"
+        }
+      }
+    },
+    {
+      "case_id": "T37",
+      "description": "Observation positive non validée malgré capacité absence vraie",
+      "study_area_m2": 1000000,
+      "familles_attendues": [
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "moyen",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "croisement_detecte",
+          "validite_positive": false,
+          "validite_absence": true,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T37-A"
+          ],
+          "motifs_qualite": []
+        }
+      ],
+      "priority_method_version": "m2-priorites.proposal-2",
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D4"
+        },
+        "priorite_examen": "indeterminee",
+        "regle_appliquee": "S4",
+        "couverture_synthese": "partielle",
+        "diagnostic_ids_justificatifs": [],
+        "diagnostic_ids_non_evalues": [
+          "A"
+        ],
+        "familles_manquantes": [],
+        "motifs_limites": [
+          "preuve_positive_non_validee"
+        ],
+        "motifs_principaux_diagnostics": {
+          "A": "preuve_positive_non_validee"
+        }
+      }
+    },
+    {
+      "case_id": "T38",
+      "description": "Classe inconnue avec méthode d enjeu fournie : ne pas inventer une classe",
+      "study_area_m2": 1000000,
+      "familles_attendues": [
+        "route_corridor"
+      ],
+      "diagnostics": [
+        {
+          "diagnostic_id": "A",
+          "famille_id": "route_corridor",
+          "enjeu_classe": "inconnu",
+          "enjeu_methode_id": "METHODE-SYNTHETIQUE",
+          "signal_pression": "conflit_potentiel",
+          "validite_positive": true,
+          "validite_absence": false,
+          "applicabilite": "oui",
+          "contradiction_bloquante": false,
+          "applicabilite_reference": null,
+          "contradiction_reference": null,
+          "phenomene_id": null,
+          "source_objects": [],
+          "methode_famille_id": "METHODE-FAMILLE-SYNTHETIQUE-route_corridor",
+          "preuve_ids": [
+            "PREUVE-SYNTHETIQUE-T38-A"
+          ],
+          "motifs_qualite": []
+        }
+      ],
+      "priority_method_version": "m2-priorites.proposal-2",
+      "expected": {
+        "regles_diagnostics": {
+          "A": "D2"
+        },
+        "priorite_examen": "indeterminee",
+        "regle_appliquee": "S4",
+        "couverture_synthese": "partielle",
+        "diagnostic_ids_justificatifs": [],
+        "diagnostic_ids_non_evalues": [
+          "A"
+        ],
+        "familles_manquantes": [],
+        "motifs_limites": [
+          "enjeu_non_documente"
+        ],
+        "motifs_principaux_diagnostics": {
+          "A": "enjeu_non_documente"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "grid": {"id_column": "maille_id", "expected_crs": "EPSG:2154"},
+  "territory": {"expected_crs": "EPSG:2154"},
+  "reservoirs": {
+    "expected_crs": "EPSG:2154",
+    "coverage": {
+      "status": "unknown", "source_id": "TVB_RES_NORM",
+      "producer": "DREAL Normandie", "vintage": "2014"
+    }
+  },
+  "corridors": {
+    "expected_crs": "EPSG:2154",
+    "coverage": {
+      "status": "unknown", "source_id": "TVB_COR_BN",
+      "producer": "DREAL Normandie", "vintage": "2014"
+    }
+  }
+}

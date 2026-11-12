@@ -1,0 +1,2337 @@
+{
+  "m1_commit": "fc76d6230994af9aef27f42bb42e0374cd0c8251",
+  "current_m1_ref": "fc76d6230994af9aef27f42bb42e0374cd0c8251",
+  "selected_input_sha256": {
+    "analysis/generate_hex_grid.py": "ab6408a08affd9f09856be8b8fc13506636f369fa4fb88b354bf7f360baf9ecb",
+    "data/public/grille_pilote_wgs84.geojson": "c45387b98bec7bd7978ba70e44099107d5ddb2f28080927e165a8dfc3c4ed7c1"
+  },
+  "software": {
+    "geopandas": "1.1.4",
+    "shapely": "2.1.2",
+    "pyproj": "3.7.1"
+  },
+  "geos": "3.13.1",
+  "prototype_status": "proposition_non_appliquee_budget_non_garanti_par_GEOS",
+  "delivered_geojson_l93": {
+    "all_distinct_pairs": 903,
+    "disjoint_pairs": 806,
+    "nonempty_types": {
+      "LineString": 76,
+      "Polygon": 21
+    },
+    "boundary_pairs_without_area": 76,
+    "positive_area_pairs": 21,
+    "max_intersection_area_m2": 8.666933133291666e-07,
+    "sum_intersection_areas_m2": 4.844735143168314e-06,
+    "sum_areas_minus_union_m2": 4.839152097702026e-06,
+    "fsum_areas_minus_union_m2": 4.839152097702026e-06,
+    "ulp_x_m": 5.820766091346741e-11,
+    "ulp_y_m": 9.313225746154785e-10,
+    "coordinate_ulp_diagonal_m": 9.331397911231848e-10,
+    "proposed_global_budget_m2": 0.00011828211583139372,
+    "proposed_rejected_pairs": [],
+    "proposed_grid_overlap_error": false,
+    "proposed_numeric_warning": true,
+    "pairs": [
+      {
+        "left": "NORM-G1K-FLAT-R+006425-C+000495",
+        "right": "NORM-G1K-FLAT-R+006426-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006425-C+000497",
+        "right": "NORM-G1K-FLAT-R+006426-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006425-C+000497",
+        "right": "NORM-G1K-FLAT-R+006426-C+000497",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006425-C+000497",
+        "right": "NORM-G1K-FLAT-R+006426-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006425-C+000499",
+        "right": "NORM-G1K-FLAT-R+006426-C+000498",
+        "intersection_type": "Polygon",
+        "area_m2": 1.8039998199697455e-08,
+        "polygon_perimeter_m": 715.7406879668035,
+        "equivalent_strip_width_m": 5.0409313045883904e-11,
+        "proposed_local_budget_m2": 6.678861160704431e-07,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006425-C+000499",
+        "right": "NORM-G1K-FLAT-R+006426-C+000499",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006425-C+000499",
+        "right": "NORM-G1K-FLAT-R+006426-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000495",
+        "right": "NORM-G1K-FLAT-R+006426-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000495",
+        "right": "NORM-G1K-FLAT-R+006427-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000496",
+        "right": "NORM-G1K-FLAT-R+006426-C+000497",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000496",
+        "right": "NORM-G1K-FLAT-R+006427-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000497",
+        "right": "NORM-G1K-FLAT-R+006426-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000497",
+        "right": "NORM-G1K-FLAT-R+006427-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000497",
+        "right": "NORM-G1K-FLAT-R+006427-C+000497",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000497",
+        "right": "NORM-G1K-FLAT-R+006427-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000498",
+        "right": "NORM-G1K-FLAT-R+006426-C+000499",
+        "intersection_type": "Polygon",
+        "area_m2": 3.1274101109756824e-08,
+        "polygon_perimeter_m": 1240.8064788047216,
+        "equivalent_strip_width_m": 5.040931304595283e-11,
+        "proposed_local_budget_m2": 1.1578458984588678e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000498",
+        "right": "NORM-G1K-FLAT-R+006427-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000499",
+        "right": "NORM-G1K-FLAT-R+006426-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000499",
+        "right": "NORM-G1K-FLAT-R+006427-C+000498",
+        "intersection_type": "Polygon",
+        "area_m2": 4.691115166455392e-08,
+        "polygon_perimeter_m": 1240.806478803196,
+        "equivalent_strip_width_m": 7.561396956889116e-11,
+        "proposed_local_budget_m2": 1.1578458984574442e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000499",
+        "right": "NORM-G1K-FLAT-R+006427-C+000499",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000499",
+        "right": "NORM-G1K-FLAT-R+006427-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000500",
+        "right": "NORM-G1K-FLAT-R+006427-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000495",
+        "right": "NORM-G1K-FLAT-R+006427-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000495",
+        "right": "NORM-G1K-FLAT-R+006428-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000496",
+        "right": "NORM-G1K-FLAT-R+006427-C+000497",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000496",
+        "right": "NORM-G1K-FLAT-R+006428-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000497",
+        "right": "NORM-G1K-FLAT-R+006427-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000497",
+        "right": "NORM-G1K-FLAT-R+006428-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000497",
+        "right": "NORM-G1K-FLAT-R+006428-C+000497",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000497",
+        "right": "NORM-G1K-FLAT-R+006428-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000498",
+        "right": "NORM-G1K-FLAT-R+006427-C+000499",
+        "intersection_type": "Polygon",
+        "area_m2": 6.255242525110604e-08,
+        "polygon_perimeter_m": 1240.8064788032248,
+        "equivalent_strip_width_m": 1.0082543300618277e-10,
+        "proposed_local_budget_m2": 1.157845898457471e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000498",
+        "right": "NORM-G1K-FLAT-R+006428-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000499",
+        "right": "NORM-G1K-FLAT-R+006427-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000499",
+        "right": "NORM-G1K-FLAT-R+006428-C+000498",
+        "intersection_type": "Polygon",
+        "area_m2": 4.6900822781026363e-08,
+        "polygon_perimeter_m": 1240.8064788015245,
+        "equivalent_strip_width_m": 7.559732090749096e-11,
+        "proposed_local_budget_m2": 1.1578458984558844e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000499",
+        "right": "NORM-G1K-FLAT-R+006428-C+000499",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000499",
+        "right": "NORM-G1K-FLAT-R+006428-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000500",
+        "right": "NORM-G1K-FLAT-R+006428-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000495",
+        "right": "NORM-G1K-FLAT-R+006428-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000495",
+        "right": "NORM-G1K-FLAT-R+006429-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000496",
+        "right": "NORM-G1K-FLAT-R+006428-C+000497",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000496",
+        "right": "NORM-G1K-FLAT-R+006429-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000497",
+        "right": "NORM-G1K-FLAT-R+006428-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000497",
+        "right": "NORM-G1K-FLAT-R+006429-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000497",
+        "right": "NORM-G1K-FLAT-R+006429-C+000497",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000497",
+        "right": "NORM-G1K-FLAT-R+006429-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000498",
+        "right": "NORM-G1K-FLAT-R+006428-C+000499",
+        "intersection_type": "Polygon",
+        "area_m2": 6.254616693546298e-08,
+        "polygon_perimeter_m": 1240.806478803283,
+        "equivalent_strip_width_m": 1.008153455094572e-10,
+        "proposed_local_budget_m2": 1.1578458984575253e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000498",
+        "right": "NORM-G1K-FLAT-R+006429-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000499",
+        "right": "NORM-G1K-FLAT-R+006428-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000499",
+        "right": "NORM-G1K-FLAT-R+006429-C+000498",
+        "intersection_type": "Polygon",
+        "area_m2": 4.691537469625473e-08,
+        "polygon_perimeter_m": 1240.8064788031957,
+        "equivalent_strip_width_m": 7.56207764832214e-11,
+        "proposed_local_budget_m2": 1.157845898457444e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000499",
+        "right": "NORM-G1K-FLAT-R+006429-C+000499",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000499",
+        "right": "NORM-G1K-FLAT-R+006429-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000500",
+        "right": "NORM-G1K-FLAT-R+006429-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000495",
+        "right": "NORM-G1K-FLAT-R+006429-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000495",
+        "right": "NORM-G1K-FLAT-R+006430-C+000496",
+        "intersection_type": "Polygon",
+        "area_m2": 1.3385858800273064e-07,
+        "polygon_perimeter_m": 433.9808314982991,
+        "equivalent_strip_width_m": 6.168870986333196e-10,
+        "proposed_local_budget_m2": 4.0496478245852443e-07,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000496",
+        "right": "NORM-G1K-FLAT-R+006429-C+000497",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000496",
+        "right": "NORM-G1K-FLAT-R+006430-C+000496",
+        "intersection_type": "Polygon",
+        "area_m2": 5.777955422193179e-07,
+        "polygon_perimeter_m": 1240.8064788052304,
+        "equivalent_strip_width_m": 9.313225746140137e-10,
+        "proposed_local_budget_m2": 1.1578458984593426e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000497",
+        "right": "NORM-G1K-FLAT-R+006429-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000497",
+        "right": "NORM-G1K-FLAT-R+006430-C+000496",
+        "intersection_type": "Polygon",
+        "area_m2": 6.254820221940523e-08,
+        "polygon_perimeter_m": 1240.8064788030501,
+        "equivalent_strip_width_m": 1.0081862609186672e-10,
+        "proposed_local_budget_m2": 1.157845898457308e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000497",
+        "right": "NORM-G1K-FLAT-R+006430-C+000497",
+        "intersection_type": "Polygon",
+        "area_m2": 2.888977711097403e-07,
+        "polygon_perimeter_m": 1240.806478804313,
+        "equivalent_strip_width_m": 4.6566128730748226e-10,
+        "proposed_local_budget_m2": 1.1578458984584864e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000497",
+        "right": "NORM-G1K-FLAT-R+006430-C+000498",
+        "intersection_type": "Polygon",
+        "area_m2": 3.0081719160079956e-07,
+        "polygon_perimeter_m": 1240.8064788032193,
+        "equivalent_strip_width_m": 4.848736636045668e-10,
+        "proposed_local_budget_m2": 1.157845898457466e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000498",
+        "right": "NORM-G1K-FLAT-R+006429-C+000499",
+        "intersection_type": "Polygon",
+        "area_m2": 1.5637050554851307e-08,
+        "polygon_perimeter_m": 1240.806478803021,
+        "equivalent_strip_width_m": 2.520465652296727e-11,
+        "proposed_local_budget_m2": 1.157845898457281e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000498",
+        "right": "NORM-G1K-FLAT-R+006430-C+000498",
+        "intersection_type": "Polygon",
+        "area_m2": 8.666933133291124e-07,
+        "polygon_perimeter_m": 1240.8064788059842,
+        "equivalent_strip_width_m": 1.3969838619203905e-09,
+        "proposed_local_budget_m2": 1.1578458984600458e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000499",
+        "right": "NORM-G1K-FLAT-R+006429-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000499",
+        "right": "NORM-G1K-FLAT-R+006430-C+000498",
+        "intersection_type": "Polygon",
+        "area_m2": 5.2344882549971e-07,
+        "polygon_perimeter_m": 1240.8064788062902,
+        "equivalent_strip_width_m": 8.43723553093131e-10,
+        "proposed_local_budget_m2": 1.1578458984603315e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000499",
+        "right": "NORM-G1K-FLAT-R+006430-C+000499",
+        "intersection_type": "Polygon",
+        "area_m2": 8.666933133291666e-07,
+        "polygon_perimeter_m": 1240.8064788061006,
+        "equivalent_strip_width_m": 1.3969838619203466e-09,
+        "proposed_local_budget_m2": 1.1578458984601545e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000499",
+        "right": "NORM-G1K-FLAT-R+006430-C+000500",
+        "intersection_type": "Polygon",
+        "area_m2": 2.8518843464553356e-07,
+        "polygon_perimeter_m": 1240.8064788030504,
+        "equivalent_strip_width_m": 4.596823751607775e-10,
+        "proposed_local_budget_m2": 1.1578458984573082e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000500",
+        "right": "NORM-G1K-FLAT-R+006430-C+000500",
+        "intersection_type": "Polygon",
+        "area_m2": 4.985470347887856e-07,
+        "polygon_perimeter_m": 1070.6216049696677,
+        "equivalent_strip_width_m": 9.313225746138574e-10,
+        "proposed_local_budget_m2": 9.990396208361001e-07,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000495",
+        "right": "NORM-G1K-FLAT-R+006430-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000495",
+        "right": "NORM-G1K-FLAT-R+006431-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000496",
+        "right": "NORM-G1K-FLAT-R+006430-C+000497",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000496",
+        "right": "NORM-G1K-FLAT-R+006431-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000497",
+        "right": "NORM-G1K-FLAT-R+006430-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000497",
+        "right": "NORM-G1K-FLAT-R+006431-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000497",
+        "right": "NORM-G1K-FLAT-R+006431-C+000497",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000497",
+        "right": "NORM-G1K-FLAT-R+006431-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000498",
+        "right": "NORM-G1K-FLAT-R+006430-C+000499",
+        "intersection_type": "Polygon",
+        "area_m2": 4.691740998019698e-08,
+        "polygon_perimeter_m": 1240.8064788031375,
+        "equivalent_strip_width_m": 7.562405706561555e-11,
+        "proposed_local_budget_m2": 1.1578458984573895e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000498",
+        "right": "NORM-G1K-FLAT-R+006431-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000499",
+        "right": "NORM-G1K-FLAT-R+006430-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000499",
+        "right": "NORM-G1K-FLAT-R+006431-C+000498",
+        "intersection_type": "Polygon",
+        "area_m2": 4.691537469625473e-08,
+        "polygon_perimeter_m": 1240.8064788015245,
+        "equivalent_strip_width_m": 7.562077648332326e-11,
+        "proposed_local_budget_m2": 1.1578458984558844e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000499",
+        "right": "NORM-G1K-FLAT-R+006431-C+000499",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000499",
+        "right": "NORM-G1K-FLAT-R+006431-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000500",
+        "right": "NORM-G1K-FLAT-R+006431-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000495",
+        "right": "NORM-G1K-FLAT-R+006431-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000495",
+        "right": "NORM-G1K-FLAT-R+006432-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000496",
+        "right": "NORM-G1K-FLAT-R+006431-C+000497",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000496",
+        "right": "NORM-G1K-FLAT-R+006432-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000497",
+        "right": "NORM-G1K-FLAT-R+006431-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000497",
+        "right": "NORM-G1K-FLAT-R+006432-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000497",
+        "right": "NORM-G1K-FLAT-R+006432-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000498",
+        "right": "NORM-G1K-FLAT-R+006431-C+000499",
+        "intersection_type": "Polygon",
+        "area_m2": 1.5637050554851307e-08,
+        "polygon_perimeter_m": 1240.8064788030792,
+        "equivalent_strip_width_m": 2.520465652296609e-11,
+        "proposed_local_budget_m2": 1.1578458984573353e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000498",
+        "right": "NORM-G1K-FLAT-R+006432-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000499",
+        "right": "NORM-G1K-FLAT-R+006431-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000499",
+        "right": "NORM-G1K-FLAT-R+006432-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000499",
+        "right": "NORM-G1K-FLAT-R+006432-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000500",
+        "right": "NORM-G1K-FLAT-R+006431-C+000501",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000500",
+        "right": "NORM-G1K-FLAT-R+006432-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000501",
+        "right": "NORM-G1K-FLAT-R+006432-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      }
+    ]
+  },
+  "regenerated_grid_l93": {
+    "all_distinct_pairs": 903,
+    "disjoint_pairs": 806,
+    "nonempty_types": {
+      "LineString": 75,
+      "Polygon": 22
+    },
+    "boundary_pairs_without_area": 75,
+    "positive_area_pairs": 22,
+    "max_intersection_area_m2": 5.777955422193721e-07,
+    "sum_intersection_areas_m2": 4.7423968687862505e-06,
+    "sum_areas_minus_union_m2": 4.511326551437378e-06,
+    "fsum_areas_minus_union_m2": 4.511326551437378e-06,
+    "ulp_x_m": 5.820766091346741e-11,
+    "ulp_y_m": 9.313225746154785e-10,
+    "coordinate_ulp_diagonal_m": 9.331397911231848e-10,
+    "proposed_global_budget_m2": 0.00011828211583139041,
+    "proposed_rejected_pairs": [],
+    "proposed_grid_overlap_error": false,
+    "proposed_numeric_warning": true,
+    "pairs": [
+      {
+        "left": "NORM-G1K-FLAT-R+006425-C+000495",
+        "right": "NORM-G1K-FLAT-R+006426-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006425-C+000497",
+        "right": "NORM-G1K-FLAT-R+006426-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006425-C+000497",
+        "right": "NORM-G1K-FLAT-R+006426-C+000497",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006425-C+000497",
+        "right": "NORM-G1K-FLAT-R+006426-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006425-C+000499",
+        "right": "NORM-G1K-FLAT-R+006426-C+000498",
+        "intersection_type": "Polygon",
+        "area_m2": 1.804218654146328e-08,
+        "polygon_perimeter_m": 715.7406879684168,
+        "equivalent_strip_width_m": 5.041542794688632e-11,
+        "proposed_local_budget_m2": 6.678861160719485e-07,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006425-C+000499",
+        "right": "NORM-G1K-FLAT-R+006426-C+000499",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006425-C+000499",
+        "right": "NORM-G1K-FLAT-R+006426-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000495",
+        "right": "NORM-G1K-FLAT-R+006426-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000495",
+        "right": "NORM-G1K-FLAT-R+006427-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000496",
+        "right": "NORM-G1K-FLAT-R+006426-C+000497",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000496",
+        "right": "NORM-G1K-FLAT-R+006427-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000497",
+        "right": "NORM-G1K-FLAT-R+006426-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000497",
+        "right": "NORM-G1K-FLAT-R+006427-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000497",
+        "right": "NORM-G1K-FLAT-R+006427-C+000497",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000497",
+        "right": "NORM-G1K-FLAT-R+006427-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000498",
+        "right": "NORM-G1K-FLAT-R+006426-C+000499",
+        "intersection_type": "Polygon",
+        "area_m2": 3.1265807510117306e-08,
+        "polygon_perimeter_m": 1240.8064788031083,
+        "equivalent_strip_width_m": 5.039594496681956e-11,
+        "proposed_local_budget_m2": 1.1578458984573624e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000498",
+        "right": "NORM-G1K-FLAT-R+006427-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000499",
+        "right": "NORM-G1K-FLAT-R+006426-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000499",
+        "right": "NORM-G1K-FLAT-R+006427-C+000498",
+        "intersection_type": "Polygon",
+        "area_m2": 3.1272065825760365e-08,
+        "polygon_perimeter_m": 1240.8064788031083,
+        "equivalent_strip_width_m": 5.0406032463540397e-11,
+        "proposed_local_budget_m2": 1.1578458984573624e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000499",
+        "right": "NORM-G1K-FLAT-R+006427-C+000499",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000499",
+        "right": "NORM-G1K-FLAT-R+006427-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006426-C+000500",
+        "right": "NORM-G1K-FLAT-R+006427-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000495",
+        "right": "NORM-G1K-FLAT-R+006427-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000495",
+        "right": "NORM-G1K-FLAT-R+006428-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000496",
+        "right": "NORM-G1K-FLAT-R+006427-C+000497",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000496",
+        "right": "NORM-G1K-FLAT-R+006428-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000497",
+        "right": "NORM-G1K-FLAT-R+006427-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000497",
+        "right": "NORM-G1K-FLAT-R+006428-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000497",
+        "right": "NORM-G1K-FLAT-R+006428-C+000497",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000497",
+        "right": "NORM-G1K-FLAT-R+006428-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000498",
+        "right": "NORM-G1K-FLAT-R+006427-C+000499",
+        "intersection_type": "Polygon",
+        "area_m2": 3.1265807510117306e-08,
+        "polygon_perimeter_m": 1240.8064788031083,
+        "equivalent_strip_width_m": 5.039594496681956e-11,
+        "proposed_local_budget_m2": 1.1578458984573624e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000498",
+        "right": "NORM-G1K-FLAT-R+006428-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000499",
+        "right": "NORM-G1K-FLAT-R+006427-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000499",
+        "right": "NORM-G1K-FLAT-R+006428-C+000498",
+        "intersection_type": "Polygon",
+        "area_m2": 3.1272065825760365e-08,
+        "polygon_perimeter_m": 1240.8064788031083,
+        "equivalent_strip_width_m": 5.0406032463540397e-11,
+        "proposed_local_budget_m2": 1.1578458984573624e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000499",
+        "right": "NORM-G1K-FLAT-R+006428-C+000499",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000499",
+        "right": "NORM-G1K-FLAT-R+006428-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006427-C+000500",
+        "right": "NORM-G1K-FLAT-R+006428-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000495",
+        "right": "NORM-G1K-FLAT-R+006428-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000495",
+        "right": "NORM-G1K-FLAT-R+006429-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000496",
+        "right": "NORM-G1K-FLAT-R+006428-C+000497",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000496",
+        "right": "NORM-G1K-FLAT-R+006429-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000497",
+        "right": "NORM-G1K-FLAT-R+006428-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000497",
+        "right": "NORM-G1K-FLAT-R+006429-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000497",
+        "right": "NORM-G1K-FLAT-R+006429-C+000497",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000497",
+        "right": "NORM-G1K-FLAT-R+006429-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000498",
+        "right": "NORM-G1K-FLAT-R+006428-C+000499",
+        "intersection_type": "Polygon",
+        "area_m2": 3.1265807510117306e-08,
+        "polygon_perimeter_m": 1240.8064788031083,
+        "equivalent_strip_width_m": 5.039594496681956e-11,
+        "proposed_local_budget_m2": 1.1578458984573624e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000498",
+        "right": "NORM-G1K-FLAT-R+006429-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000499",
+        "right": "NORM-G1K-FLAT-R+006428-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000499",
+        "right": "NORM-G1K-FLAT-R+006429-C+000498",
+        "intersection_type": "Polygon",
+        "area_m2": 3.1272065825760365e-08,
+        "polygon_perimeter_m": 1240.8064788031083,
+        "equivalent_strip_width_m": 5.0406032463540397e-11,
+        "proposed_local_budget_m2": 1.1578458984573624e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000499",
+        "right": "NORM-G1K-FLAT-R+006429-C+000499",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000499",
+        "right": "NORM-G1K-FLAT-R+006429-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006428-C+000500",
+        "right": "NORM-G1K-FLAT-R+006429-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000495",
+        "right": "NORM-G1K-FLAT-R+006429-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000495",
+        "right": "NORM-G1K-FLAT-R+006430-C+000496",
+        "intersection_type": "Polygon",
+        "area_m2": 8.33379763085125e-08,
+        "polygon_perimeter_m": 433.98083149680787,
+        "equivalent_strip_width_m": 3.840629367019658e-10,
+        "proposed_local_budget_m2": 4.0496478245713286e-07,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000496",
+        "right": "NORM-G1K-FLAT-R+006429-C+000497",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000496",
+        "right": "NORM-G1K-FLAT-R+006430-C+000496",
+        "intersection_type": "Polygon",
+        "area_m2": 5.777955422193721e-07,
+        "polygon_perimeter_m": 1240.8064788053468,
+        "equivalent_strip_width_m": 9.313225746140137e-10,
+        "proposed_local_budget_m2": 1.1578458984594512e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000497",
+        "right": "NORM-G1K-FLAT-R+006429-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000497",
+        "right": "NORM-G1K-FLAT-R+006430-C+000496",
+        "intersection_type": "Polygon",
+        "area_m2": 3.008150038529055e-07,
+        "polygon_perimeter_m": 1240.806478803161,
+        "equivalent_strip_width_m": 4.848701372724314e-10,
+        "proposed_local_budget_m2": 1.1578458984574116e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000497",
+        "right": "NORM-G1K-FLAT-R+006430-C+000497",
+        "intersection_type": "Polygon",
+        "area_m2": 5.777955422193721e-07,
+        "polygon_perimeter_m": 1240.8064788053468,
+        "equivalent_strip_width_m": 9.313225746140137e-10,
+        "proposed_local_budget_m2": 1.1578458984594512e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000497",
+        "right": "NORM-G1K-FLAT-R+006430-C+000498",
+        "intersection_type": "Polygon",
+        "area_m2": 3.0081719160079956e-07,
+        "polygon_perimeter_m": 1240.806478803161,
+        "equivalent_strip_width_m": 4.848736636045895e-10,
+        "proposed_local_budget_m2": 1.1578458984574116e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000498",
+        "right": "NORM-G1K-FLAT-R+006429-C+000499",
+        "intersection_type": "Polygon",
+        "area_m2": 3.1265807510117306e-08,
+        "polygon_perimeter_m": 1240.8064788031083,
+        "equivalent_strip_width_m": 5.039594496681956e-11,
+        "proposed_local_budget_m2": 1.1578458984573624e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000498",
+        "right": "NORM-G1K-FLAT-R+006430-C+000498",
+        "intersection_type": "Polygon",
+        "area_m2": 5.777955422193721e-07,
+        "polygon_perimeter_m": 1240.8064788053468,
+        "equivalent_strip_width_m": 9.313225746140137e-10,
+        "proposed_local_budget_m2": 1.1578458984594512e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000499",
+        "right": "NORM-G1K-FLAT-R+006429-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000499",
+        "right": "NORM-G1K-FLAT-R+006430-C+000498",
+        "intersection_type": "Polygon",
+        "area_m2": 4.4525731440967485e-07,
+        "polygon_perimeter_m": 1240.8064788047107,
+        "equivalent_strip_width_m": 7.17690182982601e-10,
+        "proposed_local_budget_m2": 1.1578458984588577e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000499",
+        "right": "NORM-G1K-FLAT-R+006430-C+000499",
+        "intersection_type": "Polygon",
+        "area_m2": 5.777955422193721e-07,
+        "polygon_perimeter_m": 1240.8064788053468,
+        "equivalent_strip_width_m": 9.313225746140137e-10,
+        "proposed_local_budget_m2": 1.1578458984594512e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000499",
+        "right": "NORM-G1K-FLAT-R+006430-C+000500",
+        "intersection_type": "Polygon",
+        "area_m2": 4.452740540727973e-07,
+        "polygon_perimeter_m": 1240.8064788046524,
+        "equivalent_strip_width_m": 7.177171648906251e-10,
+        "proposed_local_budget_m2": 1.1578458984588032e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006429-C+000500",
+        "right": "NORM-G1K-FLAT-R+006430-C+000500",
+        "intersection_type": "Polygon",
+        "area_m2": 4.985470347889211e-07,
+        "polygon_perimeter_m": 1070.621604970004,
+        "equivalent_strip_width_m": 9.313225746138181e-10,
+        "proposed_local_budget_m2": 9.99039620836414e-07,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000495",
+        "right": "NORM-G1K-FLAT-R+006430-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000495",
+        "right": "NORM-G1K-FLAT-R+006431-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000496",
+        "right": "NORM-G1K-FLAT-R+006430-C+000497",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000496",
+        "right": "NORM-G1K-FLAT-R+006431-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000497",
+        "right": "NORM-G1K-FLAT-R+006430-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000497",
+        "right": "NORM-G1K-FLAT-R+006431-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000497",
+        "right": "NORM-G1K-FLAT-R+006431-C+000497",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000497",
+        "right": "NORM-G1K-FLAT-R+006431-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000498",
+        "right": "NORM-G1K-FLAT-R+006430-C+000499",
+        "intersection_type": "Polygon",
+        "area_m2": 3.1265807510117306e-08,
+        "polygon_perimeter_m": 1240.8064788031083,
+        "equivalent_strip_width_m": 5.039594496681956e-11,
+        "proposed_local_budget_m2": 1.1578458984573624e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000498",
+        "right": "NORM-G1K-FLAT-R+006431-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000499",
+        "right": "NORM-G1K-FLAT-R+006430-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000499",
+        "right": "NORM-G1K-FLAT-R+006431-C+000498",
+        "intersection_type": "Polygon",
+        "area_m2": 3.1272065825760365e-08,
+        "polygon_perimeter_m": 1240.8064788031083,
+        "equivalent_strip_width_m": 5.0406032463540397e-11,
+        "proposed_local_budget_m2": 1.1578458984573624e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000499",
+        "right": "NORM-G1K-FLAT-R+006431-C+000499",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000499",
+        "right": "NORM-G1K-FLAT-R+006431-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006430-C+000500",
+        "right": "NORM-G1K-FLAT-R+006431-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000495",
+        "right": "NORM-G1K-FLAT-R+006431-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000495",
+        "right": "NORM-G1K-FLAT-R+006432-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000496",
+        "right": "NORM-G1K-FLAT-R+006431-C+000497",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000496",
+        "right": "NORM-G1K-FLAT-R+006432-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000497",
+        "right": "NORM-G1K-FLAT-R+006431-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000497",
+        "right": "NORM-G1K-FLAT-R+006432-C+000496",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000497",
+        "right": "NORM-G1K-FLAT-R+006432-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000498",
+        "right": "NORM-G1K-FLAT-R+006431-C+000499",
+        "intersection_type": "Polygon",
+        "area_m2": 3.1265807510117306e-08,
+        "polygon_perimeter_m": 1240.8064788031083,
+        "equivalent_strip_width_m": 5.039594496681956e-11,
+        "proposed_local_budget_m2": 1.1578458984573624e-06,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000498",
+        "right": "NORM-G1K-FLAT-R+006432-C+000498",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000499",
+        "right": "NORM-G1K-FLAT-R+006431-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000499",
+        "right": "NORM-G1K-FLAT-R+006432-C+000498",
+        "intersection_type": "Polygon",
+        "area_m2": 2.644082996994257e-08,
+        "polygon_perimeter_m": 1049.1485769013336,
+        "equivalent_strip_width_m": 5.040435749917464e-11,
+        "proposed_local_budget_m2": 9.790022839096325e-07,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000499",
+        "right": "NORM-G1K-FLAT-R+006432-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000500",
+        "right": "NORM-G1K-FLAT-R+006431-C+000501",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000500",
+        "right": "NORM-G1K-FLAT-R+006432-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      },
+      {
+        "left": "NORM-G1K-FLAT-R+006431-C+000501",
+        "right": "NORM-G1K-FLAT-R+006432-C+000500",
+        "intersection_type": "LineString",
+        "area_m2": 0.0,
+        "polygon_perimeter_m": 0.0,
+        "equivalent_strip_width_m": null,
+        "proposed_local_budget_m2": 0.0,
+        "exceeds_existing_area_cap": false,
+        "exceeds_proposed_local_budget": false
+      }
+    ]
+  },
+  "existing_validator": {
+    "delivered": {
+      "ok": false,
+      "metric_crs": "EPSG:2154",
+      "layers": {},
+      "errors": [
+        {
+          "severity": "error",
+          "code": "grid_overlap",
+          "layer": "grid",
+          "message": "Chevauchement surfacique de mailles : la grille officielle ne doit pas compter deux fois des surfaces.",
+          "details": {
+            "overlap_area_m2": 4.839152097702026e-06
+          }
+        }
+      ],
+      "warnings": [],
+      "quality": [
+        {
+          "severity": "info",
+          "code": "territory_coverage",
+          "layer": "grid",
+          "message": "Couverture géométrique de la grille.",
+          "details": {
+            "territory_area_m2": 29171588.467228226,
+            "uncovered_area_m2": 0.0,
+            "overlap_area_m2": 4.839152097702026e-06
+          }
+        }
+      ]
+    },
+    "regenerated": {
+      "ok": false,
+      "metric_crs": "EPSG:2154",
+      "layers": {},
+      "errors": [
+        {
+          "severity": "error",
+          "code": "grid_overlap",
+          "layer": "grid",
+          "message": "Chevauchement surfacique de mailles : la grille officielle ne doit pas compter deux fois des surfaces.",
+          "details": {
+            "overlap_area_m2": 4.511326551437378e-06
+          }
+        }
+      ],
+      "warnings": [],
+      "quality": [
+        {
+          "severity": "info",
+          "code": "territory_coverage",
+          "layer": "grid",
+          "message": "Couverture géométrique de la grille.",
+          "details": {
+            "territory_area_m2": 29171588.467229567,
+            "uncovered_area_m2": 0.0,
+            "overlap_area_m2": 4.511326551437378e-06
+          }
+        }
+      ]
+    }
+  },
+  "targeted_tests": [
+    {
+      "case": "M1_GeoJSON_residu_numerique_signale",
+      "passed": true,
+      "expected_grid_overlap": false
+    },
+    {
+      "case": "M1_regeneree_residu_numerique_signale",
+      "passed": true,
+      "expected_grid_overlap": false
+    },
+    {
+      "case": "M1_ordre_inverse",
+      "passed": true,
+      "expected_grid_overlap": false
+    },
+    {
+      "case": "contact_arete",
+      "passed": true,
+      "expected_grid_overlap": false
+    },
+    {
+      "case": "contact_sommet",
+      "passed": true,
+      "expected_grid_overlap": false
+    },
+    {
+      "case": "objets_disjoints",
+      "passed": true,
+      "expected_grid_overlap": false
+    },
+    {
+      "case": "vrai_chevauchement_millimetrique",
+      "passed": true,
+      "expected_grid_overlap": true
+    },
+    {
+      "case": "geometrie_dupliquee_ids_distincts",
+      "passed": true,
+      "expected_grid_overlap": true
+    },
+    {
+      "case": "contenance",
+      "passed": true,
+      "expected_grid_overlap": true
+    },
+    {
+      "case": "recouvrement_triple",
+      "passed": true,
+      "expected_grid_overlap": true
+    },
+    {
+      "case": "chevauchement_inferieur_au_cap_mais_non_numerique",
+      "passed": true,
+      "expected_grid_overlap": true
+    },
+    {
+      "case": "petit_polygone_compact_sous_1e_6_m2",
+      "passed": true,
+      "expected_grid_overlap": true
+    },
+    {
+      "case": "plusieurs_petits_chevauchements_non_numeriques",
+      "passed": true,
+      "expected_grid_overlap": true
+    },
+    {
+      "case": "maille_M1_deplacee_1_mm",
+      "passed": true,
+      "expected_grid_overlap": true
+    },
+    {
+      "case": "garde_lacune_existante_conservee",
+      "passed": true
+    },
+    {
+      "case": "deux_configurations_acceptees_par_load_config",
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,1157 @@
+{
+  "ruleset_version": "m2-actions.spec-proposal-1",
+  "status": "proposition_de_specification_non_approuvee_M4",
+  "scope": "P0 pilote déclaré; M2 définit les faits qualifiés et critères, M4 exécute; pas de classe de priorité dérivée ici",
+  "id_source": "PRD_ReConnect_Normandie_V6_FINAL.docx sections 6.2/6.3",
+  "execution_order": "V0 puis A0 à A8, première règle applicable",
+  "presentation_order": [
+    "etayee_pour_examen",
+    "conditionnelle",
+    "non_retenue_par_regle",
+    "non_evaluable"
+  ],
+  "output_contract": {
+    "maille_id": "type conservé sans conversion implicite",
+    "action_id": "ID catalogue M5",
+    "rule_id": "R1..R4",
+    "rule_version": "string",
+    "statut": "enum de quatre états",
+    "regle_decision": "A0..A8",
+    "motif_principal": "string",
+    "preuve_ids": "liste typée",
+    "conflit_ids": "liste type conservé, R1 uniquement si applicable",
+    "limites": "liste",
+    "prerequis_a_verifier": "liste de vérifications, pas un score",
+    "justification_courte": "texte M3 borné à ce que les preuves montrent",
+    "preuve_absence_ids": "tableau typé des preuves négatives conservées ; pas limité à preuve_ids",
+    "applicabilite_reference": "référence de non-applicabilité si pertinente, interne sauf autorisation",
+    "ruleset_version": "version du pack proposé",
+    "schema_ref": "schema_actions_m2.json#/$defs/actionResult",
+    "public_schema_ref": "schema_actions_m2.json#/$defs/actionPublicProjection",
+    "etat_validation": "structure_seule|controle_referentiel_documente ; état déclaré, pas authentification automatique",
+    "validation_reference": "référence interne du contrôle, obligatoire si controle_referentiel_documente",
+    "attestation_ids": "tableau typé, sans index à clés identifiants",
+    "phenomene_ids": "tableau typé des phénomènes concernés",
+    "diagnostic_ids": "tableau typé des diagnostics examinés, jamais des clés JSON",
+    "methode": "null si non évaluée, sinon identité/version/référence ; sous-méthodes résolues via attestations",
+    "qualite": "couverture essentielle, méthode validée et références de couverture déclarées",
+    "authentifie_par_logiciel": "false : le schéma ne prouve pas la véracité du contrôle"
+  },
+  "decision_inputs": {
+    "rule_id": "R1|R2|R3|R4",
+    "action_id": "A04|A01|A03|A02 ; doit correspondre à rule_id",
+    "applicabilite": "oui|non_applicable_documentee|inconnue",
+    "applicabilite_reference": "string|null; obligatoire pour non_applicable_documentee",
+    "methode_validee": "bool; approbation M2 versionnée, non une inférence de données",
+    "methode_reference": "string|null; obligatoire si methode_validee=true",
+    "couverture_essentielle": "suffisante|partielle|insuffisante; sur les données indispensables à la règle",
+    "signal": "etaye|indicatif|absence_documentee|inconnu; qualification AMONT de famille, pas inférée de priorite_examen",
+    "preuve_ids": "tableau d’identifiants; au moins un pour etaye ou indicatif",
+    "preuve_absence_ids": "tableau; au moins un pour absence_documentee",
+    "controle_contradiction": "exclue|confirmee|non_evaluee; seulement sur l’affirmation pertinente",
+    "contradiction_references": "tableau; non vide si confirmee",
+    "independance_reference": "string|null; autorise uniquement une piste conditionnelle si contrôle non évalué",
+    "limites": "tableau de codes/documentation; tout manquement significatif au contexte apparaît",
+    "family_evidence": "objet typé/attestation distinct pour chaque règle, produit par M2; pas de seuil inventé"
+  },
+  "shared_precedence": [
+    {
+      "code": "V0",
+      "type": "error",
+      "condition": "rule_id/action_id inconnus, catégories invalides, double ID de décision, références exigées absentes, applicabilité non applicable + signal positif, signal etaye mais couverture essentielle non suffisante, absence_documentee sans couverture suffisante + preuve absence, contradiction confirmée sans référence",
+      "error": "E_ACTION_INPUT_INVALIDE ; détails dans validation_errors",
+      "schema_ref": "schema_actions_m2.json#/$defs/commonInput"
+    },
+    {
+      "code": "A0",
+      "condition": "controle_contradiction=confirmee",
+      "output": "non_evaluable",
+      "reason": "contradiction_bloquante",
+      "predicate_schema": {
+        "properties": {
+          "controle_contradiction": {
+            "const": "confirmee"
+          }
+        },
+        "required": [
+          "controle_contradiction"
+        ]
+      }
+    },
+    {
+      "code": "A1",
+      "condition": "applicabilite=non_applicable_documentee et justification documentée",
+      "output": "non_retenue_par_regle",
+      "reason": "hors_domaine_documente",
+      "predicate_schema": {
+        "properties": {
+          "applicabilite": {
+            "const": "non_applicable_documentee"
+          }
+        },
+        "required": [
+          "applicabilite"
+        ]
+      }
+    },
+    {
+      "code": "A2",
+      "condition": "applicabilite=inconnue OU methode_validee=false OU couverture_essentielle=insuffisante",
+      "output": "non_evaluable",
+      "reason": "domaine_methode_ou_donnees_insuffisants",
+      "predicate_schema": {
+        "anyOf": [
+          {
+            "properties": {
+              "applicabilite": {
+                "const": "inconnue"
+              }
+            },
+            "required": [
+              "applicabilite"
+            ]
+          },
+          {
+            "properties": {
+              "methode_validee": {
+                "const": false
+              }
+            },
+            "required": [
+              "methode_validee"
+            ]
+          },
+          {
+            "properties": {
+              "couverture_essentielle": {
+                "const": "insuffisante"
+              }
+            },
+            "required": [
+              "couverture_essentielle"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "code": "A3",
+      "condition": "controle_contradiction=non_evaluee ET indépendance non attestée",
+      "output": "non_evaluable",
+      "reason": "controle_contradiction_non_evalue",
+      "predicate_schema": {
+        "allOf": [
+          {
+            "properties": {
+              "controle_contradiction": {
+                "const": "non_evaluee"
+              }
+            },
+            "required": [
+              "controle_contradiction"
+            ]
+          },
+          {
+            "properties": {
+              "independance_reference": {
+                "const": null
+              }
+            },
+            "required": [
+              "independance_reference"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "code": "A4",
+      "condition": "signal=etaye ET couverture_essentielle=suffisante ET controle_contradiction=exclue",
+      "output": "etayee_pour_examen",
+      "reason": "declencheur_etaye",
+      "predicate_schema": {
+        "properties": {
+          "signal": {
+            "const": "etaye"
+          },
+          "couverture_essentielle": {
+            "const": "suffisante"
+          },
+          "controle_contradiction": {
+            "const": "exclue"
+          }
+        },
+        "required": [
+          "signal",
+          "couverture_essentielle",
+          "controle_contradiction"
+        ]
+      }
+    },
+    {
+      "code": "A5",
+      "condition": "signal=etaye ET couverture_essentielle=suffisante ET controle_contradiction=non_evaluee ET independance_reference attestée",
+      "output": "conditionnelle",
+      "reason": "etayage_avec_controle_incomplet",
+      "predicate_schema": {
+        "allOf": [
+          {
+            "properties": {
+              "signal": {
+                "const": "etaye"
+              },
+              "couverture_essentielle": {
+                "const": "suffisante"
+              },
+              "controle_contradiction": {
+                "const": "non_evaluee"
+              }
+            },
+            "required": [
+              "signal",
+              "couverture_essentielle",
+              "controle_contradiction"
+            ]
+          },
+          {
+            "properties": {
+              "independance_reference": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "independance_reference"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "code": "A6",
+      "condition": "signal=indicatif ET couverture_essentielle dans {suffisante,partielle} ET contrôle=exclue ou contrôle non_evaluee avec indépendance attestée",
+      "output": "conditionnelle",
+      "reason": "indice_documente_a_verifier",
+      "predicate_schema": {
+        "allOf": [
+          {
+            "properties": {
+              "signal": {
+                "const": "indicatif"
+              },
+              "couverture_essentielle": {
+                "enum": [
+                  "suffisante",
+                  "partielle"
+                ]
+              }
+            },
+            "required": [
+              "signal",
+              "couverture_essentielle"
+            ]
+          },
+          {
+            "anyOf": [
+              {
+                "properties": {
+                  "controle_contradiction": {
+                    "const": "exclue"
+                  }
+                },
+                "required": [
+                  "controle_contradiction"
+                ]
+              },
+              {
+                "allOf": [
+                  {
+                    "properties": {
+                      "controle_contradiction": {
+                        "const": "non_evaluee"
+                      }
+                    },
+                    "required": [
+                      "controle_contradiction"
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "independance_reference": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "independance_reference"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "code": "A7",
+      "condition": "signal=absence_documentee ET couverture_essentielle=suffisante ET contrôle=exclue",
+      "output": "non_retenue_par_regle",
+      "reason": "absence_declencheur_documentee",
+      "predicate_schema": {
+        "properties": {
+          "signal": {
+            "const": "absence_documentee"
+          },
+          "couverture_essentielle": {
+            "const": "suffisante"
+          },
+          "controle_contradiction": {
+            "const": "exclue"
+          }
+        },
+        "required": [
+          "signal",
+          "couverture_essentielle",
+          "controle_contradiction"
+        ]
+      }
+    },
+    {
+      "code": "A8",
+      "condition": "Après V0 et A0–A7 : signal=inconnu OU (signal=absence_documentee ET controle_contradiction=non_evaluee ET indépendance attestée). Toute autre entrée admissible non couverte est E_ACTION_TABLE_NON_TOTALE.",
+      "output": "non_evaluable",
+      "reason": "non_qualifiable_sans_inventer",
+      "predicate_schema": {
+        "anyOf": [
+          {
+            "properties": {
+              "signal": {
+                "const": "inconnu"
+              }
+            },
+            "required": [
+              "signal"
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "properties": {
+                  "signal": {
+                    "const": "absence_documentee"
+                  },
+                  "controle_contradiction": {
+                    "const": "non_evaluee"
+                  }
+                },
+                "required": [
+                  "signal",
+                  "controle_contradiction"
+                ]
+              },
+              {
+                "properties": {
+                  "independance_reference": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "independance_reference"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "rules": [
+    {
+      "rule_id": "R1",
+      "action_id": "A04",
+      "name": "Franchissement routier de la faune",
+      "question": "Croisement route–corridor qualifié, avec examen des ouvrages existants.",
+      "required_family_facts": [
+        "evenement_route_corridor_reference",
+        "statut_croisement",
+        "validite_positive",
+        "sous_trame_documentee",
+        "route_source_versionnee",
+        "emprise_reliee"
+      ],
+      "qualifier_etaye_then_indicatif": [
+        "croisement documenté ET conflit_potentiel/obstacle_confirme correctement qualifié; ouvrage éventuel à vérifier avant tout projet",
+        "croisement_detecte géométriquement fiable sans qualification de gêne"
+      ],
+      "absence_documentee": [
+        "absence de croisement établie pour la maille et le périmètre temporel/thématique analysé"
+      ],
+      "interdictions_et_limites": [
+        "Une intersection 2D seule ne prouve pas un obstacle.",
+        "L’absence de point SIPAF n’est pas preuve d’absence d’ouvrage.",
+        "Ne pas localiser ni prescrire directement un passage à faune."
+      ],
+      "references_officielles": [
+        "https://www.cerema.fr/fr/actualites/identification-priorisation-obstacles-aux-continuites"
+      ],
+      "rule_version": "m2-actions.spec-proposal-1",
+      "qualification_activation": "non_activee_sans_methode_familiale_approuvee_et_preuves_M2_controlees",
+      "family_schema_ref": "schema_actions_m2.json#/$defs/normalizedInput",
+      "professional_checks": [
+        "ouvrages et perméabilité existants",
+        "contexte faunistique et gestionnaire",
+        "sécurité et faisabilité technique"
+      ],
+      "fact_semantics_ref": "fact_semantics"
+    },
+    {
+      "rule_id": "R2",
+      "action_id": "A01",
+      "name": "Restauration de haies et continuités bocagères",
+      "question": "Lacune ou discontinuité du réseau de haies sur une sous-trame pertinente.",
+      "required_family_facts": [
+        "haies_inventaire_date",
+        "sous_trame_bocagere",
+        "continuite_reseau_referencee",
+        "analyse_lacune_documentee",
+        "couverture_thematique",
+        "emprise_reliee"
+      ],
+      "qualifier_etaye_then_indicatif": [
+        "lacune de réseau vérifiée par analyse spatiale/topologique documentée; connexion pertinente et couverture suffisante",
+        "trace réelle de discontinuité potentielle documentée, mais connexion ou complétude restant à vérifier"
+      ],
+      "absence_documentee": [
+        "continuité satisfaisante constatée selon méthode et couverture définies; pas de lacune candidate dans ce périmètre"
+      ],
+      "interdictions_et_limites": [
+        "Une faible densité de haies seule ne déclenche aucune plantation.",
+        "Le vide dans un inventaire incomplet ne prouve pas l’absence de haies.",
+        "Foncier, usages et biodiversité existante à examiner avant travaux."
+      ],
+      "references_officielles": [
+        "https://ofb.gouv.fr/gerer-durablement-ses-haies-et-en-creer-de-nouvelles",
+        "https://ofb.gouv.fr/que-nous-apportent-les-haies-et-le-bocage"
+      ],
+      "rule_version": "m2-actions.spec-proposal-1",
+      "qualification_activation": "non_activee_sans_methode_familiale_approuvee_et_preuves_M2_controlees",
+      "family_schema_ref": "schema_actions_m2.json#/$defs/normalizedInput",
+      "professional_checks": [
+        "état récent des haies et des milieux ouverts",
+        "essences et gestion",
+        "usages agricoles et foncier"
+      ],
+      "fact_semantics_ref": "fact_semantics"
+    },
+    {
+      "rule_id": "R3",
+      "action_id": "A03",
+      "name": "Renaturation de friches",
+      "question": "Friche officiellement recensée présentant une relation spatiale justifiée avec une continuité.",
+      "required_family_facts": [
+        "friche_id_et_statut",
+        "friche_source_datee",
+        "lien_geometrique_continuite",
+        "methode_voisinage_documentee",
+        "contexte_sol",
+        "emprise_reliee"
+      ],
+      "qualifier_etaye_then_indicatif": [
+        "friche recensée avec statut exploitable, relation spatiale documentée à une continuité et données essentielles suffisantes pour proposer une étude",
+        "friche recensée et indice de connexion plausible observé, mais relation/contextes encore incomplets"
+      ],
+      "absence_documentee": [
+        "aucune friche éligible/relation pertinente constatée selon inventaire et périmètre validés"
+      ],
+      "interdictions_et_limites": [
+        "Une friche n’est ni un terrain disponible ni un terrain dépourvu de valeur écologique.",
+        "Aucune distance de proximité par défaut sans source/méthode approuvée.",
+        "Pollution, usages et foncier sont des prérequis à vérifier, non des gains supposés."
+      ],
+      "references_officielles": [
+        "https://www.cerema.fr/fr/actualites/comment-identifier-potentiel-renaturation-large-echelle",
+        "https://www.cerema.fr/fr/actualites/gestion-court-long-terme-friches-preservation-biodiversite"
+      ],
+      "rule_version": "m2-actions.spec-proposal-1",
+      "qualification_activation": "non_activee_sans_methode_familiale_approuvee_et_preuves_M2_controlees",
+      "family_schema_ref": "schema_actions_m2.json#/$defs/normalizedInput",
+      "professional_checks": [
+        "histoire et pollution du site",
+        "valeur écologique et usages actuels",
+        "disponibilité foncière et faisabilité"
+      ],
+      "fact_semantics_ref": "fact_semantics"
+    },
+    {
+      "rule_id": "R4",
+      "action_id": "A02",
+      "name": "Mares et réseaux de mares",
+      "question": "Discontinuité ou isolement potentiel documenté dans un réseau de milieux humides.",
+      "required_family_facts": [
+        "inventaire_mares_date",
+        "sous_trame_humide",
+        "reseau_habitats_reference",
+        "analyse_isolement_documentee",
+        "contexte_hydrologique",
+        "emprise_reliee"
+      ],
+      "qualifier_etaye_then_indicatif": [
+        "isolement/lacune du réseau vérifié par une méthode adaptée, contexte hydrologique pertinent et couverture suffisante",
+        "indice documenté d’isolement du réseau, mais fonctionnement hydrologique/complétude à approfondir"
+      ],
+      "absence_documentee": [
+        "absence de lacune pertinente documentée avec inventaire, méthode, emprise et période validés"
+      ],
+      "interdictions_et_limites": [
+        "Aucune distance de dispersion universelle entre mares n’est présumée.",
+        "Une mare non inventoriée peut exister ; l’absence n’est déduite que d’une couverture attestée.",
+        "Aucune création de mare ni implantation précise sans diagnostic hydrologique et écologique."
+      ],
+      "references_officielles": [
+        "https://ofb.gouv.fr/restauration-de-mares"
+      ],
+      "rule_version": "m2-actions.spec-proposal-1",
+      "qualification_activation": "non_activee_sans_methode_familiale_approuvee_et_preuves_M2_controlees",
+      "family_schema_ref": "schema_actions_m2.json#/$defs/normalizedInput",
+      "professional_checks": [
+        "hydrologie et saisonnalité",
+        "habitats et qualité de l’eau",
+        "usages, foncier et avis naturaliste"
+      ],
+      "fact_semantics_ref": "fact_semantics"
+    }
+  ],
+  "non_goals": [
+    "aucun moteur M4 dans M2",
+    "aucune prédiction de bénéfice",
+    "aucun nombre arbitraire",
+    "ne pas inférer une preuve d’absence depuis l’absence de features",
+    "ne pas employer priorite_examen comme entrée",
+    "aucune hiérarchie entre actions",
+    "ne pas modifier proposal-1"
+  ],
+  "integration": "La qualification des champs signal et couverture_essentielle est une obligation amont de M2 selon chaque famille. Les tests de structure ne valident pas la pertinence écologique réelle. Toute preuve de non-applicabilité doit être circonstanciée.",
+  "contract_revision": "audit-2",
+  "id_source_status": "Référence déclarée non vérifiée localement ; appariements provisoires fournis par M2, confirmation M5 requise.",
+  "catalogue_status": "catalogue_actions.json M5 absent ; aucun appariement déclaré validé",
+  "schema_ref": "schema_actions_m2.json",
+  "input_profiles": {
+    "commonInput": "Abstraction documentaire des 52 oracles ; aucune validation scientifique de family_evidence.",
+    "normalizedInput": "Données M2 pour futur moteur M4 : structure contrôlée plus contrôles référentiels et scientifiques obligatoires."
+  },
+  "test_fixture_contract": {
+    "path": "tests/fixtures/m2/action_rule_cases.json",
+    "scope": "table_commune_abstraite_apres_qualification_non_executee",
+    "test_data": true,
+    "cases": 52,
+    "decisions": 40,
+    "invalid_cases": 12,
+    "multiproblemes": 2,
+    "oracles_changed": false,
+    "family_evidence_is_placeholder": true,
+    "missing_expected_fields": [
+      "motif_principal",
+      "limites",
+      "preuve_ids",
+      "error_code"
+    ],
+    "warning": "Les quatre faits spécifiques insuffisants restent des hypothèses de test, pas des observations géométriques contrôlées."
+  },
+  "documentary_action_ids": [
+    "A05",
+    "A06",
+    "A07",
+    "A08",
+    "A09",
+    "A10",
+    "A11",
+    "A12"
+  ],
+  "execution_guards": [
+    "V0 vérifie structure, appariements, unicité du couple maille_id/rule_id et références avant toute décision.",
+    "Les conditions A0–A8 sont appliquées par première correspondance ; A8 est bornée à ses deux cas déclarés.",
+    "Aucune sortie favorable ni absence établie n’est autorisée depuis signal seul ou depuis le profil abstrait des fixtures.",
+    "M4 contrôle les faits M2 et registres ou reçoit une attestation M2 contrôlée et liée à leur version ; sinon entrée refusée, pas validation par booléen.",
+    "Aucune qualification réelle R2–R4 ne peut être simulée comme active en attendant M1/M2.",
+    "Les quatre règles sont évaluées séparément ; une action n’efface pas les autres et aucun rang d’efficacité n’est produit."
+  ],
+  "referential_checks_required": [
+    "maille_id/rule_id/diagnostic_ids/phenomene/emprise concordants entre entrée, attestation et preuves",
+    "IDs et versions de sources résolus dans inventaire M1 ; IDs de preuves résolus et liés aux faits",
+    "methode_id/version/reference présents dans le registre approuvé M2, applicable à cette famille et au domaine",
+    "périodes ordonnées et compatibles, couvertures par thème/catégorie/sous-trame valides sur l’emprise exacte",
+    "preuve positive ou négative soutenant exactement le fait ; pas de vide cartographique interprété comme absence",
+    "pour R1, event_binding_sha256 courant, qualification et sources revalidées par QA existante",
+    "portée des contradictions et indépendance réellement examinées ; références internes non diffusées automatiquement"
+  ],
+  "validation_errors": [
+    {
+      "code": "E_ACTION_INPUT_INVALIDE",
+      "condition": "Erreur V0 globale accompagnée d’un ou plusieurs codes précis ; aucun statut d’action produit."
+    },
+    {
+      "code": "E_ACTION_TYPE_INVALIDE",
+      "condition": "Type ou valeur hors schéma, booléen pris pour identifiant, champ interdit dont priorite_examen."
+    },
+    {
+      "code": "E_ACTION_ID_INCONNU",
+      "condition": "Règle/action inconnue ou appariement différent de R1/A04, R2/A01, R3/A03, R4/A02."
+    },
+    {
+      "code": "E_ACTION_DECISION_DUPLIQUE",
+      "condition": "Couple maille_id/rule_id évalué deux fois ; le contexte global est contrôlé par M4."
+    },
+    {
+      "code": "E_ACTION_REFERENCE_NON_APPLICABILITE",
+      "condition": "Non-applicabilité sans référence."
+    },
+    {
+      "code": "E_ACTION_METHODE_SANS_REFERENCE",
+      "condition": "methode_validee=true sans référence."
+    },
+    {
+      "code": "E_ACTION_PREUVE_POSITIVE_ABSENTE",
+      "condition": "etaye/indicatif sans preuve positive."
+    },
+    {
+      "code": "E_ACTION_ABSENCE_NON_DOCUMENTEE",
+      "condition": "Absence affirmée sans couverture suffisante ou preuve négative."
+    },
+    {
+      "code": "E_ACTION_ETAYAGE_COUVERTURE_INSUFFISANTE",
+      "condition": "etaye avec couverture essentielle partielle/insuffisante."
+    },
+    {
+      "code": "E_ACTION_NON_APPLICABILITE_INCOHERENTE",
+      "condition": "Non-applicabilité déclarée avec signal etaye/indicatif."
+    },
+    {
+      "code": "E_ACTION_CONTRADICTION_SANS_REFERENCE",
+      "condition": "Contradiction confirmée sans référence."
+    },
+    {
+      "code": "E_ACTION_ATTESTATION_FAMILLE_INVALIDE",
+      "condition": "Attestation manquante, périmée, non contrôlée ou ne satisfaisant pas les faits familiaux."
+    },
+    {
+      "code": "E_ACTION_SOURCE_PREUVE_DISCORDANTE",
+      "condition": "Sources, preuves, objet, période ou emprise discordants."
+    },
+    {
+      "code": "E_ACTION_TABLE_NON_TOTALE",
+      "condition": "Entrée admissible sans règle déclarée après qualification et validation."
+    }
+  ],
+  "public_display_allowlist": [
+    "maille_id",
+    "rule_id",
+    "action_id",
+    "rule_version",
+    "ruleset_version",
+    "contract_revision",
+    "statut",
+    "regle_decision",
+    "motif_principal",
+    "justification_courte",
+    "limites_publiques",
+    "prerequis_publics",
+    "diffusion"
+  ],
+  "public_display_conditions": "Textes et codes relus M2/M5 ; revue droits M1/M4. Aucune preuve brute, référence privée ou géométrie sensible par recopie.",
+  "evidence_profiles": {
+    "familyEvidence": "Attestation des faits positifs/négatifs contrôlés ; pas une signature ni un remplacement des registres.",
+    "pendingEvidence": "Signal inconnu, données M1/manquants explicités ; aucune source ou diagnostic fictif requis.",
+    "domainEvidence": "Non-applicabilité positivement documentée selon une méthode de domaine, sans assimiler un manque de source à cette exclusion."
+  },
+  "fact_semantics": {
+    "evenement_route_corridor_reference": {
+      "rules": [
+        "R1"
+      ],
+      "value_schema_ref": "schema_actions_m2.json#/$defs/eventReferenceValue",
+      "fact_schema_ref": "schema_actions_m2.json#/$defs/fact_evenement_route_corridor_reference",
+      "meaning": "Références de l’intersection M2, de sa géométrie et de ses deux sources.",
+      "documented_does_not_mean_trigger": true,
+      "etaye_value_constraints": {},
+      "absence_value_constraints": null,
+      "external_check_required": "Résoudre le conflit et les sources, vérifier intersection réelle, géométrie courante et empreinte ; aucune gêne n’est inférée de XY.",
+      "blocks_real_data_until_method_and_references_checked": true
+    },
+    "statut_croisement": {
+      "rules": [
+        "R1"
+      ],
+      "value_schema_ref": "schema_actions_m2.json#/$defs/crossingStatusValue",
+      "fact_schema_ref": "schema_actions_m2.json#/$defs/fact_statut_croisement",
+      "meaning": "Qualification M2 de l’événement, distincte de la simple détection.",
+      "documented_does_not_mean_trigger": true,
+      "etaye_value_constraints": {
+        "enum": [
+          "conflit_potentiel",
+          "obstacle_confirme"
+        ]
+      },
+      "absence_value_constraints": null,
+      "external_check_required": "Rejouer le contrôle QA et vérifier règle contextuelle approuvée ou expertise externe pertinente ; localisation résolue.",
+      "blocks_real_data_until_method_and_references_checked": true
+    },
+    "validite_positive": {
+      "rules": [
+        "R1"
+      ],
+      "value_schema_ref": "schema_actions_m2.json#/$defs/positiveValidityValue",
+      "fact_schema_ref": "schema_actions_m2.json#/$defs/fact_validite_positive",
+      "meaning": "Assertion de capacité positive QA pour cette observation précise, sans qualification automatique.",
+      "documented_does_not_mean_trigger": true,
+      "etaye_value_constraints": {
+        "const": true
+      },
+      "absence_value_constraints": null,
+      "external_check_required": "Vérifier les résultats de derive_positive_evidence, l’identité de l’événement et la portée exacte de la revue.",
+      "blocks_real_data_until_method_and_references_checked": true
+    },
+    "sous_trame_documentee": {
+      "rules": [
+        "R1"
+      ],
+      "value_schema_ref": "schema_actions_m2.json#/$defs/subframeValue",
+      "fact_schema_ref": "schema_actions_m2.json#/$defs/fact_sous_trame_documentee",
+      "meaning": "Sous-trame réellement référencée et pertinence pour le phénomène routier.",
+      "documented_does_not_mean_trigger": true,
+      "etaye_value_constraints": {
+        "properties": {
+          "pertinence": {
+            "const": "etablie"
+          }
+        }
+      },
+      "absence_value_constraints": null,
+      "external_check_required": "Vérifier le code/version dans le dictionnaire M1 et la pertinence déclarée selon une méthode M2 approuvée.",
+      "blocks_real_data_until_method_and_references_checked": true
+    },
+    "route_source_versionnee": {
+      "rules": [
+        "R1"
+      ],
+      "value_schema_ref": "schema_actions_m2.json#/$defs/routeSourcesValue",
+      "fact_schema_ref": "schema_actions_m2.json#/$defs/fact_route_source_versionnee",
+      "meaning": "Identités et versions des objets routiers réellement utilisés.",
+      "documented_does_not_mean_trigger": true,
+      "etaye_value_constraints": {},
+      "absence_value_constraints": null,
+      "external_check_required": "Résoudre chaque objet dans les sources, comparer les versions et le lien à l’événement ; pas seulement un nom de fichier.",
+      "blocks_real_data_until_method_and_references_checked": true
+    },
+    "emprise_reliee": {
+      "rules": [
+        "R1",
+        "R2",
+        "R3",
+        "R4"
+      ],
+      "value_schema_ref": "schema_actions_m2.json#/$defs/extentRelationValue",
+      "fact_schema_ref": "schema_actions_m2.json#/$defs/fact_emprise_reliee",
+      "meaning": "Lien géométrique des objets concernés à l’emprise étudiée.",
+      "documented_does_not_mean_trigger": true,
+      "etaye_value_constraints": {
+        "properties": {
+          "relation": {
+            "enum": [
+              "interieur",
+              "interieur_et_frontiere"
+            ]
+          }
+        }
+      },
+      "absence_value_constraints": null,
+      "external_check_required": "Vérifier les géométries référencées et la relation ; frontiere_seule n’établit pas un fait intérieur au pilote.",
+      "blocks_real_data_until_method_and_references_checked": true
+    },
+    "haies_inventaire_date": {
+      "rules": [
+        "R2"
+      ],
+      "value_schema_ref": "schema_actions_m2.json#/$defs/inventoryValue",
+      "fact_schema_ref": "schema_actions_m2.json#/$defs/fact_haies_inventaire_date",
+      "meaning": "Provenance et période de l’inventaire de haies utilisé, pas une densité.",
+      "documented_does_not_mean_trigger": true,
+      "etaye_value_constraints": {},
+      "absence_value_constraints": null,
+      "external_check_required": "Vérifier source/millésime, précision et compatibilité de période ; ne pas déduire une lacune de la densité.",
+      "blocks_real_data_until_method_and_references_checked": true
+    },
+    "sous_trame_bocagere": {
+      "rules": [
+        "R2"
+      ],
+      "value_schema_ref": "schema_actions_m2.json#/$defs/subframeValue",
+      "fact_schema_ref": "schema_actions_m2.json#/$defs/fact_sous_trame_bocagere",
+      "meaning": "Sous-trame dont le contexte bocager est identifié par la nomenclature M1.",
+      "documented_does_not_mean_trigger": true,
+      "etaye_value_constraints": {
+        "properties": {
+          "pertinence": {
+            "const": "etablie"
+          }
+        }
+      },
+      "absence_value_constraints": null,
+      "external_check_required": "Contrôler le sens officiel du code et la pertinence bocagère ; aucune classe n’est inférée de son libellé.",
+      "blocks_real_data_until_method_and_references_checked": true
+    },
+    "continuite_reseau_referencee": {
+      "rules": [
+        "R2"
+      ],
+      "value_schema_ref": "schema_actions_m2.json#/$defs/networkValue",
+      "fact_schema_ref": "schema_actions_m2.json#/$defs/fact_continuite_reseau_referencee",
+      "meaning": "Réseau et objets de haies/habitats effectivement analysés.",
+      "documented_does_not_mean_trigger": true,
+      "etaye_value_constraints": {},
+      "absence_value_constraints": null,
+      "external_check_required": "Résoudre réseau, géométrie et sous-trame ; la présence d’un réseau ne prouve pas sa fonctionnalité ou une lacune.",
+      "blocks_real_data_until_method_and_references_checked": true
+    },
+    "analyse_lacune_documentee": {
+      "rules": [
+        "R2"
+      ],
+      "value_schema_ref": "schema_actions_m2.json#/$defs/externalEvaluationValue",
+      "fact_schema_ref": "schema_actions_m2.json#/$defs/fact_analyse_lacune_documentee",
+      "meaning": "Résultat d’une analyse de lacune, pouvant aussi conclure à son absence ou rester indéterminé.",
+      "documented_does_not_mean_trigger": true,
+      "etaye_value_constraints": {
+        "properties": {
+          "conclusion": {
+            "const": "declencheur_etabli"
+          }
+        }
+      },
+      "absence_value_constraints": null,
+      "external_check_required": "Méthode de lacune/topologie approuvée, domaine et paramètres justifiés, données et rapport contrôlés. Aucun seuil de densité ou connectivité par défaut ; bloquant sans méthode M1/M2.",
+      "blocks_real_data_until_method_and_references_checked": true
+    },
+    "couverture_thematique": {
+      "rules": [
+        "R2"
+      ],
+      "value_schema_ref": "schema_actions_m2.json#/$defs/thematicCoverageValue",
+      "fact_schema_ref": "schema_actions_m2.json#/$defs/fact_couverture_thematique",
+      "meaning": "Portée des catégories et sous-trames nécessaires à la conclusion.",
+      "documented_does_not_mean_trigger": true,
+      "etaye_value_constraints": {
+        "properties": {
+          "conclusion": {
+            "const": "suffisante_pour_faits_requis"
+          }
+        }
+      },
+      "absence_value_constraints": null,
+      "external_check_required": "Comparer ensembles requis/couverts et exigences du registre de méthode ; une liste requise vide doit être justifiée. Ne pas confondre couverture des faits et exhaustivité SIG.",
+      "blocks_real_data_until_method_and_references_checked": true
+    },
+    "friche_id_et_statut": {
+      "rules": [
+        "R3"
+      ],
+      "value_schema_ref": "schema_actions_m2.json#/$defs/brownfieldValue",
+      "fact_schema_ref": "schema_actions_m2.json#/$defs/fact_friche_id_et_statut",
+      "meaning": "Site recensé, statut source et admissibilité à une étude de continuité.",
+      "documented_does_not_mean_trigger": true,
+      "etaye_value_constraints": {
+        "properties": {
+          "eligibilite_etude": {
+            "const": "etablie"
+          }
+        }
+      },
+      "absence_value_constraints": null,
+      "external_check_required": "Résoudre l’identifiant, la nomenclature du statut et son interprétation approuvée ; ne pas déduire disponibilité foncière ou absence de valeur écologique.",
+      "blocks_real_data_until_method_and_references_checked": true
+    },
+    "friche_source_datee": {
+      "rules": [
+        "R3"
+      ],
+      "value_schema_ref": "schema_actions_m2.json#/$defs/inventoryValue",
+      "fact_schema_ref": "schema_actions_m2.json#/$defs/fact_friche_source_datee",
+      "meaning": "Sources et périodes de l’inventaire de friches réellement exploité.",
+      "documented_does_not_mean_trigger": true,
+      "etaye_value_constraints": {},
+      "absence_value_constraints": null,
+      "external_check_required": "Vérifier le statut temporel du site et la compatibilité des millésimes ; aucune péremption arbitraire en nombre d’années.",
+      "blocks_real_data_until_method_and_references_checked": true
+    },
+    "lien_geometrique_continuite": {
+      "rules": [
+        "R3"
+      ],
+      "value_schema_ref": "schema_actions_m2.json#/$defs/spatialLinkValue",
+      "fact_schema_ref": "schema_actions_m2.json#/$defs/fact_lien_geometrique_continuite",
+      "meaning": "Résultat d’une relation géométrique entre une friche et une continuité identifiées.",
+      "documented_does_not_mean_trigger": true,
+      "etaye_value_constraints": {
+        "properties": {
+          "conclusion": {
+            "const": "declencheur_etabli"
+          }
+        }
+      },
+      "absence_value_constraints": null,
+      "external_check_required": "Résoudre les deux objets et le calcul référencé ; vérifier la méthode de voisinage approuvée et ses paramètres. Aucun rayon par défaut ; bloquant sans méthode M1/M2.",
+      "blocks_real_data_until_method_and_references_checked": true
+    },
+    "methode_voisinage_documentee": {
+      "rules": [
+        "R3"
+      ],
+      "value_schema_ref": "schema_actions_m2.json#/$defs/methodValue",
+      "fact_schema_ref": "schema_actions_m2.json#/$defs/fact_methode_voisinage_documentee",
+      "meaning": "Définition et domaine de la méthode de voisinage, pas une mesure de distance.",
+      "documented_does_not_mean_trigger": true,
+      "etaye_value_constraints": {},
+      "absence_value_constraints": null,
+      "external_check_required": "Vérifier registre approuvé et méthode effectivement utilisée dans le résultat ; des sous-méthodes distinctes sont possibles si autorisées, jamais assimilées par simple égalité de texte.",
+      "blocks_real_data_until_method_and_references_checked": true
+    },
+    "contexte_sol": {
+      "rules": [
+        "R3"
+      ],
+      "value_schema_ref": "schema_actions_m2.json#/$defs/soilContextValue",
+      "fact_schema_ref": "schema_actions_m2.json#/$defs/fact_contexte_sol",
+      "meaning": "Codes d’occupation des sols observés avec leur nomenclature et interprétation.",
+      "documented_does_not_mean_trigger": true,
+      "etaye_value_constraints": {},
+      "absence_value_constraints": null,
+      "external_check_required": "Vérifier codes, source et période ; ce contexte n’atteste ni dépollution, ni faisabilité, ni efficacité de renaturation.",
+      "blocks_real_data_until_method_and_references_checked": true
+    },
+    "inventaire_mares_date": {
+      "rules": [
+        "R4"
+      ],
+      "value_schema_ref": "schema_actions_m2.json#/$defs/inventoryValue",
+      "fact_schema_ref": "schema_actions_m2.json#/$defs/fact_inventaire_mares_date",
+      "meaning": "Provenance et période de l’inventaire des mares/habitats humides.",
+      "documented_does_not_mean_trigger": true,
+      "etaye_value_constraints": {},
+      "absence_value_constraints": null,
+      "external_check_required": "Vérifier inventaire, saisonnalité pertinente et complétude pour les assertions négatives ; zéro point ne signifie pas zéro mare.",
+      "blocks_real_data_until_method_and_references_checked": true
+    },
+    "sous_trame_humide": {
+      "rules": [
+        "R4"
+      ],
+      "value_schema_ref": "schema_actions_m2.json#/$defs/subframeValue",
+      "fact_schema_ref": "schema_actions_m2.json#/$defs/fact_sous_trame_humide",
+      "meaning": "Sous-trame pertinente pour les habitats humides, selon référentiel identifié.",
+      "documented_does_not_mean_trigger": true,
+      "etaye_value_constraints": {
+        "properties": {
+          "pertinence": {
+            "const": "etablie"
+          }
+        }
+      },
+      "absence_value_constraints": null,
+      "external_check_required": "Vérifier nomenclature et pertinence pour les milieux concernés ; ne pas utiliser une distance de dispersion universelle.",
+      "blocks_real_data_until_method_and_references_checked": true
+    },
+    "reseau_habitats_reference": {
+      "rules": [
+        "R4"
+      ],
+      "value_schema_ref": "schema_actions_m2.json#/$defs/networkValue",
+      "fact_schema_ref": "schema_actions_m2.json#/$defs/fact_reseau_habitats_reference",
+      "meaning": "Réseau d’habitats humides et objets réellement étudiés.",
+      "documented_does_not_mean_trigger": true,
+      "etaye_value_constraints": {},
+      "absence_value_constraints": null,
+      "external_check_required": "Résoudre habitats, géométries, sous-trame et période ; ne pas assimiler connectivité structurelle et fonctionnement biologique.",
+      "blocks_real_data_until_method_and_references_checked": true
+    },
+    "analyse_isolement_documentee": {
+      "rules": [
+        "R4"
+      ],
+      "value_schema_ref": "schema_actions_m2.json#/$defs/externalEvaluationValue",
+      "fact_schema_ref": "schema_actions_m2.json#/$defs/fact_analyse_isolement_documentee",
+      "meaning": "Conclusion d’une analyse d’isolement/lacune du réseau humide.",
+      "documented_does_not_mean_trigger": true,
+      "etaye_value_constraints": {
+        "properties": {
+          "conclusion": {
+            "const": "declencheur_etabli"
+          }
+        }
+      },
+      "absence_value_constraints": null,
+      "external_check_required": "Contrôler méthode adaptée, domaine écologique, données et rapport. Aucun critère universel d’isolement ; bloquant sans méthode M1/M2.",
+      "blocks_real_data_until_method_and_references_checked": true
+    },
+    "contexte_hydrologique": {
+      "rules": [
+        "R4"
+      ],
+      "value_schema_ref": "schema_actions_m2.json#/$defs/hydrologicalContextValue",
+      "fact_schema_ref": "schema_actions_m2.json#/$defs/fact_contexte_hydrologique",
+      "meaning": "Analyse référencée de l’adéquation hydrologique à une étude, pas une autorisation de créer une mare.",
+      "documented_does_not_mean_trigger": true,
+      "etaye_value_constraints": {
+        "properties": {
+          "adequation_etude": {
+            "const": "etablie"
+          }
+        }
+      },
+      "absence_value_constraints": null,
+      "external_check_required": "Contrôler méthode, saison/période et revue hydrologique compétente ; une donnée manquante reste inconnue. Bloquant pour étayage sans méthode M1/M2.",
+      "blocks_real_data_until_method_and_references_checked": true
+    },
+    "absence_declencheur": {
+      "rules": [
+        "R1",
+        "R2",
+        "R3",
+        "R4"
+      ],
+      "value_schema_ref": "schema_actions_m2.json#/$defs/absenceValue",
+      "fact_schema_ref": "schema_actions_m2.json#/$defs/fact_absence_declencheur",
+      "meaning": "True affirme que l’absence du déclencheur est établie dans le périmètre/méthode/période ; false ne prouve ni absence ni présence.",
+      "documented_does_not_mean_trigger": true,
+      "etaye_value_constraints": null,
+      "absence_value_constraints": {
+        "const": true
+      },
+      "external_check_required": "Vérifier analyse effectuée, preuves négatives, méthode approuvée, couvertures thématique/spatiale/temporelle et absence d’observation pertinente ; ne pas inférer depuis une liste vide.",
+      "blocks_real_data_until_method_and_references_checked": true
+    }
+  },
+  "interobject_checks": [
+    {
+      "id": "REF_MAILLE",
+      "relation": "input.maille_id = attestation.maille_id, puis result.maille_id",
+      "schema_support": "non",
+      "control": "Égalité typée exacte ; 1 et \"1\" sont distincts.",
+      "responsible": "M4 avec méthodes/attestations M2 et registres M1",
+      "blocking_for_real_data": true,
+      "failure_code": "E_ACTION_SOURCE_PREUVE_DISCORDANTE"
+    },
+    {
+      "id": "REF_DIAGNOSTICS",
+      "relation": "input.diagnostic_ids = attestation.diagnostic_ids ; résultat relié aux diagnostics examinés",
+      "schema_support": "non",
+      "control": "Comparer les ensembles typés, sans dépendre de l’ordre et sans inventer un diagnostic manquant.",
+      "responsible": "M4 avec méthodes/attestations M2 et registres M1",
+      "blocking_for_real_data": true,
+      "failure_code": "E_ACTION_SOURCE_PREUVE_DISCORDANTE"
+    },
+    {
+      "id": "REF_PREUVES",
+      "relation": "faits.preuve_ids inclus dans attestation.preuve_ids, eux-mêmes reliés aux preuves positives/négatives de l’entrée",
+      "schema_support": "non",
+      "control": "Résoudre les registres et la polarité ; existence d’une chaîne ou d’un ID ne prouve pas le fait.",
+      "responsible": "M4 avec méthodes/attestations M2 et registres M1",
+      "blocking_for_real_data": true,
+      "failure_code": "E_ACTION_SOURCE_PREUVE_DISCORDANTE"
+    },
+    {
+      "id": "REF_FAMILLE",
+      "relation": "appariement rule_id/action_id et famille des faits",
+      "schema_support": "partiel",
+      "control": "Schéma : appariements et noms de faits par famille ; M4 : domaine de chaque preuve et méthode.",
+      "responsible": "M4 avec méthodes/attestations M2 et registres M1",
+      "blocking_for_real_data": true,
+      "failure_code": "E_ACTION_SOURCE_PREUVE_DISCORDANTE"
+    },
+    {
+      "id": "REF_OBJETS_PHENOMENES",
+      "relation": "objets/réseaux/friche/continuité/conflit et phenomene_id de l’attestation",
+      "schema_support": "non",
+      "control": "Résoudre les objets et leur lien au phénomène ; des IDs bien typés ne certifient pas leur identité. Pour R1, comparer aussi les liaisons et empreintes entre faits et attestation à l’événement courant ; pour R2/R4 les codes du réseau à la sous-trame, pour R3 les identités friche/continuité et leurs inventaires.",
+      "responsible": "M4 avec méthodes/attestations M2 et registres M1",
+      "blocking_for_real_data": true,
+      "failure_code": "E_ACTION_SOURCE_PREUVE_DISCORDANTE"
+    },
+    {
+      "id": "REF_METHODES",
+      "relation": "methode_id/version/reference de l’attestation et des résultats/sous-méthodes",
+      "schema_support": "non",
+      "control": "Vérifier le registre approuvé et la version réellement appliquée pour ce domaine ; ne pas imposer l’égalité de méthodes distinctes autorisées.",
+      "responsible": "M4 avec méthodes/attestations M2 et registres M1",
+      "blocking_for_real_data": true,
+      "failure_code": "E_ACTION_SOURCE_PREUVE_DISCORDANTE"
+    },
+    {
+      "id": "REF_EMPRISES",
+      "relation": "emprise du fait, de l’attestation, maille et couvertures",
+      "schema_support": "non",
+      "control": "Vérifier identité pertinente ou inclusion géométrique approuvée ; une couverture plus large peut être valable, sans tampon inventé.",
+      "responsible": "M4 avec méthodes/attestations M2 et registres M1",
+      "blocking_for_real_data": true,
+      "failure_code": "E_ACTION_SOURCE_PREUVE_DISCORDANTE"
+    },
+    {
+      "id": "REF_PERIODES",
+      "relation": "debut <= fin et compatibilité des périodes d’attestation, sources, couvertures et analyses",
+      "schema_support": "non",
+      "control": "Les formats ISO sont contrôlés avec FormatChecker ; ordre et compatibilité restent à M4 selon la méthode approuvée, sans durée universelle.",
+      "responsible": "M4 avec méthodes/attestations M2 et registres M1",
+      "blocking_for_real_data": true,
+      "failure_code": "E_ACTION_SOURCE_PREUVE_DISCORDANTE"
+    },
+    {
+      "id": "REF_RESULTAT",
+      "relation": "règle/motif/statut et preuves du résultat reliés aux entrées effectivement contrôlées",
+      "schema_support": "partiel",
+      "control": "Le schéma contrôle les associations A/statut/motif, pas l’exécution des prédicats ni leur précédence sur les entrées.",
+      "responsible": "M4 avec méthodes/attestations M2 et registres M1",
+      "blocking_for_real_data": true,
+      "failure_code": "E_ACTION_SOURCE_PREUVE_DISCORDANTE"
+    },
+    {
+      "id": "REF_DIFFUSION",
+      "relation": "projection publique dérivée du résultat validé et des droits applicables",
+      "schema_support": "non",
+      "control": "Liste blanche et revue des textes ; jamais de copie directe des preuves ou références privées.",
+      "responsible": "M4 avec méthodes/attestations M2 et registres M1",
+      "blocking_for_real_data": true,
+      "failure_code": "E_ACTION_ATTESTATION_FAMILLE_INVALIDE"
+    },
+    {
+      "id": "REF_COUVERTURES",
+      "relation": "catégories/sous-trames/emprise/périodes requises par la méthode comparées aux couvertures fournies",
+      "schema_support": "partiel",
+      "control": "Le schéma contrôle les catégories d’état et exige validated pour une absence ; M4 vérifie les ensembles, leur justification, la complétude et la portée effective. Listes vides : justification de méthode obligatoire.",
+      "responsible": "M4 avec exigences et registres M1/M2",
+      "blocking_for_real_data": true,
+      "failure_code": "E_ACTION_SOURCE_PREUVE_DISCORDANTE"
+    },
+    {
+      "id": "REF_DECISIONS_UNIQUES",
+      "relation": "unicité typée de (maille_id, rule_id) dans le lot de résultats",
+      "schema_support": "non",
+      "control": "actionResult décrit un objet, pas un lot. M4 refuse les doublons de décision ; conserve plusieurs familles et IDs entiers/chaînes sans fusion ni clé JSON coercitive.",
+      "responsible": "M4",
+      "blocking_for_real_data": true,
+      "failure_code": "E_ACTION_DECISION_DUPLIQUE"
+    }
+  ],
+  "schema_limitations": "JSON Schema valide types, valeurs nommées, états et associations finies. Il ne compare pas arbitrairement deux valeurs d’instances ni ne résout registres, géométries, méthodes ou vérité scientifique.",
+  "result_profiles": {
+    "actionResult": "Sortie interne typée ; contrôle référentiel documenté requis pour résultats favorables ou non-retenue.",
+    "actionPublicProjection": "Projection explicite par liste blanche après contrôle interne et revue des droits ; aucune preuve privée.",
+    "actionValidationError": "Erreur V0/contrat distincte ; jamais un cinquième statut d’action."
+  },
+  "semantic_real_data_blockers": [
+    "R1 : QA courante, sources/événement/empreinte et qualification approuvée résolus.",
+    "R2 : méthode de lacune/topologie et interprétation bocagère approuvées sur données M1, aucun seuil par défaut.",
+    "R3 : statut de friche et méthode de relation/voisinage approuvés, aucun rayon par défaut.",
+    "R4 : méthode d’isolement et revue hydrologique pertinentes approuvées, aucune distance de dispersion universelle.",
+    "Toute assertion négative : absence_declencheur=true, méthode approuvée, preuves négatives et couvertures adéquates contrôlées."
+  ]
+}

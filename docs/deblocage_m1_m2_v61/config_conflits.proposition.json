@@ -1,0 +1,20 @@
+{
+  "grid": {"id_column": "maille_id", "expected_crs": "EPSG:2154"},
+  "territory": {"expected_crs": "EPSG:2154"},
+  "routes": {
+    "id_column": "route_id", "category_column": "categorie",
+    "expected_crs": "EPSG:2154",
+    "coverage": {
+      "status": "unknown", "source_id": "BDTOPO_ROUTES",
+      "producer": "IGN"
+    }
+  },
+  "corridors": {
+    "id_column": "objet_id", "category_column": "classe_corridor",
+    "expected_crs": "EPSG:2154",
+    "coverage": {
+      "status": "unknown", "source_id": "TVB_COR_BN",
+      "producer": "DREAL Normandie", "vintage": "2014"
+    }
+  }
+}

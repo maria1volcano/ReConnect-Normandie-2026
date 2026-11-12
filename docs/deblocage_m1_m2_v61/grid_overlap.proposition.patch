@@ -1,0 +1,89 @@
+--- a/analysis/validate_inputs.py
++++ b/analysis/validate_inputs.py
+@@ -4,6 +4,7 @@
+ 
+ from dataclasses import asdict, dataclass, field
+ from pathlib import Path
++import math
+ from typing import Any, Literal
+ 
+ import geopandas as gpd
+@@ -210,12 +211,58 @@
+     return frame
+ 
+ 
++def _grid_overlap_diagnostic(projected: gpd.GeoDataFrame, grid_union) -> dict:
++    """Budget numérique proposé, sans déplacement ni réparation des mailles.
++
++    Ce budget d'ingénierie n'est pas une borne certifiée de l'erreur GEOS.
++    """
++    coordinates = get_coordinates(projected.geometry.to_numpy())
++    ux = max((math.ulp(float(v)) for v in coordinates[:, 0]), default=0.0)
++    uy = max((math.ulp(float(v)) for v in coordinates[:, 1]), default=0.0)
++    delta = math.hypot(ux, uy)
++    areas = projected.geometry.area.tolist()
++    excess = math.fsum(areas) - grid_union.area
++    global_budget = (delta * math.fsum(projected.geometry.length.tolist())
++                     + math.fsum(math.ulp(a) for a in areas) + math.ulp(grid_union.area))
++
++    def polygon_metrics(geometry):
++        if geometry.geom_type == "Polygon":
++            return geometry.area, geometry.length
++        if geometry.geom_type in {"MultiPolygon", "GeometryCollection"}:
++            parts = [polygon_metrics(part) for part in geometry.geoms]
++            return math.fsum(a for a, _ in parts), math.fsum(p for _, p in parts)
++        return 0.0, 0.0
++
++    positive, rejected = [], []
++    for i, left in enumerate(projected.geometry):
++        for j in sorted(projected.sindex.query(left, predicate="intersects")):
++            if j <= i:
++                continue
++            area, perimeter = polygon_metrics(left.intersection(projected.geometry.iloc[j]))
++            if area <= 0:
++                continue
++            budget = delta * perimeter + math.pi * delta**2
++            item = {"left": str(projected.iloc[i].maille_id),
++                    "right": str(projected.iloc[j].maille_id),
++                    "area_m2": area, "numeric_budget_m2": budget}
++            positive.append(item)
++            if area > min(AREA_TOLERANCE_M2, budget):
++                rejected.append(item)
++    return {"positive_pair_count": len(positive), "rejected_pairs": rejected,
++            "max_pair_area_m2": max((p["area_m2"] for p in positive), default=0.0),
++            "sum_pair_area_m2": math.fsum(p["area_m2"] for p in positive),
++            "coordinate_ulp_diagonal_m": delta, "global_numeric_budget_m2": global_budget,
++            "compensated_overlap_m2": excess,
++            "error": bool(rejected or excess > max(AREA_TOLERANCE_M2, global_budget))}
++
++
+ def validate_spatial_coverage(
+     grid: gpd.GeoDataFrame, territory: gpd.GeoDataFrame,
+     report: ValidationReport,
+ ) -> None:
+     """Contrôle la couverture géométrique de T ; ne déduit aucune couverture source."""
+-    grid_union = union_all(grid.to_crs(METRIC_CRS).geometry.to_numpy())
++    projected = grid.to_crs(METRIC_CRS)
++    grid_union = union_all(projected.geometry.to_numpy())
+     study_union = union_all(territory.to_crs(METRIC_CRS).geometry.to_numpy())
+     uncovered = float(study_union.difference(grid_union).area)
+     overlapping = float(grid.to_crs(METRIC_CRS).geometry.area.sum() - grid_union.area)
+@@ -227,10 +274,15 @@
+     if uncovered > AREA_TOLERANCE_M2:
+         report.add("error", "grid_coverage_gap", "grid", "La grille ne couvre pas tout le territoire étudié.",
+                    uncovered_area_m2=uncovered)
+-    if overlapping > AREA_TOLERANCE_M2:
++    overlap_diagnostic = _grid_overlap_diagnostic(projected, grid_union)
++    if overlap_diagnostic["error"]:
+         report.add("error", "grid_overlap", "grid",
+-                   "Chevauchement surfacique de mailles : la grille officielle ne doit pas compter deux fois des surfaces.",
+-                   overlap_area_m2=overlapping)
++                   "Chevauchement surfacique non expliqué par le budget numérique contrôlé.",
++                   overlap_area_m2=overlapping, **overlap_diagnostic)
++    elif overlap_diagnostic["positive_pair_count"] or overlapping > AREA_TOLERANCE_M2:
++        report.add("warning", "grid_overlap_numerical_residue", "grid",
++                   "Micro-intersections conservées : contrôle numérique local et global satisfait, sans réparation.",
++                   overlap_area_m2=overlapping, **overlap_diagnostic)
+     outside = grid.to_crs(METRIC_CRS).geometry.intersection(study_union).area <= 0
+     if outside.any():
+         report.add("warning", "cells_outside_territory", "grid",

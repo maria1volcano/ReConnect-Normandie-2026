@@ -1,0 +1,35 @@
+{
+  "version": "m2-annotation-documentaire-caen-nord-0.1",
+  "objet": "ordre_de_verification_documentaire_SEULEMENT",
+  "scientific_validation": false,
+  "legend": {
+    "rouge": "#D64545",
+    "orange": "#EF9229",
+    "jaune": "#E8C84A",
+    "gris": "#9098A4"
+  },
+  "rules": [
+    {
+      "id": "V1",
+      "couleur": "rouge",
+      "condition": "route carrossable en service au sol intersecte linéairement une matrice fragile; réservoir de surface positive dans même maille",
+      "effet": "priorité de vérification documentaire; aucune gravité écologique déterminée"
+    },
+    {
+      "id": "V2",
+      "couleur": "orange",
+      "condition": "autre intersection linéaire route–matrice documentée"
+    },
+    {
+      "id": "V3",
+      "couleur": "jaune",
+      "condition": "pas de croisement routier 2D observé; surface positive matrice/réservoir"
+    },
+    {
+      "id": "V4",
+      "couleur": "gris",
+      "condition": "aucun signal suffisant dans les sources mobilisées"
+    }
+  ],
+  "note": "Ne PAS implémenter comme D/S, ni renommer en priorité écologique. Pas de seuil d’événements, pas de score écologique."
+}

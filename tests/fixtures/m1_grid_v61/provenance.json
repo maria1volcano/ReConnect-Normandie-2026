@@ -1,0 +1,14 @@
+{
+  "commit": "fc76d6230994af9aef27f42bb42e0374cd0c8251",
+  "scope": "Grille M1 réelle figée pour régression numérique ; aucune conclusion écologique. Générateur original copié sans modification, appel pur generate_grid uniquement.",
+  "files": {
+    "generate_hex_grid.py": {
+      "source_path": "analysis/generate_hex_grid.py",
+      "sha256": "ab6408a08affd9f09856be8b8fc13506636f369fa4fb88b354bf7f360baf9ecb"
+    },
+    "grille_pilote_wgs84.geojson": {
+      "source_path": "data/public/grille_pilote_wgs84.geojson",
+      "sha256": "c45387b98bec7bd7978ba70e44099107d5ddb2f28080927e165a8dfc3c4ed7c1"
+    }
+  }
+}

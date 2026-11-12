@@ -1,0 +1,565 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReConnect M2→M4 — proposition 1 — mailles",
+  "description": "Profil régional RFC 7946, XY longitude/latitude CRS84 ; démonstration synthétique uniquement. La validité topologique et les références croisées exigent le validateur Python.",
+  "type": "object",
+  "properties": {
+    "type": {
+      "const": "FeatureCollection"
+    },
+    "contract_version": {
+      "const": "m2-m4.proposal-1"
+    },
+    "test_data": {
+      "const": true
+    },
+    "statut_diffusion": {
+      "const": "synthetique_uniquement"
+    },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "run_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "grid_version": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "method_version": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "dataset_version": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "run_id",
+        "grid_version",
+        "method_version",
+        "dataset_version"
+      ],
+      "additionalProperties": false
+    },
+    "resume": {
+      "type": "object",
+      "properties": {
+        "analyse_effectuee": {
+          "type": "boolean"
+        },
+        "evenements_distincts_observes": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "relations_spatiales": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "analyse_effectuee",
+        "evenements_distincts_observes",
+        "relations_spatiales"
+      ],
+      "additionalProperties": false
+    },
+    "features": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/feature"
+      }
+    }
+  },
+  "required": [
+    "type",
+    "contract_version",
+    "test_data",
+    "statut_diffusion",
+    "provenance",
+    "resume",
+    "features"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "position": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        },
+        {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        }
+      ],
+      "items": false,
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "line": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/position"
+      },
+      "minItems": 2
+    },
+    "ring": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/position"
+      },
+      "minItems": 4
+    },
+    "polygon": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ring"
+      },
+      "minItems": 1
+    },
+    "Point": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "Point"
+        },
+        "coordinates": {
+          "$ref": "#/$defs/position"
+        }
+      },
+      "required": [
+        "type",
+        "coordinates"
+      ],
+      "additionalProperties": false
+    },
+    "LineString": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "LineString"
+        },
+        "coordinates": {
+          "$ref": "#/$defs/line"
+        }
+      },
+      "required": [
+        "type",
+        "coordinates"
+      ],
+      "additionalProperties": false
+    },
+    "Polygon": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "Polygon"
+        },
+        "coordinates": {
+          "$ref": "#/$defs/polygon"
+        }
+      },
+      "required": [
+        "type",
+        "coordinates"
+      ],
+      "additionalProperties": false
+    },
+    "MultiPolygon": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "MultiPolygon"
+        },
+        "coordinates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/polygon"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "type",
+        "coordinates"
+      ],
+      "additionalProperties": false
+    },
+    "MultiLineString": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "MultiLineString"
+        },
+        "coordinates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/line"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "type",
+        "coordinates"
+      ],
+      "additionalProperties": false
+    },
+    "MultiPoint": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "MultiPoint"
+        },
+        "coordinates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/position"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "type",
+        "coordinates"
+      ],
+      "additionalProperties": false
+    },
+    "identifier": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        {
+          "type": "integer"
+        }
+      ]
+    },
+    "nullable_text": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "feature": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "Feature"
+        },
+        "geometry": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/Polygon"
+            },
+            {
+              "$ref": "#/$defs/MultiPolygon"
+            }
+          ]
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "maille_id": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "grid_version": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "method_version": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "dataset_version": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "statut_analyse": {
+              "enum": [
+                "hors_territoire",
+                "absence_analyse",
+                "analyse_effectuee"
+              ]
+            },
+            "priorite_examen": {
+              "type": "object",
+              "properties": {
+                "etat": {
+                  "enum": [
+                    "non_calculee",
+                    "indeterminee"
+                  ]
+                },
+                "valeur": {
+                  "type": "null"
+                }
+              },
+              "required": [
+                "etat",
+                "valeur"
+              ],
+              "additionalProperties": false
+            },
+            "diagnostics": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "hors_territoire",
+                  "absence_analyse",
+                  "croisements_observes",
+                  "absence_croisement_confirmee",
+                  "absence_observation_couverture_non_validee"
+                ]
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "indicateurs": {
+              "type": "object",
+              "properties": {
+                "nb_evenements_observes": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 0
+                },
+                "nb_evenements": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 0
+                },
+                "nb_evenements_exclusifs_observes": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "nb_evenements_observes",
+                "nb_evenements",
+                "nb_evenements_exclusifs_observes"
+              ],
+              "additionalProperties": false
+            },
+            "qualite": {
+              "type": "object",
+              "properties": {
+                "routes_completude": {
+                  "enum": [
+                    "unknown",
+                    "declared",
+                    "validated"
+                  ]
+                },
+                "corridors_completude": {
+                  "enum": [
+                    "unknown",
+                    "declared",
+                    "validated"
+                  ]
+                },
+                "routes_couverture_validee": {
+                  "type": "boolean"
+                },
+                "corridors_couverture_validee": {
+                  "type": "boolean"
+                },
+                "fiabilite": {
+                  "enum": [
+                    "hors_territoire",
+                    "absence_analyse",
+                    "completude_validee",
+                    "observations_completude_non_etablie"
+                  ]
+                }
+              },
+              "required": [
+                "routes_completude",
+                "corridors_completude",
+                "routes_couverture_validee",
+                "corridors_couverture_validee",
+                "fiabilite"
+              ],
+              "additionalProperties": false,
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "routes_couverture_validee": {
+                        "const": true
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "routes_completude": {
+                        "const": "validated"
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "corridors_couverture_validee": {
+                        "const": true
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "corridors_completude": {
+                        "const": "validated"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "conflit_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "uniqueItems": true
+            },
+            "action_ids": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  },
+                  {
+                    "type": "integer"
+                  }
+                ]
+              },
+              "uniqueItems": true,
+              "maxItems": 0
+            },
+            "etat_actions": {
+              "const": "non_calculees"
+            }
+          },
+          "required": [
+            "maille_id",
+            "grid_version",
+            "method_version",
+            "dataset_version",
+            "statut_analyse",
+            "priorite_examen",
+            "diagnostics",
+            "indicateurs",
+            "qualite",
+            "conflit_ids",
+            "action_ids",
+            "etat_actions"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "type",
+        "geometry",
+        "properties"
+      ],
+      "additionalProperties": false
+    }
+  }
+}
