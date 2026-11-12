@@ -1,0 +1,35 @@
+{
+  "source_id": "SIPAF",
+  "local_path": "data/raw/sipaf/Tous_les_PAF.gpkg",
+  "layer": "Tous_les_PAF",
+  "crs": "EPSG:2154",
+  "geometry_types": [
+    "LineString",
+    "Point",
+    "Polygon"
+  ],
+  "national_export_record_count": 2457,
+  "pilot_registered_record_count": 0,
+  "pilot_record_status": "no_registered_record_intersects_pilot",
+  "inventory_completeness": "non_exhaustive",
+  "absence_interpretation": "No registered record is not evidence that no local crossing structure exists.",
+  "retained_fields_for_future_internal_analysis": [
+    "Identifiant UUID",
+    "ID",
+    "Nom Passage Faune",
+    "Catégorie d'ouvrage",
+    "Type d'ouvrage",
+    "Spécificité du passage faune",
+    "Infrastructure traversée",
+    "Ouvrage hydraulique",
+    "Positionnement",
+    "Date de réalisation",
+    "Date de requalification",
+    "Largeur ouvrage (m)",
+    "Longueur de franchissement (m)",
+    "Source"
+  ],
+  "public_export_created": false,
+  "sensitive_record_data_in_output": false,
+  "raw_sha256": "53A2E899985854888AEFF0E818CACE78FB4A1F471466B28C93E5B34A7A1345F3"
+}
