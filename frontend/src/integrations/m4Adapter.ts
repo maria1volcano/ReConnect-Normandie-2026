@@ -44,9 +44,26 @@ export interface M4CellBundle {
 
 export class M4UnavailableError extends Error {}
 
+function staticDataUrl(fileName: string): string {
+  return new URL(`${import.meta.env.BASE_URL}data/caen-6com/${fileName}`, window.location.href).href
+}
+
+let staticCellsPromise: Promise<Record<string, M4CellBundle>> | null = null
+
+function loadStaticCells(signal?: AbortSignal): Promise<Record<string, M4CellBundle>> {
+  staticCellsPromise ??= fetchJson<Record<string, M4CellBundle>>(staticDataUrl('cells.json'), signal).catch((error) => {
+    staticCellsPromise = null
+    throw error
+  })
+  return staticCellsPromise
+}
+
 export function getM4ApiBaseUrl(): string | null {
-  const configured = import.meta.env.VITE_M4_API_BASE_URL?.trim() ?? 'http://127.0.0.1:8765'
-  return configured ? configured.replace(/\/$/, '') : null
+  const configured = import.meta.env.VITE_M4_API_BASE_URL?.trim()
+  // 'static'/'none'/vide : données publiques exportées sous public/data/caen-6com.
+  // Non défini : backend local de démonstration (http://127.0.0.1:8765).
+  if (configured === 'static' || configured === 'none' || configured === '') return null
+  return (configured ?? 'http://127.0.0.1:8765').replace(/\/$/, '')
 }
 
 export function buildM4CellUrl(baseUrl: string, territoryId: string, gridVersion: string, mailleId: string): string {
@@ -69,9 +86,15 @@ export async function loadM4CellBundle(
   signal?: AbortSignal,
 ): Promise<M4CellBundle> {
   const baseUrl = getM4ApiBaseUrl()
-  if (!baseUrl) throw new M4UnavailableError('API M4 non configurée')
-
-  const bundle = await fetchJson<M4CellBundle>(buildM4CellUrl(baseUrl, territoryId, gridVersion, mailleId), signal)
+  let bundle: M4CellBundle
+  if (baseUrl) {
+    bundle = await fetchJson<M4CellBundle>(buildM4CellUrl(baseUrl, territoryId, gridVersion, mailleId), signal)
+  } else {
+    const cells = await loadStaticCells(signal)
+    const candidate = cells[mailleId]
+    if (!candidate) throw new M4UnavailableError(`Fiche publique absente pour ${mailleId}`)
+    bundle = candidate
+  }
   if (bundle.territory_id !== territoryId || bundle.grid_version !== gridVersion || bundle.maille_id !== mailleId) {
     throw new M4UnavailableError('Réponse M4 incompatible avec la cellule demandée')
   }
@@ -80,12 +103,15 @@ export async function loadM4CellBundle(
 
 export async function loadM4Grid(gridVersion: string, territoryId: string, signal?: AbortSignal): Promise<FeatureCollection<Geometry, RealGridFeatureProperties>> {
   const baseUrl = getM4ApiBaseUrl()
-  if (!baseUrl) throw new M4UnavailableError('API M4 non configurée')
-
-  const url = new URL(`${baseUrl}/api/internal/caen/grid`)
-  url.searchParams.set('territory_id', territoryId)
-  url.searchParams.set('grid_version', gridVersion)
-  const bundle = await fetchJson<FeatureCollection<Geometry, RealGridFeatureProperties>>(url.toString(), signal)
+  let bundle: FeatureCollection<Geometry, RealGridFeatureProperties>
+  if (baseUrl) {
+    const url = new URL(`${baseUrl}/api/internal/caen/grid`)
+    url.searchParams.set('territory_id', territoryId)
+    url.searchParams.set('grid_version', gridVersion)
+    bundle = await fetchJson<FeatureCollection<Geometry, RealGridFeatureProperties>>(url.toString(), signal)
+  } else {
+    bundle = await fetchJson<FeatureCollection<Geometry, RealGridFeatureProperties>>(staticDataUrl('grid.geojson'), signal)
+  }
   const features = bundle.features ?? []
   if (features.length !== 101 || features.some((feature) => feature.properties.grid_version !== gridVersion || feature.properties.territory_id !== territoryId)) {
     throw new M4UnavailableError('Réponse M4 incompatible avec la grille demandée')

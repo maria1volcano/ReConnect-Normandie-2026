@@ -1,0 +1,48 @@
+{
+  "release": "reconnect-caen-et-nord-public-v1",
+  "generated_at": "2026-11-12T09:59:17+00:00",
+  "territory_id": "caen_et_nord_6communes",
+  "grid_version": "M1-CAEN-6COM-1KM2-FLAT-L93-O0-V1",
+  "source_zip_sha256": "F1878207F370DC2A424898CF2DE89DB540D6EABAB43BD7E5F6C93BBF3C2FD3B4",
+  "source_zip_name": "RECONNECT_CAEN_ET_NORD_M2_DEMO_INTERNE_20261111_V1.zip",
+  "authorization": "Publication des données géographiques requises et des résultats dérivés du projet autorisée par l'équipe pour la démonstration Datathon. L'archive M2 source reste immuable (publication_autorisee=false en interne) ; seul cet export dérivé minimisé est publié.",
+  "counts": {
+    "cells": 101,
+    "diagnostic_sheets": 101,
+    "documentary_levels": {
+      "gris": 32,
+      "jaune": 9,
+      "rouge": 27,
+      "orange": 33
+    },
+    "investigation_leads_total": 404,
+    "investigation_leads_a_etudier": 165,
+    "events_admitted": 5336,
+    "cell_event_relations": 5759,
+    "cells_with_events": 60,
+    "validated_recommendations": 0
+  },
+  "exports": {
+    "grid.geojson": {
+      "sha256": "B4A2F48AED0A028725964C7EC5B4DD0A45EB8568807BE29B4DEBEBA32D8A777B",
+      "description": "101 mailles + catégories documentaires"
+    },
+    "cells.json": {
+      "sha256": "320601DEA9F28C0DD710E7F143D4ED0DDAE4C8277E219B6B8BFFD33FD6273A38",
+      "description": "101 fiches territoriales minimisées"
+    }
+  },
+  "exclusions": [
+    "Geometries of raw source-pair events (conflits.geojson)",
+    "Per-object source attribute lists (objets IDs) inside observation aggregates",
+    "Internal working files, GeoPackages, provenance archives",
+    "Any validated ecological priority or restoration recommendation (none exist)"
+  ],
+  "scientific_limitations": [
+    "Geometric 2D crossings are not confirmed ecological conflicts.",
+    "Zero observed events does not demonstrate ecological absence.",
+    "Documentary V1-V4 colors are an exploratory verification order, not validated priorities.",
+    "R1-R4 investigation leads are non-evaluable; no works are recommended."
+  ],
+  "required_label": "Indices cartographiques à vérifier — analyse exploratoire"
+}
