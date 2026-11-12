@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "commune": "Ouistreham",
+    "luminosite": 80,
+    "enjeu_ecologique": "fort"
+  },
+  {
+    "id": 2,
+    "commune": "Sallenelles",
+    "luminosite": 40,
+    "enjeu_ecologique": "or"
+  }
+]
