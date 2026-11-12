@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:reconnect:caen:instruction-actions:1",
+  "title": "Instruction indicative des actions Caen — format interne complémentaire",
+  "description": "Ne remplace pas actionResult, le contrat public ni les décisions D/S. Version du lot au 12 novembre 2026.",
+  "type": "object",
+  "required": ["maille_id", "grid_version", "territory_id", "version", "priorite_etude_interventions", "diagnostic_territorial", "action_principale", "actions_complementaires", "options_actions", "orientation", "conditions_validation_avant_travaux", "recommandations_travaux_validees", "pistes_existantes_ids", "D_S"],
+  "properties": {
+    "maille_id": {"type": "string", "minLength": 1},
+    "grid_version": {"type": "string", "minLength": 1},
+    "territory_id": {"type": "string", "minLength": 1},
+    "version": {"const": "caen6-priorites-etude-actions-20261112-1"},
+    "priorite_etude_interventions": {"$ref": "#/$defs/priority"},
+    "diagnostic_territorial": {"type": "string", "minLength": 1},
+    "probleme_ecologique_confirme": {"type": "null"},
+    "statut_probleme_ecologique": {"const": "non_confirme"},
+    "action_principale": {"oneOf": [{"type": "null"}, {"allOf": [{"$ref": "#/$defs/option"}, {"properties": {"action_id": {"const": "A04"}, "regle_id": {"const": "R1"}, "statut_instruction": {"const": "a_instruire_indicatif"}}, "required": ["justificatifs", "prochaines_etapes", "titre_etude"]}]}]},
+    "motif_absence_action_principale": {"type": ["string", "null"]},
+    "actions_complementaires": {"type": "array", "maxItems": 0},
+    "options_actions": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"$ref": "#/$defs/option"}},
+    "orientation": {"type": "string", "minLength": 1},
+    "conditions_validation_avant_travaux": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "recommandations_travaux_validees": {"type": "array", "maxItems": 0},
+    "pistes_existantes_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "classement_benefice": {"type": "null"},
+    "D_S": {
+      "type": "object",
+      "required": ["priorite_ecologique", "priorite_examen", "method_version", "couverture_synthese", "regle_appliquee"],
+      "properties": {
+        "priorite_ecologique": {"type": "object", "required": ["conclusion"], "properties": {"conclusion": {"const": "indeterminee"}, "category": {"const": "INDETERMINATE"}}},
+        "priorite_examen": {"type": "object", "required": ["etat", "valeur"], "properties": {"etat": {"const": "non_calculee"}, "valeur": {"type": "null"}}},
+        "method_version": {"type": "null"},
+        "couverture_synthese": {"type": "null"},
+        "regle_appliquee": {"type": "null"}
+      }
+    }
+  },
+  "allOf": [
+    {"if": {"properties": {"priorite_etude_interventions": {"properties": {"couleur": {"enum": ["rouge", "orange"]}}}}}, "then": {"properties": {"action_principale": {"type": "object"}}}, "else": {"properties": {"action_principale": {"type": "null"}, "motif_absence_action_principale": {"type": "string", "minLength": 1}}}}
+  ],
+  "$defs": {
+    "priority": {
+      "type": "object",
+      "required": ["intitule", "niveau", "couleur", "couleur_hex", "libelle", "statut", "regle_source", "validation_ecologique", "note"],
+      "properties": {
+        "intitule": {"const": "Priorités d'étude des actions écologiques"},
+        "niveau": {"enum": [1, 2, 3, null]},
+        "couleur": {"enum": ["rouge", "orange", "jaune", "gris"]},
+        "validation_ecologique": {"const": false},
+        "urgence_travaux": {"type": "null"},
+        "note": {"const": "Classement indicatif fondé sur les données cartographiques. Les aménagements nécessitent une validation écologique et technique avant réalisation."}
+      },
+      "oneOf": [
+        {"properties": {"couleur": {"const": "rouge"}, "niveau": {"const": 1}, "statut": {"const": "indicative"}, "regle_source": {"const": "V1"}}},
+        {"properties": {"couleur": {"const": "orange"}, "niveau": {"const": 2}, "statut": {"const": "indicative"}, "regle_source": {"const": "V2"}}},
+        {"properties": {"couleur": {"const": "jaune"}, "niveau": {"const": 3}, "statut": {"const": "indicative"}, "regle_source": {"const": "V3"}}},
+        {"properties": {"couleur": {"const": "gris"}, "niveau": {"type": "null"}, "statut": {"const": "non_evaluable"}, "regle_source": {"const": "V4"}}}
+      ]
+    },
+    "option": {
+      "type": "object",
+      "required": ["action_id", "regle_id", "titre", "statut_instruction", "statut_scientifique", "justification", "observations", "conditions_manquantes", "activation_regle_scientifique", "travaux_valides", "restauration_selectionnee"],
+      "properties": {
+        "action_id": {"enum": ["A01", "A02", "A03", "A04"]},
+        "regle_id": {"enum": ["R1", "R2", "R3", "R4"]},
+        "statut_instruction": {"enum": ["a_instruire_indicatif", "qualification_prealable_seulement", "non_selectionnable_preconditions_manquantes", "non_selectionnable_donnees_insuffisantes"]},
+        "statut_scientifique": {"const": "non_evaluable"},
+        "activation_regle_scientifique": {"const": false},
+        "travaux_valides": {"const": false},
+        "restauration_selectionnee": {"const": false},
+        "justification": {"type": "string", "minLength": 1},
+        "observations": {"type": "string", "minLength": 1},
+        "conditions_manquantes": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+      },
+      "oneOf": [
+        {"properties": {"regle_id": {"const": "R1"}, "action_id": {"const": "A04"}}},
+        {"properties": {"regle_id": {"const": "R2"}, "action_id": {"const": "A01"}}},
+        {"properties": {"regle_id": {"const": "R3"}, "action_id": {"const": "A03"}}},
+        {"properties": {"regle_id": {"const": "R4"}, "action_id": {"const": "A02"}}}
+      ]
+    }
+  }
+}

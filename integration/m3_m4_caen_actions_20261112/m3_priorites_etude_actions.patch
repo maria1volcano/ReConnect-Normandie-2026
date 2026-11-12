@@ -1,0 +1,357 @@
+--- a/frontend/vite.config.ts
++++ b/frontend/vite.config.ts
+@@ -1,5 +1,7 @@
+ import { defineConfig, loadEnv } from 'vite'
+ import react from '@vitejs/plugin-react'
++// @ts-expect-error Middleware de revue locale, hors graphe TypeScript navigateur.
++import { m2CaenActionsPlugin } from './m2-caen-actions-plugin.mjs'
+ // @ts-expect-error Development-only middleware is intentionally kept outside the browser TypeScript graph.
+ import { m2InternalDevPlugin } from './m2-internal-dev-plugin.mjs'
+
+@@ -9,6 +11,7 @@
+   return {
+     plugins: [
+       react(),
++      m2CaenActionsPlugin({ root: internalEnv.M2_CAEN_LOT_ROOT }),
+       m2InternalDevPlugin({
+         root: internalEnv.M2_INTERNAL_ROOT,
+         sqlitePath: internalEnv.M2_SQLITE_PATH,
+--- a/frontend/src/integrations/priorityAdapter.ts
++++ b/frontend/src/integrations/priorityAdapter.ts
+@@ -41,6 +41,11 @@
+ }
+
+ export interface RealGridFeatureProperties {
++  territory_id?: string
++  priorite_etude_version?: string
++  priorite_etude_couleur?: string
++  priorite_etude_niveau?: number | null
++  action_principale_id?: string | null
+   maille_id: string
+   grid_version: string
+   grid_row?: number
+--- a/frontend/src/integrations/geojsonAdapter.ts
++++ b/frontend/src/integrations/geojsonAdapter.ts
+@@ -265,10 +265,38 @@
+ }
+
+ /** Configurable REAL dataset; future grids must provide their own versioned definition. */
+-export function loadRealGrid(
++export async function loadRealGrid(
+   dataset: GridDatasetDefinition = DEFAULT_REAL_GRID_DATASET,
+   priorityRecords: readonly unknown[] = [],
+ ): Promise<RealGridData> {
++  try {
++    const response = await fetch('/__internal/m2/caen/mailles.geojson')
++    if (response.ok) {
++      const data = await response.json() as FeatureCollection<Geometry, RealGridFeatureProperties> & {
++        scope: { grid_version: string; territory_id: string }
++        classification_defaut: string; version_priorisation_etudes: string
++      }
++      if (data.classification_defaut !== 'priorites_etude_interventions' || data.version_priorisation_etudes !== 'caen6-priorites-etude-actions-20261112-1' ||
++          data.scope.grid_version !== 'M1-CAEN-6COM-1KM2-FLAT-L93-O0-V1' || data.scope.territory_id !== 'caen_et_nord_6communes' || data.features.length !== 101 ||
++          !data.features.every((f) => f.properties.territory_id === data.scope.territory_id && f.properties.priorite_etude_version === data.version_priorisation_etudes)) throw new Error('Lot d’étude Caen incompatible')
++      const bounds: [[number, number], [number, number]] = [[Infinity, Infinity], [-Infinity, -Infinity]]
++      function visit(value: unknown): void {
++        if (!Array.isArray(value)) return
++        if (typeof value[0] === 'number' && typeof value[1] === 'number') {
++          bounds[0][0] = Math.min(bounds[0][0], value[0]); bounds[0][1] = Math.min(bounds[0][1], value[1])
++          bounds[1][0] = Math.max(bounds[1][0], value[0]); bounds[1][1] = Math.max(bounds[1][1], value[1]); return
++        }
++        value.forEach(visit)
++      }
++      data.features.forEach((f) => { if (f.geometry && 'coordinates' in f.geometry) visit(f.geometry.coordinates) })
++      if (!bounds.flat().every(Number.isFinite)) throw new Error('Emprise Caen invalide')
++      const definition: GridDatasetDefinition = { key: 'caen6-actions-etude-v1', label: 'Caen et nord — études indicatives', fileName: 'mailles.geojson', gridVersion: data.scope.grid_version, bounds }
++      return { featureCollection: prepareGridDataset(data, definition, 'REAL', priorityRecords).featureCollection, gridVersion: definition.gridVersion, dataset: definition }
++    }
++    if (![404, 503].includes(response.status)) throw new Error('Lot d’étude Caen non accepté')
++  } catch (error) {
++    console.warn('[M2 Caen] Lot interne non chargé, retour au pilote M1 déclaré.', error)
++  }
+   return loadGridDataset(dataset, 'REAL', priorityRecords)
+ }
+
+--- a/frontend/src/components/map/RealGridLayer.tsx
++++ b/frontend/src/components/map/RealGridLayer.tsx
+@@ -21,6 +21,7 @@
+   onSelectRealHexagon: (id: string | null) => void
+   onHoverRealHexagon: (id: string | null) => void
+   showRealGrid: boolean
++  classificationMode?: 'etudes' | 'ecologique'
+ }
+
+ export function RealGridLayer({
+@@ -31,6 +32,7 @@
+   onSelectRealHexagon,
+   onHoverRealHexagon,
+   showRealGrid,
++  classificationMode = 'ecologique',
+ }: RealGridLayerProps) {
+   const isInitializedRef = useRef(false)
+   const selectRef = useRef(onSelectRealHexagon)
+@@ -56,7 +58,7 @@
+         type: 'fill',
+         source: REAL_GRID_SOURCE,
+         paint: {
+-          'fill-color': [
++          'fill-color': classificationMode === 'etudes' ? ['coalesce', ['get', 'priorite_etude_couleur'], '#9098A4'] as ExpressionSpecification : [
+             'match',
+             ['get', 'priority_category'],
+             'HIGH',
+@@ -131,7 +133,7 @@
+     } catch (error) {
+       console.error('[RealGridLayer] Erreur initialisation:', error)
+     }
+-  }, [map, realGridData])
++  }, [map, realGridData, classificationMode])
+
+   const cleanupLayer = useCallback(() => {
+     if (!map) return
+--- a/frontend/src/components/map/RegionMap.tsx
++++ b/frontend/src/components/map/RegionMap.tsx
+@@ -233,6 +233,7 @@
+   onZoomToPilot?: () => void
+   onToggleTestMode?: () => void
+   onToggleRealGrid?: () => void
++  onMapReady?: () => void
+ }
+
+ export function RegionMap({
+@@ -250,6 +251,7 @@
+   onZoomToPilot,
+   onToggleTestMode,
+   onToggleRealGrid,
++  onMapReady,
+ }: RegionMapProps = {}) {
+   const mapContainerRef = useRef<HTMLDivElement>(null)
+   const internalMapRef = useRef<MapLibreMap | undefined>(undefined)
+@@ -370,6 +372,7 @@
+           clearTimeout(basemapTimeout)
+           fitCameraTarget()
+           setMapState('ready')
++          onMapReady?.()
+         })
+
+         basemapTimeout = setTimeout(showBasemapError, 10_000)
+--- a/frontend/src/components/layout/ApplicationLayout.tsx
++++ b/frontend/src/components/layout/ApplicationLayout.tsx
+@@ -6,6 +6,7 @@
+ import { RealGridLayer } from '../map/RealGridLayer'
+ import type { DepartmentCode } from '../map/normandyDepartments'
+ import { ZoneDetail } from '../sector/ZoneDetail'
++import { CaenActionsDetail } from '../sector/CaenActionsDetail'
+ import { loadRealGrid, loadTestGrid, type RealGridData } from '../../integrations/geojsonAdapter'
+ import { priorityFromFeature } from '../../integrations/priorityAdapter'
+
+@@ -19,6 +20,9 @@
+   const [testModeEnabled, setTestModeEnabled] = useState(false)
+   const [showRealGrid, setShowRealGrid] = useState(true)
+   const mapRef = useRef<MapLibreMap | undefined>(undefined)
++  const [mapReady, setMapReady] = useState(false)
++  const [classificationMode, setClassificationMode] = useState<'etudes' | 'ecologique'>('etudes')
++  const isCaenData = realGrid?.dataset.key === 'caen6-actions-etude-v1'
+   const activeGrid = testModeEnabled ? testGrid : realGrid
+   const activeGridData = activeGrid?.featureCollection ?? { type: 'FeatureCollection' as const, features: [] }
+
+@@ -82,6 +86,8 @@
+     setHoveredRealHexagonId(null)
+   }, [realGrid?.dataset.key, realGrid?.gridVersion])
+
++  useEffect(() => { if (mapReady && isCaenData) handleZoomToPilot() }, [mapReady, realGrid?.dataset.key])
++
+   return (
+     <div className="application-shell">
+       <header className="app-header">
+@@ -120,28 +126,34 @@
+           <div className="workspace-heading">
+             <div>
+               <p className="context-label">Normandie</p>
+-              <h1 id="map-title">Explorer les secteurs à examiner</h1>
++              <h1 id="map-title">{isCaenData && !testModeEnabled ? "Priorités d’étude des actions écologiques" : "Explorer les secteurs à examiner"}</h1>
+             </div>
+             <p>
+-              La priorité indique un besoin de vérification préparatoire. Elle ne constitue ni un
+-              score écologique, ni une décision d’investissement.
++              {isCaenData && !testModeEnabled
++                ? 'Classement indicatif fondé sur les données cartographiques. Les aménagements nécessitent une validation écologique et technique avant réalisation.'
++                : 'La priorité indique un besoin de vérification préparatoire, sans score écologique ni décision d’investissement.'}
+             </p>
+           </div>
+
++          {isCaenData && !testModeEnabled && <label>Vue <select aria-label="Classification de la carte" value={classificationMode} onChange={(event) => setClassificationMode(event.target.value as 'etudes' | 'ecologique')}>
++            <option value="etudes">Priorités d'étude des actions écologiques</option><option value="ecologique">Priorité écologique D/S</option>
++          </select></label>}
+           <div className="map-frame">
+-            <RegionMap {...departmentState} mapRef={mapRef} hexagonCount={testGrid?.featureCollection.features.length ?? 0} realGridCount={realGrid?.featureCollection.features.length ?? 0} isTestData={true} testModeEnabled={testModeEnabled} showRealGrid={showRealGrid} onZoomToTestZone={handleZoomToTestZone} onZoomToPilot={handleZoomToPilot} onToggleTestMode={handleToggleTestMode} onToggleRealGrid={handleToggleRealGrid} />
+-            <RealGridLayer map={mapRef.current} realGridData={activeGridData} selectedRealHexagonId={selectedRealHexagonId} hoveredRealHexagonId={hoveredRealHexagonId} onSelectRealHexagon={handleSelectRealHexagon} onHoverRealHexagon={setHoveredRealHexagonId} showRealGrid={showRealGrid || testModeEnabled} />
+-            <PriorityLegend testModeEnabled={testModeEnabled} />
++            <RegionMap {...departmentState} onMapReady={() => setMapReady(true)} mapRef={mapRef} hexagonCount={testGrid?.featureCollection.features.length ?? 0} realGridCount={realGrid?.featureCollection.features.length ?? 0} isTestData={true} testModeEnabled={testModeEnabled} showRealGrid={showRealGrid} onZoomToTestZone={handleZoomToTestZone} onZoomToPilot={handleZoomToPilot} onToggleTestMode={handleToggleTestMode} onToggleRealGrid={handleToggleRealGrid} />
++            <RealGridLayer classificationMode={isCaenData && !testModeEnabled ? classificationMode : 'ecologique'} map={mapRef.current} realGridData={activeGridData} selectedRealHexagonId={selectedRealHexagonId} hoveredRealHexagonId={hoveredRealHexagonId} onSelectRealHexagon={handleSelectRealHexagon} onHoverRealHexagon={setHoveredRealHexagonId} showRealGrid={showRealGrid || testModeEnabled} />
++            {isCaenData && !testModeEnabled && classificationMode === 'etudes' ? <div className="priority-legend" aria-label="Légende des priorités d'étude">
++              <h3>Priorités d'étude des actions écologiques</h3><p>Indicatif</p>
++              <ul>{[['#D64545', 'Rouge : priorité 1 — action à examiner en premier.'], ['#EF9229', 'Orange : priorité 2 — intervention potentielle à évaluer.'], ['#E8C84A', 'Jaune : priorité 3 — préservation ou amélioration à examiner.'], ['#9098A4', 'Gris : décision non évaluable.']].map(([color, label]) => <li key={label}><span className="legend-swatch" style={{backgroundColor: color}} />{label}</li>)}</ul>
++              <small>Aucun risque confirmé ni urgence de travaux déduits.</small>
++            </div> : <PriorityLegend testModeEnabled={testModeEnabled} />}
+           </div>
+
+           <details className="sources-note">
+             <summary>Sources et limites</summary>
+             <p>
+-              Les mesures réelles mobilisent les familles officielles TVB/SRCE, BD TOPO, OCS GE,
+-              BD Haie, SIPAF, Cartofriches et zones humides DREAL. Le pilote et la grille M1 restent
+-              provisoires ; M2 doit encore valider leur interprétation scientifique. Le mode TEST
+-              applique des couleurs synthétiques à la même grille M1, explicitement non validées.
+-              Le fond cartographique sert uniquement au repérage.
++              {isCaenData && !testModeEnabled
++                ? "Ce lot mobilise IGN BD TOPO et OCS GE, DREAL/SRCE et zones humides, ainsi que Cerema Cartofriches. La complétude écologique n'est pas attestée. Aucun inventaire SIPAF ou PRAM n'est incorporé dans ce lot. L'OCS GE reste un contexte et ne qualifie pas une continuité fonctionnelle. Le fond cartographique sert au repérage."
++                : 'Les familles officielles et leur disponibilité sont détaillées dans le catalogue M1. La grille TEST et ses couleurs restent synthétiques et non validées. Le fond cartographique sert uniquement au repérage.'}
+             </p>
+           </details>
+           <a className="analysis-jump" href="#analysis-section">
+@@ -151,7 +163,7 @@
+
+         <section id="analysis-section" className="analysis-workspace" aria-label="Diagnostic et analyse">
+           {selectedRealHexagonId ? (
+-            <ZoneDetail
++            isCaenData && !testModeEnabled ? <CaenActionsDetail cellId={selectedRealHexagonId} gridVersion={realGrid!.gridVersion} territoryId="caen_et_nord_6communes" /> : <ZoneDetail
+               selectedHexagonId={selectedRealHexagonId}
+               testModeEnabled={testModeEnabled}
+               isRealGrid={!testModeEnabled}
+--- /dev/null
++++ b/frontend/m2-caen-actions-plugin.mjs
+@@ -0,0 +1,50 @@
++import { readFileSync, statSync } from 'node:fs'
++import { join } from 'node:path'
++
++const VERSION = 'caen6-priorites-etude-actions-20261112-1'
++const loopback = (address) => ['127.0.0.1', '::1', '::ffff:127.0.0.1'].includes(address)
++const allowed = new Set(['mailles.geojson', 'conflits.geojson', 'fiches_zones.json', 'actions_resultats.json', 'priorites_etude_interventions.json', 'pistes_investigation_trace.json'])
++
++export function m2CaenActionsPlugin({ root } = {}) {
++  const cache = new Map()
++  const load = (file) => {
++    const path = join(root, 'demo_interne', file), modified = statSync(path).mtimeMs
++    if (cache.get(file)?.modified !== modified) {
++      const data = JSON.parse(readFileSync(path, 'utf8'))
++      cache.set(file, { modified, data, byCell: data.fiches ? new Map(data.fiches.map((f) => [f.maille_id, f])) : null })
++    }
++    return cache.get(file)
++  }
++  return { name: 'm2-caen-actions-local', apply: 'serve', configureServer(server) {
++    server.middlewares.use((req, res, next) => {
++      const url = new URL(req.url ?? '/', 'http://localhost'), prefix = '/__internal/m2/caen/'
++      if (!url.pathname.startsWith(prefix)) return next()
++      const send = (status, body) => {
++        res.statusCode = status
++        res.setHeader('Content-Type', 'application/json; charset=utf-8')
++        res.setHeader('Cache-Control', 'no-store, private')
++        res.setHeader('X-Content-Type-Options', 'nosniff')
++        res.end(JSON.stringify(body))
++      }
++      const address = server.httpServer?.address()
++      if (!address || typeof address === 'string' || !loopback(address.address) || !loopback(req.socket.remoteAddress) ||
++          req.headers.forwarded || req.headers['x-forwarded-for'] || req.headers['sec-fetch-site'] === 'cross-site') return send(403, { error: 'local_review_only' })
++      if (req.method !== 'GET') return send(405, { error: 'read_only' })
++      if (!root) return send(503, { error: 'lot_not_configured' })
++      try {
++        const tail = url.pathname.slice(prefix.length)
++        const fiches = load('fiches_zones.json')
++        if (fiches.data.version_priorisation_etudes !== VERSION || fiches.data.classification_defaut !== 'priorites_etude_interventions') return send(409, { error: 'wrong_operational_version' })
++        if (allowed.has(tail)) return send(200, load(tail).data)
++        if (tail.startsWith('fiches/')) {
++          if (url.searchParams.get('grid_version') !== fiches.data.scope.grid_version || url.searchParams.get('territory_id') !== fiches.data.scope.territory_id) return send(409, { error: 'scope_mismatch' })
++          const fiche = fiches.byCell.get(decodeURIComponent(tail.slice('fiches/'.length)))
++          return fiche ? send(200, fiche) : send(404, { error: 'cell_not_found' })
++        }
++        return send(404, { error: 'unknown_internal_resource' })
++      } catch {
++        return send(503, { error: 'invalid_internal_lot' })
++      }
++    })
++  } }
++}
+--- /dev/null
++++ b/frontend/src/components/sector/CaenActionsDetail.tsx
+@@ -0,0 +1,81 @@
++import { useEffect, useState } from 'react'
++
++interface StudyPriority { niveau: number | null; libelle: string; couleur: string; note: string }
++interface ActionOption {
++  action_id: string; regle_id: string; titre: string; titre_etude?: string
++  statut_instruction: string; statut_scientifique: string; justification: string; observations: string
++  conditions_manquantes: string[]; prochaines_etapes?: string[]; piste_existante_id: string | null
++}
++interface Decision {
++  priorite_etude_interventions: StudyPriority; diagnostic_territorial: string; orientation: string
++  action_principale: ActionOption | null; motif_absence_action_principale: string | null
++  actions_complementaires: ActionOption[]; motif_absence_complementaires: string; options_actions: ActionOption[]
++  conditions_validation_avant_travaux: string[]; pistes_existantes_ids: string[]
++}
++interface Fiche {
++  maille_id: string; grid_version: string; territory_id: string; secteur: string
++  decision_interventions: Decision; priorite_ecologique: { conclusion: string }
++  diagnostic_techniciens: { nb_evenements_observes: number; nb_evenements_exclusifs_observes: number }
++}
++
++function StudyAction({ action }: { action: ActionOption }) {
++  return <>
++    <h3>{action.action_id} / {action.regle_id} — {action.titre_etude ?? action.titre}</h3>
++    <p><strong>Étude indicative à instruire.</strong> Statut scientifique de {action.regle_id} : {action.statut_scientifique.replaceAll('_', ' ')}.</p>
++    <p>{action.justification}</p>
++    <ol>{action.prochaines_etapes?.map((step) => <li key={step}>{step}</li>)}</ol>
++    <p>Aucune construction ni intervention de travaux validée.</p>
++  </>
++}
++
++export function CaenActionsDetail({ cellId, gridVersion, territoryId }: { cellId: string; gridVersion: string; territoryId: string }) {
++  const [fiche, setFiche] = useState<Fiche | null>(null), [error, setError] = useState(false)
++  useEffect(() => {
++    const controller = new AbortController()
++    setFiche(null); setError(false)
++    const query = new URLSearchParams({ grid_version: gridVersion, territory_id: territoryId })
++    void fetch(`/__internal/m2/caen/fiches/${encodeURIComponent(cellId)}?${query}`, { signal: controller.signal })
++      .then((r) => { if (!r.ok) throw new Error('Fiche indisponible'); return r.json() })
++      .then((f: Fiche) => {
++        if (controller.signal.aborted) return
++        if (f.maille_id !== cellId || f.grid_version !== gridVersion || f.territory_id !== territoryId || !f.decision_interventions) throw new Error('Fiche incompatible')
++        setFiche(f)
++      }).catch(() => { if (!controller.signal.aborted) setError(true) })
++    return () => controller.abort()
++  }, [cellId, gridVersion, territoryId])
++  const decision = fiche?.decision_interventions
++  return <aside className="zone-detail" data-maille-id={fiche?.maille_id} aria-labelledby="caen-actions-title"><div className="detail-content">
++    <h2 id="caen-actions-title">{fiche?.secteur ?? 'Fiche territoriale'}</h2>
++    {error ? <p role="alert">La fiche n'a pas pu être chargée pour ce territoire et cette version.</p> : !fiche || !decision ? <p role="status">Chargement…</p> : <>
++      <p><strong>Priorité d'étude indicative : {decision.priorite_etude_interventions.libelle}</strong></p>
++      <p>{decision.diagnostic_territorial}</p>
++      <p><strong>Orientation :</strong> {decision.orientation}</p>
++      <section aria-label="Action principale à l'étude">
++        {decision.action_principale ? <StudyAction action={decision.action_principale} /> : <>
++          <h3>Aucune intervention sélectionnée</h3><p>{decision.motif_absence_action_principale}</p>
++        </>}
++      </section>
++      <section aria-label="Actions complémentaires envisageables"><h3>Actions complémentaires envisageables</h3>
++        {decision.actions_complementaires.length ? decision.actions_complementaires.map((a) => <StudyAction key={a.action_id} action={a} />) : <p>{decision.motif_absence_complementaires}</p>}
++      </section>
++      <h3>Conditions de validation avant travaux</h3>
++      <ul>{decision.conditions_validation_avant_travaux.map((c) => <li key={c}>{c}</li>)}</ul>
++      <p><strong>Priorité écologique D/S : {fiche.priorite_ecologique.conclusion === 'indeterminee' ? 'indéterminée' : fiche.priorite_ecologique.conclusion}.</strong> Le rang d'étude ci-dessus ne modifie pas D/S et ne valide aucune règle R1–R4.</p>
++      <details className="detail-expandable"><summary>Pistes existantes, justifications et conditions manquantes</summary>
++        <p>{decision.pistes_existantes_ids.length} pistes historiques traçables dans cette maille. Une piste conservée n'est pas une action activée.</p>
++        {decision.options_actions.map((a) => <div key={a.action_id}>
++          <h4>{a.action_id} / {a.regle_id} — {a.titre}</h4>
++          <p>Instruction : {a.statut_instruction.replaceAll('_', ' ')} ; statut scientifique : {a.statut_scientifique.replaceAll('_', ' ')}.</p>
++          <p>{a.observations}</p><p>{a.justification}</p>
++          <ul>{a.conditions_manquantes.map((c) => <li key={c}>{c}</li>)}</ul>
++          <p>{a.piste_existante_id ? 'Piste historique conservée et référencée dans le lot.' : 'Aucune piste historique qualifiable pour cette famille.'}</p>
++        </div>)}
++      </details>
++      <details className="detail-expandable"><summary>Observations SIG et sources</summary>
++        <p>{fiche.diagnostic_techniciens.nb_evenements_observes} événements locaux ; {fiche.diagnostic_techniciens.nb_evenements_exclusifs_observes} comptes exclusifs. Ce sont des intersections XY et non un décompte d'obstacles confirmés.</p>
++        <p>{cellId} · {gridVersion} · {territoryId}</p>
++        <p>IGN, DREAL/SRCE et Cerema ; sources, précision, versions et observations détaillées dans la fiche JSON et le manifeste. Les observations OCS GE restent un contexte ; elles ne changent pas les couleurs V1.</p>
++      </details>
++    </>}
++  </div></aside>
++}
