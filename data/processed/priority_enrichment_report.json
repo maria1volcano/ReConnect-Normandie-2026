@@ -1,0 +1,105 @@
+{
+  "status": "quality_evidence_only_no_priority_classification",
+  "pipeline_version": "m1-priority-readiness-v1",
+  "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+  "grid_row_count": 43,
+  "grid_semantic_sha256_before": "9D7C0AE4CD08F3AD6CE233AE59B8F7C777FEBB50BBC1B563933040B726752201",
+  "grid_semantic_sha256_after": "9D7C0AE4CD08F3AD6CE233AE59B8F7C777FEBB50BBC1B563933040B726752201",
+  "target_crs": "EPSG:2154",
+  "null_rule": "Unknown or unavailable values remain NULL; they are never converted to zero.",
+  "roads": {
+    "feature_count": 1924,
+    "crs": "EPSG:2154",
+    "fields": [
+      "source_id",
+      "route_id",
+      "categorie",
+      "importance",
+      "nombre_voies",
+      "largeur_chaussee",
+      "position_sol",
+      "precision_planimetrique_m",
+      "methode_acquisition_planimetrique",
+      "statut_objet",
+      "contexte_urbain",
+      "vitesse_moyenne_vl_source",
+      "acces_vehicule_leger",
+      "acces_pieton",
+      "sens_circulation",
+      "date_modification",
+      "classement_administratif",
+      "numero_route",
+      "attribute_scope"
+    ],
+    "null_counts": {
+      "categorie": 0,
+      "importance": 0,
+      "nombre_voies": 644,
+      "largeur_chaussee": 644,
+      "position_sol": 0,
+      "precision_planimetrique_m": 0,
+      "methode_acquisition_planimetrique": 0,
+      "statut_objet": 0,
+      "contexte_urbain": 0,
+      "vitesse_moyenne_vl_source": 0,
+      "acces_vehicule_leger": 0
+    },
+    "semantic_sha256": "C1E9A723A7290C57FDF5FC04AA9276D3516B0753C70EAE93A12670B274D750F2",
+    "attribute_table_path": "data/processed/route_attributes_enriched.csv",
+    "attribute_table_sha256": "12452E147065AE7A68CCBD0E93D356D10A3DC421EB50F07C224595180ACA14E7",
+    "interpretation_limit": "Road hierarchy and source speed attributes describe the road dataset; they do not prove ecological barrier severity, traffic intensity, or permeability."
+  },
+  "cell_quality": {
+    "row_count": 43,
+    "field_count": 51,
+    "path": "data/processed/cell_data_quality.csv",
+    "sha256": "D856F8C49033FD32806FADCF06C009FEE042BB25EAFC521882B3FC5AD80C317B"
+  },
+  "sipaf_context": {
+    "source_id": "SIPAF",
+    "local_path": "data/raw/sipaf/Tous_les_PAF.gpkg",
+    "layer": "Tous_les_PAF",
+    "crs": "EPSG:2154",
+    "geometry_types": [
+      "LineString",
+      "Point",
+      "Polygon"
+    ],
+    "national_export_record_count": 2457,
+    "pilot_registered_record_count": 0,
+    "pilot_record_status": "no_registered_record_intersects_pilot",
+    "inventory_completeness": "non_exhaustive",
+    "absence_interpretation": "No registered record is not evidence that no local crossing structure exists.",
+    "retained_fields_for_future_internal_analysis": [
+      "Identifiant UUID",
+      "ID",
+      "Nom Passage Faune",
+      "Catégorie d'ouvrage",
+      "Type d'ouvrage",
+      "Spécificité du passage faune",
+      "Infrastructure traversée",
+      "Ouvrage hydraulique",
+      "Positionnement",
+      "Date de réalisation",
+      "Date de requalification",
+      "Largeur ouvrage (m)",
+      "Longueur de franchissement (m)",
+      "Source"
+    ],
+    "public_export_created": false,
+    "sensitive_record_data_in_output": false,
+    "raw_sha256": "53A2E899985854888AEFF0E818CACE78FB4A1F471466B28C93E5B34A7A1345F3"
+  },
+  "libraries": {
+    "python": "3.12.0",
+    "geopandas": "1.2.0",
+    "pyogrio": "0.13.0",
+    "shapely": "2.2.0"
+  },
+  "outputs": {
+    "enriched_roads": "data/processed/routes_enriched.gpkg",
+    "enriched_road_attributes": "data/processed/route_attributes_enriched.csv",
+    "cell_quality": "data/processed/cell_data_quality.csv",
+    "sipaf_context": "data/processed/sipaf_context.json"
+  }
+}

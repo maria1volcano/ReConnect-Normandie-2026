@@ -12,7 +12,7 @@ Le package M1 fournit une grille hexagonale candidate (43 mailles, 29,17 km²) e
 | Paramètre | Valeur |
 |---|---:|
 | Bbox WGS84 (lon/lat) | `[-0.28, 49.20, -0.22, 49.26]` |
-| Bbox EPSG:2154 (m) | `[341381.45, 6795383.00, 356532.01, 6817213.40]` (estimé) |
+| Bbox EPSG:2154 (m) | `[460989.257242, 6904815.661232, 465631.045140, 6911663.950544]` (calculée par le pipeline) |
 | Aire du pilote | `29 171 588,4672 m²` ≈ 29,17 km² |
 | Aire nominale hexagone | `1 000 000 m²` (1 km²) |
 | Côté hexagone calculé | `620,4032394014 m` |
@@ -23,6 +23,8 @@ Le package M1 fournit une grille hexagonale candidate (43 mailles, 29,17 km²) e
 | Aire maximale | `1 000 000,0000 m²` |
 
 Le rectangle pilote est une emprise technique pour l'estuaire de l'Orne, non une limite écologique ou administrative. La résolution de 1 km² est le candidat initial demandé par le PRD ; M2 doit tester la sensibilité à une autre résolution ou un décalage si nécessaire.
+
+**Correction du 10 novembre 2026 :** la bbox Lambert-93 estimée précédemment était erronée. La valeur ci-dessus provient de `data/processed/m1_processing_report.json`, sortie autoritative du pipeline de reprojection. Cette correction documentaire ne modifie ni la grille, ni ses géométries, ni ses identifiants.
 
 ## Couches disponibles et manquantes
 

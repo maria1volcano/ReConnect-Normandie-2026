@@ -1,0 +1,2358 @@
+{
+  "NORM-G1K-FLAT-R+006425-C+000495": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006425-C+000495",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 5370.436398,
+      "ocs_fraction_of_cell": 1.0,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006425-C+000497": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006425-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 194505.208033,
+      "ocs_fraction_of_cell": 1.0,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006425-C+000499": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006425-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 1794.154896,
+      "ocs_fraction_of_cell": 0.006697,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006425-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 158.633148,
+      "ocs_fraction_of_cell": 0.000592,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006425-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 265967.974806,
+      "ocs_fraction_of_cell": 0.992711,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006426-C+000495": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000495",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 2930.804942,
+      "ocs_fraction_of_cell": 0.026871,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000495",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 4925.899907,
+      "ocs_fraction_of_cell": 0.045162,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000495",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 2810.615809,
+      "ocs_fraction_of_cell": 0.025769,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000495",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 18163.170071,
+      "ocs_fraction_of_cell": 0.166526,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000495",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 80240.507336,
+      "ocs_fraction_of_cell": 0.735672,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006426-C+000496": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 7691.746879,
+      "ocs_fraction_of_cell": 0.01043,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 8082.175337,
+      "ocs_fraction_of_cell": 0.010959,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 1573.28365,
+      "ocs_fraction_of_cell": 0.002133,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 3864.93955,
+      "ocs_fraction_of_cell": 0.005241,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 716268.35355,
+      "ocs_fraction_of_cell": 0.971237,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006426-C+000497": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 5486.824414,
+      "ocs_fraction_of_cell": 0.005487,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 994513.175586,
+      "ocs_fraction_of_cell": 0.994513,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006426-C+000498": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 3434.9081,
+      "ocs_fraction_of_cell": 0.004227,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 10648.013451,
+      "ocs_fraction_of_cell": 0.013103,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 11264.6198,
+      "ocs_fraction_of_cell": 0.013861,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 1398.948,
+      "ocs_fraction_of_cell": 0.001721,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 785910.536372,
+      "ocs_fraction_of_cell": 0.967088,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006426-C+000499": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 72209.890136,
+      "ocs_fraction_of_cell": 0.07221,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 50691.789472,
+      "ocs_fraction_of_cell": 0.050692,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 19886.170118,
+      "ocs_fraction_of_cell": 0.019886,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.2.2",
+      "ocs_area_m2": 536.284207,
+      "ocs_fraction_of_cell": 0.000536,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 46042.802892,
+      "ocs_fraction_of_cell": 0.046043,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.3",
+      "ocs_area_m2": 2587.072673,
+      "ocs_fraction_of_cell": 0.002587,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 808045.990502,
+      "ocs_fraction_of_cell": 0.808046,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006426-C+000500": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 2252.943747,
+      "ocs_fraction_of_cell": 0.004471,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 16540.81909,
+      "ocs_fraction_of_cell": 0.032822,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 12650.601194,
+      "ocs_fraction_of_cell": 0.025103,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.2.2",
+      "ocs_area_m2": 70254.609372,
+      "ocs_fraction_of_cell": 0.139407,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 154673.136847,
+      "ocs_fraction_of_cell": 0.306921,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.3",
+      "ocs_area_m2": 3703.532,
+      "ocs_fraction_of_cell": 0.007349,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.3",
+      "ocs_area_m2": 8584.690127,
+      "ocs_fraction_of_cell": 0.017035,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006426-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 235291.263832,
+      "ocs_fraction_of_cell": 0.466893,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006427-C+000495": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000495",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 381.398737,
+      "ocs_fraction_of_cell": 0.005181,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000495",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 73237.295714,
+      "ocs_fraction_of_cell": 0.994819,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006427-C+000496": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 60923.034479,
+      "ocs_fraction_of_cell": 0.061649,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 63755.874956,
+      "ocs_fraction_of_cell": 0.064516,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 10706.363041,
+      "ocs_fraction_of_cell": 0.010834,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 42629.428128,
+      "ocs_fraction_of_cell": 0.043137,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.2",
+      "ocs_area_m2": 1647.949569,
+      "ocs_fraction_of_cell": 0.001668,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 808561.422452,
+      "ocs_fraction_of_cell": 0.818196,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006427-C+000497": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 18129.357148,
+      "ocs_fraction_of_cell": 0.018129,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 370097.151773,
+      "ocs_fraction_of_cell": 0.370097,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.2.2",
+      "ocs_area_m2": 4189.532849,
+      "ocs_fraction_of_cell": 0.00419,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 6691.789234,
+      "ocs_fraction_of_cell": 0.006692,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.2",
+      "ocs_area_m2": 18645.990625,
+      "ocs_fraction_of_cell": 0.018646,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 582246.178371,
+      "ocs_fraction_of_cell": 0.582246,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006427-C+000498": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 54786.213542,
+      "ocs_fraction_of_cell": 0.054786,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 66989.903657,
+      "ocs_fraction_of_cell": 0.06699,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 6522.544875,
+      "ocs_fraction_of_cell": 0.006523,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.2.2",
+      "ocs_area_m2": 6404.880943,
+      "ocs_fraction_of_cell": 0.006405,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 24087.099178,
+      "ocs_fraction_of_cell": 0.024087,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.2",
+      "ocs_area_m2": 366.201598,
+      "ocs_fraction_of_cell": 0.000366,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 840843.156208,
+      "ocs_fraction_of_cell": 0.840843,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006427-C+000499": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 10006.252967,
+      "ocs_fraction_of_cell": 0.010006,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 29429.609371,
+      "ocs_fraction_of_cell": 0.02943,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 2442.094513,
+      "ocs_fraction_of_cell": 0.002442,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 126658.181114,
+      "ocs_fraction_of_cell": 0.126658,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 831463.862035,
+      "ocs_fraction_of_cell": 0.831464,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006427-C+000500": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 1718.299509,
+      "ocs_fraction_of_cell": 0.002753,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 102745.346689,
+      "ocs_fraction_of_cell": 0.164627,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 211504.142577,
+      "ocs_fraction_of_cell": 0.338888,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.2",
+      "ocs_area_m2": 54233.8003,
+      "ocs_fraction_of_cell": 0.086898,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006427-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 253910.223959,
+      "ocs_fraction_of_cell": 0.406835,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006428-C+000495": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000495",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 40.901053,
+      "ocs_fraction_of_cell": 0.000907,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000495",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 1050.107537,
+      "ocs_fraction_of_cell": 0.023278,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000495",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.2.2",
+      "ocs_area_m2": 14091.188875,
+      "ocs_fraction_of_cell": 0.312359,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000495",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 16653.907216,
+      "ocs_fraction_of_cell": 0.369166,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000495",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.3",
+      "ocs_area_m2": 7944.214424,
+      "ocs_fraction_of_cell": 0.176099,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000495",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.2",
+      "ocs_area_m2": 562.810307,
+      "ocs_fraction_of_cell": 0.012476,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000495",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 4769.065888,
+      "ocs_fraction_of_cell": 0.105716,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006428-C+000496": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 28552.18305,
+      "ocs_fraction_of_cell": 0.029376,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 70924.876169,
+      "ocs_fraction_of_cell": 0.072971,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 85829.340712,
+      "ocs_fraction_of_cell": 0.088305,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.2.2",
+      "ocs_area_m2": 1985.598746,
+      "ocs_fraction_of_cell": 0.002043,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 136245.365523,
+      "ocs_fraction_of_cell": 0.140176,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.3",
+      "ocs_area_m2": 8050.447505,
+      "ocs_fraction_of_cell": 0.008283,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.2",
+      "ocs_area_m2": 11323.882482,
+      "ocs_fraction_of_cell": 0.011651,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 629049.379345,
+      "ocs_fraction_of_cell": 0.647196,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006428-C+000497": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 54217.968022,
+      "ocs_fraction_of_cell": 0.054218,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 39145.368313,
+      "ocs_fraction_of_cell": 0.039145,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 96728.959718,
+      "ocs_fraction_of_cell": 0.096729,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.2.2",
+      "ocs_area_m2": 5502.430146,
+      "ocs_fraction_of_cell": 0.005502,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 178192.715951,
+      "ocs_fraction_of_cell": 0.178193,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.2",
+      "ocs_area_m2": 3484.222551,
+      "ocs_fraction_of_cell": 0.003484,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 622728.335299,
+      "ocs_fraction_of_cell": 0.622728,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006428-C+000498": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 116762.807548,
+      "ocs_fraction_of_cell": 0.116763,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 67190.159333,
+      "ocs_fraction_of_cell": 0.06719,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 19417.774401,
+      "ocs_fraction_of_cell": 0.019418,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.2.2",
+      "ocs_area_m2": 1076.189709,
+      "ocs_fraction_of_cell": 0.001076,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 75853.448407,
+      "ocs_fraction_of_cell": 0.075853,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 719699.620603,
+      "ocs_fraction_of_cell": 0.7197,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006428-C+000499": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 20671.452462,
+      "ocs_fraction_of_cell": 0.020671,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 28934.592558,
+      "ocs_fraction_of_cell": 0.028935,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 13424.338425,
+      "ocs_fraction_of_cell": 0.013424,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 8289.237854,
+      "ocs_fraction_of_cell": 0.008289,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 928680.378701,
+      "ocs_fraction_of_cell": 0.92868,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006428-C+000500": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 18718.42645,
+      "ocs_fraction_of_cell": 0.027887,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 37109.879043,
+      "ocs_fraction_of_cell": 0.055287,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 20571.84106,
+      "ocs_fraction_of_cell": 0.030648,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.2.2",
+      "ocs_area_m2": 5168.224608,
+      "ocs_fraction_of_cell": 0.0077,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 262258.282829,
+      "ocs_fraction_of_cell": 0.390716,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.3",
+      "ocs_area_m2": 4088.47885,
+      "ocs_fraction_of_cell": 0.006091,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006428-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 323310.178658,
+      "ocs_fraction_of_cell": 0.481672,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006429-C+000495": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000495",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 553.63753,
+      "ocs_fraction_of_cell": 0.023508,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000495",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.2.2",
+      "ocs_area_m2": 13251.281734,
+      "ocs_fraction_of_cell": 0.562651,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000495",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 8177.165107,
+      "ocs_fraction_of_cell": 0.347204,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000495",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.2",
+      "ocs_area_m2": 923.465311,
+      "ocs_fraction_of_cell": 0.03921,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000495",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 645.950929,
+      "ocs_fraction_of_cell": 0.027427,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006429-C+000496": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 1271.27476,
+      "ocs_fraction_of_cell": 0.00134,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 22619.718974,
+      "ocs_fraction_of_cell": 0.023842,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 20049.610606,
+      "ocs_fraction_of_cell": 0.021133,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.2.2",
+      "ocs_area_m2": 71783.966499,
+      "ocs_fraction_of_cell": 0.075661,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 365354.437712,
+      "ocs_fraction_of_cell": 0.385089,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.3",
+      "ocs_area_m2": 567.125322,
+      "ocs_fraction_of_cell": 0.000598,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.2",
+      "ocs_area_m2": 33230.496705,
+      "ocs_fraction_of_cell": 0.035025,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 433875.639396,
+      "ocs_fraction_of_cell": 0.457312,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006429-C+000497": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 93617.979799,
+      "ocs_fraction_of_cell": 0.093618,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 102340.955292,
+      "ocs_fraction_of_cell": 0.102341,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 9641.233431,
+      "ocs_fraction_of_cell": 0.009641,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.2.2",
+      "ocs_area_m2": 1613.40326,
+      "ocs_fraction_of_cell": 0.001613,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 132437.308009,
+      "ocs_fraction_of_cell": 0.132437,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.3",
+      "ocs_area_m2": 4833.85795,
+      "ocs_fraction_of_cell": 0.004834,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.2",
+      "ocs_area_m2": 17579.738267,
+      "ocs_fraction_of_cell": 0.01758,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 637935.523992,
+      "ocs_fraction_of_cell": 0.637936,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006429-C+000498": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 102312.991692,
+      "ocs_fraction_of_cell": 0.102313,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 90858.972001,
+      "ocs_fraction_of_cell": 0.090859,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 10100.5357,
+      "ocs_fraction_of_cell": 0.010101,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 39293.319883,
+      "ocs_fraction_of_cell": 0.039293,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 757434.180723,
+      "ocs_fraction_of_cell": 0.757434,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006429-C+000499": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 3670.631378,
+      "ocs_fraction_of_cell": 0.003671,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 16058.211607,
+      "ocs_fraction_of_cell": 0.016058,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 30715.118346,
+      "ocs_fraction_of_cell": 0.030715,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 949556.038669,
+      "ocs_fraction_of_cell": 0.949556,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006429-C+000500": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 4595.118009,
+      "ocs_fraction_of_cell": 0.006397,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 5770.183644,
+      "ocs_fraction_of_cell": 0.008033,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 4869.004073,
+      "ocs_fraction_of_cell": 0.006778,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 111509.982525,
+      "ocs_fraction_of_cell": 0.155233,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006429-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 591594.521712,
+      "ocs_fraction_of_cell": 0.823559,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006430-C+000495": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000495",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 2470.729153,
+      "ocs_fraction_of_cell": 0.276473,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000495",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 859.203648,
+      "ocs_fraction_of_cell": 0.096144,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000495",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 1262.716374,
+      "ocs_fraction_of_cell": 0.141297,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000495",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 4343.961208,
+      "ocs_fraction_of_cell": 0.486086,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006430-C+000496": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 44359.646007,
+      "ocs_fraction_of_cell": 0.048291,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 72589.018952,
+      "ocs_fraction_of_cell": 0.079022,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 6957.454692,
+      "ocs_fraction_of_cell": 0.007574,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.2.2",
+      "ocs_area_m2": 169089.176502,
+      "ocs_fraction_of_cell": 0.184073,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 248971.58639,
+      "ocs_fraction_of_cell": 0.271034,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.2",
+      "ocs_area_m2": 28055.79406,
+      "ocs_fraction_of_cell": 0.030542,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 348574.985353,
+      "ocs_fraction_of_cell": 0.379464,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006430-C+000497": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 19656.7613,
+      "ocs_fraction_of_cell": 0.019657,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 50161.335272,
+      "ocs_fraction_of_cell": 0.050161,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 12597.097063,
+      "ocs_fraction_of_cell": 0.012597,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.2.2",
+      "ocs_area_m2": 92192.138151,
+      "ocs_fraction_of_cell": 0.092192,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 64904.555247,
+      "ocs_fraction_of_cell": 0.064905,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.2",
+      "ocs_area_m2": 23320.274671,
+      "ocs_fraction_of_cell": 0.02332,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 737167.838297,
+      "ocs_fraction_of_cell": 0.737168,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006430-C+000498": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 15058.301693,
+      "ocs_fraction_of_cell": 0.015058,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 45644.585869,
+      "ocs_fraction_of_cell": 0.045645,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 1012.4246,
+      "ocs_fraction_of_cell": 0.001012,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 7344.824817,
+      "ocs_fraction_of_cell": 0.007345,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 930939.863021,
+      "ocs_fraction_of_cell": 0.93094,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006430-C+000499": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 86418.882636,
+      "ocs_fraction_of_cell": 0.086419,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 62522.086473,
+      "ocs_fraction_of_cell": 0.062522,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 5478.939705,
+      "ocs_fraction_of_cell": 0.005479,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.2.2",
+      "ocs_area_m2": 731.4618,
+      "ocs_fraction_of_cell": 0.000731,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 24284.800232,
+      "ocs_fraction_of_cell": 0.024285,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 820563.829154,
+      "ocs_fraction_of_cell": 0.820564,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006430-C+000500": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 60245.840209,
+      "ocs_fraction_of_cell": 0.078706,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 39647.720249,
+      "ocs_fraction_of_cell": 0.051796,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 4286.039113,
+      "ocs_fraction_of_cell": 0.005599,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 41444.611653,
+      "ocs_fraction_of_cell": 0.054144,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006430-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 619828.097204,
+      "ocs_fraction_of_cell": 0.809754,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006431-C+000495": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000495",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 1267.524616,
+      "ocs_fraction_of_cell": 1.0,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006431-C+000496": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 59396.880351,
+      "ocs_fraction_of_cell": 0.067382,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 104639.670312,
+      "ocs_fraction_of_cell": 0.118707,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 12188.86934,
+      "ocs_fraction_of_cell": 0.013827,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.2.2",
+      "ocs_area_m2": 88280.96058,
+      "ocs_fraction_of_cell": 0.100149,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 30758.849002,
+      "ocs_fraction_of_cell": 0.034894,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.2",
+      "ocs_area_m2": 3936.6923,
+      "ocs_fraction_of_cell": 0.004466,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.2",
+      "ocs_area_m2": 61.573685,
+      "ocs_fraction_of_cell": 7e-05,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 582233.753907,
+      "ocs_fraction_of_cell": 0.660505,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006431-C+000497": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 28667.193496,
+      "ocs_fraction_of_cell": 0.029058,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 111627.873811,
+      "ocs_fraction_of_cell": 0.113149,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 26842.843122,
+      "ocs_fraction_of_cell": 0.027209,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.2.1",
+      "ocs_area_m2": 11842.23095,
+      "ocs_fraction_of_cell": 0.012004,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.2.2",
+      "ocs_area_m2": 243019.958354,
+      "ocs_fraction_of_cell": 0.246331,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 159160.289109,
+      "ocs_fraction_of_cell": 0.161329,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.2",
+      "ocs_area_m2": 34544.930659,
+      "ocs_fraction_of_cell": 0.035016,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000497",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 370851.870402,
+      "ocs_fraction_of_cell": 0.375905,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006431-C+000498": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 31012.957629,
+      "ocs_fraction_of_cell": 0.031013,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 29059.014097,
+      "ocs_fraction_of_cell": 0.029059,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 4773.2321,
+      "ocs_fraction_of_cell": 0.004773,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.2.2",
+      "ocs_area_m2": 32921.711328,
+      "ocs_fraction_of_cell": 0.032922,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 114049.259762,
+      "ocs_fraction_of_cell": 0.114049,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.2",
+      "ocs_area_m2": 4657.70105,
+      "ocs_fraction_of_cell": 0.004658,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 783526.124033,
+      "ocs_fraction_of_cell": 0.783526,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006431-C+000499": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 29107.886759,
+      "ocs_fraction_of_cell": 0.031174,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 32018.13613,
+      "ocs_fraction_of_cell": 0.034291,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 2066.52415,
+      "ocs_fraction_of_cell": 0.002213,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.2.2",
+      "ocs_area_m2": 2375.35605,
+      "ocs_fraction_of_cell": 0.002544,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 116979.360568,
+      "ocs_fraction_of_cell": 0.125284,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.2",
+      "ocs_area_m2": 2939.186235,
+      "ocs_fraction_of_cell": 0.003148,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000499",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 748229.43103,
+      "ocs_fraction_of_cell": 0.801346,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006431-C+000500": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 48342.060469,
+      "ocs_fraction_of_cell": 0.059494,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 40958.394008,
+      "ocs_fraction_of_cell": 0.050407,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 3097.192882,
+      "ocs_fraction_of_cell": 0.003812,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.2.2",
+      "ocs_area_m2": 715.79585,
+      "ocs_fraction_of_cell": 0.000881,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 75914.302626,
+      "ocs_fraction_of_cell": 0.093426,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 643532.611366,
+      "ocs_fraction_of_cell": 0.791981,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006431-C+000501": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006431-C+000501",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 11.72822,
+      "ocs_fraction_of_cell": 1.0,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006432-C+000496": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006432-C+000496",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 434811.227314,
+      "ocs_fraction_of_cell": 1.0,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006432-C+000498": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006432-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 1358.28625,
+      "ocs_fraction_of_cell": 0.003169,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006432-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 23710.781893,
+      "ocs_fraction_of_cell": 0.055315,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006432-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.2.2",
+      "ocs_area_m2": 87270.423518,
+      "ocs_fraction_of_cell": 0.203592,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006432-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 11847.20231,
+      "ocs_fraction_of_cell": 0.027638,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006432-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.2",
+      "ocs_area_m2": 17900.80227,
+      "ocs_fraction_of_cell": 0.041761,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006432-C+000498",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 286565.78287,
+      "ocs_fraction_of_cell": 0.668526,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ],
+  "NORM-G1K-FLAT-R+006432-C+000500": [
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006432-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.1",
+      "ocs_area_m2": 7816.957495,
+      "ocs_fraction_of_cell": 0.025741,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006432-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.1.2",
+      "ocs_area_m2": 7932.368296,
+      "ocs_fraction_of_cell": 0.026121,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006432-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS1.1.2.1",
+      "ocs_area_m2": 6140.2679,
+      "ocs_fraction_of_cell": 0.02022,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006432-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.1.1.1",
+      "ocs_area_m2": 40544.171176,
+      "ocs_fraction_of_cell": 0.133512,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    },
+    {
+      "maille_id": "NORM-G1K-FLAT-R+006432-C+000500",
+      "grid_version": "M1-CAND-1KM2-FLAT-L93-O0-V1",
+      "ocs_code_cs": "CS2.2.1",
+      "ocs_area_m2": 241241.417595,
+      "ocs_fraction_of_cell": 0.794406,
+      "area_unit": "m2",
+      "source_id": "OCSGE",
+      "source_year": 2023
+    }
+  ]
+}
