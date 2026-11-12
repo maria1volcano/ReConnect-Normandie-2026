@@ -59,9 +59,9 @@ export function CataloguePage() {
         </section>
 
         {error && (
-          <div className="map-status map-status--error" role="alert">
+          <div className="doc-section catalogue-alert" role="alert">
             <strong>Catalogue indisponible</strong>
-            <span>{error}</span>
+            <p className="doc-note" style={{ marginTop: 6 }}>{error}</p>
           </div>
         )}
 
