@@ -217,7 +217,7 @@ class M2Store:
         }
 
 
-def make_handler(store: M2Store, allowed_origin: str):
+def make_handler(store: M2Store, allowed_origin: str, multiactions=None):
     class Handler(BaseHTTPRequestHandler):
         server_version = "ReConnectLocalM4/1.0"
 
@@ -260,6 +260,29 @@ def make_handler(store: M2Store, allowed_origin: str):
             parsed = urlparse(self.path)
             if parsed.path == "/health":
                 return self._send(200, {"status": "ok", "mode": "local_internal_demo"})
+            if parsed.path.startswith("/api/internal/caen/multiactions-v2/"):
+                if multiactions is None:
+                    return self._send(404, {"error": "experimental_mode_disabled"})
+                if (self.headers.get("Origin") not in {None, allowed_origin}
+                        or any(self.headers.get(h) for h in ("X-Forwarded-Host", "X-Forwarded-Proto", "Via"))):
+                    return self._send(403, {"error": "local_demo_only"})
+                query = parse_qs(parsed.query)
+                try:
+                    multiactions.check_scope(query)
+                    route = parsed.path.removeprefix("/api/internal/caen/multiactions-v2/")
+                    if route == "metadata":
+                        return self._send(200, multiactions.metadata())
+                    if route == "grid":
+                        return self._send(200, multiactions.grid())
+                    if route == "methodology":
+                        return self._send(200, multiactions.methodology())
+                    if re.fullmatch(r"cells/[^/]+", route):
+                        return self._send(200, multiactions.cell(unquote(route[6:])))
+                    return self._send(404, {"error": "route_not_found"})
+                except ValueError:
+                    return self._send(409, {"error": "experimental_scope_mismatch"})
+                except KeyError:
+                    return self._send(404, {"error": "cell_not_found"})
             if parsed.path == "/api/internal/caen/metadata":
                 return self._send(200, store.metadata())
             if parsed.path == "/api/internal/caen/grid":
@@ -301,7 +324,9 @@ def main() -> None:
     port = int(os.environ.get("RECONNECT_M4_PORT", "8765"))
     origin = os.environ.get("RECONNECT_FRONTEND_ORIGIN", "http://127.0.0.1:5173")
     store = M2Store(Path(zip_value))
-    server = ThreadingHTTPServer(("127.0.0.1", port), make_handler(store, origin))
+    from multiactions_v2 import configure
+    multiactions = configure(store, os.environ)
+    server = ThreadingHTTPServer(("127.0.0.1", port), make_handler(store, origin, multiactions))
     print(f"M4 local interne prêt sur http://127.0.0.1:{port}")
     server.serve_forever()
 

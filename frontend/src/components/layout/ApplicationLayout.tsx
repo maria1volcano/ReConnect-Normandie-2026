@@ -1,3 +1,4 @@
+import { isHistoricalReview } from '../../integrations/historicalReview'
 import { useState, useRef, useEffect, useMemo } from 'react'
 import type { Map as MapLibreMap, LngLatBoundsLike } from 'maplibre-gl'
 import { PriorityLegend } from '../legend/PriorityLegend'
@@ -24,7 +25,7 @@ import { CAEN_TERRITORY_ID } from '../../integrations/gridDatasets'
 const TEST_MODE_UI_ENABLED = false
 
 // D/S reste séparée du rang indicatif d’étude. Les deux vues sont accessibles.
-const REAL_VIEW_SWITCHER_ENABLED = true
+const REAL_VIEW_SWITCHER_ENABLED = isHistoricalReview()
 
 interface SelectedGridCell {
   gridVersion: string
@@ -232,7 +233,7 @@ export function ApplicationLayout() {
           {familyHighlight && !testModeEnabled && (
             <div className="family-banner" role="status">
               <div>
-                <strong>Famille {familyHighlight.ruleId}</strong>
+                <strong>{({R1:'Franchissements pour la faune',R2:'Haies',R3:'Friches',R4:'Milieux humides'})[familyHighlight.ruleId]}</strong>
                 <span>
                   {familyHighlight.ids.size} secteur{familyHighlight.ids.size > 1 ? 's' : ''} concerné
                   {familyHighlight.ids.size > 1 ? 's' : ''} — surlignés sur la carte. Cliquez une
@@ -256,8 +257,7 @@ export function ApplicationLayout() {
             <summary>Sources et limites</summary>
             <p>
               Les observations réelles mobilisent notamment IGN BD TOPO et ADMIN EXPRESS, le SRCE
-              2014, les inventaires DREAL et Cartofriches. La vue indicative prépare l’instruction des actions. Les priorités écologiques restent indéterminées faute de validation. Le mode TEST
-              conserve séparément les 43 mailles historiques et leurs couleurs synthétiques.
+              2014, les inventaires DREAL et Cartofriches. La vue indicative prépare l’instruction des actions. Les priorités écologiques restent indéterminées faute de validation. Les résultats historiques sont conservés dans les ressources de l’équipe.
               Le fond cartographique sert uniquement au repérage.
             </p>
           </details>

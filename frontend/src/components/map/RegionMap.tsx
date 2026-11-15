@@ -194,6 +194,7 @@ const basemapStyle: StyleSpecification = {
     ...administrativeSources,
   },
   layers: [
+    { id: 'base-background', type: 'background', paint: { 'background-color': '#b9c8bc' } },
     {
       id: 'openstreetmap',
       type: 'raster',
@@ -219,6 +220,8 @@ const fallbackStyle: StyleSpecification = {
 type MapState = 'loading' | 'ready' | 'basemap-error'
 
 export interface RegionMapProps {
+  localOnly?: boolean
+  compactControls?: boolean
   selectedDepartment?: DepartmentCode | null
   hoveredDepartment?: DepartmentCode | null
   onSelectDepartment?: (code: DepartmentCode | null) => void
@@ -239,6 +242,8 @@ export interface RegionMapProps {
 }
 
 export function RegionMap({
+  localOnly = false,
+  compactControls = false,
   selectedDepartment: selectedProp,
   hoveredDepartment: hoveredProp,
   onSelectDepartment,
@@ -260,7 +265,7 @@ export function RegionMap({
   const mapContainerRef = useRef<HTMLDivElement>(null)
   const internalMapRef = useRef<MapLibreMap | undefined>(undefined)
   const activeMapRef = externalMapRef || internalMapRef
-  const cameraTargetRef = useRef<LngLatBoundsLike>(NORMANDY_BOUNDS)
+  const cameraTargetRef = useRef<LngLatBoundsLike>(studyAreaBounds ?? NORMANDY_BOUNDS)
   const userMovedCameraRef = useRef(false)
   const [mapState, setMapState] = useState<MapState>('loading')
   const [innerSelected, setInnerSelected] = useState<DepartmentCode | null>(null)
@@ -311,8 +316,8 @@ export function RegionMap({
 
         map = new maplibregl.Map({
           container: mapContainer,
-          style: basemapStyle,
-          bounds: NORMANDY_BOUNDS,
+          style: localOnly ? fallbackStyle : basemapStyle,
+          bounds: studyAreaBounds ?? NORMANDY_BOUNDS,
           fitBoundsOptions: { padding: getInitialBoundsPadding(mapContainer.clientWidth) },
           minZoom: 5,
           attributionControl: false,
@@ -329,7 +334,7 @@ export function RegionMap({
           if (clientWidth <= padding * 2 || clientHeight <= padding * 2) return
           map.resize()
           if (userMovedCameraRef.current) return
-          map.fitBounds(cameraTargetRef.current, { padding, duration: 0 })
+          map.fitBounds(cameraTargetRef.current, { padding: localOnly ? { top: padding, right: padding, bottom: 100, left: padding } : padding, duration: 0 })
         }
 
         map.on('movestart', (event) => {
@@ -341,7 +346,7 @@ export function RegionMap({
 
         map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right')
         map.addControl(
-          new maplibregl.AttributionControl({ compact: true, customAttribution: 'Fond de carte' }),
+          new maplibregl.AttributionControl({ compact: !compactControls, customAttribution: 'Limites : IGN' }),
           'bottom-right',
         )
 
@@ -361,7 +366,9 @@ export function RegionMap({
         })
 
         map.on('error', (event) => {
-          console.error('[RegionMap] Erreur MapLibre', event.error)
+          if (!localOnly && (('sourceId' in event && event.sourceId === 'openstreetmap') || /tile\.openstreetmap\.org/.test(String(event.error)))) {
+            showBasemapError()
+          } else console.error('[RegionMap] Erreur MapLibre', event.error)
         })
 
         const showBasemapError = () => {
@@ -369,18 +376,22 @@ export function RegionMap({
           basemapFailed = true
           setMapState('basemap-error')
           onMapReady?.()
-          map?.setStyle(fallbackStyle)
+          // Keep the grid, feature states and click handlers intact on tile failure.
+          if (map?.getLayer('openstreetmap')) map.setLayoutProperty('openstreetmap', 'visibility', 'none')
+          fitCameraTarget()
         }
 
         map.once('load', () => {
-          if (cancelled || basemapFailed) return
+          if (cancelled) return
           clearTimeout(basemapTimeout)
+          if (compactControls) map?.setPaintProperty(DEPARTMENTS_FILL_LAYER, 'fill-opacity', 0.05)
+          if (basemapFailed) { fitCameraTarget(); onMapReady?.(); return }
           fitCameraTarget()
           setMapState('ready')
           onMapReady?.()
         })
 
-        basemapTimeout = setTimeout(showBasemapError, 10_000)
+        if (!localOnly) basemapTimeout = setTimeout(showBasemapError, 10_000)
       } catch {
         if (!cancelled) setMapState('basemap-error')
       }
@@ -438,7 +449,7 @@ export function RegionMap({
     userMovedCameraRef.current = false
     const container = map.getContainer()
     map.fitBounds(target, {
-      padding: getInitialBoundsPadding(container.clientWidth) * 2,
+      padding: localOnly ? { top: 24, right: 24, bottom: 100, left: 24 } : getInitialBoundsPadding(container.clientWidth) * 2,
       duration: prefersReducedMotion() ? 0 : 900,
     })
   }, [mapState, selectedDepartment, studyAreaBounds])
@@ -479,7 +490,7 @@ export function RegionMap({
 
   return (
     <div
-      className="region-map"
+      className={`region-map${compactControls ? ' region-map--compact' : ''}`}
       aria-busy={isLoading}
       onKeyDown={(event) => {
         if (event.key === 'Escape' && selectedDepartment) selectDepartment(null)
@@ -500,9 +511,9 @@ export function RegionMap({
       ) : null}
 
       {hasBasemapError ? (
-        <div className="map-status map-status--error" role="alert">
-          <strong>Fond de carte indisponible</strong>
-          <span>La structure de la carte reste accessible. Vérifiez la connexion puis rechargez.</span>
+        <div className={compactControls ? 'v2-basemap-status' : 'map-status map-status--error'} role="alert">
+          <strong>Fond routier indisponible</strong>
+          <span>Les secteurs restent sélectionnables.</span>
         </div>
       ) : null}
 
@@ -515,7 +526,7 @@ export function RegionMap({
       <div className="layer-placeholders" aria-label="État des couches territoriales">
         {showRealGrid && realGridCount > 0 && (
           <span className="status-badge status-badge--info">
-            {realGridCount} maille{realGridCount > 1 ? 's' : ''} réelle{realGridCount > 1 ? 's' : ''}
+            {realGridCount} {compactControls ? 'secteurs analysés' : `maille${realGridCount > 1 ? 's' : ''} réelle${realGridCount > 1 ? 's' : ''}`}
           </span>
         )}
         {testModeEnabled && isTestData && (
@@ -537,7 +548,7 @@ export function RegionMap({
           onClick={onZoomToPilot}
           aria-label="Zoomer vers le territoire d’étude Caen et cinq communes"
         >
-          Voir la zone d’étude
+          {compactControls ? 'Recentrer' : 'Voir la zone d’étude'}
         </button>
       )}
 
@@ -558,7 +569,7 @@ export function RegionMap({
         onClick={onToggleRealGrid}
         aria-pressed={showRealGrid}
       >
-        {showRealGrid ? 'Masquer la grille' : 'Afficher la grille'}
+        {showRealGrid ? (compactControls ? 'Masquer les mailles' : 'Masquer la grille') : (compactControls ? 'Afficher les mailles' : 'Afficher la grille')}
       </button>
 
       {testModeAvailable && onToggleTestMode && (

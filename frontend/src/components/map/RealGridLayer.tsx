@@ -37,11 +37,13 @@ const ECOLOGICAL_COLOR_EXPRESSION = [
   '#89938F',
 ] as ExpressionSpecification
 
-function fillColorExpression(view: 'study' | 'documentary' | 'ecological'): ExpressionSpecification {
+function fillColorExpression(view: 'study' | 'documentary' | 'ecological' | 'neutral'): ExpressionSpecification | string {
+  if (view === 'neutral') return '#8fa99f'
   return view === 'study' ? ['get', 'study_color'] as ExpressionSpecification : view === 'documentary' ? DOCUMENTARY_COLOR_EXPRESSION : ECOLOGICAL_COLOR_EXPRESSION
 }
 
 interface RealGridLayerProps {
+  contextualBasemap?: boolean
   map: MapLibreMap | undefined
   realGridData: FeatureCollection<Geometry, RealGridFeatureProperties>
   selectedRealHexagonId: string | null
@@ -49,12 +51,13 @@ interface RealGridLayerProps {
   onSelectRealHexagon: (id: string | null) => void
   onHoverRealHexagon: (id: string | null) => void
   showRealGrid: boolean
-  classificationView?: 'study' | 'documentary' | 'ecological'
+  classificationView?: 'study' | 'documentary' | 'ecological' | 'neutral'
   highlightedMailleIds?: ReadonlySet<string> | null
 }
 
 export function RealGridLayer({
   map,
+  contextualBasemap = false,
   realGridData,
   selectedRealHexagonId,
   hoveredRealHexagonId,
@@ -65,13 +68,16 @@ export function RealGridLayer({
   highlightedMailleIds = null,
 }: RealGridLayerProps) {
   const isInitializedRef = useRef(false)
+  const classificationRef = useRef(classificationView)
+  const eventHandlersRef = useRef<Record<string, (event: any) => void> | null>(null)
   const selectRef = useRef(onSelectRealHexagon)
   const hoverRef = useRef(onHoverRealHexagon)
 
   useEffect(() => {
+    classificationRef.current = classificationView
     selectRef.current = onSelectRealHexagon
     hoverRef.current = onHoverRealHexagon
-  }, [onSelectRealHexagon, onHoverRealHexagon])
+  }, [onSelectRealHexagon, onHoverRealHexagon, classificationView])
 
   const initializeLayer = useCallback(() => {
     if (!map || isInitializedRef.current) return
@@ -88,14 +94,14 @@ export function RealGridLayer({
         type: 'fill',
         source: REAL_GRID_SOURCE,
         paint: {
-          'fill-color': fillColorExpression(classificationView),
+          'fill-color': fillColorExpression(classificationRef.current),
           'fill-opacity': [
             'case',
             ['boolean', ['feature-state', 'selected'], false],
-            0.78,
+            contextualBasemap ? 0.52 : 0.78,
             ['boolean', ['feature-state', 'hover'], false],
-            0.74,
-            0.7,
+            contextualBasemap ? 0.44 : 0.74,
+            contextualBasemap ? 0.30 : 0.7,
           ],
           'fill-opacity-transition': { duration: 200 },
         },
@@ -131,39 +137,42 @@ export function RealGridLayer({
         },
       })
 
-      ;(map as any).on('mousemove', REAL_GRID_FILL_LAYER, (event: any) => {
-        const mailleId = event.features?.[0]?.properties?.maille_id
-        if (mailleId && typeof mailleId === 'string') {
-          map.getCanvas().style.cursor = 'pointer'
-          hoverRef.current(mailleId)
-        }
-      })
-
-      ;(map as any).on('mouseleave', REAL_GRID_FILL_LAYER, () => {
-        map.getCanvas().style.cursor = ''
-        hoverRef.current(null)
-      })
-
-      ;(map as any).on('click', REAL_GRID_FILL_LAYER, (event: any) => {
-        const mailleId = event.features?.[0]?.properties?.maille_id
-        if (mailleId && typeof mailleId === 'string') {
-          selectRef.current(mailleId)
-        }
-      })
+      const handlers: Record<string, (event: any) => void> = {
+        mousemove: (event) => {
+          const id = event.features?.[0]?.properties?.maille_id
+          if (typeof id === 'string') {
+            map.getCanvas().style.cursor = 'pointer'
+            hoverRef.current(id)
+          }
+        },
+        mouseleave: () => {
+          map.getCanvas().style.cursor = ''
+          hoverRef.current(null)
+        },
+        click: (event) => {
+          const id = event.features?.[0]?.properties?.maille_id
+          if (typeof id === 'string') selectRef.current(id)
+        },
+      }
+      eventHandlersRef.current = handlers
+      for (const [type, listener] of Object.entries(handlers)) {
+        ;(map as any).on(type, REAL_GRID_FILL_LAYER, listener)
+      }
 
       isInitializedRef.current = true
     } catch (error) {
       console.error('[RealGridLayer] Erreur initialisation:', error)
     }
-  }, [map, realGridData, classificationView])
+  }, [map, realGridData, contextualBasemap])
 
   const cleanupLayer = useCallback(() => {
     if (!map) return
 
     try {
-      ;(map as any).off('mousemove', REAL_GRID_FILL_LAYER)
-      ;(map as any).off('mouseleave', REAL_GRID_FILL_LAYER)
-      ;(map as any).off('click', REAL_GRID_FILL_LAYER)
+      for (const [type, listener] of Object.entries(eventHandlersRef.current ?? {})) {
+        ;(map as any).off(type, REAL_GRID_FILL_LAYER, listener)
+      }
+      eventHandlersRef.current = null
 
       if (map.getLayer(REAL_GRID_LINE_LAYER)) {
         map.removeLayer(REAL_GRID_LINE_LAYER)

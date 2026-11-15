@@ -16,7 +16,7 @@ export interface CatalogueFamily {
   selectedCount: number | null
   leadCount: number
   cellCount: number
-  cells: Array<{ mailleId: string; municipalities: string[]; documentaryLevel: string }>
+  cells: Array<{ sectorNumber: number; mailleId: string; municipalities: string[]; documentaryLevel: string }>
 }
 
 // Définitions issues de docs/rules_actions.json (règles R1–R4, statut
@@ -108,6 +108,7 @@ export function loadCatalogueFamilies(): Promise<CatalogueFamily[]> {
 }
 
 function buildFamilies(cells: Record<string, M4CellBundle>): CatalogueFamily[] {
+  const sectorNumbers=new Map(Object.keys(cells).map((id,index)=>[id,index+1]))
   return CATALOGUE_FAMILY_ORDER.map((ruleId) => {
     const familyCells: CatalogueFamily['cells'] = []
     let leadCount = 0
@@ -121,6 +122,7 @@ function buildFamilies(cells: Record<string, M4CellBundle>): CatalogueFamily[] {
       if (leads.length > 0) {
         leadCount += leads.length
         familyCells.push({
+          sectorNumber: sectorNumbers.get(bundle.maille_id)!,
           mailleId: bundle.maille_id,
           municipalities: bundle.municipalities.map((m) => m.nom),
           documentaryLevel: bundle.documentary.level,

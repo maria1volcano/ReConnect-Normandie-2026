@@ -8,6 +8,8 @@ try {const tested=[],errors=[],renderWarnings=[],page=await browser.newPage({vie
 await page.goto('http://127.0.0.1:5183/',{waitUntil:'domcontentloaded'});
 await page.getByRole('heading',{name:'Priorités d’étude des actions écologiques',exact:true}).waitFor({timeout:60000});
 await page.waitForFunction(discover);await page.waitForFunction(async ({discover})=>{const m=(new Function('return ('+discover+')'))()();return m&&m.getLayer('real-grid-fill')&&(await m.getSource('real-grid-source').getData()).features.length===101},{discover:discover.toString()},{timeout:60000});
+await page.locator('.region-map[aria-busy="false"]').waitFor({timeout:60000});
+await page.waitForFunction(d=>{const m=(new Function('return ('+d+')'))()();return m&&!m.isMoving()&&m.isStyleLoaded()},discover.toString());
 await page.waitForTimeout(1500);
 const scope='territory_id=caen_et_nord_6communes&grid_version=M1-CAEN-6COM-1KM2-FLAT-L93-O0-V1';
 const meta=await (await page.request.get('http://127.0.0.1:8767/api/internal/caen/metadata')).json();assert.equal(meta.events_admitted,5336);assert.equal(meta.events_quarantined,1);assert.equal(meta.test_data,false);

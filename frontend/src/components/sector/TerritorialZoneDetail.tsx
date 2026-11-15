@@ -1,3 +1,5 @@
+import { PRIORITY_LABELS } from '../../integrations/territorialPresentation'
+import { isHistoricalReview } from '../../integrations/historicalReview'
 import { useEffect, useState } from 'react'
 import { loadM4CellBundle, type M4CellBundle, type M4StudyAction } from '../../integrations/m4Adapter'
 
@@ -14,7 +16,7 @@ const OBSERVATION_NAMES: Record<string, string> = {
 }
 function readable(text: string): string {
   return text.replace(/V1[–-]V3/g, 'cartographiques').replace(/\bV[1-4]\b/g, 'cartographique')
-    .replace(/\bA0[1-4]\b/g, (id) => ACTION_NAMES[id]).replace(/\bR[1-4]\b/g, 'scientifique')
+    .replace(/SRCE/g,'schéma régional des continuités écologiques').replace(/XY/g,'cartographique').replace(/\bA0[1-4]\b/g, (id) => ACTION_NAMES[id]).replace(/\bR[1-4]\b/g, 'scientifique')
 }
 function area(value: number): string {
   return value >= 1_000_000 ? `${(value / 1_000_000).toLocaleString('fr-FR', { maximumFractionDigits: 2 })} km²`
@@ -42,7 +44,7 @@ export function TerritorialZoneDetail({ mailleId, gridVersion, territoryId }: Pr
       })
     return () => controller.abort()
   }, [gridVersion, mailleId, territoryId])
-  if (!data) return <aside className="zone-detail" aria-live="polite"><div className="detail-state">
+  if (!data || data.maille_id !== mailleId || data.grid_version !== gridVersion || data.territory_id !== territoryId) return <aside className="zone-detail" aria-live="polite"><div className="detail-state">
     <p className="context-label">Fiche territoriale</p><h2>Diagnostic du secteur</h2>
     <p role={error ? 'alert' : undefined}>{error ? `Fiche indisponible : ${error}` : 'Chargement de la fiche…'}</p>
   </div></aside>
@@ -56,7 +58,7 @@ export function TerritorialZoneDetail({ mailleId, gridVersion, territoryId }: Pr
       <header className="detail-header">
         <p className="context-label">Fiche territoriale · {area(data.area_m2)}</p>
         <h2 id="territorial-detail-title">{data.municipalities.map((m) => m.nom).join(', ')}</h2>
-        {p ? <p className="study-priority" data-study-color={p.couleur} style={{ borderLeftColor: p.couleur_hex }}>{p.libelle}</p>
+        {p ? <p className="study-priority" data-study-color={p.couleur} style={{ borderLeftColor: p.couleur_hex }}>{PRIORITY_LABELS[p.couleur]}</p>
           : <p className="detail-note">Classement documentaire antérieur · décisions du nouveau lot indisponibles</p>}
       </header>
       <section className="detail-section" aria-label="Diagnostic territorial">
@@ -105,11 +107,11 @@ export function TerritorialZoneDetail({ mailleId, gridVersion, territoryId }: Pr
         <h3 className="detail-section-title">Avant toute réalisation</h3>
         <ul>{Array.from(new Set([...d.conditions_before_works, ...(d.main_action?.conditions_manquantes ?? [])])).map((c) => <li key={c}>{readable(c)}</li>)}</ul>
       </section>}
-      <section className="detail-section" aria-label="Priorité écologique D/S">
+      {isHistoricalReview() && <section className="detail-section" aria-label="Priorité écologique D/S">
         <h3 className="detail-section-title">Priorité écologique D/S : indéterminée</h3>
-        <p>Le rang indicatif d’étude est distinct du calcul écologique officiel. Aucune recommandation de travaux n’est scientifiquement validée.</p>
-      </section>
-      <details className="detail-expandable technical-provenance">
+        <p>Le rang indicatif d’étude est distinct du résultat écologique historique. Aucune recommandation de travaux n’est scientifiquement validée.</p>
+      </section>}
+      {isHistoricalReview() ? <details className="detail-expandable technical-provenance">
         <summary>Détails techniques, pistes historiques et provenance</summary>
         <dl><dt>Maille</dt><dd>{data.maille_id}</dd><dt>Territoire</dt><dd>{data.territory_id}</dd>
           <dt>Grille</dt><dd>{data.grid_version}</dd><dt>Données</dt><dd>{data.dataset_version}</dd>
@@ -125,7 +127,12 @@ export function TerritorialZoneDetail({ mailleId, gridVersion, territoryId }: Pr
         {!!d?.historical_lead_ids.length && <ul>{d.historical_lead_ids.map((id) => <li key={id}>{id}</li>)}</ul>}
         <p>Sources : IGN BD TOPO et ADMIN EXPRESS, DREAL SRCE 2014 et inventaires humides, Cerema Cartofriches. Les couvertures écologiques ne sont pas validées. L’OCS GE, lorsqu’elle est présente dans le lot, renseigne l’occupation cartographique sans prouver une continuité fonctionnelle.</p>
         <ul>{data.limitations.map((limit) => <li key={limit}>{limit}</li>)}</ul>
-      </details>
+      </details> : <details className="detail-expandable technical-provenance"><summary>Données et sources du secteur</summary>
+        <p>Sources : IGN, DREAL Normandie et Cerema. Le schéma régional est une référence de 2014 ; les observations doivent être actualisées localement.</p>
+        <p>{historicalLeads.length} pistes historiques sont conservées pour ce secteur. Leur présence ne valide aucune restauration.</p>
+        {historicalLeads.map(a=><article key={a.action_id}><h4>{ACTION_NAMES[a.action_id]}</h4><p>{readable(a.evidence)}</p><p>{readable(a.reason)}</p></article>)}
+        <p>Les identifiants, versions et fichiers complets restent disponibles dans la documentation de l’équipe. Les priorités écologiques historiques restent indéterminées.</p>
+      </details>}
     </div>
   </aside>
 }

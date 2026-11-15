@@ -1,0 +1,119 @@
+/* Local review journey. Family accents and territorial examination colors have separate meanings. */
+.workspace.v2-workspace { display:grid; width:min(1536px,calc(100% - 40px)); grid-template-columns:minmax(0,1.2fr) minmax(360px,1fr); gap:24px; align-items:start; }
+.v2-workspace > *, .v2-panel, .v2-action { min-width:0; overflow-wrap:anywhere; }
+.v2-hero { grid-column:1/-1; padding:4px 8px 0; }
+.v2-workspace .v2-hero h1 { font-size:clamp(1.7rem,3vw,2.6rem); line-height:1.15; margin:10px 0 14px; }
+.v2-hero > p { max-width:85ch; }
+.v2-summary { color:#c9d9d0; font-size:.9rem; margin:14px 0 0; }
+.v2-workspace p, .v2-workspace li { line-height:1.55; }
+.v2-workspace .map-workspace { padding:20px; width:100%; max-width:none; }
+.v2-workspace .map-frame { height:clamp(370px,53vh,550px); min-height:340px; margin:16px 0 0; }
+.v2-workspace button, .v2-workspace select, .v2-workspace input, .v2-method-page button { min-height:42px; border:1px solid #77998c; border-radius:8px; background:#20382f; color:#f4f8f3; padding:8px 12px; font:inherit; max-width:100%; }
+.v2-workspace button, .v2-workspace select, .v2-panel summary { cursor:pointer; }
+.v2-workspace :is(button,summary,select,input,a):focus-visible, .v2-method-page :is(summary,a,button):focus-visible { outline:3px solid #b9ebdc; outline-offset:3px; }
+.v2-sector-search { display:grid; gap:7px; }
+.v2-sector-search > label, .v2-selector { font-size:.88rem; font-weight:600; }
+.v2-sector-search input::placeholder { color:#bdcfc5; opacity:1; }
+.v2-selector { display:grid; gap:7px; margin:4px 0 0; }
+.v2-selector select { width:100%; min-width:0; font-size:.86rem; font-weight:400; text-overflow:ellipsis; }
+.v2-search-count { color:#c9d9d0; font-size:.78rem; margin:0; }
+.v2-map-readout { margin:10px 0; font-size:.85rem; min-height:2.7em; color:#d8e9df; }
+.v2-territorial-legend { border-top:1px solid #587a6b; padding-top:12px; }
+.v2-territorial-legend h2 { font-size:1.03rem; margin:0 0 8px; }
+.v2-territorial-legend > p { font-size:.84rem; margin:6px 0 10px; }
+.v2-territorial-legend ul { display:grid; grid-template-columns:1fr 1fr; gap:10px 14px; padding:0; list-style:none; margin:14px 0; }
+.v2-territorial-legend li { display:flex; gap:8px; align-items:center; margin:0; font-size:.85rem; }
+.v2-priority-swatch { display:inline-grid; place-items:center; flex:0 0 26px; width:26px; height:26px; border:1px solid #edf5f0; border-radius:5px; color:#000; font-size:.8rem; font-weight:800; }
+.v2-small-note, .v2-workspace .v2-small-note { color:#c9d9d0; font-size:.86rem; }
+.v2-to-detail, .v2-method-link { display:inline-block; color:#b9ebdc; padding:10px 0; text-underline-offset:4px; font-size:.9rem; }
+.v2-panel { background:#172820; border:1px solid #587a6b; padding:22px; border-radius:20px; color:#f2f5ee; }
+.v2-panel h2 { font-size:clamp(1.35rem,2vw,1.8rem); margin:8px 0 18px; line-height:1.25; }
+.v2-territorial-status { display:flex; align-items:center; gap:10px; font-size:.8rem; margin:14px 0; color:#d5e5db; }
+.v2-territorial-status strong { display:block; margin-top:3px; font-size:1rem; color:#f2f5ee; }
+.v2-sector-summary { font-size:.91rem; margin:14px 0; }
+.v2-piste-count { font-weight:700; margin:20px 0 12px; }
+.v2-piste-count > span { display:block; font-weight:400; font-size:.8rem; color:#c9d9d0; margin-top:5px; }
+.v2-panel .v2-plain-note { font-size:.82rem; color:#c9d9d0; }
+.v2-actions { display:grid; gap:14px; margin-top:16px; }
+.v2-action { padding:16px; background:#202B28; border:1px solid #6c8b7d; border-inline-start:3px solid var(--family-color,#819389); border-radius:14px; }
+.v2-action-header { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px; }
+.v2-family { display:flex; flex:1 1 160px; align-items:center; gap:10px; min-width:0; }
+.v2-family-icon { display:inline-grid; place-items:center; flex:0 0 38px; width:38px; height:38px; border-radius:10px; background:var(--family-icon-background); color:var(--family-color); }
+.v2-family-icon svg { display:block; width:24px; height:24px; }
+.v2-family-name { margin:0; color:#F2F5EE; font-size:.83rem; font-weight:600; }
+.v2-level { display:flex; gap:7px; align-items:center; max-width:100%; padding:5px 8px; border:1px solid #8ca99b; border-radius:7px; background:#2B3833; color:#F2F5EE; font-size:.76rem; line-height:1.4; font-weight:600; margin:0; }
+.v2-level span { border-inline-start:1px solid #8ca99b; padding-inline-start:7px; }
+.v2-action h3 { font-size:1.1rem; line-height:1.35; margin:8px 0 14px; }
+.v2-action-why h4, .v2-action-solution h4, .v2-action-more h4 { font-size:.87rem; margin:14px 0 6px; line-height:1.45; }
+.v2-action-why p, .v2-action-solution p { margin:0; font-size:.91rem; }
+.v2-action-more { margin-top:14px; border-top:1px solid #587a6b; padding-top:7px; font-size:.87rem; }
+.v2-panel summary, .v2-method-page summary { line-height:1.5; font-weight:600; padding:7px 0; cursor:pointer; }
+.v2-action-more summary { min-height:38px; }
+.v2-local-indicators { margin:8px 0; }
+.v2-local-indicators > div { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:14px; padding:7px 0; border-bottom:1px solid #486458; }
+.v2-local-indicators dt { font-weight:400; }
+.v2-local-indicators dd { font-weight:700; margin:0; }
+.v2-indicator-note { color:#c9d9d0; font-size:.78rem; margin:8px 0 14px; }
+.v2-specific-limit { margin:14px 0; }
+.v2-workspace ul, .v2-workspace ol { padding-left:21px; }
+.v2-workspace .v2-territorial-legend ul { padding-left:0; }
+.v2-workspace li { margin:6px 0; }
+.v2-extra, .v2-technical { margin-top:14px; border-top:1px solid #587a6b; padding-top:8px; font-size:.87rem; }
+.v2-complete-indicators { border-top:1px solid #486458; margin-top:12px; padding-top:5px; }
+.v2-extra h4 { margin:14px 0 6px; }
+.v2-reserve { margin:20px 0 8px; padding-top:14px; border-top:1px solid #587a6b; font-size:.84rem; color:#c9d9d0; }
+.v2-empty { border:1px dashed #9fb8aa; padding:14px; border-radius:10px; }
+.v2-footer { grid-column:1/-1; font-size:.8rem; color:#c9d9d0; margin:0 4px 20px; }
+#v2-analysis { scroll-margin-top:16px; }
+.v2-sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+/* Restrict compact map controls to the local journey, preserving the historical UI. */
+.v2-workspace .maplibregl-ctrl-group button { min-height:29px; padding:0; background:#f4f8f3; }
+.v2-workspace .region-map--compact .test-zone-button { bottom:52px; right:10px; left:auto; padding:6px 10px; min-height:32px; font-size:.76rem; }
+.v2-workspace .region-map--compact .test-mode-toggle { top:45px; left:10px; right:auto; bottom:auto; padding:6px 9px; min-height:32px; font-size:.75rem; }
+.v2-workspace .region-map--compact .layer-placeholders { top:10px; left:10px; }
+.v2-workspace .region-map--compact .status-badge { padding:4px 8px; font-size:.68rem; }
+.v2-workspace .region-map--compact .maplibregl-ctrl-attrib { font-size:10px; max-width:100%; }
+.v2-basemap-status { position:absolute; top:88px; bottom:auto; left:10px; right:50px; padding:5px 8px; background:#172820; color:#f2f5ee; font-size:.72rem; border-radius:5px; pointer-events:none; }
+.v2-basemap-status span { margin-left:6px; }
+.v2-method-page { color:#f2f5ee; max-width:1120px; }
+.v2-method-page .doc-section { background:#172820; border-color:#587a6b; box-shadow:none; scroll-margin-top:16px; }
+.v2-method-page .doc-section h2 { color:#f2f5ee; line-height:1.4; }
+.v2-method-page h3 { font-size:1rem; line-height:1.4; margin:12px 0 8px; }
+.v2-method-page a { color:#b9ebdc; text-underline-offset:3px; }
+.v2-method-page p, .v2-method-page li, .v2-method-page dd { line-height:1.65; overflow-wrap:anywhere; }
+.v2-method-nav { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 20px; }
+.v2-method-nav a { padding:9px 12px; border:1px solid #587a6b; border-radius:8px; font-size:.85rem; }
+.v2-source-grid, .v2-rule-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px 24px; }
+.v2-source-grid article, .v2-rule-grid article { padding-bottom:10px; border-bottom:1px solid #486458; }
+.v2-source-grid p, .v2-rule-grid p { font-size:.91rem; }
+.v2-equation { border-inline-start:3px solid #7ad5ad; padding:10px 16px; margin:18px 0; background:#20362b; border-radius:4px; }
+.v2-equation code { display:block; font-size:1rem; color:#f2f5ee; white-space:normal; overflow-wrap:anywhere; margin-bottom:10px; }
+.v2-equation p { font-size:.9rem; }
+.v2-justification-levels { display:grid; gap:14px; margin:18px 0; }
+.v2-justification-levels > div { display:grid; grid-template-columns:28px minmax(0,1fr); column-gap:10px; }
+.v2-justification-levels dt { display:contents; font-weight:600; }
+.v2-justification-levels dt > span[aria-hidden] { display:grid; place-items:center; grid-row:span 2; align-self:start; height:28px; border:1px solid #77998c; border-radius:6px; font-size:.85rem; }
+.v2-method-page .v2-justification-levels dd { grid-column:2; margin:4px 0 0; font-size:.9rem; color:#c9d9d0; }
+.v2-priority-rules, .v2-real-example ol { padding-left:24px; }
+.v2-priority-rules li, .v2-real-example li { margin:12px 0; }
+.v2-reference-list { padding-left:20px; }
+.v2-reference-list li { margin:18px 0; }
+.v2-reference-list p { font-size:.9rem; margin-top:5px; color:#d3e1d9; }
+@media (min-width:1101px) and (min-height:1100px) { .v2-workspace .map-workspace { position:sticky; top:16px; } }
+@media (max-width:1000px) {
+  .workspace.v2-workspace { grid-template-columns:minmax(0,1fr); }
+  .v2-workspace .map-frame { height:430px; }
+}
+@media (max-width:600px) { .v2-source-grid, .v2-rule-grid { grid-template-columns:1fr; } }
+@media (max-width:480px) {
+  .workspace.v2-workspace { width:calc(100% - 24px); gap:16px; }
+  .v2-hero { padding:0 4px; }
+  .v2-workspace .map-workspace, .v2-panel { padding:14px; border-radius:16px; }
+  .v2-workspace .map-frame { height:350px; min-height:320px; }
+  .v2-family { flex-basis:100%; }
+  .v2-action { padding:13px; }
+  .v2-territorial-legend ul { grid-template-columns:1fr; }
+  .v2-panel h2 { font-size:1.35rem; }
+  .v2-method-page .doc-section { padding:16px; }
+  .v2-equation { padding:10px; }
+}

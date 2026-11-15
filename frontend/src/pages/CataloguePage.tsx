@@ -4,11 +4,13 @@ import { linkClickHandler, navigate } from '../app/router'
 import { loadCatalogueFamilies, type CatalogueFamily, type RuleId } from '../integrations/catalogueData'
 
 const LEVEL_LABELS: Record<string, string> = {
-  rouge: 'V1 · Rouge',
-  orange: 'V2 · Orange',
-  jaune: 'V3 · Jaune',
-  gris: 'V4 · Gris',
+  rouge: 'Secteur à examiner en priorité',
+  orange: 'Priorité d’examen élevée',
+  jaune: 'Priorité d’examen modérée',
+  gris: 'Informations insuffisantes',
 }
+
+function readable(text: string) { return text.replace(/\bR[1-4]\b/g,'de cette famille').replace(/\bA0[1-4]\b/g,'de cette famille').replace(/SRCE/g,'schéma régional des continuités écologiques').replace(/conflit_potentiel/g,'pression potentielle à qualifier').replace(/obstacle_confirme/g,'obstacle confirmé par expertise') }
 
 export function CataloguePage() {
   const [families, setFamilies] = useState<CatalogueFamily[] | null>(null)
@@ -56,9 +58,9 @@ export function CataloguePage() {
         </section>
 
         {error && (
-          <div className="map-status map-status--error" role="alert">
+          <div className="doc-section catalogue-alert" role="alert">
             <strong>Catalogue indisponible</strong>
-            <span>{error}</span>
+            <p className="doc-note" style={{ marginTop: 6 }}>{error}</p>
           </div>
         )}
 
@@ -82,13 +84,13 @@ export function CataloguePage() {
                 ))}
               </div>
               <div className="filter-group">
-                <span className="filter-label">Niveau V</span>
+                <span className="filter-label">Examen territorial</span>
                 <select value={levelFilter} onChange={(e) => setLevelFilter(e.target.value)} aria-label="Filtrer par niveau documentaire">
                   <option value="all">Tous</option>
-                  <option value="rouge">V1 · Rouge</option>
-                  <option value="orange">V2 · Orange</option>
-                  <option value="jaune">V3 · Jaune</option>
-                  <option value="gris">V4 · Gris</option>
+                  <option value="rouge">Secteur à examiner en priorité</option>
+                  <option value="orange">Priorité d’examen élevée</option>
+                  <option value="jaune">Priorité d’examen modérée</option>
+                  <option value="gris">Informations insuffisantes</option>
                 </select>
               </div>
               <div className="filter-group">
@@ -116,12 +118,12 @@ export function CataloguePage() {
                     <p className="catalogue-question">« {family.question} »</p>
 
                     <dl className="catalogue-details">
-                      <div><dt>Déclencheur étayé</dt><dd>{family.declarationEtayee}</dd></div>
-                      <div><dt>Indice indicatif</dt><dd>{family.declarationIndicative}</dd></div>
-                      <div><dt>Absence documentée</dt><dd>{family.absenceDocumentee}</dd></div>
-                      <div><dt>Non évaluable</dt><dd>{family.nonEvaluable}</dd></div>
-                      <div><dt>À vérifier</dt><dd>{family.aVerifier}</dd></div>
-                      <div><dt>Sources</dt><dd>{family.sources.join(' · ')}</dd></div>
+                      <div><dt>Déclencheur étayé</dt><dd>{readable(family.declarationEtayee)}</dd></div>
+                      <div><dt>Indice indicatif</dt><dd>{readable(family.declarationIndicative)}</dd></div>
+                      <div><dt>Absence documentée</dt><dd>{readable(family.absenceDocumentee)}</dd></div>
+                      <div><dt>Non évaluable</dt><dd>{readable(family.nonEvaluable)}</dd></div>
+                      <div><dt>À vérifier</dt><dd>{readable(family.aVerifier)}</dd></div>
+                      <div><dt>Sources</dt><dd>{family.sources.map(readable).join(' · ')}</dd></div>
                     </dl>
 
                     <footer className="catalogue-card-foot">
@@ -142,17 +144,17 @@ export function CataloguePage() {
                     </footer>
 
                     {cells.length > 0 ? (
-                      <ul className="catalogue-cells" aria-label={`Mailles concernées par ${family.ruleId}`}>
+                      <ul className="catalogue-cells" aria-label={`Mailles concernées par ${family.name}`}>
                         {cells.map((cell) => (
                           <li key={cell.mailleId}>
                             <button
                               type="button"
                               className="catalogue-cell"
-                              title={`${cell.mailleId} — ${cell.municipalities.join(', ')}`}
+                              title={`${cell.municipalities.join(', ')} — secteur ${cell.sectorNumber}`}
                               onClick={() => navigate(`/?famille=${family.ruleId}&maille=${encodeURIComponent(cell.mailleId)}`)}
                             >
                               <span className={`level-dot level-dot--${cell.documentaryLevel}`} aria-hidden="true" />
-                              <span className="catalogue-cell-id">{cell.mailleId}</span>
+                              <span className="catalogue-cell-id">{cell.municipalities.join(' / ')} — secteur {cell.sectorNumber}</span>
                               <span className="catalogue-cell-meta">
                                 {LEVEL_LABELS[cell.documentaryLevel] ?? cell.documentaryLevel}
                                 {' · '}
@@ -173,8 +175,8 @@ export function CataloguePage() {
             </div>
 
             <p className="doc-note">
-              Les 404 évaluations R1–R4 (101 mailles × 4 règles) sont toutes « non évaluable » : les
-              méthodes familiales ne sont pas encore validées sur ce territoire. Le décompte des
+              Les 404 examens de familles (101 mailles × 4 familles) sont toutes « non évaluable » : les
+              méthodes écologiques nécessaires ne sont pas encore validées sur ce territoire. Le décompte des
               pistes historiques provient des fiches de la source chargée ; ces pistes ne sont pas des sélections de restauration.
             </p>
           </>
