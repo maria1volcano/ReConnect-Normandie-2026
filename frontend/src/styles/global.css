@@ -97,9 +97,9 @@ summary:focus-visible,
   text-decoration: none;
 }
 
-.brand-emblem {
-  width: 48px;
-  height: 48px;
+.brand-symbol {
+  width: 60px;
+  height: auto;
   object-fit: contain;
   flex-shrink: 0;
 }
@@ -1379,12 +1379,13 @@ details[open] > .detail-expandable-header::after {
 
   .brand {
     width: 100%;
+    min-height: 44px;
     gap: 9px;
   }
 
-  .brand-emblem {
-    width: 44px;
-    height: 44px;
+  .brand-symbol {
+    width: 48px;
+    height: auto;
   }
 
   .brand strong {

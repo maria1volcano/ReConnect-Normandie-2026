@@ -8,7 +8,14 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit --pretty false",
-    "test:priorities": "node scripts/verify-priorities.mjs"
+    "test:priorities": "node scripts/verify-priorities.mjs",
+    "test:actions": "node scripts/verify-actions.mjs",
+    "test:browser:actions": "node scripts/smoke-actions-ui.cjs",
+    "test:multiactions-v2": "node scripts/verify-multiactions-v2.mjs",
+    "test:action-presentations": "node scripts/verify-action-presentations.mjs",
+    "test:browser:multiactions-v2": "node scripts/smoke-multiactions-v2.cjs",
+    "test:production-safety": "node scripts/verify-production-safety.mjs",
+    "test:browser:production": "node scripts/smoke-production.cjs"
   },
   "dependencies": {
     "maplibre-gl": "6.16.0",
@@ -23,4 +30,3 @@
     "vite": "8.3.5"
   }
 }
-

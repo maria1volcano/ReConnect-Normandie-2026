@@ -1,16 +1,14 @@
-"""Export public statique du lot M2 Caen-et-Nord (autorisation de publication
-équipe obtenue pour la démonstration Datathon).
+"""Exports minimisés sans modification des archives M2.
 
-L'archive M2 source n'est jamais modifiée : ce script produit uniquement des
-exports dérivés minimisés dans ``frontend/public/data/caen-6com/`` et un
-manifeste de release dans ``docs/``.
-
-Usage :
-    RECONNECT_M2_ZIP=<chemin du ZIP M2> py export_public_release.py
+L'ancien export public garde son autorisation historique. Le nouveau lot
+ACTIONS_ETUDE reste interne : --output hors des répertoires servis prépare une
+candidature ; --authorization lié au SHA-256 exact est requis avant diffusion.
 """
 
 from __future__ import annotations
 
+import argparse
+import copy
 import hashlib
 import json
 import os
@@ -45,6 +43,7 @@ def sha256_file(path: Path) -> str:
 
 
 def sanitize_cell(bundle: dict) -> dict:
+    bundle = copy.deepcopy(bundle)
     observations = bundle.get("geometric_observations", {}).get("source_observations", {})
     sanitized = {
         name: {key: value for key, value in record.items() if key in OBSERVATION_SAFE_KEYS}
@@ -55,6 +54,10 @@ def sanitize_cell(bundle: dict) -> dict:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Export minimisé ; les décisions internes nécessitent une autorisation dédiée.")
+    parser.add_argument("--output", type=Path, help="Dossier de candidature hors de frontend/public")
+    parser.add_argument("--authorization", type=Path, help="Validation de diffusion liée au SHA-256 exact")
+    args = parser.parse_args()
     zip_value = os.environ.get("RECONNECT_M2_ZIP")
     if not zip_value:
         raise SystemExit("RECONNECT_M2_ZIP doit pointer vers le ZIP M2 autorisé")
@@ -78,25 +81,45 @@ def main() -> None:
         1 for cell in cells.values() for item in cell["investigations"] if item["lead_status"] == "a_etudier"
     )
 
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    grid_path = OUT_DIR / "grid.geojson"
-    cells_path = OUT_DIR / "cells.json"
+    out_dir = (args.output or OUT_DIR).resolve()
+    authorized = not store.actions_release
+    authorization = None
+    if store.actions_release:
+        if args.authorization:
+            authorization = json.loads(args.authorization.read_text())
+            authorized = (authorization.get("publication_authorized") is True
+                          and authorization.get("source_zip_sha256", "").lower() == store.source_sha256
+                          and authorization.get("scope") == {"territory_id": TERRITORY_ID, "grid_version": GRID_VERSION}
+                          and authorization.get("decision_version") == store.metadata()["decision_version"]
+                          and bool(authorization.get("approved_by")) and bool(authorization.get("approved_at")))
+            if not authorized:
+                raise SystemExit("Autorisation incompatible avec ce lot : aucun export écrit")
+        served_roots = [(ROOT / p).resolve() for p in ("frontend/public", "frontend/dist")]
+        if not authorized and any(out_dir == p or p in out_dir.parents for p in served_roots):
+            raise SystemExit("Publication bloquée : fournir une autorisation pour le SHA-256 exact, ou --output hors de frontend/public")
+    out_dir.mkdir(parents=True, exist_ok=True)
+    grid_path = out_dir / "grid.geojson"
+    cells_path = out_dir / "cells.json"
     grid_path.write_text(json.dumps(grid, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     cells_path.write_text(json.dumps(cells, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
     manifest = {
-        "release": "reconnect-caen-et-nord-public-v1",
+        "release": "reconnect-caen-actions-minimise-v1" if store.actions_release else "reconnect-caen-et-nord-public-v1",
+        "publication_authorized": authorized,
+        "decision_version": store.metadata()["decision_version"],
+        "approval": authorization,
+        "test_data": False,
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "territory_id": TERRITORY_ID,
         "grid_version": GRID_VERSION,
         "source_zip_sha256": sha256_file(zip_path),
         "source_zip_name": zip_path.name,
-        "authorization": (
+        "authorization": (("Diffusion du complément d’actions validée par le document lié à cette empreinte." if authorized else "Diffusion du complément d’actions en attente de validation explicite.") if store.actions_release else (
             "Publication des données géographiques requises et des résultats dérivés "
             "du projet autorisée par l'équipe pour la démonstration Datathon. "
             "L'archive M2 source reste immuable (publication_autorisee=false en interne) ; "
             "seul cet export dérivé minimisé est publié."
-        ),
+        )),
         "counts": {
             "cells": len(features),
             "diagnostic_sheets": len(cells),
@@ -112,6 +135,8 @@ def main() -> None:
             "grid.geojson": {"sha256": sha256_file(grid_path), "description": "101 mailles + catégories documentaires"},
             "cells.json": {"sha256": sha256_file(cells_path), "description": "101 fiches territoriales minimisées"},
         },
+        "study_actions": {"main_selections_by_cell": sum(bool(c.get("instruction", {}).get("main_action")) for c in cells.values()),
+                          "validated_works": 0},
         "exclusions": [
             "Geometries of raw source-pair events (conflits.geojson)",
             "Per-object source attribute lists (objets IDs) inside observation aggregates",
@@ -121,14 +146,15 @@ def main() -> None:
         "scientific_limitations": [
             "Geometric 2D crossings are not confirmed ecological conflicts.",
             "Zero observed events does not demonstrate ecological absence.",
-            "Documentary V1-V4 colors are an exploratory verification order, not validated priorities.",
+            "Study priorities are indicative and distinct from validated ecological D/S priorities." if store.actions_release else "Documentary V1-V4 colors are an exploratory verification order, not validated priorities.",
             "R1-R4 investigation leads are non-evaluable; no works are recommended.",
         ],
-        "required_label": "Indices cartographiques à vérifier — analyse exploratoire",
+        "required_label": "Priorités d'étude des actions écologiques" if store.actions_release else "Indices cartographiques à vérifier — analyse exploratoire",
     }
-    MANIFEST_PATH.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    manifest_path = out_dir / "release-manifest.json" if args.output else MANIFEST_PATH
+    manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(manifest["counts"], ensure_ascii=False, indent=2))
-    print(f"Export écrit dans {OUT_DIR} — manifeste : {MANIFEST_PATH}")
+    print(f"Export minimisé écrit dans {out_dir} — publication autorisée : {authorized}")
 
 
 if __name__ == "__main__":

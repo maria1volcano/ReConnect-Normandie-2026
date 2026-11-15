@@ -1,5 +1,6 @@
-import { useEffect } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { App } from './App'
+import { isV2Enabled } from '../integrations/multiActionsV2Adapter'
 import { useRoute } from './router'
 import { MethodePage } from '../pages/MethodePage'
 import { CataloguePage } from '../pages/CataloguePage'
@@ -12,7 +13,14 @@ export function Root() {
     window.scrollTo(0, 0)
   }, [route])
 
+  // Keep legacy entry points inside the local reading journey while the
+  // explicit experimental gates remain enforced by the adapter.
+  if (isV2Enabled() && LocalReview) return <Suspense fallback={<p role="status">Chargement de la carte…</p>}><LocalReview route={route}/></Suspense>
+
   if (route === '/methode') return <MethodePage />
   if (route === '/catalogue') return <CataloguePage />
   return <App />
 }
+
+// The local review UI and its editorial content are excluded from production.
+const LocalReview = import.meta.env.DEV ? lazy(() => import('../components/experimental/LocalReview')) : null

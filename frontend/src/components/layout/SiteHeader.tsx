@@ -1,15 +1,15 @@
 import { linkClickHandler } from '../../app/router'
 
-export function SiteHeader() {
+export function SiteHeader({ experimental = false }: { experimental?: boolean } = {}) {
   return (
-    <header className="app-header">
+    <><header className="app-header">
       <a className="brand" href="/" onClick={linkClickHandler('/')} aria-label="ReConnect Normandie, retour à la carte">
         <img
-          src="/images/ecological-emblem.png"
-          alt="Emblème écologique ReConnect"
-          className="brand-emblem"
-          width="52"
-          height="52"
+          src="/assets/reconnect-normandie-symbole.png"
+          alt=""
+          className="brand-symbol"
+          width="814"
+          height="653"
         />
         <span className="brand-text">
           <strong>
@@ -28,9 +28,11 @@ export function SiteHeader() {
 
       <nav className="header-nav" aria-label="Navigation principale">
         <a href="/" onClick={linkClickHandler('/')}>Carte</a>
-        <a href="/methode" onClick={linkClickHandler('/methode')}>Méthode</a>
-        <a href="/catalogue" onClick={linkClickHandler('/catalogue')}>Catalogue</a>
+        <a href="/methode" onClick={linkClickHandler('/methode')}>{experimental ? 'Méthode et sources' : 'Méthode'}</a>
+        {!experimental && <a href="/catalogue" onClick={linkClickHandler('/catalogue')}>Catalogue</a>}
       </nav>
     </header>
+    {!experimental && <p className="public-release-notice" role="note">Version publique : données actuellement autorisées. Le nouveau parcours multi-actions reste en validation locale.</p>}
+    </>
   )
 }

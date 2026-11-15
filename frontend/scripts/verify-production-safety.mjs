@@ -1,0 +1,23 @@
+import assert from 'node:assert/strict'
+import fs from 'node:fs'
+import path from 'node:path'
+import {createHash} from 'node:crypto'
+const root=path.resolve(process.env.RECONNECT_BUILD_DIR || 'dist')
+const digest=file=>createHash('sha256').update(fs.readFileSync(file)).digest('hex')
+const walk=dir=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(entry=>entry.isDirectory()?walk(path.join(dir,entry.name)):[path.join(dir,entry.name)])
+assert.ok(fs.existsSync(path.join(root,'index.html')),'Build requis')
+let publicFiles=0
+for(const file of walk(path.resolve('public'))){
+ const relative=path.relative(path.resolve('public'),file),target=path.join(root,relative)
+ assert.ok(fs.existsSync(target),'Ressource publique conservée : '+relative)
+ assert.equal(digest(target),digest(file),'Les données publiques ne sont pas remplacées : '+relative);publicFiles++
+}
+const forbidden=['/Users/','fiches_multiactions_v2.json','m2.multiactions.experimental-2.0','caen6-examen-multiactions-presentation-20261115-1','Où étudier les continuités écologiques ?','NORM-G1K-FLAT-R+006424-C+000493']
+for(const file of walk(root)){
+ assert.ok(!/\.(?:zip|gpkg|sqlite|pem|key|env)$/i.test(file),'Aucun lot interne ou secret embarqué')
+ if(/\.(?:js|css|html)$/.test(file)){
+  const text=fs.readFileSync(file,'utf8')
+  for(const term of forbidden)assert.ok(!text.includes(term),'Contenu de revue locale absent du bundle : '+term)
+ }
+}
+console.log('PASS production : composants et contenus expérimentaux exclus ;',publicFiles,'ressources publiques identiques ; aucun lot interne ou chemin privé.')
