@@ -53,6 +53,7 @@ interface RealGridLayerProps {
   showRealGrid: boolean
   classificationView?: 'study' | 'documentary' | 'ecological' | 'neutral'
   highlightedMailleIds?: ReadonlySet<string> | null
+  onStatusChange?: (status:'loading'|'ready'|'error') => void
 }
 
 export function RealGridLayer({
@@ -66,30 +67,39 @@ export function RealGridLayer({
   showRealGrid,
   classificationView = 'ecological',
   highlightedMailleIds = null,
+  onStatusChange,
 }: RealGridLayerProps) {
   const isInitializedRef = useRef(false)
+  const isInitializingRef = useRef(false)
+  const hasRenderedRef = useRef(false)
   const classificationRef = useRef(classificationView)
   const eventHandlersRef = useRef<Record<string, (event: any) => void> | null>(null)
   const selectRef = useRef(onSelectRealHexagon)
   const hoverRef = useRef(onHoverRealHexagon)
+  const statusRef = useRef(onStatusChange)
 
   useEffect(() => {
     classificationRef.current = classificationView
     selectRef.current = onSelectRealHexagon
     hoverRef.current = onHoverRealHexagon
-  }, [onSelectRealHexagon, onHoverRealHexagon, classificationView])
+    statusRef.current = onStatusChange
+  }, [onSelectRealHexagon, onHoverRealHexagon, classificationView,onStatusChange])
 
   const initializeLayer = useCallback(() => {
-    if (!map || isInitializedRef.current) return
+    if (!map || isInitializingRef.current || !map.getStyle()) return
+    if (isInitializedRef.current && map.getSource(REAL_GRID_SOURCE) && map.getLayer(REAL_GRID_FILL_LAYER) && map.getLayer(REAL_GRID_LINE_LAYER)) return
+    isInitializingRef.current = true
+    hasRenderedRef.current = false
+    statusRef.current?.('loading')
 
     try {
-      map.addSource(REAL_GRID_SOURCE, {
+      if (!map.getSource(REAL_GRID_SOURCE)) map.addSource(REAL_GRID_SOURCE, {
         type: 'geojson',
         data: realGridData,
         promoteId: 'maille_id',
       })
 
-      map.addLayer({
+      if (!map.getLayer(REAL_GRID_FILL_LAYER)) map.addLayer({
         id: REAL_GRID_FILL_LAYER,
         type: 'fill',
         source: REAL_GRID_SOURCE,
@@ -107,7 +117,7 @@ export function RealGridLayer({
         },
       })
 
-      map.addLayer({
+      if (!map.getLayer(REAL_GRID_LINE_LAYER)) map.addLayer({
         id: REAL_GRID_LINE_LAYER,
         type: 'line',
         source: REAL_GRID_SOURCE,
@@ -154,14 +164,20 @@ export function RealGridLayer({
           if (typeof id === 'string') selectRef.current(id)
         },
       }
-      eventHandlersRef.current = handlers
-      for (const [type, listener] of Object.entries(handlers)) {
-        ;(map as any).on(type, REAL_GRID_FILL_LAYER, listener)
+      if (!eventHandlersRef.current) {
+        eventHandlersRef.current = handlers
+        for (const [type, listener] of Object.entries(handlers)) {
+          ;(map as any).on(type, REAL_GRID_FILL_LAYER, listener)
+        }
       }
 
       isInitializedRef.current = true
     } catch (error) {
+      isInitializedRef.current = false
+      statusRef.current?.('error')
       console.error('[RealGridLayer] Erreur initialisation:', error)
+    } finally {
+      isInitializingRef.current = false
     }
   }, [map, realGridData, contextualBasemap])
 
@@ -173,6 +189,10 @@ export function RealGridLayer({
         ;(map as any).off(type, REAL_GRID_FILL_LAYER, listener)
       }
       eventHandlersRef.current = null
+      if (!map.getStyle()) {
+        isInitializedRef.current = false
+        return
+      }
 
       if (map.getLayer(REAL_GRID_LINE_LAYER)) {
         map.removeLayer(REAL_GRID_LINE_LAYER)
@@ -192,25 +212,33 @@ export function RealGridLayer({
 
   useEffect(() => {
     if (!map) return
+    const markRendered = () => {
+      if (hasRenderedRef.current || !map.getLayer(REAL_GRID_FILL_LAYER)) return
+      if (map.queryRenderedFeatures({layers:[REAL_GRID_FILL_LAYER]}).length) {
+        hasRenderedRef.current = true
+        statusRef.current?.('ready')
+      }
+    }
 
-    if (showRealGrid && realGridData.features.length > 0 && !isInitializedRef.current) {
+    if (showRealGrid && realGridData.features.length > 0) {
+      statusRef.current?.('loading')
+      // A style can be ready before its remote raster sources. Also reattach
+      // after a style reload, rather than relying on one React render on load.
+      map.on('style.load',initializeLayer)
+      map.on('styledata',initializeLayer)
+      map.on('render',markRendered)
       initializeLayer()
-    } else if (!showRealGrid && isInitializedRef.current) {
+    } else {
       cleanupLayer()
     }
 
     return () => {
-      if (isInitializedRef.current) {
-        cleanupLayer()
-      }
+      map.off('style.load',initializeLayer)
+      map.off('styledata',initializeLayer)
+      map.off('render',markRendered)
+      cleanupLayer()
     }
   }, [map, showRealGrid, realGridData, initializeLayer, cleanupLayer])
-
-  useEffect(() => {
-    if (!map || !isInitializedRef.current) return
-    const source = map.getSource(REAL_GRID_SOURCE) as { setData?: (data: unknown) => void } | undefined
-    source?.setData?.(realGridData)
-  }, [map, realGridData])
 
   useEffect(() => {
     if (!map || !isInitializedRef.current) return

@@ -22,5 +22,6 @@ export function Root() {
   return <App />
 }
 
-// The local review UI and its editorial content are excluded from production.
+// Only the experimental data adapter and its private editorial values are DEV-only.
+// Both sources render the same shared presentation components.
 const LocalReview = import.meta.env.DEV ? lazy(() => import('../components/experimental/LocalReview')) : null

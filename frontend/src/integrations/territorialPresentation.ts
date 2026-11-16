@@ -1,9 +1,9 @@
-import type { TerritorialPriority, V2Cell } from './multiActionsV2Adapter'
+import type { JourneyPriority, JourneyCell } from './journeyModel'
 
 export const PRIORITY_LABELS = {
   rouge: 'Secteur à examiner en priorité', orange: 'Priorité d’examen élevée', jaune: 'Priorité d’examen modérée', gris: 'Informations insuffisantes',
 } as const
-export function prioritySymbol(priority: TerritorialPriority): string {
+export function prioritySymbol(priority: JourneyPriority): string {
   return priority.rank === null ? '?' : String(priority.rank)
 }
 export function searchText(text: string): string {
@@ -11,7 +11,7 @@ export function searchText(text: string): string {
 }
 
 /** Describes received measurements only; never computes a territorial grade. */
-export function territorialSummary(cell: V2Cell): string {
+export function territorialSummary(cell: Pick<JourneyCell, 'territorial_priority' | 'observations'>): string {
   const priority=cell.territorial_priority, e=priority.evidence
   const count=(key:string)=>cell.observations[key]?.nombre_objets_observes?.toLocaleString('fr-FR') ?? 'nombre non renseigné'
   const pairs=e.nombre_paires_route_corridor_2d.toLocaleString('fr-FR')

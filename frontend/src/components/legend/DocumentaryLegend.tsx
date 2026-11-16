@@ -10,7 +10,6 @@ export function DocumentaryLegend() {
     <aside className="priority-legend" aria-labelledby="documentary-legend-title">
       <div className="legend-heading">
         <h2 id="documentary-legend-title">Priorité indicative d’examen</h2>
-        <span>Exploratoire</span>
       </div>
       <ul>
         {levels.map((level) => (

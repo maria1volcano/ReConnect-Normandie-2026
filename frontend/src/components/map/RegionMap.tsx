@@ -43,6 +43,7 @@ const PILOT_FILL_LAYER = 'pilot-boundary-fill'
 const PILOT_LINE_LAYER = 'pilot-boundary-line'
 const PILOT_LABEL_LAYER = 'pilot-boundary-label'
 const IGN_ATTRIBUTION = 'Limites administratives : IGN – ADMIN EXPRESS COG CARTO'
+const OSM_TILES = ['https://tile.openstreetmap.org/{z}/{x}/{y}.png']
 
 const departmentColor = [
   'match',
@@ -187,7 +188,7 @@ const basemapStyle: StyleSpecification = {
   sources: {
     openstreetmap: {
       type: 'raster',
-      tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+      tiles: OSM_TILES,
       tileSize: 256,
       attribution: '© OpenStreetMap contributors',
     },
@@ -217,7 +218,7 @@ const fallbackStyle: StyleSpecification = {
   ],
 }
 
-type MapState = 'loading' | 'ready' | 'basemap-error'
+type MapState = 'loading' | 'ready' | 'basemap-error' | 'map-error'
 
 export interface RegionMapProps {
   localOnly?: boolean
@@ -268,6 +269,8 @@ export function RegionMap({
   const cameraTargetRef = useRef<LngLatBoundsLike>(studyAreaBounds ?? NORMANDY_BOUNDS)
   const userMovedCameraRef = useRef(false)
   const [mapState, setMapState] = useState<MapState>('loading')
+  const [mapAttempt,setMapAttempt] = useState(0)
+  const basemapRetryRef = useRef<(() => void) | null>(null)
   const [innerSelected, setInnerSelected] = useState<DepartmentCode | null>(null)
   const [innerHovered, setInnerHovered] = useState<DepartmentCode | null>(null)
   const [pilotData, setPilotData] = useState<FeatureCollection | null>(null)
@@ -307,6 +310,8 @@ export function RegionMap({
     let basemapFailed = false
     let basemapTimeout: ReturnType<typeof setTimeout> | undefined
     let resizeObserver: ResizeObserver | undefined
+    setMapState('loading')
+    userMovedCameraRef.current = false
 
     async function initialiseMap() {
       try {
@@ -368,32 +373,57 @@ export function RegionMap({
         map.on('error', (event) => {
           if (!localOnly && (('sourceId' in event && event.sourceId === 'openstreetmap') || /tile\.openstreetmap\.org/.test(String(event.error)))) {
             showBasemapError()
-          } else console.error('[RegionMap] Erreur MapLibre', event.error)
+          } else {
+            console.error('[RegionMap] Erreur MapLibre', event.error)
+            setMapState('map-error')
+          }
         })
 
         const showBasemapError = () => {
           if (cancelled || basemapFailed) return
           basemapFailed = true
+          clearTimeout(basemapTimeout)
           setMapState('basemap-error')
-          onMapReady?.()
-          // Keep the grid, feature states and click handlers intact on tile failure.
-          if (map?.getLayer('openstreetmap')) map.setLayoutProperty('openstreetmap', 'visibility', 'none')
+          // A failed raster request must not remove loaded tiles or vector layers.
           fitCameraTarget()
         }
 
-        map.once('load', () => {
+        // style.load is independent of raster tile completion. Mount the local
+        // territorial layers now, including when the network is slow or offline.
+        const styleReady = () => {
           if (cancelled) return
-          clearTimeout(basemapTimeout)
           if (compactControls) map?.setPaintProperty(DEPARTMENTS_FILL_LAYER, 'fill-opacity', 0.05)
-          if (basemapFailed) { fitCameraTarget(); onMapReady?.(); return }
           fitCameraTarget()
-          setMapState('ready')
+          if (!basemapFailed) setMapState('ready')
           onMapReady?.()
+        }
+        map.on('style.load', styleReady)
+        map.on('sourcedata', event => {
+          if (event.sourceId === 'openstreetmap' && event.tile?.state === 'loaded') {
+            clearTimeout(basemapTimeout)
+          }
         })
+        map.on('webglcontextlost', () => { if (!cancelled) setMapState('map-error') })
+
+        basemapRetryRef.current = () => {
+          if (!map || cancelled) return
+          const raster = map.getSource('openstreetmap') as {setTiles: (tiles:string[])=>void} | undefined
+          if (!raster) return
+          basemapFailed = false
+          setMapState('ready')
+          clearTimeout(basemapTimeout)
+          // Reload this source alone: preserve the grid, selection and camera.
+          raster.setTiles([...OSM_TILES])
+          basemapTimeout = setTimeout(showBasemapError,10_000)
+        }
 
         if (!localOnly) basemapTimeout = setTimeout(showBasemapError, 10_000)
-      } catch {
-        if (!cancelled) setMapState('basemap-error')
+      } catch (error) {
+        if (!cancelled) {
+          if (!map) mapContainer.replaceChildren()
+          console.error('[RegionMap] Initialisation impossible',error)
+          setMapState('map-error')
+        }
       }
     }
 
@@ -403,13 +433,14 @@ export function RegionMap({
       cancelled = true
       clearTimeout(basemapTimeout)
       resizeObserver?.disconnect()
+      basemapRetryRef.current = null
       internalMapRef.current = undefined
       if (externalMapRef) {
         externalMapRef.current = undefined
       }
       map?.remove()
     }
-  }, [])
+  }, [mapAttempt])
 
   useEffect(() => {
     const map = activeMapRef.current
@@ -486,6 +517,7 @@ export function RegionMap({
 
   const isLoading = mapState === 'loading'
   const hasBasemapError = mapState === 'basemap-error'
+  const hasMapError = mapState === 'map-error'
   const hoveredName = hoveredDepartment ? DEPARTMENTS_BY_CODE.get(hoveredDepartment)?.name : null
 
   return (
@@ -510,10 +542,14 @@ export function RegionMap({
         </div>
       ) : null}
 
-      {hasBasemapError ? (
+      {hasBasemapError || hasMapError ? (
         <div className={compactControls ? 'v2-basemap-status' : 'map-status map-status--error'} role="alert">
-          <strong>Fond routier indisponible</strong>
-          <span>Les secteurs restent sélectionnables.</span>
+          <strong>{hasMapError ? 'La carte ne peut pas être affichée.' : 'Fond routier incomplet ou indisponible.'}</strong>
+          <span>{hasMapError ? 'Utilisez la liste des secteurs ou réessayez.' : 'Les secteurs restent sélectionnables.'}</span>
+          <button type="button" onClick={()=>{
+            if (hasBasemapError && basemapRetryRef.current) basemapRetryRef.current()
+            else setMapAttempt(n=>n+1)
+          }}>{hasMapError ? 'Réessayer la carte' : 'Réessayer le fond routier'}</button>
         </div>
       ) : null}
 
