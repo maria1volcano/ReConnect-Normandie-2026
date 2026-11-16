@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 650" fill="none">
+  <defs>
+    <linearGradient id="surface" x2=".8" y2="1">
+      <stop stop-color="#061c16" stop-opacity=".92"/>
+      <stop offset="1" stop-color="#102e23" stop-opacity=".55"/>
+    </linearGradient>
+    <path id="hex" d="M0-57 49-28.5V28.5L0 57-49 28.5V-28.5Z"/>
+  </defs>
+  <g fill="url(#surface)" stroke="#60896e" stroke-opacity=".23" stroke-width="1.2">
+    <use href="#hex" x="65" y="70" opacity=".55"/>
+    <use href="#hex" x="169" y="70" opacity=".82"/>
+    <use href="#hex" x="117" y="160" opacity=".95"/>
+    <use href="#hex" x="221" y="160" opacity=".6"/>
+    <use href="#hex" x="325" y="160" opacity=".38"/>
+    <use href="#hex" x="65" y="250" opacity=".72"/>
+    <use href="#hex" x="169" y="250"/>
+    <use href="#hex" x="273" y="250" opacity=".82"/>
+    <use href="#hex" x="377" y="250" opacity=".43"/>
+    <use href="#hex" x="117" y="340" opacity=".62"/>
+    <use href="#hex" x="221" y="340" opacity=".9"/>
+    <use href="#hex" x="325" y="340" opacity=".7"/>
+    <use href="#hex" x="169" y="430" opacity=".5"/>
+    <use href="#hex" x="273" y="430" opacity=".85"/>
+    <use href="#hex" x="377" y="430" opacity=".35"/>
+    <use href="#hex" x="221" y="520" opacity=".65"/>
+    <use href="#hex" x="325" y="520" opacity=".5"/>
+    <use href="#hex" x="273" y="610" opacity=".25"/>
+  </g>
+</svg>

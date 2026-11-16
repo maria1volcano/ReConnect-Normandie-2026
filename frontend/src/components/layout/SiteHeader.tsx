@@ -1,6 +1,7 @@
-import { linkClickHandler } from '../../app/router'
+import { linkClickHandler, useRoute } from '../../app/router'
 
-export function SiteHeader({ experimental = false }: { experimental?: boolean } = {}) {
+export function SiteHeader(_props: { experimental?: boolean } = {}) {
+  const route = useRoute()
   return (
     <><header className="app-header">
       <a className="brand" href="/" onClick={linkClickHandler('/')} aria-label="ReConnect Normandie, retour à la carte">
@@ -27,12 +28,11 @@ export function SiteHeader({ experimental = false }: { experimental?: boolean } 
       </a>
 
       <nav className="header-nav" aria-label="Navigation principale">
-        <a href="/" onClick={linkClickHandler('/')}>Carte</a>
-        <a href="/methode" onClick={linkClickHandler('/methode')}>{experimental ? 'Méthode et sources' : 'Méthode'}</a>
-        {!experimental && <a href="/catalogue" onClick={linkClickHandler('/catalogue')}>Catalogue</a>}
+        <a href="/" onClick={linkClickHandler('/')} aria-current={route === '/' ? 'page' : undefined}>Carte</a>
+        <a href="/catalogue" onClick={linkClickHandler('/catalogue')} aria-current={route === '/catalogue' ? 'page' : undefined}>Catalogue des actions</a>
+        <a href="/methode" onClick={linkClickHandler('/methode')} aria-current={route === '/methode' ? 'page' : undefined}>Méthode et sources</a>
       </nav>
     </header>
-    {!experimental && <p className="public-release-notice" role="note">Version publique : données actuellement autorisées. Le nouveau parcours multi-actions reste en validation locale.</p>}
     </>
   )
 }

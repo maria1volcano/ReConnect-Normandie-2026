@@ -1,0 +1,214 @@
+/* ÉcoAtlas: presentation only. Scientific colors, family hues and map paint
+   remain supplied by the unchanged data adapters and family definitions. */
+:root[data-theme="ecoatlas"] {
+  --eco-background:#18372F;
+  --eco-surface:#244B3D;
+  --eco-secondary:#386C57;
+  --eco-accent:#A9D6B5;
+  --eco-text:#F1F5ED;
+  --eco-text-secondary:#D1DFD4;
+  --eco-text-muted:#C5D8CA;
+  --eco-link:#D5EDDB;
+  --eco-surface-raised:#2C5544;
+  --eco-surface-inset:#1D4035;
+  --eco-border:#83AB92;
+  --eco-border-soft:rgba(169,214,181,.28);
+  --eco-shadow:0 10px 30px rgba(12,38,29,.16);
+  background:var(--eco-background);
+  color-scheme:dark;
+}
+body.ecoatlas {
+  position:relative;
+  isolation:isolate;
+  color:var(--eco-text);
+  background:
+    radial-gradient(ellipse at 60% 0%,rgba(114,157,126,.13),transparent 48rem),
+    radial-gradient(ellipse at 5% 65%,rgba(56,108,87,.18),transparent 40rem),
+    linear-gradient(155deg,#234638 0%,var(--eco-background) 45%,#122e27 100%);
+}
+body.ecoatlas::before {
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  opacity:1;
+  background-image:url('../assets/ecoatlas-contours.svg'),url('../assets/ecoatlas-hexagons.svg'),url('../assets/ecoatlas-hexagons.svg');
+  background-size:1200px 900px,350px 545px,330px 515px;
+  background-position:center 320px,right -195px top 260px,left -205px top 430px;
+  background-repeat:no-repeat;
+  mask-image:linear-gradient(to right,#000,rgba(0,0,0,.7) 6%,transparent 18%,transparent 82%,rgba(0,0,0,.7) 94%,#000);
+}
+.ecoatlas #root { position:relative; z-index:1; }
+.ecoatlas .application-shell { color:var(--eco-text); }
+.ecoatlas .workspace,.ecoatlas .doc-page {
+  --forest-panel:var(--eco-surface);
+  --forest-card:var(--eco-surface-raised);
+  --forest-card-deep:var(--eco-surface-inset);
+  --forest-text:var(--eco-text);
+  --forest-muted:var(--eco-text-secondary);
+  --forest-emerald:var(--eco-link);
+  --forest-line:var(--eco-border-soft);
+  background:transparent;
+  color:var(--eco-text);
+}
+.ecoatlas .app-header {
+  background:linear-gradient(120deg,var(--eco-surface),var(--eco-surface-inset));
+  border-color:var(--eco-border);
+  box-shadow:0 6px 22px rgba(12,38,29,.12);
+  backdrop-filter:none;
+}
+.ecoatlas .brand,.ecoatlas .brand small { color:var(--eco-text); }
+.ecoatlas .brand-normandie { color:var(--eco-accent); }
+.ecoatlas .header-nav a { color:var(--eco-text-secondary); transition:background-color 120ms ease,color 120ms ease; }
+.ecoatlas .header-nav a:hover { background:var(--eco-secondary); color:var(--eco-text); }
+.ecoatlas .header-nav a[aria-current="page"] { background:var(--eco-secondary); color:var(--eco-text); box-shadow:inset 0 -2px var(--eco-accent); }
+.ecoatlas .application-shell :is(a,button,input,select,summary):focus-visible { outline:3px solid var(--eco-accent); outline-offset:3px; }
+.ecoatlas .v2-hero,.ecoatlas .doc-hero { padding-block:10px 4px; }
+.ecoatlas .v2-workspace .v2-hero h1,.ecoatlas .doc-hero h1 { color:var(--eco-text); letter-spacing:-.035em; text-wrap:balance; }
+.ecoatlas .context-label { color:var(--eco-link); }
+.ecoatlas .v2-summary { display:inline-block; padding:8px 12px; border:1px solid var(--eco-border-soft); border-radius:10px; background:var(--eco-surface); color:var(--eco-text-secondary); }
+.ecoatlas .v2-source-notice { background:var(--eco-surface-inset); border-color:var(--eco-border); color:var(--eco-text-secondary); }
+.ecoatlas .v2-workspace .map-workspace { background:var(--eco-surface); border-color:var(--eco-border); box-shadow:var(--eco-shadow); }
+.ecoatlas .v2-workspace .map-frame { border:1px solid var(--eco-border); border-radius:18px; box-shadow:0 5px 16px rgba(12,38,29,.12); }
+/* Decoration stays behind opaque functional surfaces, never over map tiles. */
+.ecoatlas .v2-panel { background:var(--eco-surface); border-color:var(--eco-border); color:var(--eco-text); box-shadow:var(--eco-shadow); }
+.ecoatlas .v2-panel h2 { color:var(--eco-text); }
+.ecoatlas .v2-territorial-status { padding:10px; border-radius:10px; background:var(--eco-surface-inset); color:var(--eco-text-secondary); }
+.ecoatlas .v2-territorial-status strong { color:var(--eco-text); }
+.ecoatlas .v2-sector-summary { color:var(--eco-text-secondary); }
+.ecoatlas .v2-piste-count { border-top:1px solid var(--eco-border-soft); padding-top:16px; }
+.ecoatlas .v2-workspace .v2-action { background:var(--eco-surface-raised); border-color:var(--eco-border); border-inline-start-color:var(--family-color); }
+.ecoatlas .v2-family-name { color:var(--eco-text); }
+.ecoatlas .v2-level { background:var(--eco-surface-inset); color:var(--eco-text); border-color:var(--eco-border); }
+.ecoatlas .v2-level span { border-color:var(--eco-border); }
+.ecoatlas .v2-workspace .v2-territorial-legend { background:var(--eco-surface-raised); border-color:var(--eco-border); box-shadow:0 4px 12px rgba(12,38,29,.1); }
+.ecoatlas .journey-legend-details { border-color:var(--eco-border-soft); }
+.ecoatlas .v2-sector-search :is(input,select),.ecoatlas .v2-panel button,.ecoatlas .v2-empty button {
+  background:var(--eco-surface-inset); border-color:var(--eco-border); color:var(--eco-text);
+}
+.ecoatlas .v2-sector-search input::placeholder { color:var(--eco-text-muted); }
+.ecoatlas .v2-action-more,.ecoatlas .v2-extra,.ecoatlas .v2-technical,.ecoatlas .v2-complete-indicators,.ecoatlas .v2-reserve { border-color:var(--eco-border-soft); }
+.ecoatlas .v2-local-indicators > div { border-color:var(--eco-border-soft); }
+.ecoatlas .v2-workspace :is(.v2-search-count,.v2-map-readout,.v2-small-note,.v2-plain-note,.v2-piste-count > span,.v2-indicator-note,.v2-reserve),
+.ecoatlas .v2-small-note,.ecoatlas .v2-footer { color:var(--eco-text-secondary); }
+.ecoatlas :is(.v2-method-link,.v2-to-detail) { color:var(--eco-link); }
+.ecoatlas .journey-catalogue-context { background:var(--eco-surface-raised); border-color:var(--eco-border); }
+.ecoatlas .journey-catalogue-context a { color:var(--eco-link); }
+.ecoatlas .v2-method-page { color:var(--eco-text); }
+.ecoatlas .v2-method-page .doc-section { background:var(--eco-surface); border-color:var(--eco-border); box-shadow:var(--eco-shadow); }
+.ecoatlas .v2-method-page .doc-section h2 { color:var(--eco-text); letter-spacing:-.02em; border-bottom:1px solid var(--eco-border-soft); padding-bottom:12px; }
+.ecoatlas .v2-method-page a { color:var(--eco-link); }
+.ecoatlas .v2-method-page .v2-method-nav a { background:var(--eco-surface-inset); border-color:var(--eco-border); }
+.ecoatlas .v2-method-page .v2-method-nav a:hover { background:var(--eco-secondary); }
+.ecoatlas .v2-source-grid article,.ecoatlas .v2-rule-grid article { border-color:var(--eco-border-soft); }
+.ecoatlas .v2-method-page .v2-equation { background:var(--eco-surface-raised); border-inline-start-color:var(--eco-accent); border-radius:8px; }
+.ecoatlas .v2-method-page .v2-equation code { color:var(--eco-text); }
+.ecoatlas .doc-page .scientific-formula { border-color:var(--eco-border); }
+.ecoatlas .doc-page :is(.scientific-citations summary,.scientific-formula summary) { color:var(--eco-link); }
+.ecoatlas .v2-reference-list > li { border-bottom:1px solid var(--eco-border-soft); padding-bottom:16px; }
+.ecoatlas .v2-reference-list p,.ecoatlas .v2-method-page .v2-justification-levels dd { color:var(--eco-text-secondary); }
+.ecoatlas .doc-page table { width:100%; border-collapse:collapse; color:var(--eco-text); }
+.ecoatlas .doc-page :is(td,th) { padding:10px; border-bottom:1px solid var(--eco-border-soft); }
+.ecoatlas .doc-page th { background:var(--eco-surface-raised); text-align:start; }
+.ecoatlas .journey-catalogue .journey-catalogue-filters { background:var(--eco-surface); border-color:var(--eco-border); box-shadow:var(--eco-shadow); }
+.ecoatlas .journey-catalogue .journey-catalogue-filters :is(input,select) { background:var(--eco-surface-inset); color:var(--eco-text); border-color:var(--eco-border); }
+.ecoatlas .journey-catalogue .journey-catalogue-filters input::placeholder { color:var(--eco-text-muted); }
+.ecoatlas .journey-catalogue .filter-chip { background:var(--eco-surface-inset); color:var(--eco-text); border-color:var(--eco-border); }
+.ecoatlas .journey-catalogue .filter-chip:hover { background:var(--eco-secondary); }
+.ecoatlas .journey-catalogue .filter-chip.is-active { background:var(--eco-accent); color:var(--eco-background); border-color:var(--eco-accent); }
+.ecoatlas .journey-catalogue .journey-reset { background:var(--eco-surface-inset); color:var(--eco-link); border-color:var(--eco-border); }
+.ecoatlas .journey-catalogue .journey-family-card { background:var(--eco-surface); border-color:var(--eco-border); border-inline-start-color:var(--family-color); box-shadow:var(--eco-shadow); }
+.ecoatlas .journey-catalogue :is(.journey-family-details,.journey-sector-list) { border-color:var(--eco-border-soft); }
+.ecoatlas .journey-catalogue .journey-family-card .catalogue-map-link { color:var(--eco-link); }
+.ecoatlas .journey-catalogue :is(.journey-catalogue-count,.journey-sector-priority) { color:var(--eco-text-secondary); }
+.ecoatlas .journey-catalogue .journey-sector-list a { border-color:var(--eco-border-soft); }
+.ecoatlas .journey-catalogue .journey-sector-list a:hover { background:var(--eco-surface-raised); }
+.ecoatlas .journey-catalogue .journey-sector-list .catalogue-cells { scrollbar-color:var(--eco-border) var(--eco-surface); }
+@media(max-width:600px) {
+  body.ecoatlas::before { opacity:.8; background-size:1000px 800px,270px 420px,250px 390px; background-position:center 480px,right -195px top 410px,left -205px top 700px; }
+  .ecoatlas .v2-hero,.ecoatlas .doc-hero { padding-top:4px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .ecoatlas .application-shell *, .ecoatlas::before { transition:none !important; animation:none !important; scroll-behavior:auto !important; }
+}
+
+/* V3: the landscape sits behind the interface; relief uses light and surface,
+   without transforms or decoration over the interactive map. */
+.ecoatlas {
+  --eco-shadow:0 18px 38px -18px rgba(2,17,12,.8),0 4px 8px rgba(2,17,12,.16),inset 0 1px 0 rgba(213,237,219,.15);
+  --eco-panel-surface:linear-gradient(150deg,rgba(135,175,141,.10),transparent 38%),linear-gradient(180deg,rgba(36,75,61,.94),rgba(26,57,46,.97));
+}
+.ecoatlas .app-header {
+  border-color:rgba(169,214,181,.36);
+  border-top-color:rgba(213,237,219,.55);
+  background:linear-gradient(135deg,rgba(51,86,65,.96),rgba(25,57,46,.97));
+  box-shadow:var(--eco-shadow);
+}
+.ecoatlas .doc-hero {
+  position:relative;
+  isolation:isolate;
+  min-height:0;
+  padding-block:18px 12px;
+}
+.ecoatlas .v2-hero { padding:6px 4px 0; }
+.ecoatlas .v2-hero > .context-label { margin:0 0 4px; font-size:.65rem; letter-spacing:.08em; }
+.ecoatlas .v2-hero > p:not(.context-label):not(.v2-summary) { margin:0; font-size:.9rem; }
+.ecoatlas .v2-hero .v2-summary { display:flex; flex-wrap:wrap; gap:6px; margin:8px 0 0; padding:0; border:0; background:none; box-shadow:none; font-size:.76rem; }
+.ecoatlas .v2-hero .v2-summary > span { padding:3px 8px; border:1px solid var(--eco-border-soft); border-radius:6px; background:rgba(29,64,53,.8); }
+.ecoatlas .v2-hero .v2-source-disclosure { margin:7px 0 0; padding:0; border:0; border-radius:0; background:transparent; box-shadow:none; font-size:.73rem; }
+.ecoatlas .v2-source-disclosure > summary { width:fit-content; min-height:24px; padding:2px 0; color:var(--eco-text-secondary); cursor:pointer; line-height:1.5; }
+.ecoatlas .v2-source-disclosure > p { margin:6px 0 0; padding:6px 10px; border-inline-start:2px solid var(--eco-border); font-size:.8rem; }
+.ecoatlas :is(.v2-hero,.doc-hero) > h1 { max-width:100%; }
+.ecoatlas :is(.v2-hero,.doc-hero) > p:not(.v2-summary) { max-width:78ch; }
+.ecoatlas .v2-summary {
+  background:linear-gradient(135deg,rgba(63,101,73,.85),rgba(28,65,50,.9));
+  border-top-color:rgba(213,237,219,.4);
+  box-shadow:0 4px 12px rgba(2,17,12,.16),inset 0 1px rgba(213,237,219,.06);
+}
+.ecoatlas .v2-source-notice {
+  border-color:rgba(131,171,146,.4);
+  background:rgba(18,46,36,.88);
+  box-shadow:inset 0 1px 4px rgba(2,17,12,.14);
+}
+.ecoatlas .v2-workspace .map-workspace,
+.ecoatlas .v2-panel,
+.ecoatlas .v2-method-page .doc-section,
+.ecoatlas .journey-catalogue .journey-catalogue-filters,
+.ecoatlas .journey-catalogue .journey-family-card {
+  background:var(--eco-panel-surface);
+  border-color:rgba(131,171,146,.4);
+  border-top-color:rgba(213,237,219,.52);
+  box-shadow:var(--eco-shadow);
+}
+.ecoatlas .v2-workspace .map-frame {
+  border-color:rgba(169,214,181,.6);
+  box-shadow:0 8px 20px rgba(2,17,12,.28),0 0 0 4px rgba(9,31,23,.23);
+}
+.ecoatlas .v2-workspace .v2-action {
+  background:linear-gradient(150deg,rgba(88,131,95,.2),transparent 65%),#294e3d;
+  border-color:rgba(131,171,146,.48);
+  border-top-color:rgba(213,237,219,.4);
+  border-inline-start-color:var(--family-color);
+  box-shadow:0 8px 18px -10px rgba(2,17,12,.65),inset 0 1px rgba(213,237,219,.08);
+}
+.ecoatlas .v2-workspace .v2-territorial-legend {
+  background:linear-gradient(135deg,#2c5140,#254735);
+  border-top-color:rgba(213,237,219,.42);
+  box-shadow:0 5px 14px rgba(2,17,12,.2),inset 0 1px rgba(213,237,219,.08);
+}
+.ecoatlas .journey-catalogue .journey-family-card { border-inline-start-color:var(--family-color); }
+.ecoatlas .v2-source-grid article,.ecoatlas .v2-rule-grid article {
+  padding:16px;
+  border:1px solid var(--eco-border-soft);
+  border-top-color:rgba(213,237,219,.3);
+  border-radius:12px;
+  background:linear-gradient(145deg,rgba(74,115,82,.14),rgba(15,44,32,.2));
+  box-shadow:0 4px 10px rgba(2,17,12,.08);
+}
+@media(min-width:1101px) {
+  .ecoatlas .workspace.v2-workspace { width:min(1536px,calc(100% - 96px)); }
+}
+@media(max-width:700px) {
+  .ecoatlas .v2-hero,.ecoatlas .doc-hero { min-height:0; padding-top:4px; }
+}

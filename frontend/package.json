@@ -10,12 +10,18 @@
     "typecheck": "tsc --noEmit --pretty false",
     "test:priorities": "node scripts/verify-priorities.mjs",
     "test:actions": "node scripts/verify-actions.mjs",
-    "test:browser:actions": "node scripts/smoke-actions-ui.cjs",
+    "test:browser:actions": "node scripts/smoke-production.cjs",
     "test:multiactions-v2": "node scripts/verify-multiactions-v2.mjs",
     "test:action-presentations": "node scripts/verify-action-presentations.mjs",
     "test:browser:multiactions-v2": "node scripts/smoke-multiactions-v2.cjs",
     "test:production-safety": "node scripts/verify-production-safety.mjs",
-    "test:browser:production": "node scripts/smoke-production.cjs"
+    "test:browser:production": "node scripts/smoke-production.cjs",
+    "test:public-journey": "node scripts/verify-public-journey.mjs",
+    "test:browser:shared-journey": "node scripts/smoke-shared-journey.cjs",
+    "test:catalogue": "node scripts/verify-journey-catalogue.mjs",
+    "test:browser:catalogue": "node scripts/smoke-journey-catalogue.cjs",
+    "test:browser:ecoatlas": "node scripts/smoke-ecoatlas.cjs",
+    "test:browser:map": "node scripts/smoke-map-resilience.cjs"
   },
   "dependencies": {
     "maplibre-gl": "6.16.0",
