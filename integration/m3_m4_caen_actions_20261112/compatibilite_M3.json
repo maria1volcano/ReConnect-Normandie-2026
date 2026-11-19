@@ -1,0 +1,18 @@
+{
+  "base_commit": "94eef5b8f17dc68af22c323603ec2623b2b58ce1",
+  "base_branch": "feat/m3-frontend-reconnect-v61",
+  "files": [
+    "vite.config.ts",
+    "src/integrations/priorityAdapter.ts",
+    "src/integrations/geojsonAdapter.ts",
+    "src/components/map/RealGridLayer.tsx",
+    "src/components/map/RegionMap.tsx",
+    "src/components/layout/ApplicationLayout.tsx",
+    "m2-caen-actions-plugin.mjs",
+    "src/components/sector/CaenActionsDetail.tsx"
+  ],
+  "application": "Référence au commit M3 indiqué uniquement ; ne pas appliquer automatiquement à main ni à la PR #5. Toute adaptation relève de M3/M4.",
+  "usage": "exemple_historique_M2_non_applicatif",
+  "application_automatique": false,
+  "integration_applicative": "PR #5 sur feat/integration-actions-ui ; périmètre distinct de cette sauvegarde M2"
+}
