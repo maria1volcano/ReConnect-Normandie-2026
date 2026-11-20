@@ -23,7 +23,7 @@ export function JourneyCataloguePage({source}:{source:JourneySource}) {
   const communes=useMemo(()=>Array.from(new Set(catalogue?.cells.flatMap(c=>c.municipalities)??[])).sort((a,b)=>a.localeCompare(b,'fr')),[catalogue])
   const visible=CATALOGUE_FAMILIES.filter(f=>filters.family==='all'||filters.family===f.id)
   const count=catalogue?visible.reduce((n,f)=>n+filterCatalogueEntries(catalogue,f.id,filters).length,0):0
-  const unit=source.kind==='historical_public'?'pistes historiques':'propositions locales'
+  const unit=source.kind==='historical_public'?'pistes calculées':'propositions locales'
   return <div className="application-shell"><SiteHeader/>
     <main id="main-content" className="doc-page v2-method-page journey-catalogue">
       <section className="doc-hero"><p className="context-label">Comprendre les quatre familles</p><h1>Catalogue des actions</h1>

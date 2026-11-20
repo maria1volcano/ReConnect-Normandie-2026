@@ -11,7 +11,7 @@ export interface JourneyPriority {
   evidence: {nombre_paires_route_corridor_2d: number; paires_route_matrice_fragile_en_service_au_sol: number; reservoir_presence_surface_positive: boolean; corridor_presence_surface_positive: boolean}
 }
 export type JourneyAction = {action_id: string; name: string; copy: ActionPresentation} & (
-  {source: 'historical_public'; level?: never} | {source: 'local_experimental'; level: keyof typeof LEVEL_NAMES}
+  {source: 'historical_public'; level?: never; origin?: 'extension'} | {source: 'local_experimental'; level: keyof typeof LEVEL_NAMES}
 )
 export interface JourneyCell {
   maille_id: string; sector: Sector; municipalities: string[]; territorial_priority: JourneyPriority

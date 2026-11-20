@@ -37,7 +37,7 @@ function ActionCard({action}: {action: JourneyAction}) {
       </div>
       {action.source === 'local_experimental' ? <p className="v2-level" aria-label={`Justification : ${LEVEL_NAMES[action.level]}, niveau ${action.level}`}>
         {LEVEL_NAMES[action.level]}<span aria-hidden="true">{action.level}</span>
-      </p> : <p className="v2-level">Piste historique · justification non qualifiée</p>}
+      </p> : <p className="v2-level">{action.origin==='extension'?'Piste calculée · justification non qualifiée':'Piste historique · justification non qualifiée'}</p>}
     </header>
     <h3>{action.name}</h3>
     <section className="v2-action-why"><h4>Pourquoi cette action ?</h4><p>{copy.why.join(' ')}</p></section>
@@ -145,12 +145,12 @@ export function JourneyView({source}: {source: JourneySource}) {
   const readout=features.find(f=>f.properties.maille_id===hovered)??selectedFeature
   return <div className="application-shell"><SiteHeader/>
     <main id="main-content" className="workspace v2-workspace">
-      <section className="v2-hero"><p className="context-label">Territoire pilote · Caen et cinq communes voisines</p>
+      <section className="v2-hero"><p className="context-label">Territoire pilote · Caen et 21 communes voisines</p>
         <h1 id="v2-title">Où étudier les continuités écologiques ?</h1>
         <p>Explorez les secteurs et les solutions à étudier pour les continuités écologiques.</p>
         {data&&<p className="v2-summary"><span><strong>{data.metadata.cells}</strong> secteurs analysés</span><span><strong>{data.metadata.proposals}</strong> pistes d’action</span><span>Couverture limitée au territoire pilote</span></p>}
         <details className="v2-source-notice v2-source-disclosure" data-source={source.kind}>
-          <summary>{source.kind==='historical_public'?'165 pistes historiques autorisées · À propos des données':'Revue locale · Données expérimentales'}</summary>
+          <summary>{source.kind==='historical_public'?`${data?.metadata.proposals??165} pistes d’action · À propos des données`:'Revue locale · Données expérimentales'}</summary>
           <p role="note">{source.notice}</p>
         </details>
       </section>

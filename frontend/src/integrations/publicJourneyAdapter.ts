@@ -2,7 +2,7 @@ import type { FeatureCollection, Geometry } from 'geojson'
 import type { RealGridFeatureProperties } from './priorityAdapter'
 import type { M4CellBundle, M4Investigation } from './m4Adapter'
 import { TERRITORIAL_PALETTE, type JourneyAction, type JourneyCell, type JourneyData, type JourneyPriority, type JourneySource } from './journeyModel.ts'
-import { PUBLIC_DATA_POLICY as policy } from './publicDataPolicy.ts'
+import { PUBLIC_DATA_POLICY, PUBLIC_DISPLAY_DATASET, type PublicDatasetPolicy } from './publicDataPolicy.ts'
 
 const FAMILIES = {
   A01: { keys:['haies','corridors'], why:'Les haies peuvent contribuer aux déplacements des espèces entre habitats ; leur présence cartographiée ne décrit pas leur continuité réelle.', solution:'Une étude de l’état des haies et de leurs connexions pourrait préciser les besoins de gestion ou les possibilités de restauration.', limit:'La présence d’une haie ne démontre ni une lacune du réseau ni un besoin de plantation.' },
@@ -25,7 +25,7 @@ function publicPriority(cell:M4CellBundle):JourneyPriority {
     reservoir_presence_surface_positive:e.reservoir_presence_surface_positive,
     corridor_presence_surface_positive:e.corridor_presence_surface_positive}}
 }
-function actionPresentation(a:M4Investigation,cell:M4CellBundle):JourneyAction {
+function actionPresentation(a:M4Investigation,cell:M4CellBundle,recomputed=false):JourneyAction {
   const family=FAMILIES[a.action_id as keyof typeof FAMILIES]
   if(!family)throw new Error('Famille historique inconnue')
   const indicators=family.keys.flatMap(key=>{
@@ -33,16 +33,16 @@ function actionPresentation(a:M4Investigation,cell:M4CellBundle):JourneyAction {
     return typeof value==='number' ? [{label:NAMES[key],value}] : []
   })
   const evidence=a.evidence.replace('paires linéaires documentaires liées aux événements M2 admis','relations cartographiques entre voies et espaces de continuité').replace('avec matrice ou réservoir dans la maille','dans un secteur comprenant des espaces régionaux de continuité ou des réservoirs de biodiversité')
-  return {source:'historical_public',action_id:a.action_id,name:a.title,copy:{
-    why:['Les données historiques recensent '+evidence.replace(/\.$/,'')+'.',family.why],intervention:[family.solution],
+  return {source:'historical_public',...(recomputed?{origin:'extension' as const}:{}),action_id:a.action_id,name:a.title,copy:{
+    why:[(recomputed?'Les données recensent ':'Les données historiques recensent ')+evidence.replace(/\.$/,'')+'.',family.why],intervention:[family.solution],
     indicators,highlights:indicators.slice(0,2),keyLimit:family.limit,
-    interpretation:['Cette piste figure dans les données historiques autorisées. Les observations locales ne qualifient pas son efficacité écologique et ne fournissent aucun niveau de justification A/B/C.'],
+    interpretation:[recomputed?'Cette piste est issue de la chaîne de calcul historique rejouée sur Caen et 21 communes voisines, sans modification de règle. Les observations locales ne qualifient pas son efficacité écologique et ne fournissent aucun niveau de justification A/B/C.':'Cette piste figure dans les données historiques autorisées. Les observations locales ne qualifient pas son efficacité écologique et ne fournissent aucun niveau de justification A/B/C.'],
     checks:[...a.missing_conditions],
   }}
 }
 
 /** Pure contract adapter. Does not create V2 actions or change scientific statuses. */
-export function adaptPublicSnapshot(cells:Record<string,M4CellBundle>,grid:FeatureCollection<Geometry,RealGridFeatureProperties>):{data:JourneyData;cells:Record<string,JourneyCell>;raw:Record<string,M4CellBundle>} {
+export function adaptPublicSnapshot(cells:Record<string,M4CellBundle>,grid:FeatureCollection<Geometry,RealGridFeatureProperties>,policy:PublicDatasetPolicy=PUBLIC_DATA_POLICY):{data:JourneyData;cells:Record<string,JourneyCell>;raw:Record<string,M4CellBundle>} {
   const ids=Object.keys(cells).sort(), mapped:Record<string,JourneyCell>={}
   if(ids.length!==policy.cells || grid.type!=='FeatureCollection' || grid.features.length!==policy.cells || new Set(grid.features.map(f=>f.properties.maille_id)).size!==policy.cells)throw new Error('Périmètre public incomplet')
   let exams=0,leads=0
@@ -55,7 +55,7 @@ export function adaptPublicSnapshot(cells:Record<string,M4CellBundle>,grid:Featu
       || c.investigations.length!==4 || new Set(c.investigations.map(a=>a.action_id)).size!==4
       || c.investigations.some(a=>!(a.action_id in FAMILIES)||a.status!=='non_evaluable'||a.works_recommended!==false||!['a_etudier','non_qualifiable'].includes(a.lead_status)))throw new Error('Contrat historique public incompatible')
     const municipalities=c.municipalities.map(m=>m.nom),number=index+1
-    const actions=c.investigations.filter(a=>a.lead_status==='a_etudier').map(a=>actionPresentation(a,c))
+    const actions=c.investigations.filter(a=>a.lead_status==='a_etudier').map(a=>actionPresentation(a,c,policy.label!==null))
     exams+=c.investigations.length;leads+=actions.length
     mapped[id]={maille_id:id,sector:{number,municipalities,label:`${municipalities.join(' / ')} — secteur ${number}`},municipalities,territorial_priority:publicPriority(c),actions,
       not_selected:c.investigations.filter(a=>a.lead_status!=='a_etudier').map(a=>({action_id:a.action_id,explanation:'Les observations historiques disponibles ne permettent pas de qualifier une piste pour cette famille. Cela ne démontre pas une absence d’enjeu écologique.'})),
@@ -72,7 +72,7 @@ export function adaptPublicSnapshot(cells:Record<string,M4CellBundle>,grid:Featu
   return {data:{grid:{...grid,features},metadata:{cells:ids.length,proposals:leads}},cells:mapped,raw:cells}
 }
 
-async function authorizedJson(file:keyof typeof policy.files):Promise<unknown> {
+async function authorizedJson(policy:PublicDatasetPolicy,file:keyof typeof policy.files):Promise<unknown> {
   const url=new URL(`${import.meta.env.BASE_URL}${policy.directory}${file}`,window.location.href)
   if(url.origin!==window.location.origin)throw new Error('Ressource publique hors origine')
   const response=await fetch(url,{cache:'no-cache',signal:AbortSignal.timeout(20_000)})
@@ -82,16 +82,27 @@ async function authorizedJson(file:keyof typeof policy.files):Promise<unknown> {
   if(digest!==policy.files[file])throw new Error('Ressource absente de la sélection publique autorisée')
   return JSON.parse(new TextDecoder().decode(bytes))
 }
-let snapshot:Promise<ReturnType<typeof adaptPublicSnapshot>>|null=null
+type Snapshot=ReturnType<typeof adaptPublicSnapshot>
+async function loadDataset(policy:PublicDatasetPolicy):Promise<Snapshot>{
+  const [cells,grid]=await Promise.all([authorizedJson(policy,'cells.json'),authorizedJson(policy,'grid.geojson')])
+  return adaptPublicSnapshot(cells as Record<string,M4CellBundle>,grid as JourneyData['grid'],policy)
+}
+/** Affiche la grille unique 22 communes ; si elle est indisponible ou non conforme,
+ * repli sur le lot historique 101 secteurs, jamais sur un mélange des deux. */
+async function loadAll():Promise<Snapshot>{
+  try{return await loadDataset(PUBLIC_DISPLAY_DATASET)}
+  catch(error){console.warn('Grille 22 communes ignorée, repli sur le lot historique',error);return loadDataset(PUBLIC_DATA_POLICY)}
+}
+let snapshot:Promise<Snapshot>|null=null
 async function loadSnapshot(signal?:AbortSignal) {
   // Shared immutable cache: cancelling one subscriber never aborts another one.
   signal?.throwIfAborted()
-  snapshot??=Promise.all([authorizedJson('cells.json'),authorizedJson('grid.geojson')]).then(([cells,grid])=>adaptPublicSnapshot(cells as Record<string,M4CellBundle>,grid as JourneyData['grid'])).catch(error=>{snapshot=null;throw error})
+  snapshot??=loadAll().catch(error=>{snapshot=null;throw error})
   const result=await snapshot;signal?.throwIfAborted();return result
 }
 export const publicJourneySource:JourneySource={
   kind:'historical_public',
-  notice:'Version publique : 165 pistes historiques autorisées sur 101 secteurs. Leurs niveaux de justification ne sont pas qualifiés. Les propositions expérimentales restent réservées à la revue locale.',
+  notice:`Version publique : ${PUBLIC_DISPLAY_DATASET.leads} pistes sur ${PUBLIC_DISPLAY_DATASET.cells} secteurs (Caen et 21 communes voisines), calculées avec la chaîne historique rejouée sans modification de règle ; le lot historique de 101 secteurs et 165 pistes reste la référence de contrôle. Leurs niveaux de justification ne sont pas qualifiés. Les propositions expérimentales restent réservées à la revue locale.`,
   footer:'Données historiques autorisées · aucune proposition expérimentale publiée.',
   load:async signal=>(await loadSnapshot(signal)).data,
   loadCell:async(id,signal)=>{
@@ -114,6 +125,6 @@ export const publicJourneySource:JourneySource={
       ['Friches','Les pistes historiques invitent à examiner le statut des sites et leur relation aux continuités. Le fichier source distingue les sites reconvertis.','Actualiser le statut, relever les habitats existants et examiner les sols et projets.'],
       ['Franchissements pour la faune','Les relations cartographiques entre voies et espaces régionaux motivent une étude des ouvrages existants, sans confirmer un obstacle.','Examiner les ouvrages, les déplacements des espèces et la perméabilité réelle.'],
     ],
-    summary:'Le lot public contient 101 secteurs et 404 examens familiaux : 165 pistes historiques à étudier et 239 situations non qualifiables. 71 secteurs présentent au moins une piste et 30 n’en présentent aucune. Les niveaux A/B/C, les relations entre propositions et les nouvelles propositions du lot expérimental ne sont pas disponibles dans ce contrat public. Aucune efficacité ni nécessité de travaux n’est déduite.'
+    summary:'Le lot public contient 101 secteurs et 404 examens familiaux : 165 pistes historiques à étudier et 239 situations non qualifiables. 71 secteurs présentent au moins une piste et 30 n’en présentent aucune. Les niveaux A/B/C, les relations entre propositions et les nouvelles propositions du lot expérimental ne sont pas disponibles dans ce contrat public. Aucune efficacité ni nécessité de travaux n’est déduite. Extension : la même chaîne de calcul (préparation M1, moteurs M2, table V1–V4, examens R1–R4) a été rejouée sans modification de règle sur une grille unique couvrant Caen et 21 communes voisines, soit 185 secteurs, 740 examens et 284 pistes ; le rejeu du lot historique redonne ses 101 couleurs et ses 165 pistes à l’identique.'
   }
 }

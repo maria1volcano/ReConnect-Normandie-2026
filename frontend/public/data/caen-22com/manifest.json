@@ -1,0 +1,155 @@
+{
+  "release": "reconnect-perimetre22-v1",
+  "label": "Caen et 21 communes voisines",
+  "territory_id": "caen_perimetre_22communes",
+  "grid_version": "M1-CAEN-22COM-1KM2-FLAT-L93-O0-V1",
+  "dataset_version": "M1-CAEN-22COM-20261120-V1",
+  "method_version": null,
+  "generated_at": "2026-11-20T09:54:47+00:00",
+  "bounds_wgs84": [
+    [
+      -0.42051393234925055,
+      49.151105370533095
+    ],
+    [
+      -0.219755694843977,
+      49.29426951932602
+    ]
+  ],
+  "communes": [
+    {
+      "code_insee": "14215",
+      "nom": "Cuverville"
+    },
+    {
+      "code_insee": "14015",
+      "nom": "Anisy"
+    },
+    {
+      "code_insee": "14060",
+      "nom": "Bénouville"
+    },
+    {
+      "code_insee": "14068",
+      "nom": "Biéville-Beuville"
+    },
+    {
+      "code_insee": "14076",
+      "nom": "Blainville-sur-Orne"
+    },
+    {
+      "code_insee": "14118",
+      "nom": "Caen"
+    },
+    {
+      "code_insee": "14125",
+      "nom": "Cambes-en-Plaine"
+    },
+    {
+      "code_insee": "14167",
+      "nom": "Colombelles"
+    },
+    {
+      "code_insee": "14166",
+      "nom": "Colleville-Montgomery"
+    },
+    {
+      "code_insee": "14221",
+      "nom": "Démouville"
+    },
+    {
+      "code_insee": "14246",
+      "nom": "Escoville"
+    },
+    {
+      "code_insee": "14242",
+      "nom": "Épron"
+    },
+    {
+      "code_insee": "14301",
+      "nom": "Giberville"
+    },
+    {
+      "code_insee": "14327",
+      "nom": "Hérouville-Saint-Clair"
+    },
+    {
+      "code_insee": "14328",
+      "nom": "Hérouvillette"
+    },
+    {
+      "code_insee": "14407",
+      "nom": "Mathieu"
+    },
+    {
+      "code_insee": "14437",
+      "nom": "Mondeville"
+    },
+    {
+      "code_insee": "14488",
+      "nom": "Ouistreham"
+    },
+    {
+      "code_insee": "14495",
+      "nom": "Périers-sur-le-Dan"
+    },
+    {
+      "code_insee": "14509",
+      "nom": "Plumetot"
+    },
+    {
+      "code_insee": "14558",
+      "nom": "Saint-Aubin-d'Arquenay"
+    },
+    {
+      "code_insee": "14530",
+      "nom": "Ranville"
+    }
+  ],
+  "counts": {
+    "cells": 185,
+    "documentary_levels": {
+      "gris": 65,
+      "jaune": 14,
+      "rouge": 37,
+      "orange": 69
+    },
+    "investigation_leads_a_etudier": 284,
+    "leads_by_rule": {
+      "R1": 106,
+      "R2": 102,
+      "R3": 52,
+      "R4": 24
+    },
+    "investigations": 740,
+    "evenements_detectes": 7926,
+    "evenements_agreges": 7926,
+    "evenements_en_quarantaine": 0,
+    "liens": 8607,
+    "mailles_avec_evenements": 108,
+    "source_features": {
+      "plans_eau": 6,
+      "haies": 3017,
+      "routes": 25471,
+      "corridors": 66,
+      "reservoirs": 56,
+      "zones_humides": 390,
+      "friches": 100
+    },
+    "source_geometries_refused": 62
+  },
+  "method": "Chaîne M1/M2 existante rejouée (run_enjeux, run_conflicts, triage V1–V4, pistes R1–R4) ; aucune règle modifiée",
+  "exports": {
+    "cells.json": {
+      "sha256": "f3d9456e807197d42f54e66a6a8c9a54a300c73286fcb2bbf8283c95d4a0e23c"
+    },
+    "grid.geojson": {
+      "sha256": "ebaedc31040de86de5dc99e4a0e845f9589d151eab1705e5b86dd536c440d2a1"
+    }
+  },
+  "scientific_limitations": [
+    "Documentary V1-V4 colors are an exploratory verification order, not validated priorities.",
+    "Geometric 2D crossings are not confirmed ecological conflicts.",
+    "Zero observed events does not demonstrate ecological absence."
+  ]
+}
