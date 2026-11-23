@@ -79,7 +79,7 @@ function SolutionCard({action,expanded,onToggle}: {action:JourneyAction;expanded
 function SectorSolutions({cell}: {cell:JourneyCell}) {
   const [expandedId,setExpandedId]=useState<string|null>(null)
   const expanded=cell.actions.find(action=>action.action_id===expandedId)??null
-  return <section className="v2-solutions" aria-labelledby="v2-solutions-title">
+  return <section id="v2-solutions" className="v2-solutions" aria-labelledby="v2-solutions-title">
     <div className="v2-solutions-heading">
       <h3 id="v2-solutions-title">Solutions à étudier</h3>
       <span>{cell.actions.length} proposition{cell.actions.length>1?'s':''} pour ce secteur · sans classement de bénéfice</span>
@@ -240,7 +240,7 @@ export function JourneyView({source}: {source: JourneySource}) {
           </div>
           <p className="v2-map-readout" aria-live="polite">{showGrid?(readout?`${readout.properties.sector.label} · ${PRIORITY_LABELS[readout.properties.territorial_priority.color]}`:'Cliquez sur une maille pour ouvrir sa fiche.'):'Vue d’ensemble de la Normandie · affichez les mailles pour explorer les secteurs analysés.'}</p>
           {showGrid&&<TerritorialPriorityLegend/>}
-          {selectedFeature&&<a className="v2-to-detail" href="#v2-analysis">Voir les solutions de ce secteur</a>}
+          {selectedFeature&&<a className="v2-to-detail" href={cellDetail.cell?.actions.length?'#v2-solutions':'#v2-analysis'}>Voir les solutions de ce secteur</a>}
         </>}
       </section>
       <section id="v2-analysis" aria-label="Pistes du secteur">
