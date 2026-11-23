@@ -235,11 +235,9 @@ export interface RegionMapProps {
   showRealGrid?: boolean
   onZoomToTestZone?: () => void
   onZoomToPilot?: () => void
-  onToggleTestMode?: () => void
   onToggleRealGrid?: () => void
   studyAreaBounds?: LngLatBoundsLike | null
   onMapReady?: () => void
-  testModeAvailable?: boolean
 }
 
 export function RegionMap({
@@ -257,10 +255,8 @@ export function RegionMap({
   showRealGrid = true,
   onZoomToTestZone,
   onZoomToPilot,
-  onToggleTestMode,
   onToggleRealGrid,
   studyAreaBounds = null,
-  testModeAvailable = true,
   onMapReady,
 }: RegionMapProps = {}) {
   const mapContainerRef = useRef<HTMLDivElement>(null)
@@ -392,7 +388,6 @@ export function RegionMap({
         // territorial layers now, including when the network is slow or offline.
         const styleReady = () => {
           if (cancelled) return
-          if (compactControls) map?.setPaintProperty(DEPARTMENTS_FILL_LAYER, 'fill-opacity', 0.05)
           fitCameraTarget()
           if (!basemapFailed) setMapState('ready')
           onMapReady?.()
@@ -466,6 +461,30 @@ export function RegionMap({
       map.off('styledata', applyStates)
     }
   }, [mapState, hoveredDepartment, selectedDepartment])
+
+  useEffect(() => {
+    const map = activeMapRef.current
+    if (!map || mapState === 'loading' || !map.getLayer(DEPARTMENTS_FILL_LAYER)) return
+    map.setPaintProperty(
+      DEPARTMENTS_FILL_LAYER,
+      'fill-opacity',
+      compactControls && showRealGrid
+        ? 0.045
+        : [
+            'case',
+            ['boolean', ['feature-state', 'selected'], false],
+            0.5,
+            ['boolean', ['feature-state', 'hover'], false],
+            0.52,
+            ['boolean', ['feature-state', 'muted'], false],
+            0.06,
+            0.3,
+          ],
+    )
+    if (map.getLayer('normandy-departments-line')) {
+      map.setPaintProperty('normandy-departments-line', 'line-opacity', compactControls && showRealGrid ? 0.32 : 0.82)
+    }
+  }, [mapState, compactControls, showRealGrid])
 
   useEffect(() => {
     const map = activeMapRef.current
@@ -572,7 +591,7 @@ export function RegionMap({
         )}
         {testModeEnabled && hexagonCount > 0 && (
           <span className="status-badge status-badge--success">
-            {hexagonCount} maille{hexagonCount > 1 ? 's' : ''} TEST chargée{hexagonCount > 1 ? 's' : ''}
+            {hexagonCount} maille{hexagonCount > 1 ? 's' : ''} pilote chargée{hexagonCount > 1 ? 's' : ''}
           </span>
         )}
       </div>
@@ -593,9 +612,9 @@ export function RegionMap({
           type="button"
           className="test-zone-button"
           onClick={onZoomToTestZone}
-          aria-label="Zoomer vers la zone de démonstration TEST"
+          aria-label="Zoomer vers la zone pilote historique"
         >
-          Voir la zone TEST
+          Recentrer le pilote
         </button>
       )}
 
@@ -608,16 +627,6 @@ export function RegionMap({
         {showRealGrid ? (compactControls ? 'Masquer les mailles' : 'Masquer la grille') : (compactControls ? 'Afficher les mailles' : 'Afficher la grille')}
       </button>
 
-      {testModeAvailable && onToggleTestMode && (
-        <button
-          type="button"
-          className="test-mode-toggle"
-          onClick={onToggleTestMode}
-          aria-pressed={testModeEnabled}
-        >
-          {testModeEnabled ? 'Quitter le mode TEST' : 'Activer le mode TEST'}
-        </button>
-      )}
     </div>
   )
 }

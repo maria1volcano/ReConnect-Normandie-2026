@@ -169,3 +169,22 @@
 .journey-catalogue-context p { margin:0 0 8px; }
 .journey-catalogue-context a { display:inline-block; color:#b9ebdc; margin-right:16px; padding:8px 0; }
 @media(max-width:760px) { .journey-catalogue .journey-catalogue-grid,.journey-catalogue .journey-catalogue-filters { grid-template-columns:minmax(0,1fr); } .journey-catalogue .journey-family-card { padding:16px; } }
+
+/* Full-width solutions row beneath the map and sector priority panels. */
+.v2-solutions { grid-column:1/-1; min-width:0; padding:18px; background:#172820; border:1px solid #587a6b; border-radius:20px; color:#f2f5ee; }
+.v2-solutions-heading { display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:6px 16px; margin-bottom:12px; }
+.v2-solutions-heading h3 { margin:0; font-size:1.05rem; }
+.v2-solutions-heading span { color:#c9d9d0; font-size:.8rem; }
+.v2-solutions-track { display:grid; grid-auto-flow:column; grid-auto-columns:minmax(240px,1fr); gap:12px; overflow-x:auto; overscroll-behavior-x:contain; scroll-snap-type:x proximity; padding-bottom:6px; scrollbar-color:#819b8e transparent; }
+.v2-solution-card { display:flex; flex-direction:column; gap:8px; min-width:0; padding:14px; background:#202B28; border:1px solid #6c8b7d; border-top:3px solid var(--family-color,#819389); border-radius:14px; scroll-snap-align:start; }
+.v2-solution-card-header { display:flex; align-items:center; gap:10px; min-width:0; }
+.v2-solution-card-heading { min-width:0; }
+.v2-solution-status { margin:2px 0 0; color:#c9d9d0; font-size:.72rem; line-height:1.35; }
+.v2-solution-title { margin:2px 0 0; font-size:.95rem; line-height:1.35; }
+.v2-solution-summary { margin:0; flex:1; font-size:.82rem; color:#d8e9df; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden; }
+.v2-workspace .v2-solution-more { align-self:flex-start; min-height:36px; padding:6px 12px; font-size:.8rem; font-weight:600; color:#b9ebdc; border-color:#7ad5ad; background:transparent; }
+.v2-workspace .v2-solution-more[aria-expanded="true"] { color:#0f241c; background:#7ad5ad; }
+.v2-solution-detail { margin-top:14px; }
+.v2-solution-detail .v2-action { border-radius:14px; }
+@media (max-width:1000px) { .v2-solutions-track { grid-auto-columns:minmax(240px,78%); } }
+@media (max-width:480px) { .v2-solutions { padding:14px; border-radius:16px; } .v2-solutions-track { grid-auto-columns:85%; } }

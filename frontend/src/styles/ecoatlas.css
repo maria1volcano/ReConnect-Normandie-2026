@@ -185,7 +185,8 @@ body.ecoatlas::before {
   border-color:rgba(169,214,181,.6);
   box-shadow:0 8px 20px rgba(2,17,12,.28),0 0 0 4px rgba(9,31,23,.23);
 }
-.ecoatlas .v2-workspace .v2-action {
+.ecoatlas .v2-workspace .v2-action,
+.ecoatlas .v2-workspace .v2-solution-card {
   background:linear-gradient(150deg,rgba(88,131,95,.2),transparent 65%),#294e3d;
   border-color:rgba(131,171,146,.48);
   border-top-color:rgba(213,237,219,.4);
@@ -211,4 +212,66 @@ body.ecoatlas::before {
 }
 @media(max-width:700px) {
   .ecoatlas .v2-hero,.ecoatlas .doc-hero { min-height:0; padding-top:4px; }
+}
+
+/* Dark green glass treatment preserved across the current 185-sector journey. */
+.ecoatlas .app-header,
+.ecoatlas .v2-workspace .map-workspace,
+.ecoatlas .v2-panel,
+.ecoatlas .v2-solutions,
+.ecoatlas .v2-source-notice,
+.ecoatlas .v2-territorial-legend,
+.ecoatlas .journey-catalogue-context,
+.ecoatlas .journey-catalogue .journey-catalogue-filters,
+.ecoatlas .journey-catalogue .journey-family-card,
+.ecoatlas .v2-method-page .doc-section {
+  border-color:rgba(214,236,203,.34);
+  background:linear-gradient(145deg,rgba(20,36,29,.72),rgba(14,28,22,.58));
+  box-shadow:0 22px 60px rgba(4,13,10,.3),inset 0 1px 0 rgba(255,255,255,.1);
+  backdrop-filter:blur(14px) saturate(112%);
+}
+.ecoatlas .app-header {
+  background:linear-gradient(135deg,rgba(20,35,28,.66),rgba(14,27,21,.48));
+}
+.ecoatlas .v2-workspace .map-frame {
+  border-color:rgba(224,238,218,.42);
+  background:rgba(20,54,42,.5);
+  box-shadow:0 12px 32px rgba(4,13,10,.28),inset 0 1px 0 rgba(255,255,255,.08);
+}
+.ecoatlas .v2-action,
+.ecoatlas .v2-solution-card,
+.ecoatlas .v2-workspace :is(input,select,button),
+.ecoatlas .v2-technical,
+.ecoatlas .v2-extra {
+  background-color:rgba(22,43,34,.78);
+}
+/* Map navigation controls use the same dark glass and sage signal as the UI. */
+.ecoatlas .v2-workspace .maplibregl-ctrl-group {
+  overflow:hidden;
+  border:1px solid rgba(169,214,181,.58);
+  border-radius:12px;
+  background:rgba(19,48,37,.86);
+  box-shadow:0 8px 22px rgba(2,17,12,.3),inset 0 1px rgba(255,255,255,.08);
+  backdrop-filter:blur(10px);
+}
+.ecoatlas .v2-workspace .maplibregl-ctrl-group button {
+  min-height:31px;
+  border:0;
+  background:transparent;
+}
+.ecoatlas .v2-workspace .maplibregl-ctrl-group button + button {
+  border-top:1px solid rgba(169,214,181,.28);
+}
+.ecoatlas .v2-workspace .maplibregl-ctrl-group button:hover {
+  background:rgba(139,157,131,.3);
+}
+.ecoatlas .v2-workspace .maplibregl-ctrl-group button:focus-visible {
+  position:relative;
+  z-index:1;
+  outline:2px solid #a9d6b5;
+  outline-offset:-3px;
+}
+.ecoatlas .v2-workspace .maplibregl-ctrl-group .maplibregl-ctrl-icon {
+  filter:invert(88%) sepia(16%) saturate(515%) hue-rotate(82deg) brightness(101%);
+  opacity:.96;
 }
