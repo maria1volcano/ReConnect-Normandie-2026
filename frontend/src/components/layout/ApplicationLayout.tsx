@@ -18,12 +18,6 @@ import { mailleIdsForRule, type RuleId } from '../../integrations/catalogueData'
 import { priorityFromFeature } from '../../integrations/priorityAdapter'
 import { CAEN_TERRITORY_ID } from '../../integrations/gridDatasets'
 
-// Le mode TEST historique (43 mailles pilotes Orne, données synthétiques) reste
-// implémenté et ses fichiers/données sont conservés, mais il est retiré de la
-// navigation publique : la carte REAL 101 mailles est l'expérience principale.
-// Repassez TEST_MODE_UI_ENABLED à true pour réactiver l'interface TEST.
-const TEST_MODE_UI_ENABLED = false
-
 // D/S reste séparée du rang indicatif d’étude. Les deux vues sont accessibles.
 const REAL_VIEW_SWITCHER_ENABLED = isHistoricalReview()
 
@@ -67,7 +61,7 @@ export function ApplicationLayout() {
   const [hoveredRealHexagonId, setHoveredRealHexagonId] = useState<string | null>(null)
   const [realGrid, setRealGrid] = useState<RealGridData | null>(null)
   const [testGrid, setTestGrid] = useState<RealGridData | null>(null)
-  const [testModeEnabled, setTestModeEnabled] = useState(false)
+  const [testModeEnabled] = useState(false)
   const [showRealGrid, setShowRealGrid] = useState(true)
   const [realView, setRealView] = useState<'documentary' | 'ecological'>('documentary')
   const [realReloadNonce, setRealReloadNonce] = useState(0)
@@ -101,20 +95,6 @@ export function ApplicationLayout() {
     if (!map || !realGrid || realGrid.featureCollection.features.length === 0) return
     const bounds: LngLatBoundsLike = realGrid.dataset.bounds
     map.fitBounds(bounds, { padding: 50, duration: 800 })
-  }
-
-  const handleToggleTestMode = () => {
-    const nextTestMode = !testModeEnabled
-    setTestModeEnabled(nextTestMode)
-    const map = mapRef.current
-    const bounds = nextTestMode ? testGrid?.dataset.bounds : realStudyBounds
-    if (map && bounds) {
-      map.fitBounds(bounds, { padding: 50, duration: 800 })
-    }
-    if (selectedRealHexagonId) {
-      setSelectedGridCell(null)
-    }
-    setHoveredRealHexagonId(null)
   }
 
   const handleRealViewChange = (view: 'documentary' | 'ecological') => {
@@ -222,7 +202,7 @@ export function ApplicationLayout() {
           </div>
 
           <div className="map-frame">
-            <RegionMap onMapReady={() => setMapRevision((v) => v + 1)} {...departmentState} mapRef={mapRef} hexagonCount={testGrid?.featureCollection.features.length ?? 0} realGridCount={realGrid?.featureCollection.features.length ?? 0} isTestData={true} testModeEnabled={testModeEnabled} showRealGrid={showRealGrid} onZoomToTestZone={handleZoomToTestZone} onZoomToPilot={handleZoomToPilot} onToggleTestMode={handleToggleTestMode} onToggleRealGrid={handleToggleRealGrid} studyAreaBounds={realStudyBounds} testModeAvailable={TEST_MODE_UI_ENABLED} />
+            <RegionMap onMapReady={() => setMapRevision((v) => v + 1)} {...departmentState} mapRef={mapRef} hexagonCount={testGrid?.featureCollection.features.length ?? 0} realGridCount={realGrid?.featureCollection.features.length ?? 0} isTestData={true} testModeEnabled={testModeEnabled} showRealGrid={showRealGrid} onZoomToTestZone={handleZoomToTestZone} onZoomToPilot={handleZoomToPilot} onToggleRealGrid={handleToggleRealGrid} studyAreaBounds={realStudyBounds} />
             <RealGridLayer classificationView={testModeEnabled ? 'ecological' : classificationView} map={mapRef.current} realGridData={activeGridData} selectedRealHexagonId={selectedRealHexagonId} hoveredRealHexagonId={hoveredRealHexagonId} onSelectRealHexagon={handleSelectRealHexagon} onHoverRealHexagon={setHoveredRealHexagonId} showRealGrid={showRealGrid || testModeEnabled} highlightedMailleIds={familyHighlight?.ids ?? null} />
             {testModeEnabled ? <PriorityLegend testModeEnabled /> : classificationView === 'study' ? null : realView === 'documentary' ? <DocumentaryLegend /> : <PriorityLegend realIndeterminateOnly />}
             {!testModeEnabled && realGrid?.loadingError && <div className="map-status map-status--error" role="alert"><strong>Grille REAL indisponible</strong><span>{realGrid.loadingError} — vérifiez la disponibilité de la source de données puis réessayez.</span><button type="button" className="retry-button" onClick={() => setRealReloadNonce((nonce) => nonce + 1)}>Réessayer</button></div>}
@@ -261,9 +241,6 @@ export function ApplicationLayout() {
               Le fond cartographique sert uniquement au repérage.
             </p>
           </details>
-          <a className="analysis-jump" href="#analysis-section">
-            Voir l'analyse
-          </a>
         </section>
 
         <section id="analysis-section" className="analysis-workspace" aria-label="Diagnostic et analyse">
